@@ -23,91 +23,398 @@
     ]
   },
   "audiencias": [
-    {"id": "empresas", "nombre": "Empresas (seguridad corporativa, riesgo, cadena de suministro, cumplimiento)",
-     "problema": "Necesitan saber qué pasa cerca de sus sedes, rutas y proveedores sin pagar varias herramientas.",
-     "mensaje": "Tus instalaciones frente a los eventos del mapa, con matriz de riesgo y alertas, en un solo lugar.",
-     "prueba": "Inteligencia corporativa: tus instalaciones; Monitor México; avisos de viaje; bloqueos y robos en carreteras.",
-     "oferta": "Plan Command", "canales": ["linkedin", "correo", "youtube"], "cta": "Pide una demostración de 20 minutos"},
-    {"id": "periodistas", "nombre": "Periodistas y verificadores de datos",
-     "problema": "Necesitan cifras oficiales comparables y rápidas, con la fuente para citarla.",
-     "mensaje": "Contraste de fuentes oficiales con la liga al documento original, listo para verificar.",
-     "prueba": "Contraste de fuentes (comercio ONU vs Banxico, Pemex a Cuba, SESNSP vs INEGI); verificador de enlaces.",
-     "oferta": "Plan Analyst (acceso de cortesía a periodistas acreditados)", "canales": ["x", "bluesky", "linkedin", "telegram"], "cta": "Revisa el dato y su fuente"},
-    {"id": "analistas", "nombre": "Analistas, académicos y estudiantes de seguridad, relaciones internacionales y economía",
-     "problema": "Quieren datos ordenados y metodologías (ACH, ICD 203, PMESII-PT) en una sola herramienta.",
-     "mensaje": "Datos abiertos y metodologías de análisis listas para usar, con exportación.",
-     "prueba": "Caja del analista, Analítica, DOMINUS OPS, cisnes blancos y negros.",
-     "oferta": "Plan Recon o Analyst", "canales": ["linkedin", "youtube", "x"], "cta": "Prueba la versión Demo"},
-    {"id": "publico", "nombre": "Público general interesado en noticias, clima y seguridad",
-     "problema": "Quieren entender qué pasa sin leer cien fuentes y protegerse de fraudes.",
-     "mensaje": "Lo importante del día en minutos, con mapas y herramientas para protegerte.",
-     "prueba": "Brújula Diaria, verificador de enlaces, protección de identidad, clima (humedad, CO₂, agua del aire).",
-     "oferta": "Demo gratuita", "canales": ["youtube", "tiktok", "instagram", "facebook", "whatsapp"], "cta": "Mira Brújula Diaria y prueba el mapa"}
+    {
+      "id": "empresas",
+      "nombre": "Empresas (seguridad corporativa, riesgo, cadena de suministro, cumplimiento)",
+      "problema": "Necesitan saber qué pasa cerca de sus sedes, rutas y proveedores sin pagar varias herramientas.",
+      "mensaje": "Tus instalaciones frente a los eventos del mapa, con matriz de riesgo y alertas, en un solo lugar.",
+      "prueba": "Inteligencia corporativa: tus instalaciones; Monitor México; avisos de viaje; bloqueos y robos en carreteras.",
+      "oferta": "Plan Command",
+      "canales": [
+        "linkedin",
+        "correo",
+        "youtube"
+      ],
+      "cta": "Pide una demostración de 20 minutos"
+    },
+    {
+      "id": "periodistas",
+      "nombre": "Periodistas y verificadores de datos",
+      "problema": "Necesitan cifras oficiales comparables y rápidas, con la fuente para citarla.",
+      "mensaje": "Contraste de fuentes oficiales con la liga al documento original, listo para verificar.",
+      "prueba": "Contraste de fuentes (comercio ONU vs Banxico, Pemex a Cuba, SESNSP vs INEGI); verificador de enlaces.",
+      "oferta": "Plan Analyst (acceso de cortesía a periodistas acreditados)",
+      "canales": [
+        "x",
+        "bluesky",
+        "linkedin",
+        "telegram"
+      ],
+      "cta": "Revisa el dato y su fuente"
+    },
+    {
+      "id": "analistas",
+      "nombre": "Analistas, académicos y estudiantes de seguridad, relaciones internacionales y economía",
+      "problema": "Quieren datos ordenados y metodologías (ACH, ICD 203, PMESII-PT) en una sola herramienta.",
+      "mensaje": "Datos abiertos y metodologías de análisis listas para usar, con exportación.",
+      "prueba": "Caja del analista, Analítica, DOMINUS OPS, cisnes blancos y negros.",
+      "oferta": "Plan Recon o Analyst",
+      "canales": [
+        "linkedin",
+        "youtube",
+        "x"
+      ],
+      "cta": "Prueba la versión Demo"
+    },
+    {
+      "id": "publico",
+      "nombre": "Público general interesado en noticias, clima y seguridad",
+      "problema": "Quieren entender qué pasa sin leer cien fuentes y protegerse de fraudes.",
+      "mensaje": "Lo importante del día en minutos, con mapas y herramientas para protegerte.",
+      "prueba": "Brújula Diaria, verificador de enlaces, protección de identidad, clima (humedad, CO₂, agua del aire).",
+      "oferta": "Demo gratuita",
+      "canales": [
+        "youtube",
+        "tiktok",
+        "instagram",
+        "facebook",
+        "whatsapp"
+      ],
+      "cta": "Mira Brújula Diaria y prueba el mapa"
+    }
   ],
   "pilares": [
-    {"id": "dato", "nombre": "El dato de la semana", "descripcion": "Una cifra oficial con su contexto y su fuente.", "frecuencia": "2 por semana"},
-    {"id": "contraste", "nombre": "Contraste de fuentes", "descripcion": "Dos instituciones, el mismo tema, cifras distintas: qué dice cada una y por qué puede pasar.", "frecuencia": "1 por semana"},
-    {"id": "herramienta", "nombre": "Herramienta útil", "descripcion": "Cómo usar una función del proyecto en 30 segundos (verificador de enlaces, agua del aire, alertas).", "frecuencia": "1 por semana"},
-    {"id": "brujula", "nombre": "Brújula Diaria", "descripcion": "El video del día y un clip corto con la nota principal.", "frecuencia": "diario"},
-    {"id": "metodo", "nombre": "Cómo se analiza", "descripcion": "Metodologías de inteligencia explicadas con un ejemplo (ACH, ICD 203, cisnes negros).", "frecuencia": "1 cada 2 semanas"}
+    {
+      "id": "dato",
+      "nombre": "El dato de la semana",
+      "descripcion": "Una cifra oficial con su contexto y su fuente.",
+      "frecuencia": "2 por semana"
+    },
+    {
+      "id": "contraste",
+      "nombre": "Contraste de fuentes",
+      "descripcion": "Dos instituciones, el mismo tema, cifras distintas: qué dice cada una y por qué puede pasar.",
+      "frecuencia": "1 por semana"
+    },
+    {
+      "id": "herramienta",
+      "nombre": "Herramienta útil",
+      "descripcion": "Cómo usar una función del proyecto en 30 segundos (verificador de enlaces, agua del aire, alertas).",
+      "frecuencia": "1 por semana"
+    },
+    {
+      "id": "brujula",
+      "nombre": "Brújula Diaria",
+      "descripcion": "El video del día y un clip corto con la nota principal.",
+      "frecuencia": "diario"
+    },
+    {
+      "id": "metodo",
+      "nombre": "Cómo se analiza",
+      "descripcion": "Metodologías de inteligencia explicadas con un ejemplo (ACH, ICD 203, cisnes negros).",
+      "frecuencia": "1 cada 2 semanas"
+    }
   ],
   "canales": [
-    {"id": "youtube", "nombre": "YouTube", "formato": "Brújula Diaria (video largo) y Shorts", "frecuencia": "diario", "publicacion": "automática (video); Shorts asistidos", "limite": 5000},
-    {"id": "x", "nombre": "X (Twitter)", "formato": "Post corto con cifra, fuente y enlace", "frecuencia": "1 a 2 al día", "publicacion": "asistida (botón «Publicar»)", "limite": 280},
-    {"id": "bluesky", "nombre": "Bluesky", "formato": "Post corto con cifra y fuente", "frecuencia": "1 al día", "publicacion": "asistida; automática si se agrega el secreto BLUESKY_APP_PASSWORD", "limite": 300},
-    {"id": "linkedin", "nombre": "LinkedIn", "formato": "Post largo con contexto y aprendizaje para empresas", "frecuencia": "3 por semana", "publicacion": "asistida", "limite": 3000},
-    {"id": "facebook", "nombre": "Facebook", "formato": "Post con enlace e imagen", "frecuencia": "3 por semana", "publicacion": "asistida", "limite": 2000},
-    {"id": "threads", "nombre": "Threads", "formato": "Post corto", "frecuencia": "1 al día", "publicacion": "asistida", "limite": 500},
-    {"id": "telegram", "nombre": "Telegram (canal)", "formato": "Resumen del día con enlaces", "frecuencia": "diario", "publicacion": "asistida", "limite": 4000},
-    {"id": "whatsapp", "nombre": "WhatsApp (canal)", "formato": "Resumen breve", "frecuencia": "diario", "publicacion": "manual (WhatsApp no tiene API gratuita para canales)", "limite": 1000},
-    {"id": "tiktok", "nombre": "TikTok e Instagram Reels", "formato": "Clip vertical de 30 a 60 s", "frecuencia": "3 por semana", "publicacion": "manual", "limite": 2200},
-    {"id": "correo", "nombre": "Boletín por correo", "formato": "Resumen semanal", "frecuencia": "semanal", "publicacion": "pendiente (cuando haya lista con consentimiento)", "limite": null}
+    {
+      "id": "youtube",
+      "nombre": "YouTube",
+      "formato": "Brújula Diaria (video largo) y Shorts",
+      "frecuencia": "diario",
+      "publicacion": "automática (video); Shorts asistidos",
+      "limite": 5000
+    },
+    {
+      "id": "x",
+      "nombre": "X (Twitter)",
+      "formato": "Post corto con cifra, fuente y enlace",
+      "frecuencia": "1 a 2 al día",
+      "publicacion": "asistida (botón «Publicar»)",
+      "limite": 280
+    },
+    {
+      "id": "bluesky",
+      "nombre": "Bluesky",
+      "formato": "Post corto con cifra y fuente",
+      "frecuencia": "1 al día",
+      "publicacion": "asistida; automática si se agrega el secreto BLUESKY_APP_PASSWORD",
+      "limite": 300
+    },
+    {
+      "id": "linkedin",
+      "nombre": "LinkedIn (página de DOMINUS)",
+      "formato": "Post largo con contexto y aprendizaje para empresas",
+      "frecuencia": "3 por semana",
+      "publicacion": "asistida",
+      "limite": 3000
+    },
+    {
+      "id": "linkedin_personal",
+      "nombre": "LinkedIn (perfil personal)",
+      "formato": "Serie «capacidad»: casos, método y criterio (ver sección 7)",
+      "frecuencia": "2 por semana",
+      "publicacion": "manual",
+      "limite": 3000
+    },
+    {
+      "id": "facebook",
+      "nombre": "Facebook",
+      "formato": "Post con enlace e imagen",
+      "frecuencia": "3 por semana",
+      "publicacion": "asistida",
+      "limite": 2000
+    },
+    {
+      "id": "threads",
+      "nombre": "Threads",
+      "formato": "Post corto",
+      "frecuencia": "1 al día",
+      "publicacion": "asistida",
+      "limite": 500
+    },
+    {
+      "id": "telegram",
+      "nombre": "Telegram (canal)",
+      "formato": "Resumen del día con enlaces",
+      "frecuencia": "diario",
+      "publicacion": "asistida",
+      "limite": 4000
+    },
+    {
+      "id": "whatsapp",
+      "nombre": "WhatsApp (canal)",
+      "formato": "Resumen breve",
+      "frecuencia": "diario",
+      "publicacion": "manual (WhatsApp no tiene API gratuita para canales)",
+      "limite": 1000
+    },
+    {
+      "id": "tiktok",
+      "nombre": "TikTok e Instagram Reels",
+      "formato": "Clip vertical de 30 a 60 s",
+      "frecuencia": "3 por semana",
+      "publicacion": "manual",
+      "limite": 2200
+    },
+    {
+      "id": "correo",
+      "nombre": "Boletín por correo",
+      "formato": "Resumen semanal",
+      "frecuencia": "semanal",
+      "publicacion": "pendiente (cuando haya lista con consentimiento)",
+      "limite": null
+    }
   ],
   "fases": [
-    {"id": "preparacion", "nombre": "1 · Preparación (antes del lanzamiento)", "objetivo": "Tener todo listo para que la primera visita convierta.", "tareas": [
-      {"id": "dominio", "texto": "Dominio dominusosint.com activo en Cloudflare con https"},
-      {"id": "legales", "texto": "Aviso de privacidad y términos completos (responsable, domicilio de contacto, correo)"},
-      {"id": "cobro", "texto": "Cobro de suscripciones probado de punta a punta (Mercado Pago)"},
-      {"id": "perfiles", "texto": "Perfiles con el mismo nombre e imagen en YouTube, X, Bluesky, LinkedIn (página), Facebook, Threads, Telegram, TikTok"},
-      {"id": "bio", "texto": "Biografía de 150 caracteres y enlace con UTM en cada perfil"},
-      {"id": "youtube_publico", "texto": "Videos de YouTube en público (app de Google verificada o publicación manual diaria)"},
-      {"id": "analitica", "texto": "Cloudflare Web Analytics activo (sin cookies) en el sitio"},
-      {"id": "kit_prensa", "texto": "Kit de prensa: qué es, capturas, logo, contacto y metodología de fuentes"},
-      {"id": "demo", "texto": "Guion de demostración de 20 minutos para empresas"},
-      {"id": "banco", "texto": "Banco de 12 publicaciones listas (3 semanas) revisadas"}
-    ]},
-    {"id": "lanzamiento", "nombre": "2 · Lanzamiento (4 semanas)", "objetivo": "Que los primeros 4 públicos conozcan el proyecto y prueben la Demo.", "tareas": [
-      {"id": "s1", "texto": "Semana 1: anuncio en todos los perfiles; video «Qué es DOMINUS en 3 minutos»; mensaje directo a 20 periodistas de datos"},
-      {"id": "s2", "texto": "Semana 2: serie «Contraste de fuentes» (3 publicaciones); primer Short diario"},
-      {"id": "s3", "texto": "Semana 3: tutoriales de herramientas (verificador de enlaces, agua del aire); 10 demostraciones a empresas"},
-      {"id": "s4", "texto": "Semana 4: revisión de métricas, ajustar mensajes y canales; testimonios de los primeros usuarios (con permiso)"}
-    ]},
-    {"id": "crecimiento", "nombre": "3 · Crecimiento (continuo)", "objetivo": "Convertir visitas en suscripciones y mantener el ritmo de publicación.", "tareas": [
-      {"id": "alianzas", "texto": "Alianzas con universidades y asociaciones de periodistas (acceso de cortesía a cambio de mención)"},
-      {"id": "seo", "texto": "Páginas públicas por tema (comercio, seguridad, clima) con datos que se actualizan solos (posicionamiento en buscadores)"},
-      {"id": "webinar", "texto": "Seminario web mensual gratuito con un caso de análisis"},
-      {"id": "referidos", "texto": "Programa de referidos (1 mes gratis por cada suscriptor referido)"}
-    ]}
+    {
+      "id": "preparacion",
+      "nombre": "1 · Preparación (antes del lanzamiento)",
+      "objetivo": "Tener todo listo para que la primera visita convierta.",
+      "tareas": [
+        {
+          "id": "dominio",
+          "texto": "Dominio dominusosint.com activo en Cloudflare con https"
+        },
+        {
+          "id": "legales",
+          "texto": "Aviso de privacidad y términos completos (responsable, domicilio de contacto, correo)"
+        },
+        {
+          "id": "cobro",
+          "texto": "Cobro de suscripciones probado de punta a punta (Mercado Pago)"
+        },
+        {
+          "id": "perfiles",
+          "texto": "Perfiles con el mismo nombre e imagen en YouTube, X, Bluesky, LinkedIn (página), Facebook, Threads, Telegram, TikTok"
+        },
+        {
+          "id": "bio",
+          "texto": "Biografía de 150 caracteres y enlace con UTM en cada perfil"
+        },
+        {
+          "id": "youtube_publico",
+          "texto": "Videos de YouTube en público (app de Google verificada o publicación manual diaria)"
+        },
+        {
+          "id": "analitica",
+          "texto": "Cloudflare Web Analytics activo (sin cookies) en el sitio"
+        },
+        {
+          "id": "kit_prensa",
+          "texto": "Kit de prensa: qué es, capturas, logo, contacto y metodología de fuentes"
+        },
+        {
+          "id": "demo",
+          "texto": "Guion de demostración de 20 minutos para empresas"
+        },
+        {
+          "id": "banco",
+          "texto": "Banco de 12 publicaciones listas (3 semanas) revisadas"
+        }
+      ]
+    },
+    {
+      "id": "lanzamiento",
+      "nombre": "2 · Lanzamiento (4 semanas)",
+      "objetivo": "Que los primeros 4 públicos conozcan el proyecto y prueben la Demo.",
+      "tareas": [
+        {
+          "id": "s1",
+          "texto": "Semana 1: anuncio en todos los perfiles; video «Qué es DOMINUS en 3 minutos»; mensaje directo a 20 periodistas de datos"
+        },
+        {
+          "id": "s2",
+          "texto": "Semana 2: serie «Contraste de fuentes» (3 publicaciones); primer Short diario"
+        },
+        {
+          "id": "s3",
+          "texto": "Semana 3: tutoriales de herramientas (verificador de enlaces, agua del aire); 10 demostraciones a empresas"
+        },
+        {
+          "id": "s4",
+          "texto": "Semana 4: revisión de métricas, ajustar mensajes y canales; testimonios de los primeros usuarios (con permiso)"
+        }
+      ]
+    },
+    {
+      "id": "crecimiento",
+      "nombre": "3 · Crecimiento (continuo)",
+      "objetivo": "Convertir visitas en suscripciones y mantener el ritmo de publicación.",
+      "tareas": [
+        {
+          "id": "alianzas",
+          "texto": "Alianzas con universidades y asociaciones de periodistas (acceso de cortesía a cambio de mención)"
+        },
+        {
+          "id": "seo",
+          "texto": "Páginas públicas por tema (comercio, seguridad, clima) con datos que se actualizan solos (posicionamiento en buscadores)"
+        },
+        {
+          "id": "webinar",
+          "texto": "Seminario web mensual gratuito con un caso de análisis"
+        },
+        {
+          "id": "referidos",
+          "texto": "Programa de referidos (1 mes gratis por cada suscriptor referido)"
+        }
+      ]
+    }
   ],
   "kpis": [
-    {"id": "suscriptores_yt", "nombre": "Suscriptores de YouTube", "fuente": "automática (API de YouTube)", "meta_90d": null},
-    {"id": "vistas_yt", "nombre": "Vistas totales de YouTube", "fuente": "automática (API de YouTube)", "meta_90d": null},
-    {"id": "videos_publicos", "nombre": "Videos públicos", "fuente": "automática (API de YouTube)", "meta_90d": null},
-    {"id": "visitas_sitio", "nombre": "Visitas al sitio", "fuente": "Cloudflare Web Analytics (cuando el sitio esté en Cloudflare)", "meta_90d": null},
-    {"id": "registros_demo", "nombre": "Registros a la Demo", "fuente": "Supabase (cuando se conecte)", "meta_90d": null},
-    {"id": "conversion", "nombre": "Conversión Demo → pago (%)", "fuente": "Supabase y Mercado Pago", "meta_90d": null},
-    {"id": "publicaciones", "nombre": "Publicaciones hechas por semana", "fuente": "esta página (marcadas como publicadas)", "meta_90d": null}
+    {
+      "id": "suscriptores_yt",
+      "nombre": "Suscriptores de YouTube",
+      "fuente": "automática (API de YouTube)",
+      "meta_90d": null
+    },
+    {
+      "id": "vistas_yt",
+      "nombre": "Vistas totales de YouTube",
+      "fuente": "automática (API de YouTube)",
+      "meta_90d": null
+    },
+    {
+      "id": "videos_publicos",
+      "nombre": "Videos públicos",
+      "fuente": "automática (API de YouTube)",
+      "meta_90d": null
+    },
+    {
+      "id": "visitas_sitio",
+      "nombre": "Visitas al sitio",
+      "fuente": "Cloudflare Web Analytics (cuando el sitio esté en Cloudflare)",
+      "meta_90d": null
+    },
+    {
+      "id": "registros_demo",
+      "nombre": "Registros a la Demo",
+      "fuente": "Supabase (cuando se conecte)",
+      "meta_90d": null
+    },
+    {
+      "id": "conversion",
+      "nombre": "Conversión Demo → pago (%)",
+      "fuente": "Supabase y Mercado Pago",
+      "meta_90d": null
+    },
+    {
+      "id": "publicaciones",
+      "nombre": "Publicaciones hechas por semana",
+      "fuente": "esta página (marcadas como publicadas)",
+      "meta_90d": null
+    }
   ],
   "revision": {
-    "semanal": {"dia": "lunes", "preguntas": ["¿Qué publicación tuvo más interacción y por qué?", "¿Qué canal no trajo visitas? ¿Se pausa o se cambia el formato?", "¿Se cumplió el número de publicaciones?", "¿Hubo comentarios o preguntas que sugieran contenido nuevo?"]},
-    "mensual": {"dia": "primer lunes", "preguntas": ["¿Cómo van los KPI contra la meta?", "¿Qué público respondió mejor? ¿Cambia el mensaje de alguno?", "¿Qué tarea de la fase actual falta?", "¿Hay que ajustar el plan (este archivo)?"]}
+    "semanal": {
+      "dia": "lunes",
+      "preguntas": [
+        "¿Qué publicación tuvo más interacción y por qué?",
+        "¿Qué canal no trajo visitas? ¿Se pausa o se cambia el formato?",
+        "¿Se cumplió el número de publicaciones?",
+        "¿Hubo comentarios o preguntas que sugieran contenido nuevo?"
+      ]
+    },
+    "mensual": {
+      "dia": "primer lunes",
+      "preguntas": [
+        "¿Cómo van los KPI contra la meta?",
+        "¿Qué público respondió mejor? ¿Cambia el mensaje de alguno?",
+        "¿Qué tarea de la fase actual falta?",
+        "¿Hay que ajustar el plan (este archivo)?"
+      ]
+    }
   },
   "evergreen": [
-    {"pilar": "herramienta", "titulo": "¿Ese enlace es seguro?", "texto": "Antes de abrir un enlace que te llegó por mensaje, pégalo en el verificador de DOMINUS: revisa si imita a una marca, si el dominio se creó hace días o si descarga un programa. El enlace no se abre.", "ruta": "#b-herr-enlace", "hashtags": ["Ciberseguridad", "Fraude"]},
-    {"pilar": "herramienta", "titulo": "¿Cuánta agua se puede sacar del aire?", "texto": "Con la humedad y el punto de rocío de ~5,000 aeropuertos, DOMINUS calcula cuántos mililitros de agua podría condensar un colector o un generador en tu zona.", "ruta": "#b-humedad", "hashtags": ["Agua", "Clima"]},
-    {"pilar": "metodo", "titulo": "Cisnes blancos y negros", "texto": "Un cisne negro es raro y de alto impacto; uno blanco es previsible por su frecuencia histórica. DOMINUS separa la probabilidad histórica publicada de las señales actuales en noticias.", "ruta": "", "hashtags": ["Riesgo", "Inteligencia"]},
-    {"pilar": "herramienta", "titulo": "Protege tu identidad", "texto": "¿Hay líneas telefónicas registradas con tu CURP? DOMINUS reúne las páginas oficiales para revisarlo y qué hacer si encuentras una que no es tuya.", "ruta": "", "hashtags": ["Identidad", "Fraude"]},
-    {"pilar": "metodo", "titulo": "Contraste de fuentes", "texto": "Cuando dos instituciones reportan cifras distintas sobre el mismo tema, no siempre hay manipulación: cambian fechas de corte, metodologías o catálogos. DOMINUS las pone lado a lado con su fuente para que revises.", "ruta": "", "hashtags": ["DatosAbiertos", "Periodismo"]}
+    {
+      "pilar": "herramienta",
+      "titulo": "¿Ese enlace es seguro?",
+      "texto": "Antes de abrir un enlace que te llegó por mensaje, pégalo en el verificador de DOMINUS: revisa si imita a una marca, si el dominio se creó hace días o si descarga un programa. El enlace no se abre.",
+      "ruta": "#b-herr-enlace",
+      "hashtags": [
+        "Ciberseguridad",
+        "Fraude"
+      ]
+    },
+    {
+      "pilar": "herramienta",
+      "titulo": "¿Cuánta agua se puede sacar del aire?",
+      "texto": "Con la humedad y el punto de rocío de ~5,000 aeropuertos, DOMINUS calcula cuántos mililitros de agua podría condensar un colector o un generador en tu zona.",
+      "ruta": "#b-humedad",
+      "hashtags": [
+        "Agua",
+        "Clima"
+      ]
+    },
+    {
+      "pilar": "metodo",
+      "titulo": "Cisnes blancos y negros",
+      "texto": "Un cisne negro es raro y de alto impacto; uno blanco es previsible por su frecuencia histórica. DOMINUS separa la probabilidad histórica publicada de las señales actuales en noticias.",
+      "ruta": "",
+      "hashtags": [
+        "Riesgo",
+        "Inteligencia"
+      ]
+    },
+    {
+      "pilar": "herramienta",
+      "titulo": "Protege tu identidad",
+      "texto": "¿Hay líneas telefónicas registradas con tu CURP? DOMINUS reúne las páginas oficiales para revisarlo y qué hacer si encuentras una que no es tuya.",
+      "ruta": "",
+      "hashtags": [
+        "Identidad",
+        "Fraude"
+      ]
+    },
+    {
+      "pilar": "metodo",
+      "titulo": "Contraste de fuentes",
+      "texto": "Cuando dos instituciones reportan cifras distintas sobre el mismo tema, no siempre hay manipulación: cambian fechas de corte, metodologías o catálogos. DOMINUS las pone lado a lado con su fuente para que revises.",
+      "ruta": "",
+      "hashtags": [
+        "DatosAbiertos",
+        "Periodismo"
+      ]
+    }
   ],
   "legal": [
     "Publicidad veraz y comprobable (Ley Federal de Protección al Consumidor, art. 32): cada cifra con su fuente.",
@@ -118,5 +425,230 @@
     "Colaboraciones pagadas o canjes: declararlas como publicidad (#Publicidad) y en YouTube con «promoción pagada».",
     "No usar marcas de terceros (logos de medios o empresas) como si respaldaran el proyecto."
   ],
-  "utm": {"source_por_canal": true, "medium": "social", "campaign_prefijo": "dominus"}
+  "utm": {
+    "source_por_canal": true,
+    "medium": "social",
+    "campaign_prefijo": "dominus"
+  },
+  "linkedin_personal": {
+    "objetivo": "Que directivos y empresas de varios sectores y países vean qué puedes resolver con inteligencia estratégica y operativa, con DOMINUS como prueba de capacidad, sin publicaciones genéricas.",
+    "decision_visibilidad": {
+      "nota": "Antes de publicar, decide cuánto te ligas al proyecto. Escribiste que no quieres que te relacionen directamente con DOMINUS ni con tu domicilio por seguridad; LinkedIn es público y está ligado a tu nombre.",
+      "opciones": [
+        {
+          "id": "discreto",
+          "nombre": "Discreto",
+          "como": "Hablas de «una plataforma propia de inteligencia de fuentes abiertas» y muestras capturas sin logo ni URL. Las demostraciones se dan en llamada privada.",
+          "riesgo": "Bajo: no se liga tu nombre al sitio público."
+        },
+        {
+          "id": "abierto",
+          "nombre": "Abierto",
+          "como": "Te presentas como fundador o director de DOMINUS OSINT, con enlace al sitio.",
+          "riesgo": "Tu nombre queda ligado al proyecto: cualquiera que investigue el proyecto llega a ti."
+        }
+      ],
+      "recomendacion": "Empezar en modo discreto y decidir después del lanzamiento. En ningún modo se muestran URL del menú Admin, capturas con datos personales ni ubicaciones propias."
+    },
+    "perfil": {
+      "titulares": [
+        "Inteligencia estratégica y operativa para decisiones de riesgo | OSINT, análisis de escenarios y continuidad | Proyectos multisector y multipaís",
+        "Convierto datos abiertos en decisiones: riesgo país, seguridad corporativa y cadena de suministro | Inteligencia estratégica",
+        "Analista de inteligencia estratégica | Del dato a la decisión en comités de riesgo, operaciones y crisis"
+      ],
+      "acerca_de": "Ayudo a direcciones generales, de riesgo, seguridad y operaciones a decidir con información verificable: qué está pasando alrededor de sus instalaciones, rutas, proveedores y mercados, qué tan probable es que empeore y qué hacer antes.\n\nTrabajo con fuentes abiertas oficiales (estadística, reguladores, reportes financieros, alertas), metodologías de análisis (ACH, ICD 203, PMESII-PT, pre-mortem) y tableros que se actualizan solos.\n\n[Tu experiencia: sectores, tipo de proyectos, países, años. Escribe hechos verificables, sin nombres de clientes si son confidenciales.]\n\nQué puedo hacer por tu organización:\n• Mapa de exposición de sedes, plantas y rutas, con alertas.\n• Due diligence de proveedores y socios (cambios de razón social, listas oficiales, vínculos públicos).\n• Escenarios y señales tempranas para comités de riesgo.\n• Protocolos de viaje y crisis con fuentes oficiales.\n\nTodo con fuentes citables y respetando la normativa de datos personales.",
+      "destacado": [
+        "Carrusel PDF: «Cómo leo una discrepancia entre dos fuentes oficiales» (6 láminas)",
+        "Caso hipotético anonimizado: exposición de una cadena de suministro a bloqueos carreteros",
+        "Formulario o correo para pedir una sesión de diagnóstico de 30 minutos"
+      ],
+      "habilidades": [
+        "Inteligencia estratégica",
+        "OSINT",
+        "Análisis de riesgos",
+        "Gestión de crisis",
+        "Continuidad del negocio",
+        "Análisis geoespacial",
+        "Due diligence",
+        "Seguridad corporativa",
+        "Análisis de escenarios",
+        "Visualización de datos"
+      ]
+    },
+    "estilo": {
+      "si": [
+        "Empezar con un hecho concreto o una pregunta que un directivo se haría (no con «Hoy quiero compartir…»).",
+        "Una idea por publicación, con un dato y su fuente.",
+        "Mostrar el razonamiento: qué vi, cómo lo comprobé, qué significa para una decisión.",
+        "Cerrar con una pregunta abierta o una acción concreta, no con «¿qué opinas?».",
+        "Alternar formatos: texto corto, carrusel PDF, captura anotada, video de 60 s.",
+        "Publicar en español e inglés de forma alternada si buscas clientes fuera de México."
+      ],
+      "no": [
+        "Frases motivacionales, «humble brag», listas de 10 tips genéricos.",
+        "Revelar clientes, ubicaciones propias, URL del menú Admin o capturas con datos personales.",
+        "Afirmar culpas o delitos de personas o empresas: solo hechos documentados con su fuente.",
+        "Más de 3 hashtags."
+      ],
+      "frecuencia": "2 publicaciones por semana (sugerencia: martes y jueves por la mañana, hora de CDMX; mide y ajusta)."
+    },
+    "serie": [
+      {
+        "id": "dato_no_cuadra",
+        "titulo": "El dato que no cuadra",
+        "formato": "texto + captura anotada",
+        "gancho": "El 82 % del valor de un mes de exportaciones petroleras de un país no dice a dónde fue. ¿Error, secreto comercial o algo más?",
+        "estructura": [
+          "Qué reporta cada institución (ONU vs banco central)",
+          "Por qué puede pasar sin que sea irregular",
+          "Qué revisaría un comité de cumplimiento antes de concluir"
+        ],
+        "cierre": "Cuando dos fuentes oficiales no coinciden, ¿tu equipo lo detecta o se entera por la prensa?",
+        "muestra": "Contraste de fuentes (sin logo)"
+      },
+      {
+        "id": "premortem_planta",
+        "titulo": "Pre-mortem de una apertura de planta",
+        "formato": "carrusel PDF",
+        "gancho": "Imagina que tu nueva planta cerró a los 18 meses. Escribe por qué. Esa lista vale más que el estudio de mercado.",
+        "estructura": [
+          "Riesgos de entorno (seguridad, clima, agua, energía)",
+          "Riesgos regulatorios y de permisos",
+          "Señales tempranas que se pueden monitorear desde hoy"
+        ],
+        "cierre": "¿Qué riesgo nadie en tu comité quiere poner por escrito?",
+        "muestra": "Matriz de riesgo de Inteligencia corporativa"
+      },
+      {
+        "id": "bloqueos",
+        "titulo": "Lo que precede a un bloqueo carretero",
+        "formato": "texto",
+        "gancho": "Los bloqueos rara vez son sorpresa: casi siempre hay convocatorias, conflictos previos y patrones por día y tramo.",
+        "estructura": [
+          "Fuentes abiertas que lo anticipan",
+          "Cómo traducirlo a rutas alternas y tiempos de entrega",
+          "Qué medir después para aprender"
+        ],
+        "cierre": "¿Cuántas horas de inventario tiene tu operación si se cierra tu ruta principal?",
+        "muestra": "Capa de carreteras y robos (sin ubicaciones del cliente)"
+      },
+      {
+        "id": "cisnes",
+        "titulo": "Frecuencia vs. ruido",
+        "formato": "texto + gráfico",
+        "gancho": "Una pandemia «tipo COVID» tiene alrededor de 2 % de probabilidad anual según la literatura. Las noticias de esta semana no cambian ese número; cambian tu atención.",
+        "estructura": [
+          "Probabilidad base publicada y su fuente",
+          "Qué son las señales y para qué sirven",
+          "Cómo usarlo en el mapa de riesgos del consejo"
+        ],
+        "cierre": "¿Tu mapa de riesgos separa lo probable de lo ruidoso?",
+        "muestra": "Cisnes blancos y negros"
+      },
+      {
+        "id": "fuente_primaria",
+        "titulo": "Leer la fuente primaria",
+        "formato": "captura anotada",
+        "gancho": "Un párrafo en un reporte trimestral a un regulador extranjero dijo más sobre un tema público que meses de declaraciones.",
+        "estructura": [
+          "Dónde está el dato (6-K, 20-F) y cómo encontrarlo",
+          "Qué dice textualmente y qué no",
+          "Cómo contrastarlo con otras fuentes"
+        ],
+        "cierre": "¿Quién en tu equipo lee los reportes regulatorios de tus socios y proveedores?",
+        "muestra": "Petróleo a Cuba según Pemex (tabla con enlaces)"
+      },
+      {
+        "id": "viaje",
+        "titulo": "Deber de cuidado en viajes ejecutivos",
+        "formato": "carrusel PDF",
+        "gancho": "Antes de un viaje de negocios, la pregunta no es «¿es peligroso?» sino «¿qué haríamos si…?».",
+        "estructura": [
+          "Avisos oficiales de varios gobiernos lado a lado",
+          "Protocolos y contactos de emergencia",
+          "Referencia: ISO 31030 (gestión del riesgo en viajes)"
+        ],
+        "cierre": "¿Tu empresa sabe dónde está su gente si hoy cierran un aeropuerto?",
+        "muestra": "Protocolos y avisos de viaje"
+      },
+      {
+        "id": "reclasificacion",
+        "titulo": "Cuando la estadística cambia de categoría",
+        "formato": "texto + gráfico",
+        "gancho": "Una categoría baja 30 % y su vecina sube 60 %. ¿Mejoró la situación o cambió el registro?",
+        "estructura": [
+          "Cómo detectar movimientos compensados entre categorías",
+          "Por qué no prueba manipulación por sí solo",
+          "Qué pedir a un proveedor de seguridad antes de aceptar sus métricas"
+        ],
+        "cierre": "¿Tus indicadores de seguridad se revisan contra otra fuente?",
+        "muestra": "Seguridad: SESNSP vs INEGI"
+      },
+      {
+        "id": "agua_aire",
+        "titulo": "Datos poco obvios para infraestructura",
+        "formato": "video de 60 s",
+        "gancho": "¿Cuántos litros de agua podría dar el aire en tu sitio? Hay datos horarios de 5,000 aeropuertos para responderlo.",
+        "estructura": [
+          "Humedad, punto de rocío y condensación",
+          "Cuándo tiene sentido y cuándo no",
+          "Cómo se integra a un análisis de riesgo hídrico"
+        ],
+        "cierre": "¿Qué dato de tu entorno decides hoy por intuición?",
+        "muestra": "Clima: humedad y agua del aire"
+      },
+      {
+        "id": "osint_responsable",
+        "titulo": "OSINT con reglas",
+        "formato": "texto",
+        "gancho": "La inteligencia de fuentes abiertas no es «buscar todo de alguien». Tiene límites legales y éticos, y respetarlos es parte de la calidad.",
+        "estructura": [
+          "Qué fuentes uso y cuáles no",
+          "Datos personales: qué no se guarda",
+          "Por qué cada cifra lleva su fuente"
+        ],
+        "cierre": "¿Tus proveedores de inteligencia te dicen de dónde sale cada dato?",
+        "muestra": "Ninguna captura"
+      },
+      {
+        "id": "comite_crisis",
+        "titulo": "Un tablero para el comité de crisis",
+        "formato": "carrusel PDF",
+        "gancho": "En una crisis, el problema no es la falta de datos; es que nadie tiene la misma versión de los hechos.",
+        "estructura": [
+          "Ritmo de batalla: qué se revisa cada cuánto",
+          "SITREP de una página",
+          "Quién decide qué y con qué umbral"
+        ],
+        "cierre": "¿Cuánto tarda tu organización en tener una sola versión de los hechos?",
+        "muestra": "DOMINUS OPS (Battle Rhythm, SITREP)"
+      },
+      {
+        "id": "automatizar",
+        "titulo": "Automatizar la vigilancia, no el juicio",
+        "formato": "texto",
+        "gancho": "Cientos de series oficiales revisadas cada día sin intervención humana. Lo que no se automatiza es decidir qué significa un salto.",
+        "estructura": [
+          "Qué se puede vigilar en automático",
+          "Umbrales y falsas alarmas",
+          "El papel del analista"
+        ],
+        "cierre": "¿Qué revisa tu equipo a mano que una máquina podría vigilar?",
+        "muestra": "Movimientos atípicos de Banxico"
+      },
+      {
+        "id": "razon_social",
+        "titulo": "Due diligence: el proveedor que cambió de nombre",
+        "formato": "caso hipotético",
+        "gancho": "Una filial cambió de razón social dos veces en dos meses. No es ilegal. Pero sí es una señal para revisar.",
+        "estructura": [
+          "Dónde se publican los cambios (registros mercantiles, reguladores, DOF)",
+          "Qué cruzar: listas oficiales, contratos públicos, socios",
+          "Cómo documentarlo sin acusar"
+        ],
+        "cierre": "¿Tu alta de proveedores revisa el historial de nombres?",
+        "muestra": "Ninguna o captura anonimizada"
+      }
+    ]
+  }
 }

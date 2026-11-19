@@ -139,6 +139,46 @@ export function proximaRevision(hoy = new Date()) {
   return { semanal: lunes.toISOString().slice(0, 10), mensual: m.toISOString().slice(0, 10) };
 }
 
+/** Publicaciones marcadas y visitas por red en los últimos `dias` (visitas: contador del Worker, sin datos personales). */
+export function porRed(est, visitas, plan, dias = 30, hoy = new Date()) {
+  const desde = new Date(hoy.getTime() - dias * 86400000).toISOString().slice(0, 10);
+  const filas = {};
+  const fila = (r) => (filas[r] ??= { red: r, publicaciones: 0, visitas: 0 });
+  for (const p of Object.values(est.publicados || {})) if ((p.fecha || "") >= desde && p.red) fila(p.red).publicaciones++;
+  for (const v of visitas?.filas || []) if (v.dia >= desde) fila(v.red).visitas += Number(v.n) || 0;
+  const nombre = Object.fromEntries((plan?.canales || []).map((c) => [c.id, c.nombre]));
+  return Object.values(filas).map((f) => ({ ...f, nombre: nombre[f.red] || REDES[f.red]?.nombre || f.red, por_pub: f.publicaciones ? Math.round((f.visitas / f.publicaciones) * 10) / 10 : null }))
+    .sort((a, b) => b.visitas - a.visitas || b.publicaciones - a.publicaciones);
+}
+
+export function htmlPorRed(filas, hayVisitas) {
+  const nota = hayVisitas ? "Visitas = personas que llegaron al sitio desde un enlace de esa red (total por día, sin datos personales)."
+    : "Las visitas por red se ven al abrir esta página desde 🔐 Acceso administrativo (el contador vive en el Worker).";
+  if (!filas.length) return `<p class="meta">Aún no hay publicaciones marcadas ni visitas con UTM en los últimos 30 días. ${nota}</p>`;
+  return `<table class="tabla-ficha"><tr><th>Red</th><th>Publicaciones (30 días)</th><th>Visitas al sitio (30 días)</th><th>Visitas por publicación</th></tr>
+    ${filas.map((f) => `<tr><td>${esc(f.nombre)}</td><td>${n0(f.publicaciones)}</td><td>${hayVisitas ? n0(f.visitas) : "—"}</td><td>${hayVisitas && f.por_pub != null ? f.por_pub : "—"}</td></tr>`).join("")}</table>
+    <p class="meta">${nota} Las métricas internas de cada red (alcance, reacciones) se consultan en su propia analítica: LinkedIn y X no dan esos datos gratis por API.</p>`;
+}
+
+export const borradorSerie = (s) => [s.gancho, "", ...(s.estructura || []).map((x) => `→ ${x}: [desarrolla con un ejemplo]`), "", s.cierre].join("\n");
+
+export function htmlLinkedin(lp) {
+  if (!lp) return "";
+  const v = lp.decision_visibilidad || {}, p = lp.perfil || {}, e = lp.estilo || {};
+  return `<p>${esc(lp.objetivo)}</p>
+    <div class="tarjeta aviso"><b>Primero decide la visibilidad.</b> ${esc(v.nota)}<ul>${(v.opciones || []).map((o) => `<li><b>${esc(o.nombre)}:</b> ${esc(o.como)} <i>${esc(o.riesgo)}</i></li>`).join("")}</ul><p>${esc(v.recomendacion)}</p></div>
+    <h4>Perfil</h4><p class="meta">Titular (elige uno):</p><ol>${(p.titulares || []).map((t) => `<li>${esc(t)} <button class="mk-copiar" data-t="${esc(t)}">📋</button></li>`).join("")}</ol>
+    <details class="tarjeta"><summary>«Acerca de»</summary><textarea class="mk-texto" style="min-height:220px">${esc(p.acerca_de)}</textarea></details>
+    <p class="meta">Destacado: ${(p.destacado || []).map(esc).join(" · ")}</p><p class="meta">Aptitudes: ${(p.habilidades || []).map(esc).join(", ")}</p>
+    <div class="dos"><div><h4>Sí</h4><ul>${(e.si || []).map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div><div><h4>No</h4><ul>${(e.no || []).map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div></div>
+    <p class="meta">${esc(e.frecuencia)} Usa enlaces con <code>utm_source=linkedin_personal</code> para medir las visitas que llegan de tu perfil.</p>
+    <h4>Serie de 12 publicaciones (estructura; escribe con tu experiencia real)</h4>
+    ${(lp.serie || []).map((s, i) => `<details class="tarjeta"><summary>${i + 1}. ${esc(s.titulo)} <span class="chip">${esc(s.formato)}</span></summary>
+      <p><b>Primera línea:</b> ${esc(s.gancho)}</p><ol>${(s.estructura || []).map((x) => `<li>${esc(x)}</li>`).join("")}</ol>
+      <p><b>Cierre:</b> ${esc(s.cierre)}</p><p class="meta">Qué mostrar: ${esc(s.muestra)}</p>
+      <div class="barra"><button class="mk-copiar" data-t="${esc(borradorSerie(s))}">📋 Copiar borrador</button></div></details>`).join("")}`;
+}
+
 export const urlEditarPlan = () => `https://github.com/${REPO}/edit/main/config/marketing.json`;
 
 export async function iniciar(doc = document) {
@@ -182,7 +222,19 @@ export async function iniciar(doc = document) {
   $("mk-editar").href = urlEditarPlan();
   $("mk-exportar").addEventListener("click", () => { const a = doc.createElement("a"); a.href = URL.createObjectURL(new Blob([JSON.stringify(est, null, 1)], { type: "application/json" })); a.download = `marketing-avance-${new Date().toISOString().slice(0, 10)}.json`; a.click(); });
   $("mk-importar").addEventListener("change", async (e) => { const f = e.target.files?.[0]; if (!f) return; try { Object.assign(est, leerEstado({ getItem: () => "" }), JSON.parse(await f.text())); guardar(); location.reload(); } catch { alert("El archivo no es un respaldo válido."); } });
-  pintarTablero(); pintarBorradores(); pintarNotas();
+  // Visitas por red (contador del Worker; solo con la sesión de administración en el dominio del Worker).
+  let visitas = null;
+  if (/\.workers\.dev$/.test(location.hostname)) {
+    try { const r = await fetch("/admin/huella/marketing/visitas", { cache: "no-store" }); if (r.ok) visitas = await r.json(); } catch { /* */ }
+  }
+  const pintarRedes = () => { $("mk-redes").innerHTML = htmlPorRed(porRed(est, visitas, plan), !!visitas); };
+  $("mk-linkedin").innerHTML = htmlLinkedin(plan?.linkedin_personal);
+  doc.addEventListener("click", async (e) => {
+    const b = e.target.closest("button.mk-copiar"); if (!b) return;
+    try { await navigator.clipboard.writeText(b.dataset.t); b.textContent = "✔️"; } catch { /* */ }
+  });
+  $("mk-borradores").addEventListener("click", () => setTimeout(pintarRedes, 50));
+  pintarTablero(); pintarBorradores(); pintarNotas(); pintarRedes();
 }
 
 if (typeof document !== "undefined" && document.getElementById("mk-tablero")) iniciar();

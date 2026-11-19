@@ -1,0 +1,6 @@
+# Rutas cortas en Cloudflare Pages (GitHub Pages ignora este archivo). Pages ya sirve /privacidad como privacidad.html.
+/privacidad/  /privacidad  301
+/condiciones  /terminos  301
+/condiciones/  /terminos  301
+/terminos/  /terminos  301
+/legal  /legal.html  301

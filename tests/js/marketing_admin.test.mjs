@@ -49,3 +49,16 @@ test("semana tipo y fechas de revisión", () => {
   assert.equal(r.semanal, "2026-11-23");
   assert.equal(r.mensual, "2026-12-07");
 });
+
+test("por red y LinkedIn personal", async () => {
+  const { porRed, htmlPorRed, htmlLinkedin } = await import("../../js/marketing_admin.js");
+  const est = { publicados: { a: { fecha: "2026-11-18", red: "x" }, b: { fecha: "2026-11-17", red: "x" }, c: { fecha: "2026-09-01", red: "linkedin" } } };
+  const vis = { filas: [{ dia: "2026-11-18", red: "x", campania: "c", n: 9 }, { dia: "2026-11-18", red: "linkedin_personal", campania: "c", n: 4 }] };
+  const f = porRed(est, vis, plan, 30, new Date("2026-11-19T00:00:00Z"));
+  assert.deepEqual(f.map((x) => [x.red, x.publicaciones, x.visitas, x.por_pub]), [["x", 2, 9, 4.5], ["linkedin_personal", 0, 4, null]]);
+  assert.match(htmlPorRed(f, true), /LinkedIn \(perfil personal\)/);
+  assert.match(htmlPorRed(f, false), /Acceso administrativo/);
+  const h = htmlLinkedin(plan.linkedin_personal);
+  assert.match(h, /Primero decide la visibilidad/);
+  assert.equal((h.match(/Copiar borrador/g) || []).length, 12);
+});

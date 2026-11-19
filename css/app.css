@@ -912,3 +912,17 @@ label.vista-pago select { font-size: 12px; border-radius: 10px; border: 0; paddi
 .cx-tabla .baja-bien { color: #2E7D32; }
 .cx-senales { border-left: 4px solid #E65100; padding: 4px 8px; margin: 6px 0; font-size: 13px; }
 .cx-senales ul { padding-left: 16px; margin: 4px 0; }
+
+/* Ventana emergente (js/ventana.js) y botones de concepto del menú (Monitor México) */
+dialog.ventana { width: min(980px, 94vw); max-height: 88vh; padding: 0; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); color: var(--text); box-shadow: 0 18px 50px rgba(0,0,0,.45); overflow: hidden; }
+dialog.ventana[open] { display: flex; flex-direction: column; }
+dialog.ventana::backdrop { background: rgba(0,0,0,.45); }
+.ventana-cab { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--line); background: var(--surface-2); }
+.ventana-tit { margin: 0; font-size: 17px; text-transform: none; letter-spacing: 0; color: var(--text); }
+.ventana-x { font: inherit; font-size: 18px; min-width: 38px; min-height: 38px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); color: var(--text); cursor: pointer; }
+.ventana-cuerpo { padding: 12px 16px 18px; overflow: auto; }
+.ventana-cuerpo svg { max-width: 640px; }
+button.concepto { display: flex; align-items: center; gap: 8px; width: 100%; text-align: left; font: inherit; padding: 8px 10px; margin: 4px 0; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); cursor: pointer; }
+button.concepto > span:first-child { flex: 1; }
+button.concepto:hover { border-color: var(--accent, #C8102E); }
+.concepto-extra { font-size: 12px; color: var(--text-2); }

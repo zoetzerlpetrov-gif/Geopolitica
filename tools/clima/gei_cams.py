@@ -178,14 +178,24 @@ def malla_flujo(lats, lons, campos, paso=MALLA_FLUJO):
     return feats
 
 
+def vigente(ruta, ruta_flujo, ahora):
+    """True si hay datos de menos de CADA_H horas con TODAS las variables y la malla de flujo (si el script ganó
+    variables nuevas, se vuelve a descargar aunque el archivo sea reciente)."""
+    try:
+        d = json.load(open(ruta, encoding="utf-8"))
+        gen = datetime.strptime(d.get("generado_utc", ""), "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
+    except (OSError, ValueError):
+        return False
+    completo = set(CLAVES) <= set(d.get("variables", [])) and os.path.exists(ruta_flujo)
+    return completo and ahora - gen < timedelta(hours=CADA_H)
+
+
 def main():
     llave = os.environ.get("ADS_API_KEY", "").strip()
     if not llave:
         print("GEI CAMS: sin ADS_API_KEY; se omite")
         return 0
-    if os.path.exists(OUT):
-        gen = json.load(open(OUT, encoding="utf-8")).get("generado_utc", "")
-        if gen and datetime.now(timezone.utc) - datetime.strptime(gen, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc) < timedelta(hours=CADA_H):
+    if vigente(OUT, OUT_FLUJO, datetime.now(timezone.utc)):
             print("GEI CAMS: datos recientes; se conservan")
             return 0
     import cdsapi

@@ -1,0 +1,21 @@
+{
+  "_instrucciones": "Valores por defecto de los datos legales. Los valores reales se editan en legal.html (Admin → Datos legales) y se guardan en el Worker; las páginas de privacidad y términos los leen de «endpoint» al abrirse y usan estos solo si el Worker no responde. Este archivo se publica: no pongas aquí datos personales.",
+  "endpoint": "https://geopolitica.zoetzerl-petrov.workers.dev/legal/datos.json",
+  "editar_en": "https://geopolitica.zoetzerl-petrov.workers.dev/legal.html",
+  "datos": {
+    "tipo_persona": "",
+    "razon_social": "",
+    "nombre_comercial": "DOMINUS OSINT",
+    "rfc": "",
+    "domicilio": "",
+    "correo_privacidad": "",
+    "correo_contacto": "",
+    "telefono": "",
+    "departamento_datos": "Responsable de protección de datos personales",
+    "jurisdiccion": "Ciudad de México",
+    "representante_ue": "",
+    "sitio": "https://dominusosint.com/",
+    "actualizado_privacidad": "2026-11-11",
+    "actualizado_terminos": "2026-11-12"
+  }
+}
