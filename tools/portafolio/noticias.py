@@ -151,11 +151,20 @@ def acumular(nuevos: list[dict], previos: list[dict], ahora: datetime | None = N
 
 
 # --------------------------------------------------------------------------- coincidencias
+# Nombres con que la prensa cita a un instrumento cuando no coinciden con su nombre corto (se buscan tal cual).
+ALIAS_EXTRA = {
+    "FCFE18.MX": ["CFE Fibra E", "CFE Fibra-E", "Fibra E de la CFE", "Fibra E de CFE", "Fibra-E de la CFE", "FIBRA E de la CFE",
+                  "FIBRA CFE", "Fibra E CFE", "FCFE", "CFE Capital"],
+}
+# Además, titulares que mencionan a la vez todas estas palabras (p. ej. «Filial de CFE … emisión de capital de Fibra E»).
+JUNTAS = {"FCFE18.MX": [re.compile(r"\bCFE\b"), re.compile(r"\bFibra[- ]E\b", re.I)]}
+
+
 def alias(ticker: str, nombre: str | None, sector: str | None = "") -> tuple[list[str], list[str]]:
     """(nombres que deben aparecer tal cual con mayúsculas, claves de bolsa) de un instrumento."""
     if (sector or "").lower().startswith("etf"):
         return [], []
-    nombres = []
+    nombres = list(ALIAS_EXTRA.get(ticker, []))
     bruto = (nombre or "").strip()
     if len(bruto) >= 30:  # yfinance corta los nombres largos a ~31 caracteres: se quita la última palabra
         bruto = bruto.rsplit(" ", 1)[0]
@@ -189,7 +198,9 @@ def asignar(instrumentos: list, titulares: list[dict], ruido=None, limite: int =
         if pat is None:
             a.news = []
             continue
-        a.news = [n for n in titulares if pat.search(n["title"]) and not (ruido and ruido(n["title"]))][:limite]
+        juntas = JUNTAS.get(a.ticker, [])
+        coincide = lambda t: pat.search(t) or (juntas and all(r.search(t) for r in juntas))  # noqa: E731
+        a.news = [n for n in titulares if coincide(n["title"]) and not (ruido and ruido(n["title"]))][:limite]
         con += bool(a.news)
     return con
 

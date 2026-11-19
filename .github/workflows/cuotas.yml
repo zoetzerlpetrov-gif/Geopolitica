@@ -1,0 +1,38 @@
+name: Cuotas de APIs y llaves
+
+# Una vez al día: consumo estimado y medido de cada API con llave o cuota (config/apis_cuotas.json) frente a su límite.
+# Publica en la rama datos-cuotas; el sitio lo copia a data/cuotas/estado.json (Admin → Cuotas de APIs).
+# Solo totales: ninguna llave se imprime ni se guarda.
+on:
+  schedule:
+    - cron: "37 11 * * *"   # 05:37 en Ciudad de México
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cuotas
+  cancel-in-progress: false
+
+jobs:
+  revisar:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Calcular cuotas
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: mkdir -p /tmp/pub/cuotas && python3 tools/cuotas/cuotas.py /tmp/pub/cuotas/estado.json
+      - name: Publicar en la rama datos-cuotas
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd /tmp/pub && git init -q && git checkout -q -b datos-cuotas
+          git config user.name "geopolitica-bot" && git config user.email "actions@users.noreply.github.com"
+          git add -A && git commit -q -m "cuotas $(date -u +'%Y-%m-%d')"
+          git push -q --force "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:datos-cuotas

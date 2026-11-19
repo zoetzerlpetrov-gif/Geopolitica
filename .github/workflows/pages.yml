@@ -41,7 +41,7 @@ jobs:
           ESRI_API_KEY: ${{ secrets.ESRI_API_KEY }}
         run: |
           mkdir -p _site
-          cp -r index.html analista.html fase2.html fase4.html operaciones.html colaboracion.html fase5.html transporte.html laboratorio.html plataforma.html camaras.html taxonomia.html reporte.html noticiero.html marco.html narrativas.html corporativo.html herramientas.html ops.html inmuebles.html analitica.html matriz.html warroom.html cartera.html conducta.html identidad.html tutorial.html planes.html estado.html soporte.html economia.html privacidad.html terminos.html comentarios.html patrocinios.html marketing.html legal.html entidades.html apariencia.html portafolio.html demo.html assets _redirects _headers SECURITY.md .well-known finanzas.html cisnes.html clima-impactos.html continuidad-familiar.html 404.html sw.js css js vendor config data schema _site/
+          cp -r index.html analista.html fase2.html fase4.html operaciones.html colaboracion.html fase5.html transporte.html laboratorio.html plataforma.html camaras.html taxonomia.html reporte.html noticiero.html marco.html narrativas.html corporativo.html herramientas.html ops.html inmuebles.html analitica.html matriz.html warroom.html cartera.html conducta.html identidad.html tutorial.html planes.html estado.html soporte.html economia.html privacidad.html terminos.html comentarios.html patrocinios.html marketing.html legal.html entidades.html apariencia.html portafolio.html demo.html assets _redirects _headers SECURITY.md .well-known finanzas.html cisnes.html clima-impactos.html continuidad-familiar.html cuotas.html 404.html sw.js css js vendor config data schema _site/
           cp SOURCES.md _site/ 2>/dev/null || true
           touch _site/.nojekyll
           python3 tools/pages/fuentes_pagina.py _site/fuentes.html   # fuentes y licencias dentro del sitio (sin enlazar al repositorio)
@@ -85,6 +85,11 @@ jobs:
           mkdir -p _site/data/portafolio
           if git fetch --depth 1 origin datos-portafolio 2>/dev/null; then
             git archive FETCH_HEAD portafolio | tar -x -C /tmp && cp /tmp/portafolio/*.json _site/data/portafolio/
+          fi
+          # Cuotas de APIs y llaves (cuotas.html, solo admin): rama "datos-cuotas".
+          mkdir -p _site/data/cuotas
+          if git fetch --depth 1 origin datos-cuotas 2>/dev/null; then
+            git show FETCH_HEAD:cuotas/estado.json > _site/data/cuotas/estado.json 2>/dev/null || true
           fi
           # Vigía de seguridad (estado.html, solo admin): rama "datos-vigia".
           mkdir -p _site/data/vigia

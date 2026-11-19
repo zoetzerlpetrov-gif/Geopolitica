@@ -1112,7 +1112,11 @@
    "estancia_dias": 180,
    "estancia": "Hasta 180 días sin visa para mexicanos, a criterio del oficial",
    "salud": "Con residencia, afiliación obligatoria a la CCSS",
-   "riesgos": "La residencia de pensionado pide estar 4 meses al año en el país"
+   "riesgos": "La residencia de pensionado pide estar 4 meses al año en el país",
+   "coords": [
+    -84.08,
+    9.93
+   ]
   },
   {
    "id": "espana_norte",
@@ -1122,7 +1126,11 @@
    "estancia_dias": 90,
    "estancia": "90 días como turista; residencia no lucrativa",
    "salud": "Seguro sin copagos para la residencia",
-   "riesgos": "Escolarización de menores obligatoria para renovar"
+   "riesgos": "Escolarización de menores obligatoria para renovar",
+   "coords": [
+    -3.8,
+    43.36
+   ]
   },
   {
    "id": "italia_norte",
@@ -1132,7 +1140,11 @@
    "estancia_dias": 90,
    "estancia": "90 días como turista; residencia electiva de 1 año renovable",
    "salud": "Seguro privado para la residencia",
-   "riesgos": "Lago de Como solo fuera de laderas y de la orilla, por deslaves repetidos; ciudadanía hasta los 10 años"
+   "riesgos": "Lago de Como solo fuera de laderas y de la orilla, por deslaves repetidos; ciudadanía hasta los 10 años",
+   "coords": [
+    9.19,
+    45.46
+   ]
   },
   {
    "id": "uruguay",
@@ -1142,7 +1154,11 @@
    "estancia_dias": 180,
    "estancia": "90 días más 90 de prórroga",
    "salud": "Seguro de viaje o mutualista",
-   "riesgos": "Distancia y costo de traslado"
+   "riesgos": "Distancia y costo de traslado",
+   "coords": [
+    -56.16,
+    -34.9
+   ]
   },
   {
    "id": "mexico",
@@ -1152,7 +1168,11 @@
    "estancia_dias": null,
    "estancia": "Sin límite",
    "salud": "IMSS o ISSSTE si se conserva",
-   "riesgos": "Revisar el nivel de alerta antes de regresar"
+   "riesgos": "Revisar el nivel de alerta antes de regresar",
+   "coords": [
+    -99.13,
+    19.43
+   ]
   }
  ],
  "avisos_estancia": {
@@ -1507,5 +1527,22 @@
     "cada": "Semestral"
    }
   ]
+ },
+ "ruta": {
+  "_nota": "Puntos genéricos de referencia (ciudades o regiones públicas), nunca domicilios. El mapa de Continuidad dibuja el traslado con estos puntos.",
+  "origen": {
+   "nombre": "Ciudad de México (salida)",
+   "coords": [
+    -99.13,
+    19.43
+   ]
+  },
+  "intermedio": {
+   "nombre": "Mérida (resguardo nacional, nivel Naranja)",
+   "coords": [
+    -89.62,
+    20.97
+   ]
+  }
  }
 }
