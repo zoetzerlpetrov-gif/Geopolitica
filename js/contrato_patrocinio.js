@@ -25,7 +25,10 @@ export async function textoDocx(buffer) {
       const ini = local + 30 + dv.getUint16(local + 26, true) + dv.getUint16(local + 28, true);
       const datos = b.subarray(ini, ini + tam);
       const xml = metodo === 0 ? dec.decode(datos) : await new Response(new Blob([datos]).stream().pipeThrough(new DecompressionStream("deflate-raw"))).text();
-      return xml.replace(/<w:tab\/>/g, "\t").replace(/<\/w:p>/g, "\n").replace(/<[^>]+>/g, "").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&apos;/g, "'");
+      // Texto plano para analizar (nunca se inserta como HTML): se quitan las etiquetas, las entidades se decodifican en
+      // una sola pasada y se eliminan los signos < y > que pudieran quedar.
+      const ENT = { amp: "&", lt: " ", gt: " ", quot: '"', apos: "'" };
+      return xml.replace(/<w:tab\/>/g, "\t").replace(/<\/w:p>/g, "\n").replace(/<[^>]*>/g, "").replace(/&(amp|lt|gt|quot|apos);/g, (_, e) => ENT[e]).replace(/[<>]/g, " ");
     }
     p += 46 + lnom + lext + lcom;
   }
