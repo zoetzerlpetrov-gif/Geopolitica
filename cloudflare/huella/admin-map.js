@@ -1,7 +1,20 @@
 import { authorized, configured } from "./auth.js";
+import adminPages from "../../config/paginas_admin.json" with { type: "json" };
 
-const mapOrigin = "https://zoetzerlpetrov-gif.github.io";
-const mapPath = "/Geopolitica/";
+// El mapa completo se lee de Cloudflare Pages (antes de GitHub Pages). Las páginas de administración viven en /ops/
+// (tools/pages/mover_admin.py). Si /ops/* queda detrás de Cloudflare Access, el Worker entra con un token de servicio
+// (secretos ACCESS_CLIENT_ID y ACCESS_CLIENT_SECRET del Worker); sin ellos pide la página sin credenciales.
+const mapOrigin = "https://dominus-osint.pages.dev";
+const mapPath = "/";
+const OPS = new Set(adminPages.paginas);
+
+/** Ruta en Pages para una ruta del Worker: «/legal.html» → «/ops/legal», «/index.html» → «/». */
+export function rutaPages(pathname) {
+  const nombre = pathname.slice(1).replace(/\.html$/, "");
+  if (nombre === "index") return "/";
+  if (OPS.has(nombre)) return `/${adminPages.ruta}/${nombre}`;
+  return pathname;
+}
 const headers = { "Cache-Control": "private, no-store", "Referrer-Policy": "no-referrer" };
 
 export async function adminMap(request, url, env) {
@@ -17,12 +30,16 @@ export async function adminMap(request, url, env) {
   }
 
   const target = new URL(mapPath, mapOrigin);
-  target.pathname = mapPath + url.pathname.slice(1);
+  target.pathname = rutaPages(url.pathname);
   if (!target.pathname.startsWith(mapPath)) return new Response(null, { status: 404, headers });
   target.search = url.search;
   const forwarded = new Headers();
   for (const name of ["Accept", "Range", "If-Range", "If-None-Match", "If-Modified-Since"]) {
     if (request.headers.has(name)) forwarded.set(name, request.headers.get(name));
+  }
+  if (env.ACCESS_CLIENT_ID && env.ACCESS_CLIENT_SECRET) {
+    forwarded.set("CF-Access-Client-Id", env.ACCESS_CLIENT_ID);
+    forwarded.set("CF-Access-Client-Secret", env.ACCESS_CLIENT_SECRET);
   }
   try {
     const upstream = await fetch(target, { method: request.method, headers: forwarded, redirect: "manual" });

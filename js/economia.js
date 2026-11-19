@@ -4,7 +4,7 @@
 import { esc, getJSON } from "./util.js";
 
 const $ = (id) => document.getElementById(id);
-const PORTAFOLIO = "https://zoetzerlpetrov-gif.github.io/portafolio/daily_report.json";
+const PORTAFOLIO = "data/portafolio/daily_report.json";
 const REGIONES = { MX: "🇲🇽 México", US: "🇺🇸 Estados Unidos", EU: "🇪🇺 Unión Europea", GL: "🌐 Global" };
 const CONF = { oficial: "🟢 Oficial", aproximacion: "🟡 Aproximación", anecdota: "⚪ Anécdota" };
 // Meses sin dato nuevo antes de marcarlo como «dato viejo», según su frecuencia.

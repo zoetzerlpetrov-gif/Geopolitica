@@ -74,7 +74,7 @@
     {"id": "d_cisnes", "nombre": "Cisnes blancos y negros (señales)", "archivo": "data/vivos/cisnes.json", "campo": "generado_utc", "max_horas": 3},
     {"id": "d_satelites", "nombre": "Satélites (TLE de SatNOGS)", "archivo": "data/vivos/satelites.json", "campo": "satnogs_utc", "max_horas": 14},
     {"id": "d_normativa", "nombre": "Bitácora normativa (diarios oficiales)", "archivo": "data/normativa/estado.json", "campo": "generado_utc", "max_horas": 30, "errores": "fuentes"},
-    {"id": "d_portafolio", "nombre": "Portafolio (panel propio): reporte diario y noticias", "archivo": "https://zoetzerlpetrov-gif.github.io/portafolio/daily_report.json",
+    {"id": "d_portafolio", "nombre": "Portafolio (panel propio): reporte diario y noticias", "archivo": "https://dominusosint.com/data/portafolio/daily_report.json",
      "campo": "generated_at", "max_horas": 30, "errores": "noticias.fuentes",
      "minimo": {"campo": "noticias.instrumentos_con_noticias", "valor": 1, "texto": "Instrumentos con noticias"}}
   ]

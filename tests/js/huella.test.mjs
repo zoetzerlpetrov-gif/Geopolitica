@@ -277,16 +277,17 @@ test("el mapa temporal pide sesión Admin y conserva el menú y las solicitudes 
   const external = t.mock.method(globalThis, "fetch", async (url, options) => {
     if (url === "https://github.com/login/oauth/access_token") return Response.json({ access_token: "prueba" });
     if (url === "https://api.github.com/user") return Response.json({ id: 123, type: "User" });
-    assert.equal(url.origin, "https://zoetzerlpetrov-gif.github.io");
+    assert.equal(url.origin, "https://dominus-osint.pages.dev");
     assert.equal(options.headers.get("Cookie"), null);
     if (url.pathname.endsWith("redirect.html")) {
-      return new Response(null, { status: 302, headers: { Location: "/Geopolitica//externo.example/" } });
+      return new Response(null, { status: 302, headers: { Location: "//externo.example/" } });
     }
     if (url.pathname.endsWith(".pmtiles")) {
       assert.equal(options.headers.get("Range"), "bytes=0-5");
       return new Response("abcdef", { status: 206, headers: { "Content-Range": "bytes 0-5/6" } });
     }
-    assert.equal(url.pathname, "/Geopolitica/");
+    if (url.pathname === "/ops/legal") return new Response("legal admin");
+    assert.equal(url.pathname, "/");
     return new Response('<template id="huella-admin-menu"></template>', { headers: { "Set-Cookie": "no=forward" } });
   });
   const complete = await serve(request("/admin/huella/oauth/callback?code=demo&state=" + state, { Cookie: oauth }), previewEnv, assets);
@@ -297,7 +298,8 @@ test("el mapa temporal pide sesión Admin y conserva el menú y las solicitudes 
   assert.equal((await serve(request("/admin/huella/sesion", { Cookie: session }), previewEnv, assets)).status, 204);
   assert.equal((await serve(request("/data/test.pmtiles", { Cookie: session, Range: "bytes=0-5" }), previewEnv, assets)).status, 206);
   assert.equal((await serve(request("/redirect.html", { Cookie: session }), previewEnv, assets)).status, 502);
-  assert.equal(external.mock.callCount(), 5);
+  assert.equal(await (await serve(request("/legal.html", { Cookie: session }), previewEnv, assets)).text(), "legal admin");
+  assert.equal(external.mock.callCount(), 6);
 });
 
 test("la consulta exacta exige autorización explícita y separa las evidencias de cada proveedor", async (t) => {
@@ -705,4 +707,13 @@ test("YouTube confirma el canal por alias y mantiene la clave en la petición al
   assert.match(html, /YouTube Data API · clave configurada/);
   assert.doesNotMatch(html, /clave-local-de-prueba/);
   assert.match(page.headers.get("content-security-policy"), /https:\/\/yt3\.googleusercontent\.com/);
+});
+
+test("el mapa de Admin pide las páginas de administración en /ops/ de Cloudflare Pages", async () => {
+  const { rutaPages } = await import("../../cloudflare/huella/admin-map.js");
+  assert.equal(rutaPages("/legal.html"), "/ops/legal");
+  assert.equal(rutaPages("/portafolio"), "/ops/portafolio");
+  assert.equal(rutaPages("/index.html"), "/");
+  assert.equal(rutaPages("/demo.html"), "/demo.html");
+  assert.equal(rutaPages("/js/app.js"), "/js/app.js");
 });

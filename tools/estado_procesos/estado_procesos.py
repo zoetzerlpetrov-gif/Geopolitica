@@ -10,7 +10,7 @@ Estados: «ok», «atraso» (más de max_horas sin éxito o sin datos nuevos, o 
 doble, o 3 fallas seguidas). La bitácora guarda cada incidencia 90 días, para soporte.
 
 Uso: python3 tools/estado_procesos/estado_procesos.py <carpeta>   → ultimo.json, historial.json y bitacora.json
-     Variables: GITHUB_REPOSITORY, GITHUB_TOKEN (opcional) y SITIO (URL del sitio; por omisión la de GitHub Pages).
+     Variables: GITHUB_REPOSITORY, GITHUB_TOKEN (opcional) y SITIO (URL del sitio; por omisión https://dominusosint.com/).
      Termina con código 1 si algo está en «falla», para que GitHub avise por correo.
 """
 import json
@@ -233,7 +233,7 @@ def main(args):
     salida = args[0] if args else None
     repo = os.environ.get("GITHUB_REPOSITORY", "zoetzerlpetrov-gif/Geopolitica")
     dueno, nombre = repo.split("/", 1)
-    sitio = os.environ.get("SITIO") or f"https://{dueno.lower()}.github.io/{nombre}/"
+    sitio = os.environ.get("SITIO") or "https://dominusosint.com/"
     cfg = json.load(open(os.path.join(ROOT, "config", "procesos.json"), encoding="utf-8"))
     res = revisar(cfg, repo, sitio, os.environ.get("GITHUB_TOKEN"))
     for x in res["workflows"] + res["datos"]:

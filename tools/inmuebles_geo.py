@@ -26,7 +26,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 CARPETA = os.path.join(ROOT, "config", "inmuebles_desarrollos")
 CACHE = os.path.join(CARPETA, "_geocache.json")
 UA = "DOMINUS-OSINT/1.0 (https://github.com/zoetzerlpetrov-gif/Geopolitica; inmuebles en seguimiento)"
-ARA_SADASI_SITIO = "https://zoetzerlpetrov-gif.github.io/Geopolitica/data/vivos/ara_sadasi.json"
+ARA_SADASI_SITIO = "https://dominusosint.com/data/vivos/ara_sadasi.json"
 ULTIMA = [0.0]
 
 

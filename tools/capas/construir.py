@@ -1925,7 +1925,7 @@ def inmuebles_seguimiento():
     return out
 
 
-ARA_SADASI_SITIO = "https://zoetzerlpetrov-gif.github.io/Geopolitica/data/vivos/ara_sadasi.json"
+ARA_SADASI_SITIO = "https://dominusosint.com/data/vivos/ara_sadasi.json"
 
 
 def leer_ara_sadasi(ua):

@@ -9,6 +9,8 @@ on:
 
 permissions:
   contents: write
+  pages: write      # la publicación reutiliza pages.yml, que los necesita
+  id-token: write
 
 concurrency:
   group: portafolio-diario

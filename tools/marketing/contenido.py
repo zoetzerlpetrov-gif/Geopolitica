@@ -196,7 +196,7 @@ def b_evergreen(cfg, hoy):
 
 
 def generar(cfg, datos, hoy):
-    sitio = cfg.get("sitio") or "https://zoetzerlpetrov-gif.github.io/Geopolitica/"
+    sitio = cfg.get("sitio") or "https://dominusosint.com/"
     candidatos = [b_comercio(datos.get("contraste_mx")), b_pemex_cuba(datos.get("pemex_cuba")), b_seguridad(datos.get("contraste_mx")),
                   b_co2(datos.get("co2")), b_monitor(datos.get("monitor_mx")), b_cisne(datos.get("cisnes")), b_evergreen(cfg, hoy)]
     out = []

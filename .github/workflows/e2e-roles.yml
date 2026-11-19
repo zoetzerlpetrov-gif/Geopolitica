@@ -35,7 +35,7 @@ jobs:
           /tmp/pw/node_modules/.bin/playwright install --with-deps chromium
       - name: Recorrer el sitio publicado por rol
         env:
-          BASE: https://zoetzerlpetrov-gif.github.io/Geopolitica
+          BASE: https://dominusosint.com
           PLAYWRIGHT_MODULE: /tmp/pw/node_modules/playwright
           ROLES: ${{ github.event.inputs.roles }}
         run: |

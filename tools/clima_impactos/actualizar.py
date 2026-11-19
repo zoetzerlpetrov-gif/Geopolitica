@@ -20,7 +20,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 UA = 'DOMINUS-clima/1.0 (+https://github.com/zoetzerlpetrov-gif/Geopolitica)'
-PAGES = 'https://zoetzerlpetrov-gif.github.io/Geopolitica/'
+PAGES = 'https://dominusosint.com/'
 URL_ENSO = 'https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_advisory/ensodisc.shtml'
 URL_PROB = 'https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso/roni/probabilities/'
 MESES = {n: i + 1 for i, n in enumerate('January February March April May June July August September October November December'.split())}

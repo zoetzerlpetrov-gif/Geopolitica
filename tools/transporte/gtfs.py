@@ -53,7 +53,7 @@ def collect(output: Path, previous: Path | None = None, opener=urllib.request.ur
     for key, (name, url) in SOURCES.items():
         filename = key + '.zip'
         try:
-            request = urllib.request.Request(url, headers={'User-Agent': 'DOMINUS-Geopolitica/1.0 (+https://zoetzerlpetrov-gif.github.io/Geopolitica/)'})
+            request = urllib.request.Request(url, headers={'User-Agent': 'DOMINUS-Geopolitica/1.0 (+https://dominusosint.com/)'})
             with opener(request, timeout=35) as response:
                 raw = response.read(LIMIT + 1)
             validate_zip(raw)
