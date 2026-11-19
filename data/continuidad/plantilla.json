@@ -1,0 +1,587 @@
+{
+ "_aviso": "Plantilla genérica y pública. No contiene datos de ninguna familia: nombres, edades exactas, direcciones, documentos, puntos de reunión, palabras clave, bancos y rutas reales se capturan solo en el navegador y se respaldan cifrados.",
+ "version": 1,
+ "verificar": "Los requisitos migratorios, sanitarios y de mascotas cambian. Confirma cada dato en la fuente oficial (consulado, autoridad migratoria, aerolínea, SENASICA) antes de decidir.",
+ "niveles": [
+  {
+   "id": "verde",
+   "nombre": "Verde",
+   "cuando": "Vida normal.",
+   "acciones": [
+    "Revisión mensual de indicadores",
+    "Documentos y seguros al día"
+   ],
+   "plazo": "Mensual",
+   "quien": "Cualquier adulto del plan"
+  },
+  {
+   "id": "amarillo",
+   "nombre": "Amarillo",
+   "cuando": "2 indicadores en deterioro durante 2 semanas.",
+   "acciones": [
+    "Revisión semanal",
+    "Actualizar maletas, recetas y certificados de los gatos"
+   ],
+   "plazo": "7 días",
+   "quien": "Cualquier adulto del plan"
+  },
+  {
+   "id": "naranja",
+   "nombre": "Naranja",
+   "cuando": "Evento grave confirmado por 2 fuentes independientes o amenaza directa.",
+   "acciones": [
+    "Traslado a Mérida",
+    "Boletos reembolsables",
+    "Mover fondos"
+   ],
+   "plazo": "72 h",
+   "quien": "Cualquier adulto del plan"
+  },
+  {
+   "id": "rojo",
+   "nombre": "Rojo",
+   "cuando": "Riesgo inmediato para la vida o cierre inminente de fronteras o del sistema financiero.",
+   "acciones": [
+    "Ejecutar la ruta principal o la alterna"
+   ],
+   "plazo": "24 a 72 h",
+   "quien": "Dos personas registradas lo aprueban"
+  }
+ ],
+ "reglas_nivel": {
+  "bajar_dias_sin_disparadores": 14,
+  "rojo_aprobadores": 2,
+  "bajar_un_nivel_a_la_vez": true
+ },
+ "fases": [
+  {
+   "id": "f0",
+   "nombre": "Fase 0 · Preparación",
+   "duracion": "Antes de cualquier alerta",
+   "checklist": [
+    {
+     "id": "documentos",
+     "texto": "Pasaportes vigentes con más de 6 meses de margen para todos"
+    },
+    {
+     "id": "respaldo",
+     "texto": "Respaldo cifrado de documentos y de este plan, en dos lugares"
+    },
+    {
+     "id": "fondos",
+     "texto": "Fondo de emergencia separado y accesible desde el extranjero"
+    },
+    {
+     "id": "roles",
+     "texto": "Roles asignados (Coordinador, Salud, Logística, Documentos y finanzas, Niños)"
+    },
+    {
+     "id": "pace",
+     "texto": "Plan de comunicaciones PACE probado"
+    },
+    {
+     "id": "simulacro",
+     "texto": "Primer simulacro de 48 h realizado"
+    }
+   ]
+  },
+  {
+   "id": "f1",
+   "nombre": "Fase 1 · Mérida",
+   "duracion": "2 a 6 semanas",
+   "checklist": [
+    {
+     "id": "alojamiento",
+     "texto": "Alojamiento sin escaleras confirmado para adultos mayores"
+    },
+    {
+     "id": "medico",
+     "texto": "Médico y veterinaria identificados en la ciudad"
+    },
+    {
+     "id": "escuela",
+     "texto": "Continuidad escolar resuelta (en línea o local)"
+    },
+    {
+     "id": "boletos",
+     "texto": "Boletos reembolsables o fondo para la salida"
+    },
+    {
+     "id": "gatos",
+     "texto": "Certificados de los gatos vigentes para el destino"
+    }
+   ]
+  },
+  {
+   "id": "f2",
+   "nombre": "Fase 2 · Salida",
+   "duracion": "24 a 72 h",
+   "checklist": [
+    {
+     "id": "maletas",
+     "texto": "Maletas, medicamentos y transportadoras listos"
+    },
+    {
+     "id": "papeles",
+     "texto": "Documentos originales en mano y copias en el respaldo cifrado"
+    },
+    {
+     "id": "asistencia",
+     "texto": "Asistencia de movilidad reducida confirmada con la aerolínea"
+    },
+    {
+     "id": "aviso",
+     "texto": "Aviso a contactos según el plan PACE"
+    }
+   ]
+  },
+  {
+   "id": "f3",
+   "nombre": "Fase 3 · Estancia",
+   "duracion": "180 días o más",
+   "checklist": [
+    {
+     "id": "registro",
+     "texto": "Registro consular o migratorio en el destino, si aplica"
+    },
+    {
+     "id": "salud",
+     "texto": "Acceso a salud y farmacia local resuelto"
+    },
+    {
+     "id": "contador",
+     "texto": "Contador de días de estancia legal al día"
+    },
+    {
+     "id": "revision",
+     "texto": "Revisión mensual de indicadores de México"
+    }
+   ]
+  },
+  {
+   "id": "f4",
+   "nombre": "Fase 4 · Decisión del día 150",
+   "duracion": "Día 150 de estancia",
+   "checklist": [
+    {
+     "id": "evaluar",
+     "texto": "Evaluar indicadores y nivel de alerta vigente"
+    },
+    {
+     "id": "opciones",
+     "texto": "Comparar quedarse, rotar de destino o regresar"
+    },
+    {
+     "id": "decision",
+     "texto": "Decisión registrada con fecha y responsables"
+    },
+    {
+     "id": "logistica",
+     "texto": "Logística de la opción elegida en marcha"
+    }
+   ]
+  }
+ ],
+ "escenarios": [
+  {
+   "id": "politico_institucional",
+   "categoria": "Político",
+   "escenario": "Deterioro institucional",
+   "vigilar": "DOF y medios",
+   "disparador": "Cambio legal que limite la salida o la propiedad",
+   "respuesta": "Naranja y traslado a Mérida",
+   "plan_b": "Salida inmediata",
+   "referencia": "dof"
+  },
+  {
+   "id": "financiero_capitales",
+   "categoria": "Financiero",
+   "escenario": "Control de capitales o devaluación",
+   "vigilar": "Tipo de cambio, Banxico y SHCP",
+   "disparador": "Caída mayor a 15 % en un mes o límites a retiros",
+   "respuesta": "Usar cuentas en el extranjero",
+   "plan_b": "Efectivo en USD o EUR",
+   "referencia": "tipo_cambio"
+  },
+  {
+   "id": "seguridad_violencia",
+   "categoria": "Seguridad",
+   "escenario": "Violencia en la ciudad o en la ruta",
+   "vigilar": "Datos de homicidios y avisos",
+   "disparador": "Incidente a menos de 2 km o en la ruta",
+   "respuesta": "Cambiar ruta y viajar de día",
+   "plan_b": "Vuelo desde otra ciudad",
+   "referencia": "crimen"
+  },
+  {
+   "id": "seguridad_amenaza",
+   "categoria": "Seguridad",
+   "escenario": "Amenaza directa",
+   "vigilar": "Mensajes o extorsión",
+   "disparador": "Amenaza creíble",
+   "respuesta": "Rojo y denuncia desde un lugar seguro",
+   "plan_b": "Dividir el grupo en dos rutas"
+  },
+  {
+   "id": "ambiental_huracan",
+   "categoria": "Ambiental",
+   "escenario": "Huracán sobre Mérida",
+   "vigilar": "NHC y SMN",
+   "disparador": "Aviso a 72 h",
+   "respuesta": "Salir por tierra o vuelo a CDMX",
+   "plan_b": "Refugio con 7 días de agua y medicinas",
+   "referencia": "ciclones"
+  },
+  {
+   "id": "ambiental_calor",
+   "categoria": "Ambiental",
+   "escenario": "Ola de calor",
+   "vigilar": "SMN",
+   "disparador": "3 días de 40 °C o más",
+   "respuesta": "Interior climatizado",
+   "plan_b": "Adelantar la salida",
+   "referencia": "calor"
+  },
+  {
+   "id": "ambiental_destino",
+   "categoria": "Ambiental",
+   "escenario": "Desastre en el destino",
+   "vigilar": "Protección civil local",
+   "disparador": "Alerta naranja o roja",
+   "respuesta": "Zona segura del mismo país",
+   "plan_b": "Segundo destino"
+  },
+  {
+   "id": "medico_transito",
+   "categoria": "Médico",
+   "escenario": "Emergencia de un adulto mayor en tránsito",
+   "vigilar": "—",
+   "disparador": "Síntoma grave",
+   "respuesta": "Avisar a la tripulación y bajar en la escala",
+   "plan_b": "Seguro con asistencia 24 h"
+  },
+  {
+   "id": "medico_fallecimiento",
+   "categoria": "Médico",
+   "escenario": "Fallecimiento fuera de México",
+   "vigilar": "—",
+   "disparador": "—",
+   "respuesta": "Seguro y consulado",
+   "plan_b": "Fondo de repatriación"
+  },
+  {
+   "id": "mascotas_aerolinea",
+   "categoria": "Mascotas",
+   "escenario": "La aerolínea rechaza al gato",
+   "vigilar": "Política de la aerolínea",
+   "disparador": "Rechazo en mostrador",
+   "respuesta": "Segunda aerolínea",
+   "plan_b": "Transportista especializado"
+  },
+  {
+   "id": "migratorio_entrada",
+   "categoria": "Migratorio",
+   "escenario": "Negación de entrada",
+   "vigilar": "Requisitos oficiales",
+   "disparador": "Rechazo en frontera",
+   "respuesta": "Regresar con boleto flexible",
+   "plan_b": "Destino alterno sin visa",
+   "referencia": "avisos_viaje"
+  },
+  {
+   "id": "documentos_pasaporte",
+   "categoria": "Documentos",
+   "escenario": "Pérdida de pasaporte",
+   "vigilar": "—",
+   "disparador": "Pérdida confirmada",
+   "respuesta": "Denuncia y pasaporte de emergencia",
+   "plan_b": "Copias en el respaldo cifrado"
+  },
+  {
+   "id": "logistica_aeropuerto",
+   "categoria": "Logística",
+   "escenario": "Cancelación masiva o cierre de aeropuerto",
+   "vigilar": "Estado de vuelos",
+   "disparador": "Cancelación del vuelo principal",
+   "respuesta": "Ruta alterna",
+   "plan_b": "Salida terrestre"
+  },
+  {
+   "id": "salud_pandemia",
+   "categoria": "Salud pública",
+   "escenario": "Pandemia o cierre de fronteras",
+   "vigilar": "OMS",
+   "disparador": "Cierre con fecha",
+   "respuesta": "Salir antes o quedarse",
+   "plan_b": "90 días de medicinas",
+   "referencia": "salud"
+  },
+  {
+   "id": "digital_telefono",
+   "categoria": "Digital",
+   "escenario": "Robo del teléfono con la verificación en dos pasos",
+   "vigilar": "—",
+   "disparador": "Pérdida",
+   "respuesta": "Códigos de respaldo y bloqueo de línea",
+   "plan_b": "Segundo teléfono"
+  },
+  {
+   "id": "familia_escuela",
+   "categoria": "Familia",
+   "escenario": "Niño enfermo o sin escuela",
+   "vigilar": "Pediatra y escuela",
+   "disparador": "Más de 2 semanas de faltas",
+   "respuesta": "Educación en línea",
+   "plan_b": "Inscripción local"
+  }
+ ],
+ "destinos": [
+  {
+   "id": "costa_rica",
+   "destino": "Valle Central, Costa Rica",
+   "rol": "Principal",
+   "como": "Vuelo desde CDMX (confirma rutas vigentes)",
+   "estancia_dias": 180,
+   "estancia": "Hasta 180 días sin visa para mexicanos, a criterio del oficial",
+   "salud": "Con residencia, afiliación obligatoria a la CCSS",
+   "riesgos": "La residencia de pensionado pide estar 4 meses al año en el país"
+  },
+  {
+   "id": "espana_norte",
+   "destino": "Norte de España",
+   "rol": "Europa A",
+   "como": "Vuelo a Madrid y tren o vuelo interno",
+   "estancia_dias": 90,
+   "estancia": "90 días como turista; residencia no lucrativa",
+   "salud": "Seguro sin copagos para la residencia",
+   "riesgos": "Escolarización de menores obligatoria para renovar"
+  },
+  {
+   "id": "italia_norte",
+   "destino": "Norte de Italia (zonas planas de Lombardía o Piamonte)",
+   "rol": "Europa B",
+   "como": "Vuelo CDMX–Milán (anunciado desde el 28 de marzo de 2027)",
+   "estancia_dias": 90,
+   "estancia": "90 días como turista; residencia electiva de 1 año renovable",
+   "salud": "Seguro privado para la residencia",
+   "riesgos": "Lago de Como solo fuera de laderas y de la orilla, por deslaves repetidos; ciudadanía hasta los 10 años"
+  },
+  {
+   "id": "uruguay",
+   "destino": "Uruguay",
+   "rol": "Reserva lejana",
+   "como": "Vuelo (confirma escalas vigentes)",
+   "estancia_dias": 180,
+   "estancia": "90 días más 90 de prórroga",
+   "salud": "Seguro de viaje o mutualista",
+   "riesgos": "Distancia y costo de traslado"
+  },
+  {
+   "id": "mexico",
+   "destino": "México",
+   "rol": "Retorno",
+   "como": "Según el destino",
+   "estancia_dias": null,
+   "estancia": "Sin límite",
+   "salud": "IMSS o ISSSTE si se conserva",
+   "riesgos": "Revisar el nivel de alerta antes de regresar"
+  }
+ ],
+ "avisos_estancia": {
+  "dia_decision": 150,
+  "dias_antes_del_limite": 15
+ },
+ "perfiles": [
+  {
+   "id": "mayores",
+   "nombre": "Adultos mayores",
+   "checklist": [
+    {
+     "id": "expediente",
+     "texto": "Expediente clínico bilingüe"
+    },
+    {
+     "id": "medicinas",
+     "texto": "Medicamentos para 90 días con receta y nombre genérico"
+    },
+    {
+     "id": "movilidad",
+     "texto": "Asistencia de movilidad reducida y MEDIF si usa oxígeno"
+    },
+    {
+     "id": "legales",
+     "texto": "Poder notarial, testamento y voluntad anticipada"
+    },
+    {
+     "id": "alojamiento",
+     "texto": "Alojamiento sin escaleras"
+    }
+   ]
+  },
+  {
+   "id": "adultos",
+   "nombre": "Adultos",
+   "checklist": [
+    {
+     "id": "pasaporte",
+     "texto": "Pasaporte vigente"
+    },
+    {
+     "id": "seguro",
+     "texto": "Seguro de gastos médicos con cobertura en el extranjero"
+    },
+    {
+     "id": "trabajo",
+     "texto": "Plan de trabajo o ingresos a distancia"
+    }
+   ]
+  },
+  {
+   "id": "ninos",
+   "nombre": "Niños",
+   "checklist": [
+    {
+     "id": "pasaporte",
+     "texto": "Pasaporte"
+    },
+    {
+     "id": "actas",
+     "texto": "Actas apostilladas"
+    },
+    {
+     "id": "sam",
+     "texto": "Formato SAM del INM"
+    },
+    {
+     "id": "carta",
+     "texto": "Carta notarial del otro progenitor"
+    },
+    {
+     "id": "escolar",
+     "texto": "Constancias escolares para revalidar ante la SEP"
+    }
+   ]
+  },
+  {
+   "id": "gatos",
+   "nombre": "Gatos",
+   "checklist": [
+    {
+     "id": "chip",
+     "texto": "Microchip ISO"
+    },
+    {
+     "id": "rabia",
+     "texto": "Vacuna antirrábica"
+    },
+    {
+     "id": "senasica",
+     "texto": "Certificado de SENASICA"
+    },
+    {
+     "id": "anticuerpos",
+     "texto": "Prueba de anticuerpos si irán a la UE desde un país no listado"
+    },
+    {
+     "id": "transportadora",
+     "texto": "Transportadora aprobada"
+    },
+    {
+     "id": "veterinaria",
+     "texto": "Veterinaria en el destino"
+    }
+   ]
+  }
+ ],
+ "checklists_generales": [
+  {
+   "id": "finanzas",
+   "nombre": "Documentos y finanzas",
+   "checklist": [
+    {
+     "id": "originales",
+     "texto": "Originales, copias certificadas y respaldo cifrado"
+    },
+    {
+     "id": "fondo",
+     "texto": "Fondo para 9 meses en 3 bancos y 2 monedas"
+    },
+    {
+     "id": "efectivo",
+     "texto": "Efectivo para 2 semanas"
+    },
+    {
+     "id": "fiscal",
+     "texto": "Asesoría fiscal antes de cambiar la residencia ante el SAT"
+    }
+   ]
+  },
+  {
+   "id": "retorno",
+   "nombre": "Retorno",
+   "checklist": [
+    {
+     "id": "domicilio",
+     "texto": "Conservar domicilio y dirección fiscal"
+    },
+    {
+     "id": "seguridad_social",
+     "texto": "Mantener IMSS o ISSSTE"
+    },
+    {
+     "id": "gatos",
+     "texto": "Certificado de importación de los gatos ante SENASICA"
+    },
+    {
+     "id": "regreso",
+     "texto": "Boleto o fondo de regreso"
+    }
+   ]
+  }
+ ],
+ "pace": [
+  {
+   "id": "primario",
+   "nombre": "Primario",
+   "ejemplo": "Mensajería cifrada habitual"
+  },
+  {
+   "id": "alterno",
+   "nombre": "Alterno",
+   "ejemplo": "Llamada o SMS a un segundo número"
+  },
+  {
+   "id": "contingencia",
+   "nombre": "Contingencia",
+   "ejemplo": "Correo o contacto de confianza fuera del país"
+  },
+  {
+   "id": "emergencia",
+   "nombre": "Emergencia",
+   "ejemplo": "Punto de reunión y horario acordados"
+  }
+ ],
+ "gobierno": {
+  "roles": [
+   "Coordinador",
+   "Salud",
+   "Logística",
+   "Documentos y finanzas",
+   "Niños"
+  ],
+  "revisiones": [
+   {
+    "que": "Indicadores",
+    "cada": "Mensual"
+   },
+   {
+    "que": "Plan completo",
+    "cada": "Trimestral"
+   },
+   {
+    "que": "Simulacro de 48 h",
+    "cada": "Semestral"
+   }
+  ]
+ }
+}
