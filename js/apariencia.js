@@ -8,6 +8,11 @@ export const FUENTES = {
   plex: { cuerpo: '"IBM Plex Sans", system-ui, sans-serif', titulos: "", mono: '"IBM Plex Mono", ui-monospace, monospace' },
   "plex-barlow": { cuerpo: '"IBM Plex Sans", system-ui, sans-serif', titulos: '"Barlow Condensed", "IBM Plex Sans", sans-serif', mono: '"IBM Plex Mono", ui-monospace, monospace' },
 };
+// Apariencia predeterminada mientras no haya una publicada desde Admin → Apariencia: tema «Táctico» (un solo acento
+// latón, rojo reservado para alertas, esquinas de 3 px, IBM Plex + Barlow Condensed alojadas en el sitio, sin emoji).
+export const DEFECTO = { preset: "tactico", nombre: "Táctico (agencia federal)", fuente: "plex-barlow", radio: 3, iconos: "ocultar", titulos_mayusculas: true,
+  claro: { bg: "#efeee9", surface: "#fbfaf6", "surface-2": "#e4e2da", text: "#14171c", "text-2": "#4a5260", line: "#c9c6ba", accent: "#7a5c12", focus: "#1f4e8c" },
+  oscuro: { bg: "#0a0f17", surface: "#101826", "surface-2": "#172234", text: "#e3e7ee", "text-2": "#8d9ab0", line: "#243248", accent: "#c9a227", focus: "#7fb2ff" } };
 const VARS = ["bg", "surface", "surface-2", "text", "text-2", "line", "accent", "focus"];
 const EMOJI = /^[\p{Extended_Pictographic}\p{Regional_Indicator}️‍⃣\s]+/u;
 
@@ -58,11 +63,13 @@ export function aplicar(c, doc = document) {
 }
 
 if (typeof document !== "undefined" && !globalThis.__aparienciaVista) {
-  try { const c = JSON.parse(localStorage.getItem(CLAVE) || "null"); if (c) aplicar(c); } catch { /* sin copia */ }
+  let copia = null;
+  try { copia = JSON.parse(localStorage.getItem(CLAVE) || "null"); } catch { /* sin copia */ }
+  aplicar(copia?.claro ? copia : DEFECTO);
   fetch(ENDPOINT, { cache: "no-store" }).then((r) => (r.ok ? r.json() : null)).then((c) => {
     if (!c) return;
     const vacio = !c.claro;
     try { if (vacio) localStorage.removeItem(CLAVE); else localStorage.setItem(CLAVE, JSON.stringify(c)); } catch { /* */ }
-    aplicar(vacio ? null : c);
+    aplicar(vacio ? DEFECTO : c);
   }).catch(() => {});
 }
