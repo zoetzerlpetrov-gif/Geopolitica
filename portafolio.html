@@ -445,11 +445,14 @@ const STATUSES = [['comprar','buy','Comprar'],['rebote','rebound','Rebote'],['es
     return (a.news||[]).map(n=>({...n, ticker:a.ticker, name:a.name}));
   }
 
+  function escN(t){ return String(t ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  function urlN(u){ return /^https?:\/\//i.test(String(u||'')) ? escN(u) : '#'; }
+
   function newsCard(n){
     const d = fmtDate(n.date);
     return `<div class="newsitem">
-    <div class="ni-meta">${n.ticker||''}${n.publisher?' · '+n.publisher:''}${d?' · '+d:''}</div>
-    <a class="ni-title" href="${n.link||'#'}" target="_blank" rel="noopener">${n.title}</a>
+    <div class="ni-meta">${escN(n.ticker)}${n.publisher?' · '+escN(n.publisher):''}${d?' · '+escN(d):''}</div>
+    <a class="ni-title" href="${urlN(n.link)}" target="_blank" rel="noopener">${escN(n.title)}</a>
     </div>`;
   }
 
@@ -458,7 +461,7 @@ const STATUSES = [['comprar','buy','Comprar'],['rebote','rebound','Rebote'],['es
     const col = document.getElementById('newsCol');
     if(!col) return;
     const items = sectorNews();
-    const head = `<div class="nf-head"><b>Noticias${fSector!=='todos'?(' · '+fSector):''}</b><button class="newsclear" id="newsClear">Ver todas las noticias</button></div>`;
+    const head = `<div class="nf-head"><b>Noticias${fSector!=='todos'?(' · '+escN(fSector)):''}</b><button class="newsclear" id="newsClear">Ver todas las noticias</button></div>`;
     const body = items.length ? items.map(newsCard).join('') : '<p class="empty">Por el momento no hay noticias disponibles.</p>';
     col.innerHTML = head + body;
     const clr = document.getElementById('newsClear');
