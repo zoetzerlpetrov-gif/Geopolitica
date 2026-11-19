@@ -926,3 +926,9 @@ button.concepto { display: flex; align-items: center; gap: 8px; width: 100%; tex
 button.concepto > span:first-child { flex: 1; }
 button.concepto:hover { border-color: var(--accent, #C8102E); }
 .concepto-extra { font-size: 12px; color: var(--text-2); }
+/* Grupos del menú Admin (index.html): cada grupo es plegable y sus opciones van en orden alfabético. */
+.admin-grupo > summary { padding: 6px 4px; font-weight: 600; cursor: pointer; }
+.admin-grupo > a { display: block; padding: 7px 10px 7px 18px; border-radius: 6px; color: var(--text); text-decoration: none; }
+.admin-grupo > a:hover, .admin-grupo > a:focus-visible { background: var(--surface-2); }
+.admin-grupo > p.meta { margin: 0 0 4px 18px; font-size: 12px; }
+.admin-grupo .centro-menu { margin-left: 8px; }

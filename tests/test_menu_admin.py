@@ -1,4 +1,4 @@
-"""El submenú Admin de Secciones (index.html) va en orden alfabético para encontrar las opciones más rápido."""
+"""El submenú Admin de Secciones (index.html) se organiza en grupos plegables; dentro de cada grupo, orden alfabético."""
 import os
 import re
 import unicodedata
@@ -13,9 +13,28 @@ def _clave(linea):
     return unicodedata.normalize("NFD", t).encode("ascii", "ignore").decode().lower()
 
 
-def test_admin_en_orden_alfabetico():
+def _grupos():
     s = open(os.path.join(ROOT, "index.html"), encoding="utf-8").read()
-    i = s.index('<div class="admin-menu-contenido">\n') + len('<div class="admin-menu-contenido">\n')
-    j = s.index("\n          </div></details>\n        </div>\n      </details>", i)
-    claves = [_clave(x) for x in s[i:j].split("\n")]
-    assert len(claves) >= 15 and claves == sorted(claves)
+    return re.findall(r'<details class="admin-grupo" data-admin-grupo="([a-z]+)"><summary>[^<]+</summary>(?:<p class="meta">[^<]*</p>)?\n(.*?)\n\s*</details>\n', s, re.S)
+
+
+def test_admin_en_grupos_y_orden_alfabetico():
+    grupos = _grupos()
+    assert [g for g, _ in grupos] == ["acceso", "analisis", "negocio", "sistema"]
+    total = 0
+    for nombre, cuerpo in grupos:
+        lineas = [x for x in cuerpo.split("\n") if x.strip() and "<template" not in x]
+        if nombre == "acceso":
+            assert 'id="acceso-mapa-admin"' in lineas[0]
+            lineas = lineas[1:]
+        claves = [_clave(x) for x in lineas]
+        assert claves == sorted(claves), nombre
+        total += len(lineas)
+    assert total >= 25
+
+
+def test_lo_que_guarda_en_el_servidor_va_en_acceso_administrativo():
+    acceso = dict(_grupos())["acceso"]
+    for pagina in ("apariencia.html", "legal.html", "marketing.html"):
+        assert f'href="https://admin.dominusosint.com/{pagina}"' in acceso
+    assert "huella-admin-menu" in acceso

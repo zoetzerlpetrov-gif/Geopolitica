@@ -1,3 +1,4 @@
+import { enAdmin } from "./admin_origen.js";
 // Marketing de DOMINUS (marketing.html, solo admin): tablero de métricas, publicaciones listas para revisar y publicar,
 // calendario semanal, plan (públicos, mensajes, pilares, fases con avance), revisión periódica y reglas legales.
 // Fuentes: config/marketing.json (el plan), data/vivos/marketing_borradores.json (tools/marketing/contenido.py, cada
@@ -231,7 +232,7 @@ export async function iniciar(doc = document) {
   $("mk-importar").addEventListener("change", async (e) => { const f = e.target.files?.[0]; if (!f) return; try { Object.assign(est, leerEstado({ getItem: () => "" }), JSON.parse(await f.text())); guardar(); location.reload(); } catch { alert("El archivo no es un respaldo válido."); } });
   // Visitas por red (contador del Worker; solo con la sesión de administración en el dominio del Worker).
   let visitas = null;
-  if (/\.workers\.dev$/.test(location.hostname)) {
+  if (enAdmin(location.hostname)) {
     try { const r = await fetch("/admin/huella/marketing/visitas", { cache: "no-store" }); if (r.ok) visitas = await r.json(); } catch { /* */ }
   }
   const pintarRedes = () => { $("mk-redes").innerHTML = htmlPorRed(porRed(est, visitas, plan), !!visitas); };

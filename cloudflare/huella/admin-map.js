@@ -18,7 +18,7 @@ export function rutaPages(pathname) {
 const headers = { "Cache-Control": "private, no-store", "Referrer-Policy": "no-referrer" };
 
 export async function adminMap(request, url, env) {
-  if (!url.hostname.endsWith(".workers.dev") || !configured(url, env)) return null;
+  if (!(url.hostname.endsWith(".workers.dev") || url.hostname === "admin.dominusosint.com") || !configured(url, env)) return null;
   if (!["GET", "HEAD"].includes(request.method)) {
     return new Response(null, { status: 405, headers: { ...headers, Allow: "GET, HEAD" } });
   }

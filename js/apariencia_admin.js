@@ -2,6 +2,7 @@
 // es la propia página y el mapa en miniatura. «Guardar y publicar» escribe en el Worker (/admin/huella/apariencia, con la
 // sesión de administración) y todas las páginas lo aplican en menos de un minuto.
 import { aplicar, FUENTES, DEFECTO } from "./apariencia.js";
+import { enAdmin } from "./admin_origen.js";
 
 export const PRESETS = {
   actual: { nombre: "DOMINUS actual", fuente: "sistema", radio: 8, iconos: "mostrar", titulos_mayusculas: false,
@@ -38,7 +39,7 @@ export function revisar(c) {
 
 export async function iniciar(doc = document) {
   const $ = (id) => doc.getElementById(id);
-  const enWorker = /\.workers\.dev$/.test(location.hostname);
+  const enWorker = enAdmin(location.hostname);
   let c = structuredClone(DEFECTO);
   if (enWorker) { try { const r = await fetch("/admin/huella/apariencia", { cache: "no-store" }); if (r.ok) { const d = (await r.json()).datos; if (d?.claro) c = d; } } catch { /* */ } }
   else $("ap-aviso").hidden = false;

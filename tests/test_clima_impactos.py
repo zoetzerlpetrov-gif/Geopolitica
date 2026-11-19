@@ -102,7 +102,7 @@ def test_reservado_admin_y_publicado_sin_cambiar_los_otros_planes():
     planes = json.loads((ROOT / 'config/planes.json').read_text())
     assert any(p.get('href') == 'clima-impactos.html' and p.get('tipo') == 'pagina' for p in planes['solo_admin'])
     h = (ROOT / 'index.html').read_text()
-    admin = h[h.index('id="menu-admin"'):h.index('id="huella-admin-menu"')]
+    admin = h[h.index('id="menu-admin"'):h.index('<select id="sel-proyeccion"')]
     assert 'href="clima-impactos.html" data-solo-admin' in admin
     assert 'clima-impactos.html' in (ROOT / '.github/workflows/pages.yml').read_text()
     assert 'datos-clima-impactos' in (ROOT / '.github/workflows/clima-impactos.yml').read_text()

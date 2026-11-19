@@ -1,9 +1,12 @@
 import { vistaActual } from "./licencias.js";
+import { enAdmin } from "./admin_origen.js";
 
 const acceso = document.getElementById("acceso-mapa-admin");
-const publico = !location.hostname.endsWith(".workers.dev");  // dominusosint.com, Pages o GitHub Pages
-if (acceso && publico && vistaActual() !== "pago") {
+const publico = !enAdmin(location.hostname);  // dominusosint.com, Pages o GitHub Pages
+if (acceso && vistaActual() !== "pago") {
   acceso.hidden = false;
+  // Ya dentro del acceso administrativo: el mismo enlace lleva a la consola y dice que la sesión está abierta.
+  if (!publico) acceso.textContent = "✅ Sesión administrativa: abrir la consola";
 }
 
 const plantilla = document.getElementById("huella-admin-menu");

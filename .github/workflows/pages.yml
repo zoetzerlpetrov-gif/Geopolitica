@@ -1,4 +1,4 @@
-name: Publicar en GitHub Pages
+name: Publicar el sitio (Cloudflare Pages)
 
 # Publica el sitio SOLO si las pruebas y la validación del esquema pasan.
 # Requisito único: Settings → Pages → Build and deployment → Source: "GitHub Actions".
@@ -25,9 +25,6 @@ jobs:
     needs: pruebas
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    environment:
-      name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
     steps:
       - name: Clonar repositorio
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -180,17 +177,8 @@ jobs:
           git archive FETCH_HEAD vivos/estafas.geojson vivos/estafas_estado.json | tar -x -C /tmp/estafas-publicadas
           cp /tmp/estafas-publicadas/vivos/estafas.geojson /tmp/estafas-publicadas/vivos/estafas_estado.json _site/data/vivos/
 
-      - name: Empaquetar
-        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
-        with:
-          path: _site
-
-      - name: Publicar
-        id: deploy
-        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
-
-      - name: Publicar también en Cloudflare Pages (solo si existen los secretos de Cloudflare; un fallo aquí no afecta a GitHub Pages)
-        continue-on-error: true
+      # Desde el 19-11-2026 el sitio se publica solo en Cloudflare Pages (dominusosint.com); GitHub Pages se apaga.
+      - name: Publicar en Cloudflare Pages
         timeout-minutes: 15
         env:
           # Token propio y de mínimo privilegio para Pages y R2 (CLOUDFLARE_PAGES_TOKEN); si no existe, el general.

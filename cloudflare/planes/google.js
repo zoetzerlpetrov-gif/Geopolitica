@@ -1,3 +1,4 @@
+// DESTINOS_FIJOS: solo llama a oauth2.googleapis.com/token y openidconnect.googleapis.com/v1/userinfo (URLs literales), sin seguir redirecciones.
 // Inicio de sesión con Google para los planes de clientes (/cuenta/). Solo pide «openid email» (permisos básicos, sin
 // verificación especial de Google). El plan se busca por el correo verificado en D1 (dominus_memberships_email).
 // Secretos del Worker: GOOGLE_CLIENT_ID y GOOGLE_CLIENT_SECRET (ID de cliente web de Google Cloud) y OSINT_SESSION_SECRET.

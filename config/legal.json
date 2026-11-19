@@ -1,7 +1,7 @@
 {
   "_instrucciones": "Valores por defecto de los datos legales. Los valores reales se editan en legal.html (Admin → Datos legales) y se guardan en el Worker; las páginas de privacidad y términos los leen de «endpoint» al abrirse y usan estos solo si el Worker no responde. Este archivo se publica: no pongas aquí datos personales.",
-  "endpoint": "https://geopolitica.zoetzerl-petrov.workers.dev/legal/datos.json",
-  "editar_en": "https://geopolitica.zoetzerl-petrov.workers.dev/legal.html",
+  "endpoint": "https://admin.dominusosint.com/legal/datos.json",
+  "editar_en": "https://admin.dominusosint.com/legal.html",
   "datos": {
     "tipo_persona": "",
     "razon_social": "",
