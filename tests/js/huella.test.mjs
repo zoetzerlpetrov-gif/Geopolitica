@@ -219,7 +219,7 @@ test("distingue resultados directos de X y Tumblr de referencias editoriales por
 
 test("el enlace requiere verificación del Worker y la ruta queda fuera de la caché del mapa", () => {
   const read = (path) => readFileSync(new URL(path, import.meta.url), "utf8");
-  assert.match(read("../../index.html"), /id="menu-secciones"[\s\S]*?id="acceso-mapa-admin" href="https:\/\/geopolitica\.zoetzerl-petrov\.workers\.dev\/admin\/huella\/"[^>]* hidden/);
+  assert.match(read("../../index.html"), /id="menu-secciones"[\s\S]*?id="acceso-mapa-admin" href="https:\/\/admin\.dominusosint\.com\/admin\/huella\/"[^>]* hidden/);
   assert.match(read("../../index.html"), /<template id="huella-admin-menu" data-solo-admin><a href="admin\/huella\/" data-solo-admin>/);
   assert.match(read("../../js/huella-menu.js"), /r\.status === 204 && r\.headers\.get\("X-Dominus-Huella"\) === "admin"/);
   assert.ok(read("../../sw.js").includes('if (p.includes("/admin/huella/") || p.startsWith("/cuenta/")) return'));
@@ -716,4 +716,12 @@ test("el mapa de Admin pide las páginas de administración en /ops/ de Cloudfla
   assert.equal(rutaPages("/index.html"), "/");
   assert.equal(rutaPages("/demo.html"), "/demo.html");
   assert.equal(rutaPages("/js/app.js"), "/js/app.js");
+});
+
+test("OSINT_ORIGIN admite varias direcciones (admin.dominusosint.com y workers.dev)", async () => {
+  const { configured } = await import("../../cloudflare/huella/auth.js");
+  const env = { OSINT_ORIGIN: "https://admin.dominusosint.com, https://geopolitica.zoetzerl-petrov.workers.dev", OSINT_GITHUB_CLIENT_ID: "a", OSINT_GITHUB_CLIENT_SECRET: "b", OSINT_SESSION_SECRET: "x".repeat(40), OSINT_ADMIN_GITHUB_IDS: "123" };
+  assert.equal(configured(new URL("https://admin.dominusosint.com/admin/huella/"), env), true);
+  assert.equal(configured(new URL("https://geopolitica.zoetzerl-petrov.workers.dev/admin/huella/"), env), true);
+  assert.equal(configured(new URL("https://otro.example.com/admin/huella/"), env), false);
 });

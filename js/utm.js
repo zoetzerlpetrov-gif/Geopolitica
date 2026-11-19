@@ -1,6 +1,6 @@
 // Cuenta la visita cuando alguien llega desde una publicación (enlace con utm_source): manda solo la red y la campaña
 // al Worker (total por día, sin IP ni cookies) y quita los parámetros de la barra de direcciones. Una vez por pestaña.
-const DESTINO = "https://geopolitica.zoetzerl-petrov.workers.dev/m/visita";
+const DESTINO = "https://admin.dominusosint.com/m/visita";
 
 export function leerUtm(href) {
   const u = new URL(href);

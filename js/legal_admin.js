@@ -1,3 +1,4 @@
+import { enAdmin } from "./admin_origen.js";
 // Datos legales (legal.html, solo admin): formulario con vista previa en vivo de las páginas reales de Privacidad y
 // Términos (iframe + postMessage) y botón «Guardar y publicar» que escribe en el Worker (/admin/huella/legal, con la
 // sesión de administración). Las páginas públicas leen los datos guardados al abrirse: el cambio se ve en la web en
@@ -32,7 +33,7 @@ export function revisar(d) {
   return avisos;
 }
 
-export const puedeGuardar = (loc) => /\.workers\.dev$/.test(loc.hostname);
+export const puedeGuardar = (loc) => enAdmin(loc.hostname);
 
 export async function iniciar(doc = document) {
   const $ = (id) => doc.getElementById(id);

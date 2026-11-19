@@ -19,7 +19,9 @@ function admins(env) {
 }
 
 export function configured(url, env) {
-  return url.protocol === "https:" && url.origin === env.OSINT_ORIGIN &&
+  // OSINT_ORIGIN admite varias direcciones separadas por comas (p. ej. https://admin.dominusosint.com y la de workers.dev).
+  const origenes = String(env.OSINT_ORIGIN || "").split(",").map((o) => o.trim()).filter(Boolean);
+  return url.protocol === "https:" && origenes.includes(url.origin) &&
     Boolean(env.OSINT_GITHUB_CLIENT_ID?.trim() && env.OSINT_GITHUB_CLIENT_SECRET?.trim() &&
       env.OSINT_SESSION_SECRET?.length >= 32 && admins(env).length);
 }

@@ -1,7 +1,7 @@
 // Apariencia del sitio: aplica a cualquier página los colores, tipografía, esquinas e íconos guardados en
 // Admin → Apariencia (Worker /apariencia/datos.json). Usa una copia en este navegador para pintar al instante y la
 // actualiza en segundo plano. Sin datos guardados, el sitio se ve como siempre (css/tema.css).
-export const ENDPOINT = "https://geopolitica.zoetzerl-petrov.workers.dev/apariencia/datos.json";
+export const ENDPOINT = "https://admin.dominusosint.com/apariencia/datos.json";
 const CLAVE = "gp_apariencia";
 export const FUENTES = {
   sistema: { cuerpo: 'system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif', titulos: "", mono: 'ui-monospace, "SFMono-Regular", Consolas, monospace' },

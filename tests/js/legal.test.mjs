@@ -55,5 +55,6 @@ test("revisión del formulario", () => {
   assert.ok(revisar({}).some((x) => x.includes("razón social")));
   assert.ok(revisar({ ...completo, tipo_persona: "fisica" }).some((x) => x.includes("sociedad")));
   assert.equal(puedeGuardar({ hostname: "geopolitica.zoetzerl-petrov.workers.dev" }), true);
+  assert.equal(puedeGuardar({ hostname: "admin.dominusosint.com" }), true);
   assert.equal(puedeGuardar({ hostname: "zoetzerlpetrov-gif.github.io" }), false);
 });

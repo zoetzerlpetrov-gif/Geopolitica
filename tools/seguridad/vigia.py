@@ -27,7 +27,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 SALIDA = os.environ.get("VIGIA_DIR", os.path.join(ROOT, "vigia"))
 ESTADO = os.path.join(SALIDA, "estado.json")
 SITIOS = [("Cloudflare Pages", "https://dominus-osint.pages.dev/"), ("dominusosint.com", "https://dominusosint.com/"),
-          ("Worker admin", "https://geopolitica.zoetzerl-petrov.workers.dev/legal/datos.json")]
+          ("Worker admin", "https://admin.dominusosint.com/legal/datos.json")]
 UMBRAL = {"factor_solicitudes": 5, "min_solicitudes": 3000, "eventos_firewall": 300, "pct_5xx": 20, "corridas_integridad": 3, "calma_min": 60}
 AUTORES = {a.strip().lower() for a in os.environ.get("VIGIA_AUTORES", "zoetzerlpetrov-gif,geopolitica-bot,github-actions[bot],dependabot[bot],claude").split(",") if a.strip()}
 
