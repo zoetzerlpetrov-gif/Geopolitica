@@ -1,11 +1,11 @@
 {
- "generado_utc": "2026-11-18T22:19:49Z",
+ "generado_utc": "2026-11-19T10:42:58Z",
  "fuentes": {
   "MEX": {
    "fuente": "Diario Oficial de la Federación y Cámara de Diputados",
    "ok": true,
    "estado": "ok",
-   "nuevas": 3,
+   "nuevas": 6,
    "error": "",
    "hasta": "2026-11-18"
   },
@@ -13,9 +13,9 @@
    "fuente": "Federal Register (API oficial)",
    "ok": true,
    "estado": "ok",
-   "nuevas": 1,
+   "nuevas": 2,
    "error": "",
-   "hasta": "2026-11-18"
+   "hasta": "2026-11-19"
   },
   "CAN": {
    "fuente": "Canada Gazette, Parte II",
@@ -23,7 +23,7 @@
    "estado": "ok",
    "nuevas": 0,
    "error": "",
-   "hasta": "2026-11-18"
+   "hasta": "2026-11-19"
   },
   "EUR": {
    "fuente": "Oficina de Publicaciones de la UE (Cellar)",
@@ -31,7 +31,7 @@
    "estado": "ok",
    "nuevas": 6,
    "error": "",
-   "hasta": "2026-11-18"
+   "hasta": "2026-11-19"
   },
   "JPN": {
    "fuente": "e-Gov, API de leyes v2",
@@ -39,7 +39,7 @@
    "estado": "ok",
    "nuevas": 1,
    "error": "",
-   "hasta": "2026-11-18"
+   "hasta": "2026-11-19"
   },
   "RUS": {
    "fuente": "Portal oficial de publicación de actos jurídicos",
@@ -47,7 +47,7 @@
    "estado": "ok",
    "nuevas": 2,
    "error": "",
-   "hasta": "2026-11-18"
+   "hasta": "2026-11-19"
   },
   "ARG": {
    "fuente": "Boletín Oficial, primera sección",
@@ -55,7 +55,7 @@
    "estado": "ok",
    "nuevas": 0,
    "error": "",
-   "hasta": "2026-11-18"
+   "hasta": "2026-11-19"
   }
  },
  "sin_fuente": {
@@ -75,25 +75,58 @@
   "MDO": "Sanciones: revisión semanal manual en OFAC, el mapa de sanciones de la UE y la ONU."
  },
  "ultima_fecha": {
-  "USA": "2026-11-18",
-  "CAN": "2026-11-18",
-  "EUR": "2026-11-18",
-  "JPN": "2026-11-18",
-  "RUS": "2026-11-18",
+  "USA": "2026-11-19",
+  "CAN": "2026-11-19",
+  "EUR": "2026-11-19",
+  "JPN": "2026-11-19",
+  "RUS": "2026-11-19",
   "MEX": "2026-11-18",
-  "ARG": "2026-11-18"
+  "ARG": "2026-11-19"
  },
- "desactualizadas": [],
+ "desactualizadas": [
+  {
+   "pais": "MEX",
+   "ley_id": "lisr",
+   "sigla": "LISR",
+   "nombre": "Ley del Impuesto sobre la Renta",
+   "catalogo": "2024-04-01 (última reforma de la ley según la Cámara de Diputados)",
+   "oficial": "2026-11-13",
+   "url": "https://www.diputados.gob.mx/LeyesBiblio/ref/lisr.htm"
+  },
+  {
+   "pais": "MEX",
+   "ley_id": "lfd_mineria",
+   "sigla": "LFD minera",
+   "nombre": "Ley Federal de Derechos – derechos mineros (cuota por hectárea, derecho especial y extraordinario)",
+   "catalogo": "2025-12-28 (última reforma de la ley según la Cámara de Diputados) · antes registrado: verificar (cambios 2026)",
+   "oficial": "2026-11-13",
+   "url": "https://www.diputados.gob.mx/LeyesBiblio/ref/lfd.htm"
+  },
+  {
+   "pais": "MEX",
+   "ley_id": "lfd_espectro",
+   "sigla": "LFD espectro",
+   "nombre": "Ley Federal de Derechos – uso del espectro radioeléctrico",
+   "catalogo": "2025-12-28 (última reforma de la ley según la Cámara de Diputados)",
+   "oficial": "2026-11-13",
+   "url": "https://www.diputados.gob.mx/LeyesBiblio/ref/lfd.htm"
+  }
+ ],
  "por_pais": {
+  "USA": {
+   "total": 36,
+   "alto": 0,
+   "ultimos_30d": 29
+  },
   "RUS": {
    "total": 21,
    "alto": 4,
    "ultimos_30d": 21
   },
   "MEX": {
-   "total": 549,
-   "alto": 46,
-   "ultimos_30d": 37
+   "total": 552,
+   "alto": 49,
+   "ultimos_30d": 40
   },
   "JPN": {
    "total": 1,
@@ -103,13 +136,8 @@
   "EUR": {
    "total": 57,
    "alto": 8,
-   "ultimos_30d": 33
-  },
-  "USA": {
-   "total": 35,
-   "alto": 0,
-   "ultimos_30d": 30
+   "ultimos_30d": 32
   }
  },
- "agregadas_hoy": 5
+ "agregadas_hoy": 4
 }
