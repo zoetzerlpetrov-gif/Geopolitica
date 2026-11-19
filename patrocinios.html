@@ -21,7 +21,7 @@
     .rejilla { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px 14px; }
     .rejilla label { display: flex; flex-direction: column; gap: 3px; font-size: 13px; }
     .barra { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; }
-    .barra button, .barra a.boton { font: inherit; min-height: 36px; padding: 4px 12px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; }
+    .barra button, .barra a.boton, .barra label.boton { font: inherit; min-height: 36px; padding: 4px 12px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; }
     .barra button.si { background: #2e7d32; color: #fff; border-color: transparent; }
     .chip { display: inline-block; font-size: 12px; padding: 1px 8px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--line); }
     .camp.bien { border-left: 5px solid #2e7d32; } .camp.prox { border-left: 5px solid #e0a000; } .camp.mal { border-left: 5px solid #b71c1c; } .camp.gris { border-left: 5px solid #78909c; }
@@ -82,7 +82,17 @@
       <div class="barra"><button id="pt-aplicar" class="si">✔️ Aplicar a la lista</button></div>
     </details>
 
-    <h2>2 · Guardar (proponer el cambio)</h2>
+    <h2>2 · Contrato del patrocinio</h2>
+    <div class="tarjeta">
+      <p class="meta">El contrato es confidencial: se lee y analiza <b>solo en este navegador</b> y no se guarda en el repositorio (en la campaña solo va su referencia). Acepta PDF, Word (.docx), PDF escaneado o foto (con OCR en español).</p>
+      <div class="barra"><button type="button" id="pt-borrador-contrato" class="si">📝 Generar borrador de contrato de esta campaña</button>
+        <label class="boton">📄 Analizar un contrato <input type="file" id="pt-contrato-archivo" accept=".pdf,.docx,.txt,.png,.jpg,.jpeg,.webp" hidden></label>
+        <button type="button" id="pt-contrato-usar" hidden>↪️ Usar fechas y referencia en el formulario</button></div>
+      <p class="meta" id="pt-contrato-estado" aria-live="polite"></p>
+      <div id="pt-contrato-resultado"></div>
+    </div>
+
+    <h2>3 · Guardar (proponer el cambio)</h2>
     <div class="tarjeta">
       <ol class="meta">
         <li>Si la campaña lleva logo, súbelo primero con «Subir logo a GitHub» y el nombre que indica el formulario.</li>
@@ -94,7 +104,7 @@
       <p class="meta" id="pt-msg" aria-live="polite"></p>
     </div>
 
-    <h2>3 · Calendario de los próximos 30 videos</h2>
+    <h2>4 · Calendario de los próximos 30 videos</h2>
     <div class="tarjeta" id="pt-cal"></div>
 
     <details class="tarjeta">
