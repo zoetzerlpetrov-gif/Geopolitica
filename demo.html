@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Inteligencia estratégica y operativa · Demostración</title>
+  <meta name="description" content="Demostración privada: cómo una plataforma propia de inteligencia de fuentes abiertas apoya decisiones de riesgo, operaciones y cumplimiento.">
+  <link rel="stylesheet" href="vendor/fonts/fuentes.css">
+  <style>
+    :root { --bg: #0a0f17; --panel: #101826; --panel2: #172234; --texto: #e3e7ee; --texto2: #9aa7bd; --linea: #243248; --acento: #c9a227; --rojo: #c62828; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--texto); font: 16px/1.6 "IBM Plex Sans", system-ui, sans-serif; }
+    h1, h2, h3, .kicker { font-family: "Barlow Condensed", "IBM Plex Sans", sans-serif; letter-spacing: .06em; }
+    header { padding: 56px 20px 36px; border-bottom: 1px solid var(--linea); background: linear-gradient(180deg, #0d1522, var(--bg)); }
+    .ancho { max-width: 1100px; margin: 0 auto; }
+    .kicker { color: var(--acento); font-size: 14px; text-transform: uppercase; font-weight: 700; }
+    h1 { font-size: clamp(30px, 5vw, 48px); line-height: 1.1; margin: 8px 0 14px; text-transform: uppercase; }
+    header p { color: var(--texto2); max-width: 780px; font-size: 18px; }
+    section { padding: 44px 20px; border-bottom: 1px solid var(--linea); }
+    h2 { font-size: 28px; text-transform: uppercase; margin: 0 0 6px; }
+    h2 + p { color: var(--texto2); margin-top: 0; }
+    .rejilla { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-top: 18px; }
+    .caja { background: var(--panel); border: 1px solid var(--linea); border-left: 3px solid var(--acento); padding: 14px 16px; border-radius: 3px; }
+    .caja h3 { margin: 0 0 4px; font-size: 20px; text-transform: uppercase; }
+    .caja p { margin: 0; color: var(--texto2); font-size: 15px; }
+    .modulo { display: grid; grid-template-columns: 1.4fr 1fr; gap: 22px; align-items: center; margin: 28px 0; }
+    .modulo:nth-child(even) { grid-template-columns: 1fr 1.4fr; } .modulo:nth-child(even) figure { order: 2; }
+    @media (max-width: 820px) { .modulo, .modulo:nth-child(even) { grid-template-columns: 1fr; } .modulo:nth-child(even) figure { order: 0; } }
+    figure { margin: 0; border: 1px solid var(--linea); border-radius: 3px; overflow: hidden; background: var(--panel); }
+    figure img { display: block; width: 100%; height: auto; }
+    figcaption { font-size: 12px; color: var(--texto2); padding: 6px 10px; border-top: 1px solid var(--linea); }
+    .modulo h3 { font-size: 24px; text-transform: uppercase; margin: 0 0 6px; }
+    .modulo ul { padding-left: 18px; color: var(--texto2); } .modulo li { margin: 4px 0; }
+    ol.pasos { counter-reset: p; list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+    ol.pasos li { counter-increment: p; background: var(--panel); border: 1px solid var(--linea); padding: 14px; border-radius: 3px; }
+    ol.pasos li::before { content: "0" counter(p); display: block; font-family: "Barlow Condensed", sans-serif; font-size: 26px; color: var(--acento); font-weight: 700; }
+    table { width: 100%; border-collapse: collapse; font-size: 15px; } th, td { border-bottom: 1px solid var(--linea); padding: 8px; text-align: left; vertical-align: top; } th { color: var(--acento); font-weight: 600; }
+    .nota { font-size: 13px; color: var(--texto2); }
+    footer { padding: 30px 20px 60px; color: var(--texto2); font-size: 14px; }
+    a { color: var(--acento); }
+    .sello { display: inline-block; border: 1px solid var(--rojo); color: #ff8a80; font-size: 12px; padding: 2px 8px; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <header><div class="ancho">
+    <span class="sello">Uso restringido · demostración</span>
+    <p class="kicker">Inteligencia estratégica y operativa</p>
+    <h1>Decisiones de riesgo con información verificable</h1>
+    <p>Una plataforma propia de inteligencia de fuentes abiertas que reúne en un mapa y en tableros lo que pasa alrededor de sus instalaciones, rutas, proveedores y mercados, con la fuente de cada dato y alertas cuando algo cambia.</p>
+  </div></header>
+
+  <section><div class="ancho">
+    <h2>Qué problema resuelve</h2>
+    <p>Tres preguntas que llegan a cualquier comité de dirección.</p>
+    <div class="rejilla">
+      <div class="caja"><h3>¿Qué está pasando cerca de nosotros?</h3><p>Seguridad, bloqueos, clima extremo, ciberataques y alertas oficiales alrededor de sedes, plantas y rutas, actualizado varias veces por hora.</p></div>
+      <div class="caja"><h3>¿Las cifras oficiales cuadran?</h3><p>Contraste entre instituciones (ONU, banco central, reguladores, estadística oficial) para detectar huecos, cambios de categoría o destinos no reportados.</p></div>
+      <div class="caja"><h3>¿Con quién estamos tratando?</h3><p>Cambios de razón social, filiales, listas oficiales y actos publicados en el diario oficial de las empresas y entes con los que opera.</p></div>
+    </div>
+  </div></section>
+
+  <section><div class="ancho">
+    <h2>Módulos</h2>
+    <p>Capturas con datos públicos de ejemplo. En una sesión privada se muestran en vivo y con el caso de su organización.</p>
+    <div class="modulo"><figure><img src="assets/demo/mapa.jpg" alt="Mapa de situación con eventos por país" loading="lazy"><figcaption>Mapa de situación: eventos clasificados por severidad, capas de infraestructura y riesgo.</figcaption></figure>
+      <div><h3>Mapa de situación</h3><ul><li>Eventos de seguridad, desastres, salud, ciberseguridad y política, con severidad y fuente.</li><li>Aviones, buques, trenes y satélites; clima, calidad del aire y avisos oficiales.</li><li>Seguimiento de lugares con alertas cuando aparece algo cerca.</li></ul></div></div>
+    <div class="modulo"><figure><img src="assets/demo/contraste.jpg" alt="Contraste de fuentes: reportes de una empresa estatal a un regulador" loading="lazy"><figcaption>Contraste de fuentes: lo que una empresa reporta a un regulador extranjero frente a la estadística oficial.</figcaption></figure>
+      <div><h3>Contraste de fuentes</h3><ul><li>Comercio exterior: lo reportado a la ONU frente al banco central.</li><li>Seguridad: categorías que bajan mientras sus vecinas suben.</li><li>Cada cifra enlaza al documento original para comprobarla.</li></ul></div></div>
+    <div class="modulo"><figure><img src="assets/demo/entidades.jpg" alt="Monitor de entidades con cambios de razón social" loading="lazy"><figcaption>Monitor de entidades: cambios de razón social y filiales con su fuente oficial.</figcaption></figure>
+      <div><h3>Monitor de entidades</h3><ul><li>Cambios de nombre, fusiones, liquidaciones y filiales nuevas o retiradas.</li><li>Fuentes: diario oficial, reportes a reguladores, registro global de identificadores de entidades (LEI) y listas fiscales.</li><li>Las coincidencias se marcan para revisión, nunca como acusación.</li></ul></div></div>
+    <div class="modulo"><figure><img src="assets/demo/corporativo.jpg" alt="Inteligencia corporativa: instalaciones y matriz de riesgo" loading="lazy"><figcaption>Inteligencia corporativa: registro de instalaciones y matriz de riesgo 5×5.</figcaption></figure>
+      <div><h3>Exposición de sus instalaciones</h3><ul><li>Cruza sedes, plantas, almacenes y proveedores con los eventos cercanos.</li><li>Matriz de riesgo (ISO 31000) y exposición por país.</li><li>Los datos de su organización se quedan en su navegador o en un espacio cifrado.</li></ul></div></div>
+    <div class="modulo"><figure><img src="assets/demo/ops.jpg" alt="Metodología de consultoría de riesgos por fases" loading="lazy"><figcaption>Metodología por fases: diagnóstico de madurez, gobernanza, plantillas y ritmo de seguimiento.</figcaption></figure>
+      <div><h3>Metodología de trabajo</h3><ul><li>Diagnóstico de madurez y mapa maestro de riesgos.</li><li>Gobernanza, ritmo de seguimiento (Battle Rhythm) y reportes de situación de una página.</li><li>Plantillas por fase para proyectos de distintos sectores.</li></ul></div></div>
+    <div class="modulo"><figure><img src="assets/demo/herramientas.jpg" alt="Caja de herramientas del analista" loading="lazy"><figcaption>Caja del analista: auditoría de archivos, ciberseguridad y métodos de análisis.</figcaption></figure>
+      <div><h3>Caja del analista</h3><ul><li>Hipótesis en competencia (ACH), estimativos (ICD 203), PMESII-PT, ASCOPE y pre-mortem.</li><li>Revisión de enlaces, correos y archivos sospechosos sin enviarlos a terceros.</li><li>Escenarios con probabilidades históricas publicadas.</li></ul></div></div>
+  </div></section>
+
+  <section><div class="ancho">
+    <h2>Aplicaciones por sector</h2>
+    <table>
+      <tr><th>Sector</th><th>Preguntas típicas</th><th>Qué se entrega</th></tr>
+      <tr><td>Manufactura y logística</td><td>¿Qué rutas y plantas están expuestas a bloqueos, robo o clima esta semana?</td><td>Mapa de exposición, alertas y rutas alternas</td></tr>
+      <tr><td>Energía e infraestructura</td><td>¿Qué cambia en el entorno regulatorio y de seguridad de nuestros activos?</td><td>Monitor normativo, contraste de fuentes y escenarios</td></tr>
+      <tr><td>Finanzas y seguros</td><td>¿Qué contrapartes cambiaron de nombre, de dueños o aparecen en listas?</td><td>Monitor de entidades y debida diligencia documentada</td></tr>
+      <tr><td>Dirección y consejo</td><td>¿Qué riesgos de baja probabilidad y alto impacto deberíamos vigilar?</td><td>Tablero de riesgos con probabilidades base y señales</td></tr>
+      <tr><td>Viajes y personal en el extranjero</td><td>¿Dónde está la gente y qué haríamos si cierran un aeropuerto?</td><td>Avisos de varios gobiernos, protocolos y plan de comunicaciones</td></tr>
+    </table>
+  </div></section>
+
+  <section><div class="ancho">
+    <h2>Cómo se trabaja</h2>
+    <ol class="pasos">
+      <li><b>Diagnóstico (30 min)</b><br>Qué decisiones necesita apoyar y con qué frecuencia.</li>
+      <li><b>Mapa de exposición</b><br>Instalaciones, rutas, proveedores y mercados prioritarios.</li>
+      <li><b>Tablero y alertas</b><br>Umbrales acordados y avisos cuando se cruzan.</li>
+      <li><b>Informe periódico</b><br>Situación, tendencias y recomendaciones con su fuente.</li>
+      <li><b>Revisión</b><br>Ajuste de indicadores y escenarios cada trimestre.</li>
+    </ol>
+  </div></section>
+
+  <section><div class="ancho">
+    <h2>Fuentes, ética y cumplimiento</h2>
+    <div class="rejilla">
+      <div class="caja"><h3>Fuentes abiertas y oficiales</h3><p>Estadística oficial, reguladores, diarios oficiales, organismos internacionales y medios. Cada dato conserva su enlace y fecha.</p></div>
+      <div class="caja"><h3>Sin vigilancia de personas</h3><p>No se rastrea a personas físicas ni se guardan datos personales; las coincidencias de nombre se verifican antes de cualquier conclusión.</p></div>
+      <div class="caja"><h3>Datos del cliente protegidos</h3><p>La información de su organización se guarda cifrada o en su propio navegador; se aplica la Ley Federal de Protección de Datos Personales en Posesión de los Particulares.</p></div>
+    </div>
+    <p class="nota">Referencias metodológicas: ISO 31000 (gestión de riesgos), ISO 22301 (continuidad), ISO 31030 (riesgo en viajes) e ICD 203 (estándares analíticos). Son marcos de referencia, no certificaciones.</p>
+  </div></section>
+
+  <footer><div class="ancho">
+    <p>Esta página es una demostración de uso restringido. Para una sesión con el caso de su organización, responda al mensaje por el que recibió este enlace.</p>
+    <p class="nota">Las capturas usan datos públicos o de ejemplo. Los análisis apoyan decisiones; no son asesoría legal, financiera ni de inversión.</p>
+  </div></footer>
+</body>
+</html>
