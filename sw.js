@@ -9,7 +9,7 @@
 //   StaleWhileRevalidate  estilos y TileJSON de OpenFreeMap.
 //   NetworkFirst data/*.json (eventos, run-log): siempre intenta lo más reciente; sin red usa la copia.
 // No intercepta peticiones con encabezado Range (archivos .pmtiles): el navegador las cachea solo.
-const VERSION = "v217"; // subir al cambiar la estructura de index.html/js: borra la copia vieja de la app
+const VERSION = "v218"; // subir al cambiar la estructura de index.html/js: borra la copia vieja de la app
 const C_ESTATICO = `estatico-${VERSION}`;
 const C_APP = `app-${VERSION}`;
 const C_MOSAICOS = `mosaicos-${VERSION}`;
@@ -54,6 +54,12 @@ async function networkFirst(req, nombre, opciones) {
   try {
     // Con opciones se pide por URL: una petición de navegación no se puede copiar con opciones nuevas.
     const res = await (opciones ? fetch(req.url, opciones) : fetch(req));
+    // Cloudflare redirige «/x.html» → «/x» (y las páginas de Admin a «/ops/x»). Una respuesta ya redirigida no se puede
+    // entregar a una navegación (el navegador da ERR_FAILED): se devuelve la redirección para que el navegador la siga.
+    if (res.redirected) {
+      const destino = new URL(res.url);
+      return destino.origin === self.location.origin ? Response.redirect(destino.href, 302) : Response.error();
+    }
     if (res.ok) cache.put(stripQuery(req.url), res.clone());
     return res;
   } catch (e) {

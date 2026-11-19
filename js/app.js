@@ -1368,9 +1368,10 @@ async function iniciarCapas() {
     if (fam) {
       if (!e.target.checked) { gestor.desactivar(fam); return; }
       await gestor.activar(fam);
-      // Al encender (o volver a encender) la familia se respetan los subtipos que dejaste marcados.
-      const subs = [...raiz.querySelectorAll(`[data-fam-sub="${fam}"]`)];
-      if (subs.length && subs.some((x) => !x.checked)) gestor.setSubtipos(fam, subs.filter((x) => x.checked).map((x) => x.value));
+      // Al encender la familia se encienden todos sus subtipos (salvo las de «uno a la vez»); luego se pueden desmarcar.
+      const subs = [...raiz.querySelectorAll(`[data-fam-sub="${fam}"]`)].filter((x) => !x.disabled);
+      if (!(fam in UNO_A_LA_VEZ)) for (const x of subs) x.checked = true;
+      if (subs.length) gestor.setSubtipos(fam, subs.filter((x) => x.checked).map((x) => x.value));
       return;
     }
     const famSub = e.target.dataset.famSub;
@@ -2364,7 +2365,8 @@ async function iniciarMovimiento(catalogo) {
           return;
         }
         await mov.activar(t);
-        // Se respetan los subtipos marcados (activar() usa los iniciales del catálogo).
+        // Al encender la capa se encienden todos sus subtipos; luego se pueden desmarcar uno por uno.
+        for (const x of cont.querySelectorAll(`[data-mov-sub="${t}"]`)) if (!x.disabled) x.checked = true;
         mov.setSubtipos(t, [...cont.querySelectorAll(`[data-mov-sub="${t}"]:checked`)].map((x) => x.value));
       } catch (err) { e.target.checked = false; alert(`No se pudo cargar: ${err.message}`); }
       return;

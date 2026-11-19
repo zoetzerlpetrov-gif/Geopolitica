@@ -79,6 +79,6 @@ test("el informe en claro solo lleva plantilla y avance", () => {
   assert.match(md, /Nivel vigente: amarillo/);
   assert.match(md, /- \[x\] Pasaportes vigentes/);
   assert.deepEqual(datosPersonales(md), []);
-  assert.equal(P.escenarios.length, 16);
+  assert.ok(P.escenarios.length >= 90 && new Set(P.escenarios.map((x) => x.id)).size === P.escenarios.length);
   assert.equal(P.niveles.map((n) => n.id).join(), "verde,amarillo,naranja,rojo");
 });

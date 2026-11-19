@@ -30,6 +30,14 @@ export function iniciarMenu(panel) {
   new MutationObserver((ms) => { for (const m of ms) for (const n of m.addedNodes) if (n.nodeType === 1) { if (n.matches?.("details[id]") && n.id in abiertos) n.open = abiertos[n.id]; restaurar(n); } })
     .observe(panel, { childList: true, subtree: true });
 
+  // 1b) Al desplegar una sección con un clic, sus subsecciones empiezan contraídas (se abren una por una).
+  panel.addEventListener("click", (e) => {
+    const sum = e.target.closest?.("summary");
+    const d = sum?.parentElement;
+    if (!d || d.tagName !== "DETAILS" || d.open || buscando || !panel.contains(d)) return;
+    for (const hijo of d.querySelectorAll("details")) hijo.open = false;
+  });
+
   // 2) Contraer todo (deja abierto solo el grupo de eventos y su lista).
   panel.querySelector("#menu-contraer")?.addEventListener("click", () => {
     for (const d of panel.querySelectorAll("details")) d.open = d.id === "g-eventos" || d.id === "b-ev-lista";
