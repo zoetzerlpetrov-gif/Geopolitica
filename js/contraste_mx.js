@@ -144,6 +144,29 @@ export function htmlPemexCuba(d) {
     <p class="meta">Los periodos de 3, 6 y 9 meses son acumulados del año. Los montos en dólares vienen redondeados en el reporte (p. ej., «US$0.5 billion»). Son cifras de la propia empresa, no una auditoría: hay investigaciones periodísticas (p. ej., Mexicanos contra la Corrupción y la Impunidad, enero de 2026) que estiman un valor mayor; contrástalas con el reporte enlazado. Fuente: ${esc(d.fuente)}.</p>`;
 }
 
+/** Desvíos documentados contra programas sociales: cuántas pensiones o becas de un año equivalen a cada monto. */
+export function equivalencias(mxn, programas) {
+  if (!mxn) return [];
+  return (programas || []).map((p) => ({ id: p.id, nombre: p.nombre, n: Math.floor(mxn / p.monto_anual_mxn) }));
+}
+
+export function htmlDesvios(cfg) {
+  if (!cfg?.casos?.length) return `<p class="meta">Sin casos cargados.</p>`;
+  const est = cfg.estados || {}, prog = cfg.programas || [];
+  const mm = (v) => (v == null ? "sin monto documentado" : `${num(v / 1e6, 1)} millones`);
+  const filas = cfg.casos.flatMap((c) => c.montos.map((m) => {
+    const eq = equivalencias(m.mxn, prog);
+    return `<tr><td><b>${esc(c.nombre)}</b><br><span class="meta">${esc(m.concepto)}</span></td><td>${esc(mm(m.mxn))}</td>
+      <td><span class="chip">${esc(est[m.estado] || m.estado)}</span><br><span class="meta">${esc(m.fecha)}</span></td>
+      <td>${eq.length ? eq.map((e) => `${num(e.n, 0)} <span class="meta">${esc(e.nombre.split(" (")[0])}</span>`).join("<br>") : "—"}</td>
+      <td><a href="${esc(m.url)}" target="_blank" rel="noopener noreferrer">${esc(m.fuente)}</a></td></tr>`;
+  })).join("");
+  return `<p>Montos documentados por autoridades o medios con documentos, frente a cuántas <b>personas durante un año</b> cubrirían los programas sociales con ese dinero.</p>
+    <table class="tabla-ficha cx-tabla"><tr><th>Caso</th><th>Monto (MXN)</th><th>Estado</th><th>Equivale a (personas · 1 año)</th><th>Fuente</th></tr>${filas}</table>
+    <p class="meta">Programas: ${prog.map((p) => `${esc(p.nombre)}: ${esc(p.detalle)} (<a href="${esc(p.url)}" target="_blank" rel="noopener noreferrer">${esc(p.fuente)}</a>)`).join(" · ")}.</p>
+    <p class="meta">Los estados importan: «observado por la ASF» no es un desvío probado; solo «sentenciado» indica una resolución en firme. Una denuncia o un señalamiento en prensa no prueban un delito. Revisado: ${esc(cfg.revisado)}.</p>`;
+}
+
 export async function iniciarContrasteMx({ cont, getJSON }) {
   if (!cont) return;
   let d;
@@ -151,18 +174,21 @@ export async function iniciarContrasteMx({ cont, getJSON }) {
     cont.innerHTML = `<p class="meta">Aún no hay datos (se generan con «Datos en movimiento»).</p>`;
     return;
   }
-  let pc = null;
+  let pc = null, desvios = null;
   try { pc = await getJSON("data/vivos/pemex_cuba.json", { bust: true }); } catch { /* aún no existe */ }
+  try { desvios = await getJSON("config/desvios_casos.json", { bust: true }); } catch { /* sin casos */ }
   const temas = {
     comercio: ["🛢️ Comercio: ONU vs Banxico y destinos sin país", () => htmlComercio(d.comercio)],
     cuba: ["🇨🇺 Petróleo a Cuba según Pemex (reportes a la SEC)", () => htmlPemexCuba(pc)],
     seguridad: ["🚔 Seguridad: ¿baja real o cambio de categoría?", () => htmlSeguridad(d.seguridad)],
+    desvios: ["⚖️ Desvíos documentados vs programas sociales", () => htmlDesvios(desvios)],
   };
   const ultimo = (pc?.periodos || []).slice(-1)[0];
   const extra = {
     comercio: (() => { const m = Object.values(d.comercio?.meses || {}).slice(-1)[0]; return m?.sin_pais_pct != null ? `${num(m.sin_pais_pct)} % sin país` : ""; })(),
     cuba: ultimo ? `${num((ultimo.crudo_kbd || 0) + (ultimo.petroliferos_kbd || 0))} mil b/d` : "sin datos",
     seguridad: (d.seguridad?.senales || []).length ? `${d.seguridad.senales.length} señales` : "",
+    desvios: desvios?.casos ? `${desvios.casos.length} casos` : "",
   };
   cont.innerHTML = Object.entries(temas).map(([k, [t]]) => botonConcepto(k, esc(t), esc(extra[k]))).join("")
     + `<p class="meta">Cada tema abre una ventana con las cifras de cada institución, sus gráficas y las ligas a los documentos originales.</p>`;
