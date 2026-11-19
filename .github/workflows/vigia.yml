@@ -1,0 +1,45 @@
+name: Vigía de seguridad
+
+# Cada 10 minutos: disponibilidad e integridad del sitio, analítica de Cloudflare (si hay token) y GitHub (commits y
+# alertas). Con un ataque en curso activa el modo de protección de Cloudflare (under_attack) y lo regresa tras 60 min en
+# calma. Avisa con un issue «🛡️ Vigía» (etiqueta seguridad) y publica el estado en la rama datos-vigia.
+# Secretos opcionales: CLOUDFLARE_VIGIA_TOKEN (Zone · Analytics · Read y Zone · Zone Settings · Edit) y CLOUDFLARE_ZONE_ID.
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+  security-events: read
+
+concurrency:
+  group: vigia
+  cancel-in-progress: false
+
+jobs:
+  vigilar:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Estado anterior (rama datos-vigia)
+        run: |
+          mkdir -p vigia
+          if git fetch -q --depth 1 origin datos-vigia 2>/dev/null; then git show FETCH_HEAD:vigia/estado.json > vigia/estado.json 2>/dev/null || true; fi
+      - name: Revisar y, si hace falta, proteger
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CLOUDFLARE_VIGIA_TOKEN: ${{ secrets.CLOUDFLARE_VIGIA_TOKEN }}
+          CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+        run: python3 tools/seguridad/vigia.py
+      - name: Publicar el estado en la rama datos-vigia
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd vigia && rm -rf .git && git init -q && git checkout -q -b datos-vigia && mkdir -p vigia && mv estado.json vigia/
+          git config user.name "geopolitica-bot" && git config user.email "actions@users.noreply.github.com"
+          git add -A && git commit -q -m "vigía $(date -u +'%Y-%m-%d %H:%M')"
+          git push -q --force "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:datos-vigia
