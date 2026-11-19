@@ -18,6 +18,9 @@ export const REDES = {
   facebook: { nombre: "Facebook", url: (t) => `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent((t.match(/https?:\/\/\S+/) || [""])[0])}` },
   telegram: { nombre: "Telegram", url: (t) => `https://t.me/share/url?url=${encodeURIComponent((t.match(/https?:\/\/\S+/) || [""])[0])}&text=${encodeURIComponent(t.replace(/https?:\/\/\S+/, "").trim())}` },
   whatsapp: { nombre: "WhatsApp", url: (t) => `https://wa.me/?text=${encodeURIComponent(t)}` },
+  // Instagram y TikTok no aceptan texto por enlace: se copia el texto y se abre la página para subir el contenido.
+  instagram: { nombre: "Instagram", copiar: true, url: () => "https://www.instagram.com/" },
+  tiktok: { nombre: "TikTok", copiar: true, url: () => "https://www.tiktok.com/upload" },
 };
 
 /** Caracteres como los cuenta X (cada enlace vale 23). */
@@ -203,7 +206,10 @@ export async function iniciar(doc = document) {
     const b = e.target.closest("button"); if (!b) return;
     const caja = b.closest(".borrador"), id = caja.dataset.id, texto = caja.querySelector("textarea").value, red = $("mk-red").value;
     if (b.dataset.acc === "copiar") { try { await navigator.clipboard.writeText(texto); b.textContent = "✔️ Copiado"; } catch { caja.querySelector("textarea").select(); } return; }
-    if (b.dataset.acc === "abrir") { window.open(REDES[red].url(texto), "_blank", "noopener"); return; }
+    if (b.dataset.acc === "abrir") {
+      if (REDES[red].copiar) { try { await navigator.clipboard.writeText(texto); } catch { /* */ } $("mk-bor-estado").textContent = `Texto copiado: pégalo como descripción en ${REDES[red].nombre} (la imagen o el video se suben desde la app).`; }
+      window.open(REDES[red].url(texto), "_blank", "noopener"); return;
+    }
     if (b.dataset.acc === "publicado") { est.publicados[id] = { fecha: new Date().toISOString().slice(0, 10), red }; delete est.descartados[id]; }
     if (b.dataset.acc === "descartar") { est.descartados[id] = { fecha: new Date().toISOString().slice(0, 10) }; delete est.publicados[id]; }
     guardar(); pintarBorradores(); pintarTablero();

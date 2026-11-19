@@ -189,11 +189,19 @@
       "limite": 1000
     },
     {
-      "id": "tiktok",
-      "nombre": "TikTok e Instagram Reels",
-      "formato": "Clip vertical de 30 a 60 s",
+      "id": "instagram",
+      "nombre": "Instagram",
+      "formato": "Carrusel de 3 a 6 láminas o Reel vertical de 30 a 60 s con la cifra del día; enlace en la biografía",
       "frecuencia": "3 por semana",
-      "publicacion": "manual",
+      "publicacion": "manual (la app; Instagram no permite publicar desde un enlace web)",
+      "limite": 2200
+    },
+    {
+      "id": "tiktok",
+      "nombre": "TikTok",
+      "formato": "Video vertical de 30 a 60 s: un dato, por qué importa y dónde verlo; enlace en la biografía",
+      "frecuencia": "3 por semana",
+      "publicacion": "manual (la app o tiktok.com/upload)",
       "limite": 2200
     },
     {
