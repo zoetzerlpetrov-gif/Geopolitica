@@ -53,11 +53,14 @@ const SONDA = () => {
 
 function categoria(url) {
   if (url.includes("maplibre-gl")) return "maplibre";
-  if (/openfreemap\.org\/styles\//.test(url)) return "estilo base";
-  if (/openfreemap\.org\/(planet|natural_earth)/.test(url) && !/\.pbf|\.png/.test(url)) return "tilejson";
-  if (/openfreemap\.org\/fonts\//.test(url)) return "fuentes (glyphs)";
-  if (/openfreemap\.org\/sprites\//.test(url)) return "sprites";
-  if (/openfreemap\.org\/.*\.(pbf|png)/.test(url) || /openfreemap\.org\/planet\//.test(url)) return "mosaicos base";
+  // Se compara el host exacto y la ruta (no un texto en cualquier parte de la URL).
+  let u = null; try { u = new URL(url); } catch { /* URL relativa o inválida */ }
+  const ofm = u && (u.hostname === "openfreemap.org" || u.hostname.endsWith(".openfreemap.org")), ruta = u?.pathname || "";
+  if (ofm && ruta.startsWith("/styles/")) return "estilo base";
+  if (ofm && /^\/(planet|natural_earth)/.test(ruta) && !/\.(pbf|png)$/.test(ruta)) return "tilejson";
+  if (ofm && ruta.startsWith("/fonts/")) return "fuentes (glyphs)";
+  if (ofm && ruta.startsWith("/sprites/")) return "sprites";
+  if (ofm && (/\.(pbf|png)$/.test(ruta) || ruta.startsWith("/planet/"))) return "mosaicos base";
   if (url.includes("countries.geojson")) return "countries.geojson";
   if (url.includes("events.json")) return "events.json";
   if (/\/config\/|run-log\.json/.test(url)) return "config + run-log";

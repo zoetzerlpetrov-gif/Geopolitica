@@ -23,7 +23,11 @@ export function leer(id) {
   return { c: [], n: "", ...leerTodo()[id] };
 }
 
+/** Las claves vienen de los datos de eventos: nunca se aceptan nombres que alteran el prototipo de los objetos. */
+const PROHIBIDAS = new Set(["__proto__", "constructor", "prototype"]);
+
 export function actualizar(id, cambios) {
+  if (typeof id !== "string" || PROHIBIDAS.has(id)) return { c: [], n: "" };
   const todo = leerTodo();
   const previo = { c: [], n: "", ...todo[id], ...cambios, t: Date.now() };
   if (!previo.c.length && !previo.n && !previo.r) delete todo[id];

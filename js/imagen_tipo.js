@@ -55,11 +55,11 @@ export function articuloBuque(subtipo, tipoAis) {
 
 // Satélite por nombre (los más conocidos), luego por grupo. Nunca se busca el nombre libre: daría artículos equivocados.
 const SATELITES = [
-  [/^ISS\b|ZARYA/, "International Space Station"], [/^CSS\b|TIANHE/, "Tiangong space station"], [/^HST$|HUBBLE/, "Hubble Space Telescope"],
-  [/STARLINK/, "Starlink"], [/ONEWEB/, "OneWeb"], [/IRIDIUM/, "Iridium satellite constellation"], [/NAVSTAR|^GPS\b/, "GPS Block IIF"],
-  [/GLONASS/, "GLONASS-M"], [/GALILEO|^GSAT0\d/, "Galileo (satellite navigation)"], [/BEIDOU/, "Satellite navigation"],
-  [/^(FLOCK|DOVE)/, "Planet Labs"], [/SKYSAT/, "Planet Labs"], [/^GOES/, "Geostationary Operational Environmental Satellite"], [/METEOSAT|^MSG/, "Meteosat"],
-  [/^METOP/, "MetOp"], [/HIMAWARI/, "Himawari 8"], [/FENGYUN|^FY-/, "Fengyun"], [/^NOAA \d+/, "NOAA-19"], [/^SUOMI NPP|^NPP$/, "Suomi NPP"],
+  [[/^ISS\b/, /ZARYA/], "International Space Station"], [[/^CSS\b/, /TIANHE/], "Tiangong space station"], [[/^HST$/, /HUBBLE/], "Hubble Space Telescope"],
+  [/STARLINK/, "Starlink"], [/ONEWEB/, "OneWeb"], [/IRIDIUM/, "Iridium satellite constellation"], [[/NAVSTAR/, /^GPS\b/], "GPS Block IIF"],
+  [/GLONASS/, "GLONASS-M"], [[/GALILEO/, /^GSAT0\d/], "Galileo (satellite navigation)"], [/BEIDOU/, "Satellite navigation"],
+  [/^(FLOCK|DOVE)/, "Planet Labs"], [/SKYSAT/, "Planet Labs"], [/^GOES/, "Geostationary Operational Environmental Satellite"], [[/METEOSAT/, /^MSG/], "Meteosat"],
+  [/^METOP/, "MetOp"], [/HIMAWARI/, "Himawari 8"], [[/FENGYUN/, /^FY-/], "Fengyun"], [/^NOAA \d+/, "NOAA-19"], [[/^SUOMI NPP/, /^NPP$/], "Suomi NPP"],
   [/LANDSAT/, "Landsat 9"], [/SENTINEL-1/, "Sentinel-1"], [/SENTINEL-2/, "Sentinel-2"], [/SENTINEL-3/, "Sentinel-3"], [/SENTINEL-6/, "Sentinel-6 Michael Freilich"],
   [/^TERRA$/, "Terra (satellite)"], [/^AQUA$/, "Aqua (satellite)"], [/TESS\b/, "Transiting Exoplanet Survey Satellite"], [/SWIFT\b/, "Neil Gehrels Swift Observatory"],
   [/FERMI/, "Fermi Gamma-ray Space Telescope"], [/CHANDRA/, "Chandra X-ray Observatory"], [/ R\/B$|ROCKET BODY/, "Multistage rocket"], [/ DEB$|DEBRIS/, "Space debris"],
@@ -72,7 +72,8 @@ const GRUPO_CELESTRAK = { stations: "estaciones", "iridium-NEXT": "iridium", res
   geo: "geoestacionarios", military: "militares", visual: "visibles" };
 export function articuloSatelite(nombre, subtipo) {
   const n = String(nombre || "").toUpperCase();
-  const r = SATELITES.find(([re]) => re.test(n));
+  // Cada entrada: una expresión o varias (una por variante, cada una con su propia ancla).
+  const r = SATELITES.find(([re]) => [].concat(re).some((x) => x.test(n)));
   return r ? { titulo: r[1], exacto: true } : { titulo: SAT_GRUPO[GRUPO_CELESTRAK[subtipo] || subtipo] || "Satellite", exacto: false };
 }
 

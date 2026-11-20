@@ -2,7 +2,7 @@
 // (Pages también comprime y responde con Cache-Control: max-age=600).
 // Uso: node servidor.mjs <carpeta> <puerto>
 import { createServer } from "node:http";
-import { readFile, stat } from "node:fs/promises";
+import { open } from "node:fs/promises";
 import { extname, join, normalize } from "node:path";
 import { gzipSync } from "node:zlib";
 
@@ -16,9 +16,11 @@ createServer(async (req, res) => {
     let ruta = normalize(decodeURIComponent(req.url.split("?")[0])).replace(/^(\.\.[/\\])+/, "");
     if (ruta.endsWith("/")) ruta += "index.html";
     const archivo = join(raiz, ruta);
-    const info = await stat(archivo);
+    // Un solo descriptor para medir y leer el mismo archivo (sin carrera entre stat y read).
+    const fh = await open(archivo, "r");
+    let info, datos;
+    try { info = await fh.stat(); datos = await fh.readFile(); } finally { await fh.close(); }
     const ext = extname(archivo);
-    const datos = await readFile(archivo);
     const cabeceras = { "Content-Type": TIPOS[ext] || "application/octet-stream", "Cache-Control": "max-age=600", "Accept-Ranges": "bytes" };
     const rango = req.headers.range?.match(/bytes=(\d+)-(\d*)/);
     if (rango) {

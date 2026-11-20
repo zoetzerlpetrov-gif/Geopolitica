@@ -149,7 +149,7 @@ export function analizarMensaje(texto) {
   const grave = senales.some((s) => s.peso >= 4);
   const pideAlgo = senales.some((s) => s.id === "pago" || s.id === "datos");
   // Un enlace que imita una marca (icl0ud.com, bbva-seguridad.xyz) basta para riesgo alto.
-  const dominioFalso = enlaces.some((e) => e.senales.some((x) => /^Imita|no es su dominio oficial|punycode/.test(x)));
+  const dominioFalso = enlaces.some((e) => e.senales.some((x) => (/^Imita/.test(x) || /no es su dominio oficial|punycode/.test(x))));
   const nivel = !String(texto || "").trim() ? "vacio"
     : grave || dominioFalso || puntos >= 5 || (pideAlgo && senales.length + (puntosEnlaces ? 1 : 0) >= 2) ? "alto"
     : senales.some((s) => s.peso >= 2) || puntosEnlaces >= 1.5 ? "medio" : "bajo";

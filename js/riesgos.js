@@ -266,7 +266,7 @@ export function estadoSesnsp(lugar, estados) {
   const l = sinAcento(lugar);
   if (/ciudad de mexico|cdmx/.test(l)) return estados.find((e) => /ciudad de mexico/.test(sinAcento(e))) || null;
   return [...estados].sort((a, b) => b.length - a.length).find((e) => {
-    const n = sinAcento(e).replace(/ de ignacio de la llave| de ocampo| de zaragoza/g, "");
+    const n = sinAcento(e).replace(/ de (?:ignacio de la llave|ocampo|zaragoza)$/, "");  // sufijo oficial al final del nombre
     return n === "mexico" ? /estado de mexico|edomex|\bmexico$/.test(l) && !/ciudad de mexico/.test(l) : l.includes(n);
   }) || null;
 }

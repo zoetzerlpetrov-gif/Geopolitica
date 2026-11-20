@@ -246,6 +246,7 @@ export class Movimiento {
     const archivo = this.archivos?.[tipo] || tipo;
     const d = tipo === "aeronaves" && n > 0 ? avionesSinteticos(Math.min(n, 50000)) : await getJSON(`data/vivos/${archivo}.json`, { bust: true });
     if (this.cargas.get(tipo) !== carga) return;
+    if (tipo === "__proto__" || tipo === "constructor" || tipo === "prototype") return;  // clave segura
     const campos = d.campos;
     this.datos[tipo] = {
       generado: d.generado_utc, campos, filas: tipo === "aeronaves" ? d.a : d.b,

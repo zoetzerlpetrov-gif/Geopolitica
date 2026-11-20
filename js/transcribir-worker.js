@@ -25,7 +25,10 @@ function silencio(x) {
   return Math.sqrt(s / Math.max(1, x.length / 4)) < 0.004;
 }
 
-self.onmessage = async ({ data }) => {
+self.onmessage = async (evento) => {
+  // Solo mensajes de la propia página (un worker dedicado no recibe de otros orígenes, pero se comprueba igual).
+  if (evento.origin && evento.origin !== self.location.origin) return;
+  const { data } = evento;
   const { audio, inicio = 0, idioma = "", modelo } = data;
   try {
     if (!tubo || modeloActual !== modelo) {

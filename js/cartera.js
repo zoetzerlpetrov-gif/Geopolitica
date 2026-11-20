@@ -14,7 +14,7 @@ const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "
 const CFG = "gp_cartera_cfg", REFRESCO_MS = 60000;
 const st = document.createElement("style"); st.textContent = CSS_TABLEROS + CSS_PLAN + CSS_CARTERA; document.head.appendChild(st);
 
-let nube = null, yo = null, cfg = null, registros = [], versiones = {}, actual = null, archivoNuevo = null, ocupado = false;
+let nube = null, yo = null, cfg = null, registros = [], versiones = new Map(), actual = null, archivoNuevo = null, ocupado = false;
 const leerCfg = () => { try { return JSON.parse(localStorage.getItem(CFG)) || null; } catch (e) { return null; } };
 const estado = (t, error = false) => { $("c-estado").textContent = t; $("c-estado").dataset.error = String(error); };
 async function correr(fn) {
@@ -62,7 +62,7 @@ const esAdmin = () => { try { return localStorage.getItem(DUENO) === "1"; } catc
 async function cargarLista() {
   registros = await nube.todos();
   fijarVisor(!esAdmin() && !registros.some((r) => r.owner === yo.id));
-  versiones = Object.fromEntries(registros.map((r) => [r.id, r.version]));
+  versiones = new Map(registros.map((r) => [r.id, r.version]));
   pintarLista();
   estado(`${registros.length} plan(es) visibles con tu acceso · actualizado ${new Date().toLocaleTimeString("es-MX", { hour: "2-digit", minute: "2-digit" })} · se revisa cada minuto`);
 }
@@ -92,7 +92,7 @@ async function abrir(id) {
   const cortes = await nube.cortes(id).catch(() => []);
   const rol = reg.owner === yo.id ? "dueno" : (await nube.miembros(id).catch(() => [])).find((m) => m.correo === String(yo.email).toLowerCase())?.rol || "lector";
   actual = { ...reg, rol };
-  versiones[id] = reg.version;
+  versiones.set(id, reg.version);
   const cambios = cambiosQueTocan(reg.datos, await bitacora);
   const v = vistaEjecutiva(reg.datos, { lineaBase: reg.linea_base, cortes, cambios });
   $("c-titulo").textContent = `${reg.titulo}`;
@@ -118,7 +118,7 @@ async function revisarCambios() {
   if (!nube || !yo || document.hidden || ocupado) return;
   try {
     const vs = await nube.versiones();
-    const cambio = vs.length !== Object.keys(versiones).length || vs.some((x) => versiones[x.id] !== x.version);
+    const cambio = vs.length !== versiones.size || vs.some((x) => versiones.get(x.id) !== x.version);
     if (!cambio) return;
     const abierto = actual?.id;
     await cargarLista();
