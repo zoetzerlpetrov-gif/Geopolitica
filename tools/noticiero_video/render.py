@@ -19,7 +19,7 @@ from zoneinfo import ZoneInfo
 from actualidad import actualizar_cifras, actualizar_clima, sincronizar_economia
 
 sys.path.insert(0, os.path.dirname(__file__))
-from guion import INGLES_A, INGLES_B, candidatos_seccion, con_dof, guion, mercados, notas_dof, consulta_mx, sin_marcas  # noqa: E402
+from guion import INGLES_A, INGLES_B, candidatos_seccion, con_agenda, con_dof, guion, mercados, notas_agenda, notas_dof, consulta_mx, sin_marcas  # noqa: E402
 from redactar import elegir_y_redactar, frases_titulares, redactar_dof  # noqa: E402
 from video_historial import titulares_anteriores
 from fecha_edicion import edicion, validar_edicion
@@ -375,6 +375,8 @@ def main():
     elegidas = elegir_y_redactar(cands, ia)
     # Cambios recientes en el Diario Oficial de la Federación (bitácora normativa del sitio): qué se publicó y qué implica.
     elegidas = con_dof(elegidas, redactar_dof(notas_dof(leer_seguro(a.sitio, "data/normativa/bitacora.json"), fecha, usadas=usadas | {n["url"] for n in elegidas if n.get("url")}), ia))
+    # «Lo que viene»: próximas reformas de la agenda regulatoria (proyectos, iniciativas, dictámenes), después del DOF.
+    elegidas = con_agenda(elegidas, notas_agenda(leer_seguro(a.sitio, "data/normativa/agenda.json"), fecha, usadas=usadas | {n["url"] for n in elegidas if n.get("url")}))
     clima = {"calor": leer_seguro(a.sitio, "data/vivos/calor_frio.geojson"), "ciclones": leer_seguro(a.sitio, "data/vivos/ciclones_mundo.geojson")}
     portafolio = leer_seguro(a.sitio, "data/portafolio/portfolio_data.json") if a.sitio.startswith("http") else None
     cifras = leer_seguro(a.sitio, "data/vivos/indicadores.json")

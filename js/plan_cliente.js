@@ -93,7 +93,7 @@ const ESTILO = `.plan-flotante{position:fixed;left:14px;bottom:14px;z-index:900;
 .plan-cuenta-alta{background:var(--accent,#c9a227);color:#111;border-color:var(--accent,#c9a227)}
 .plan-acceso-flotante{position:fixed;right:14px;bottom:14px;z-index:900}
 @media (max-width:700px){.plan-acceso:not(.plan-acceso-flotante){display:none}.plan-acceso-flotante{bottom:62px;left:14px;right:auto}}
-.plan-sin-acceso>:not(summary){opacity:.45;filter:grayscale(.7);cursor:not-allowed}.plan-sin-acceso>summary{opacity:.75}.plan-sin-acceso>:not(summary) *{cursor:not-allowed!important}.plan-candado{font-size:.9em}
+.plan-sin-acceso>:not(summary){opacity:.45;filter:grayscale(.7);cursor:not-allowed}.plan-sin-acceso>summary{opacity:.75}.plan-sin-acceso>:not(summary) *{cursor:not-allowed!important}.plan-candado{font-size:.9em}.plan-opcion-off{opacity:.45;filter:grayscale(.7);cursor:not-allowed}.plan-opcion-off::after{content:" 🔒";font-size:.85em}.plan-sin-acceso .plan-opcion-off{opacity:1;filter:none}.plan-sin-acceso .plan-opcion-off::after{content:none}
 .plan-motivo{border-left:4px solid var(--accent,#c9a227);padding:4px 10px}.plan-bloqueado{opacity:.75}
 @media print{body.sin-imprimir>*{display:none!important}body.sin-imprimir::before{content:"🔒 Imprimir y guardar como PDF está disponible en el plan Command.";display:block;padding:40px;font:18px system-ui}}`;
 
@@ -145,20 +145,33 @@ export function marcarNoDisponible(planes, plan, conVista, raiz = document) {
     const c = [...el.querySelectorAll(CTRL)].filter((x) => !x.closest("summary") && !x.closest(".aviso-plan") && !x.closest(".plan-ventana"));
     return c.length > 0 && c.every((x) => x.disabled);
   };
-  // Marca estable: lo que el plan no incluye no cambia durante la visita, así que una vez marcado no se desmarca.
+  // Por opción: cada casilla que el plan no incluye se atenúa con 🔒; las permitidas quedan normales. Una sección completa
+  // solo se atenúa si NINGUNA de sus opciones está permitida (p. ej. en Demo, «En movimiento» sigue activa por los satélites).
   const pasar = () => {
-    for (const el of raiz.querySelectorAll("#panel details, .bloqueado-plan")) {
-      if (el.classList.contains("plan-sin-acceso") || !(el.classList.contains("bloqueado-plan") || sinAcceso(el))) continue;
-      el.classList.add("plan-sin-acceso");
+    for (const cb of raiz.querySelectorAll("#panel input[type=checkbox], #panel input[type=radio]")) {
+      if (cb.closest("summary") || cb.closest(".aviso-plan")) continue;
+      (cb.closest("label, .fila") || cb).classList.toggle("plan-opcion-off", cb.disabled);
+    }
+    for (const el of raiz.querySelectorAll("#panel details, #panel .bloqueado-plan")) {
+      const no = sinAcceso(el) || (el.classList.contains("bloqueado-plan") && !el.querySelector(CTRL));
+      el.classList.toggle("plan-sin-acceso", no);
       const sum = el.querySelector(":scope > summary");
-      if (sum && !sum.querySelector(".plan-candado")) sum.insertAdjacentHTML("afterbegin", '<span class="plan-candado" aria-hidden="true">🔒 </span>');
+      const candado = sum?.querySelector(":scope > .plan-candado");
+      if (sum && no && !candado) sum.insertAdjacentHTML("afterbegin", '<span class="plan-candado" aria-hidden="true">🔒 </span>');
+      if (!no && candado) candado.remove();
     }
   };
   // Al cargar y unos segundos después (los catálogos del menú se dibujan en segundo plano).
   pasar();
   for (const ms of [1500, 4000, 9000, 15000]) setTimeout(pasar, ms);
+  // Y cada vez que el menú habilita o deshabilita una opción (los catálogos se dibujan en segundo plano). Solo cambia
+  // clases según el estado real de cada casilla, así que no parpadea.
+  let t = null;
+  const panelMenu = raiz.getElementById?.("panel");
+  if (panelMenu) new MutationObserver(() => { clearTimeout(t); t = setTimeout(pasar, 300); })
+    .observe(panelMenu, { subtree: true, childList: true, attributes: true, attributeFilter: ["disabled"] });
   raiz.addEventListener("click", (e) => {
-    const zona = e.target.closest?.(".plan-sin-acceso");
+    const zona = e.target.closest?.(".plan-opcion-off, .plan-sin-acceso");
     if (!zona || e.target.closest("summary") || e.target.closest(".aviso-plan a")) return;
     const g = zona.closest("[data-grupo]")?.dataset.grupo;
     const req = planes.planes.find((p) => p.id === (planes.acceso_por_plan?.grupos?.[g])) || planes.planes[planes.planes.findIndex((p) => p.id === plan) + 1];

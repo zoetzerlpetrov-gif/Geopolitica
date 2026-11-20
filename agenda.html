@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agenda regulatoria de México</title>
+  <meta name="description" content="Próximas reformas, leyes y normas de México antes de publicarse en el DOF: etapa del proceso, probabilidad estimada, horizonte en meses y sectores que afecta.">
+  <meta name="color-scheme" content="light dark">
+  <script>try { const t = localStorage.getItem("gp_theme"); if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23C8102E' d='M44 44 30 4h40L56 44 96 30v40L56 56l14 40H30l14-40L4 70V30z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/app.css">
+  <style>
+    body { display: block; height: auto; overflow: auto; }
+    .ag { max-width: 1200px; margin: 0 auto; padding: 16px; }
+    .meta { color: var(--text-2); font-size: 13px; }
+    .kpis { display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0 16px; }
+    .kpi { border: 1px solid var(--line); border-radius: var(--radius); padding: 8px 14px; background: var(--surface); min-width: 140px; }
+    .kpi b { display: block; font-size: 24px; }
+    .filtros { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0; }
+    .filtros select, .filtros input { font: inherit; min-height: 34px; padding: 3px 8px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); }
+    .tabla { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); margin-bottom: 18px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th, td { border-bottom: 1px solid var(--line); padding: 8px 6px; text-align: left; vertical-align: top; }
+    th { background: var(--surface-2); }
+    .prob { display: inline-block; width: 70px; height: 8px; border-radius: 4px; background: var(--surface-2); vertical-align: middle; overflow: hidden; }
+    .prob i { display: block; height: 100%; background: #C8102E; }
+    .chip { font-size: 12px; border: 1px solid var(--line); border-radius: 999px; padding: 1px 8px; white-space: nowrap; display: inline-block; margin: 1px 2px; }
+    .estado-pub { color: #2e7d32; font-weight: 700; }
+    .aviso { border-left: 4px solid #b8860b; padding: 8px 12px; background: rgba(184,134,11,.08); border-radius: 4px; }
+    details summary { cursor: pointer; }
+  </style>
+  <script type="module" src="js/apariencia.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="link-btn" href="./">← Regresar al Mapa</a>
+    <h1>🔮 Agenda regulatoria de México</h1>
+  </header>
+  <main class="ag">
+    <p class="meta">Lo que el gobierno y el Congreso preparan <b>antes</b> de que se publique en el Diario Oficial: proyectos de Norma Oficial Mexicana en consulta pública, iniciativas, dictámenes, minutas y leyes aprobadas pendientes de publicarse. Se actualiza dos veces al día y conserva su historial; cuando una ley de la agenda aparece después en el DOF, la señal se marca «publicada».</p>
+    <p class="aviso" id="ag-nota">La probabilidad y el horizonte son una <b>estimación</b> por etapa del proceso (no un pronóstico oficial). Confirma siempre en la fuente original antes de decidir.</p>
+    <div id="ag-kpis" class="kpis" aria-live="polite">Cargando…</div>
+    <div class="filtros">
+      <label>Etapa <select id="ag-etapa"><option value="">Todas</option></select></label>
+      <label>Sector <select id="ag-sector"><option value="">Todos</option></select></label>
+      <label>Ámbito <select id="ag-ambito"><option value="">Todos</option><option value="federal">Federal</option><option value="estatal">Estatal</option></select></label>
+      <label>Estado <select id="ag-estado"><option value="en curso">En curso</option><option value="publicada">Ya publicadas en el DOF</option><option value="">Todas</option></select></label>
+      <label>Probabilidad mínima <select id="ag-prob"><option value="0">Cualquiera</option><option value="0.5">50 % o más</option><option value="0.7">70 % o más</option></select></label>
+      <label>Buscar <input id="ag-q" type="search" placeholder="ley, NOM, tema…"></label>
+    </div>
+    <div class="tabla"><table><thead><tr><th>Detectado</th><th>Qué viene</th><th>Etapa</th><th>Probabilidad (estimación)</th><th>Horizonte</th><th>Sectores y leyes</th><th>Fuentes</th></tr></thead><tbody id="ag-filas"></tbody></table></div>
+    <h2>Por sector (en curso)</h2>
+    <div id="ag-sectores" class="kpis"></div>
+    <details><summary>Fuentes y cómo se calcula</summary>
+      <ul id="ag-fuentes"></ul>
+      <ol>
+        <li>Cada día se revisa el sumario del DOF (proyectos de norma en consulta, programas) y los titulares del monitor de noticias de México (iniciativas, dictámenes, aprobaciones). Solo se guardan título, enlace, medio y fecha.</li>
+        <li>Cada señal recibe una etapa. A cada etapa le corresponde una probabilidad histórica aproximada de llegar al DOF y un horizonte típico en meses (tabla «Etapas»).</li>
+        <li>Si una nota posterior indica una etapa más avanzada (p. ej. de iniciativa a dictamen), la señal sube de etapa; nunca baja.</li>
+        <li>Al publicarse en el DOF una reforma de la misma ley, la señal pasa a «publicada»: así se mide qué tanto acierta la agenda.</li>
+      </ol>
+      <div class="tabla" id="ag-etapas"></div>
+    </details>
+  </main>
+  <script type="module" src="js/agenda.js"></script>
+  <script type="module" src="js/vista_enlaces.js"></script>
+</body>
+</html>

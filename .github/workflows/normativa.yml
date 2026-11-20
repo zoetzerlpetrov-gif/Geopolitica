@@ -34,10 +34,13 @@ jobs:
           if git fetch origin datos-normativa 2>/dev/null; then git archive FETCH_HEAD normativa | tar -x; cp normativa/bitacora.json /tmp/bitacora_previa.json; fi
           if git fetch --depth 1 origin datos-vivos 2>/dev/null; then
             git archive FETCH_HEAD vivos/dof.json vivos/leyes_federales.json | tar -x || true
+            git archive FETCH_HEAD vivos/noticiero.json | tar -x || true
           fi
           ls -la normativa vivos
       - name: Revisar diarios oficiales
         run: python3 tools/normativa/monitor.py normativa vivos
+      - name: Agenda regulatoria (próximas reformas, con historial)
+        run: python3 tools/normativa/agenda.py normativa vivos
       - name: Verificar que la bitácora solo crece
         run: |
           python3 - <<'PY'

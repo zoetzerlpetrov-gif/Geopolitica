@@ -164,6 +164,10 @@ def claves_de_ley(jur, ley):
 def sigla_de(ley):
     """Sigla en mayúsculas (p. ej. «LGSM», «GDPR»): se busca respetando mayúsculas en el texto original."""
     s = (ley.get("sigla") or "").strip()
+    if re.fullmatch(r"NOM-\d{3}(-\d)?", s):
+        # «NOM-019» sola coincide con normas de otras dependencias (PROY-NOM-019-SICT2): se exige la dependencia emisora.
+        m = re.search(rf"{re.escape(s)}-([A-Z0-9]{{2,8}})", ley.get("nombre") or "")
+        return f"{s}-{m.group(1)}" if m else None
     return s if 3 <= len(s) <= 12 and re.fullmatch(r"[A-Z][A-Z0-9\-]+", s) else None
 
 

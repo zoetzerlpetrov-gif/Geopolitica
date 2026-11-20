@@ -265,7 +265,8 @@ CORTO = {"politica_mx": "Política en México", "oficial_mx": "Avisos oficiales 
          "nutricion": "Nutrición", "agenda2030": "Agenda 2030", "clima": "Clima y desastres", "eventos_impacto": "Clima y economía",
          "cultura": "Cultura", "espectaculos": "Espectáculos", "gastronomia_viajes": "Gastronomía y viajes",
          "belleza_moda": "Belleza y moda", "familia": "Familia y parejas", "infantil": "Niñas y niños", "conspiracion": "Teorías de conspiración",
-         "politica_mx_critica": "Política en México", "dof": "Diario Oficial de la Federación"}
+         "politica_mx_critica": "Política en México", "dof": "Diario Oficial de la Federación",
+         "agenda": "Lo que viene: próximas reformas en México"}
 # Lo que la IA debe buscar en la sección cuando el nombre corto no basta.
 TEMA = {
     "ciberseguridad": "Alertas y estafas que afectan a usuarios: llamadas, WhatsApp, SMS, correo, redes sociales, bancos, compras e inversiones. Cuenta solamente lo que diga el titular; no inventes un modus operandi. La orientación preventiva se añade por separado",
@@ -338,6 +339,14 @@ def _parecidas(a, b, pa=frozenset(), pb=frozenset()):
     return comunes >= 3 or (comunes >= 2 and comunes >= 0.5 * min(len(a), len(b))) or len(pa & pb) >= 2
 
 
+# Avisos que cambian algo a la gente en una fecha (suspensión de líneas, precios de alimentos, alertas): en «Avisos oficiales»
+# van antes que las notas más repetidas (p. ej. diez notas de Banxico), aunque las repitan menos medios.
+AVISO_CIUDADANO = re.compile(r"vincula|l[ií]neas? (m[oó]vil|celular|telef)|celular(es)?\b.*(curp|suspend|registr)|registro de (celular|l[ií]nea|telefon)|"
+                             r"\bchip\b|\bsim\b|solo (de )?datos|suspend[a-z]* (las |tu |su )?l[ií]neas|canasta b[aá]sica|precio (de la|del) (tortilla|huevo|leche|gasolina|gas)|"
+                             r"alerta (alimentaria|sanitaria|de seguridad)|retira(n)? del mercado|desabasto|toque de queda|(entra|entrar[aá]n?) en vigor|"
+                             r"a partir del (1|primero|lunes|pr[oó]ximo)|fecha l[ií]mite|[uú]ltimo d[ií]a para|obligatori[oa]", re.I)
+
+
 def candidatos_seccion(noti, ahora_iso=None, horas=36, maximo=6, usadas=frozenset(), titulares_usados=frozenset()):
     """{sección: [notas]} en ORDEN: por sección, las que más medios repiten en las últimas `horas` (desempate: la más
     reciente). Cada nota: titulo, medio, url, fecha, eco (cuántos medios cuentan lo mismo) y sus claves.
@@ -372,7 +381,8 @@ def candidatos_seccion(noti, ahora_iso=None, horas=36, maximo=6, usadas=frozense
         else:
             def es(n, sec=sec):
                 return sec in (n.get("s") or []) and not ("ciberseguridad" in (n.get("s") or []) and perfil_estafa(n["t"]))
-        idx = sorted((i for i, n in enumerate(notas) if es(n)), key=lambda i: (eco[i], notas[i].get("f") or ""), reverse=True)
+        aviso = (lambda i: bool(AVISO_CIUDADANO.search(notas[i]["t"]))) if sec == "oficial_mx" else (lambda i: False)
+        idx = sorted((i for i, n in enumerate(notas) if es(n)), key=lambda i: (aviso(i), eco[i], notas[i].get("f") or ""), reverse=True)
         lista, vistos = [], set()
         for i in idx:
             if notas[i].get("u") in vistos or any(_parecidas(cl[i], x["_c"], pr[i], x["_p"]) for x in lista):
@@ -637,7 +647,7 @@ _HASH_SECCION = {"politica_mx": "#PolíticaMX", "geopolitica": "#Geopolítica", 
                  "bonos": "#CETES", "cripto": "#Criptomonedas", "blockchain": "#Blockchain", "energia": "#Energía",
                  "nearshoring": "#Nearshoring", "tecnologia": "#Tecnología", "salud": "#Salud", "clima": "#Clima",
                  "cultura": "#Cultura", "espectaculos": "#Espectáculos", "inmobiliario": "#BienesRaíces",
-                 "dof": "#DOF", "politica_mx_critica": "#PolíticaMX", "oficial_mx": "#AvisosOficiales"}
+                 "dof": "#DOF", "politica_mx_critica": "#PolíticaMX", "oficial_mx": "#AvisosOficiales", "agenda": "#ReformasMéxico"}
 
 
 # ------------------------------------------------------------------ Diario Oficial de la Federación
@@ -678,6 +688,39 @@ def notas_dof(bitacora, fecha, dias=3, maximo=3, usadas=frozenset()):
         if len(out) >= maximo:
             break
     return out
+
+
+def notas_agenda(agenda, fecha, dias=3, maximo=2, usadas=frozenset()):
+    """«Lo que viene»: hasta `maximo` señales de la agenda regulatoria (data/normativa/agenda.json) en curso, nuevas o que
+    avanzaron de etapa en los últimos `dias`, primero las de mayor probabilidad. El texto dice la etapa y que la probabilidad
+    es una estimación; no se presenta como hecho consumado."""
+    from datetime import date, timedelta
+    try:
+        lim = (date.fromisoformat(fecha) - timedelta(days=dias)).isoformat()
+    except ValueError:
+        return []
+    urls_usadas = {clave_url(u) for u in usadas}
+    sen = [x for x in (agenda or {}).get("senales", []) if x.get("estado") == "en curso" and x.get("titulo")
+           and lim <= str(x.get("actualizado") or x.get("detectado") or "") <= fecha and clave_url(x.get("url")) not in urls_usadas]
+    sen.sort(key=lambda x: (-(x.get("probabilidad") or 0), str(x.get("actualizado") or "")), reverse=False)
+    out = []
+    for x in sen[:maximo]:
+        titulo = x["titulo"].strip()
+        if len(titulo) > 200:
+            titulo = titulo[:200].rsplit(" ", 1)[0] + "…"
+        pct = round((x.get("probabilidad") or 0) * 100)
+        resumen = (f"{x.get('etapa_nombre', 'En proceso')}: {titulo}. Probabilidad estimada de publicarse en el Diario Oficial: "
+                   f"{pct} por ciento, en un plazo aproximado de {x.get('horizonte_meses', '')} meses. Es una estimación por etapa; "
+                   "confirma en la fuente.")
+        out.append({"seccion": "agenda", "seccion_nombre": CORTO["agenda"], "tema": CORTO["agenda"], "titulo": titulo, "resumen": resumen,
+                    "medio": x.get("medio") or "", "url": x.get("url") or "", "fecha": x.get("actualizado") or x.get("detectado") or ""})
+    return out
+
+
+def con_agenda(elegidas, agenda):
+    """Inserta «Lo que viene» después de las notas del DOF (o donde irían)."""
+    pos = max((i + 1 for i, n in enumerate(elegidas) if n.get("seccion") == "dof"), default=None)
+    return con_dof(elegidas, agenda) if pos is None else elegidas[:pos] + list(agenda) + elegidas[pos:]
 
 
 def con_dof(elegidas, dof):

@@ -228,6 +228,7 @@ Secciones|Sections|Rubriques|Bereiche|Sezioni
 🏠 Inmuebles y riesgo|🏠 Real estate and risk|🏠 Immobilier et risque|🏠 Immobilien und Risiko|🏠 Immobili e rischio
 📊 Analítica|📊 Analytics|📊 Analytique|📊 Analytik|📊 Analitica
 ⚖️ Marco normativo|⚖️ Regulatory framework|⚖️ Cadre réglementaire|⚖️ Rechtsrahmen|⚖️ Quadro normativo
+🔮 Agenda regulatoria de México|🔮 Mexico regulatory agenda|🔮 Agenda réglementaire du Mexique|🔮 Regulierungsagenda Mexikos|🔮 Agenda regulatória do México
 🏷️ Taxonomía de eventos|🏷️ Event taxonomy|🏷️ Taxonomie des événements|🏷️ Ereignistaxonomie|🏷️ Tassonomia degli eventi
 🎓 Tutorial|🎓 Tutorial|🎓 Tutoriel|🎓 Anleitung|🎓 Tutorial
 Relieve|Terrain|Relief|Relief|Rilievo
