@@ -700,9 +700,9 @@
   },
   {
    "id": "familia",
-   "titulo": "Familia, matrimonio y parejas: noticias positivas",
+   "titulo": "Familia, matrimonio y parejas",
    "nota": "Incluye historias positivas de familias tradicionales, matrimonios, madres y padres, crianza y apoyo familiar. Las relaciones y hechos mencionados deben constar en la fuente. Se distingue información de opinión.",
-   "palabras": "(?=.*(?:familia|matrimonio|pareja|espos[oa]s?|bodas?\\b|crianza|madres?\\b|padres\\b|family|families|marriage|couples?\\b|husband|wife|parents))(?=.*(?:celebr|aniversario|bodas?\\b|reencuentr|solidari|ayuda|apoyo|bienestar|bondad|reconcilia|crianza|conciliaci[oó]n|voluntar|donaci[oó]n|reconoc|inspira|bondad|fortalec|celebrat|anniversary|wedding|reunit|support|donat|raises?|surpris|love|fosters?|kindness|help|cleaning|limpieza|limpian|passion)).+",
+   "palabras": "(?!.*(?:morena\\b|morenist|panist|priist|partido|diputad|senador|funcionari|gobernador|alcald|corrupc|nepotis|peculado|lujo|luxury))(?=.*(?:familia|matrimonio|pareja|espos[oa]s?|bodas?\\b|crianza|madres?\\b|padres\\b|family|families|marriage|couples?\\b|husband|wife|parents))(?=.*(?:celebr|aniversario|bodas?\\b|reencuentr|solidari|ayuda|apoyo|bienestar|bondad|reconcilia|crianza|conciliaci[oó]n|voluntar|donaci[oó]n|reconoc|inspira|bondad|fortalec|celebrat|anniversary|wedding|reunit|support|donat|raises?|surpris|love|fosters?|kindness|help|cleaning|limpieza|limpian|passion)).+",
    "feeds": [
     {
      "nombre": "Aleteia Español",
@@ -975,7 +975,7 @@
    "id": "politica_mx",
    "titulo": "Política en México: partidos y decisiones (pros y contras)",
    "nota": "Junta medios de líneas editoriales distintas para comparar. Ningún medio es neutral: lee varias versiones de la misma decisión, revisa datos oficiales (DOF, Gaceta Parlamentaria) y separa hechos de opiniones. Incluye periodismo de investigación sobre corrupción y uso de recursos públicos (MCCI) para conocer también lo que se le señala al gobierno.",
-   "palabras": "morena|\\bpan\\b|\\bpri\\b|movimiento ciudadano|\\bpvem\\b|\\bpt\\b|sheinbaum|amlo|l[oó]pez obrador|c[aá]mara de diputados|senado de la rep[uú]blica|congreso de la uni[oó]n|reforma (judicial|electoral|constitucional)|ine\\b|suprema corte|scjn|gobernador|gobernadora|elecci[oó]n|elecciones|plurinominal|corrupci[oó]n|soborn|moches|desv[ií]o de recursos|empresas? fantasma|factureras?|huachicol|nepotismo|conflicto de inter[eé]s|peculado|enriquecimiento il[ií]cito|auditor[ií]a superior|\\bASF\\b|\\bFGR\\b|fiscal[ií]a general de la rep[uú]blica|secretar[ií]a anticorrupci[oó]n|adjudicaci[oó]n directa|sobrecosto|funcionari[oa]s?\\b|servidor(es)? p[uú]blicos?|subsecretar[ií]a|subsecretari[oa]|nombramiento|sin experiencia|nula trayectoria|reci[eé]n egresad|apadrinad|amiguismo|compadrazgo|presidenta? municipal|ayuntamiento|cabildo",
+   "palabras": "morenist|morena|\\bpan\\b|\\bpri\\b|movimiento ciudadano|\\bpvem\\b|\\bpt\\b|sheinbaum|amlo|l[oó]pez obrador|c[aá]mara de diputados|senado de la rep[uú]blica|congreso de la uni[oó]n|reforma (judicial|electoral|constitucional)|ine\\b|suprema corte|scjn|gobernador|gobernadora|elecci[oó]n|elecciones|plurinominal|corrupci[oó]n|soborn|moches|desv[ií]o de recursos|empresas? fantasma|factureras?|huachicol|nepotismo|conflicto de inter[eé]s|peculado|enriquecimiento il[ií]cito|auditor[ií]a superior|\\bASF\\b|\\bFGR\\b|fiscal[ií]a general de la rep[uú]blica|secretar[ií]a anticorrupci[oó]n|adjudicaci[oó]n directa|sobrecosto|funcionari[oa]s?\\b|servidor(es)? p[uú]blicos?|subsecretar[ií]a|subsecretari[oa]|nombramiento|sin experiencia|nula trayectoria|reci[eé]n egresad|apadrinad|amiguismo|compadrazgo|presidenta? municipal|ayuntamiento|cabildo",
    "feeds": [
     {
      "nombre": "La Jornada (política)",
