@@ -38,7 +38,7 @@ test("la ventana «Mejorar plan» muestra planes superiores en USD y escapa el t
   const h = htmlMejorar(planes, "recon", (x) => x, "<b>motivo</b>");
   assert.ok(h.includes("USD 8.99 al mes") && h.includes("USD 12.99 al mes") && h.includes("<h3>Demo</h3>"), "4 columnas, con Demo");
   assert.equal((h.match(/💳 Comprar/g) || []).length, 2, "comprar en los planes superiores al actual (Analyst y Command)");
-  assert.ok(h.includes("https://mpago.la/1hF5tDs") && h.includes("✓ Tu plan actual") && h.includes("Incluido en tu plan"));
+  assert.ok([...h.matchAll(/href="([^"]+)"/g)].some((m) => m[1] === planes.planes[2].compra_url) && h.includes("✓ Tu plan actual") && h.includes("Incluido en tu plan"));
   assert.ok(!h.includes("MXN") && h.includes("&lt;b&gt;motivo") && h.includes("Comparativo por sección"));
   const desdeDemo = htmlMejorar(planes, "demo", (x) => x);
   assert.equal((desdeDemo.match(/💳 Comprar/g) || []).length, 3, "desde Demo: comprar Recon, Analyst y Command");
