@@ -5,6 +5,8 @@ name: Pruebas integrales por rol
 # datos que no cargan, capas vacías, imágenes que no se quitan y elementos de solo administración visibles.
 # El informe queda como artefacto (14 días) y en el resumen de la corrida. Falla (rojo) si hay errores de JavaScript,
 # imágenes pegadas, páginas que no cargan o algo de solo admin visible para un plan de pago.
+# Además corre las pruebas unitarias y manda un resumen al Tablero de pruebas (Admin → Sistema), guardado solo en la
+# base privada del Worker (tools/e2e/enviar_pruebas.py, token aleatorio por corrida).
 on:
   schedule:
     - cron: "37 11 * * *"   # 05:37 en Ciudad de México
@@ -26,9 +28,26 @@ concurrency:
 jobs:
   roles:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 100
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || vars.CLOUDFLARE_ACCOUNT_ID }}
+      WRANGLER_SEND_METRICS: 'false'
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+      - name: Pruebas unitarias (para el tablero)
+        run: |
+          pip install -q -r requirements-dev.txt
+          python3 -m pytest -q > /tmp/pytest.txt 2>&1 || true
+          node --test "tests/js/*.test.mjs" > /tmp/node.txt 2>&1 || true
+          tail -1 /tmp/pytest.txt; grep -E "^# (pass|fail)" /tmp/node.txt || true
       - name: Navegador (Playwright con Chromium)
         run: |
           npm install --prefix /tmp/pw --no-save --no-audit --no-fund playwright@1.48.2
@@ -40,6 +59,7 @@ jobs:
           python3 tools/e2e/servidor_local.py 8000 &
           for i in $(seq 1 30); do curl -sf -o /dev/null http://127.0.0.1:8000/ && break; sleep 1; done
       - name: Recorrer el sitio por rol
+        id: roles
         env:
           BASE: http://127.0.0.1:8000
           PLAYWRIGHT_MODULE: /tmp/pw/node_modules/playwright
@@ -47,6 +67,25 @@ jobs:
         run: |
           [[ "$ROLES" =~ ^[a-z\ ]*$ ]] || { echo "Roles inválidos"; exit 1; }
           node tools/e2e/roles.mjs $ROLES
+      - name: Token del tablero de pruebas (secreto del Worker de esta corrida)
+        id: token
+        if: always() && github.ref == 'refs/heads/main'
+        shell: bash
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "::warning::Sin CLOUDFLARE_API_TOKEN: el resumen no se guarda en Admin."
+            exit 0
+          fi
+          TOKEN="$(openssl rand -hex 32)"
+          echo "::add-mask::$TOKEN"
+          printf '{"PRUEBAS_INGEST_TOKEN":"%s"}' "$TOKEN" | npx --yes wrangler@4.158.0 secret bulk --name geopolitica --config cloudflare/huella/wrangler.toml > /dev/null
+          echo "token=$TOKEN" >> "$GITHUB_OUTPUT"
+          sleep 20
+      - name: Enviar el resumen al Tablero de pruebas (Admin)
+        if: always() && github.ref == 'refs/heads/main'
+        env:
+          PRUEBAS_INGEST_TOKEN: ${{ steps.token.outputs.token }}
+        run: python3 tools/e2e/enviar_pruebas.py e2e/informe.json /tmp/pytest.txt /tmp/node.txt || echo "::warning::No se pudo enviar al tablero de pruebas"
       - name: Resumen en la corrida
         if: always()
         run: cat e2e/informe.md >> "$GITHUB_STEP_SUMMARY" || true

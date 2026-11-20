@@ -94,6 +94,11 @@
  "solo_admin": [
   {
    "tipo": "pagina",
+   "href": "pruebas.html",
+   "nombre": "Tablero de pruebas"
+  },
+  {
+   "tipo": "pagina",
    "href": "agenda.html",
    "nombre": "Agenda regulatoria de México"
   },

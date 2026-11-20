@@ -8,6 +8,7 @@ import { importarArchivo, resumenPlan, cambiosQueTocan } from "./plan-importar.j
 import { widgetsPlan, leerPlanes, CSS_PLAN } from "./plan-tablero.js";
 import { CSS_TABLEROS } from "./tableros-logica.js";
 import { conNotas } from "./herr-logica.js";
+import { cargarAgenda, reformasDelPlan } from "./agenda-avisos.js";
 
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
@@ -94,10 +95,11 @@ async function abrir(id) {
   actual = { ...reg, rol };
   versiones.set(id, reg.version);
   const cambios = cambiosQueTocan(reg.datos, await bitacora);
-  const v = vistaEjecutiva(reg.datos, { lineaBase: reg.linea_base, cortes, cambios });
+  const reformas = reformasDelPlan(reg.datos, await cargarAgenda());
+  const v = { ...vistaEjecutiva(reg.datos, { lineaBase: reg.linea_base, cortes, cambios }), reformas };
   $("c-titulo").textContent = `${reg.titulo}`;
   $("c-ejecutivo").innerHTML = htmlEjecutivo(v, reg);
-  $("c-tablero").innerHTML = widgetsPlan(reg.datos, resumenPlan(reg.datos), { cambios });
+  $("c-tablero").innerHTML = widgetsPlan(reg.datos, resumenPlan(reg.datos), { cambios, reformas });
   $("c-admin").hidden = rol === "lector";
   $("c-enlace").hidden = rol !== "dueno";
   $("c-dueno").hidden = rol !== "dueno";

@@ -2,6 +2,7 @@
 // (pestaña «Seguimiento de proyecto») y DOMINUS OPS (pestaña «Proyecto» y widgets de Tableros). Los planes se guardan
 // solo en este navegador (localStorage «gp_planes»), compartidos entre ambas páginas.
 import { importarArchivo, resumenPlan, SEMAFORO, cambiosQueTocan } from "./plan-importar.js";
+import { cargarAgenda, reformasDelPlan, htmlReformas } from "./agenda-avisos.js";
 
 const CLAVE = "gp_planes", MAX_PLANES = 10;
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
@@ -48,7 +49,7 @@ const tablaItems = (xs, max = 15) => xs.length ? `<div class="desliza"><table cl
   ${xs.length > max ? `<p class="tb-sub">y ${xs.length - max} más</p>` : ""}` : `<p class="tb-sub">Nada en este grupo.</p>`;
 
 /** Widgets del tablero de un plan (HTML). `cambios`: entradas de la bitácora normativa que tocan sus leyes. */
-export function widgetsPlan(plan, r, { cambios = [], hoy = new Date() } = {}) {
+export function widgetsPlan(plan, r, { cambios = [], reformas = null, hoy = new Date() } = {}) {
   const maxSem = Math.max(1, ...Object.values(r.semaforo));
   const w = (titulo, cuerpo, ancho = 1) => `<section class="tb-w" style="grid-column:span ${ancho}"><h3>${esc(titulo)}</h3>${cuerpo}</section>`;
   const num = (v, sub, c = "") => `<div class="tb-num" style="color:${c}">${v}</div><div class="tb-sub">${sub}</div>`;
@@ -65,6 +66,7 @@ export function widgetsPlan(plan, r, { cambios = [], hoy = new Date() } = {}) {
     w("Riesgos y auditoría", `<p>${plan.riesgos.length} riesgos (${plan.riesgos.filter((x) => (x.prob || 0) * (x.impacto || 0) >= 15).length} altos)</p>
       <p>${plan.auditoria?.total || 0} preguntas de auditoría${plan.auditoria?.cumple != null ? ` · cumple ${plan.auditoria.cumple} · parcial ${plan.auditoria.parcial} · no cumple ${plan.auditoria.no}` : ""}</p>`),
     w("Cambios normativos que tocan el plan (90 días)", cambios.length ? `<ul class="tb-lista">${cambios.slice(0, 8).map((e) => `<li><span class="tb-p" style="background:${e.impacto === "alto" ? "#C62828" : e.impacto === "medio" ? "#EF6C00" : "#90A4AE"}"></span><a href="${esc(e.url)}" target="_blank" rel="noopener noreferrer">${esc(e.titulo.slice(0, 140))}</a><span class="tb-sub"> ${esc(e.fecha)} · ${esc((e.leyes || []).map((l) => l.sigla || l.id).join(", "))}</span></li>`).join("")}</ul>` : `<p class="tb-sub">Sin cambios recientes en la Bitácora normativa para las leyes de este plan.</p>`, 3),
+    ...(reformas ? [w("🔮 Reformas que vienen y pueden tocar el plan (agenda regulatoria)", htmlReformas(reformas, { vacio: "Sin reformas en curso detectadas para las leyes o el sector de este plan." }), 3)] : []),
     w("Cumplido", tablaItems(r.cumplidos.slice().reverse(), 10), 3),
   ].join("");
 }
@@ -81,15 +83,16 @@ export function montarSeguimiento(raiz, { bitacora = Promise.resolve([]), alCamb
     <p class="meta">☁️ Para guardarlo en la nube, tener varios planes por empresa y sector, y compartir un tablero que se actualiza solo con directivos, usa la <a href="cartera.html">Cartera de proyectos</a>.</p>
     <p class="meta" data-pl="estado"></p><div class="tb-grid" data-pl="vista"></div>`;
   const q = (k) => raiz.querySelector(`[data-pl="${k}"]`);
-  let entradas = [];
+  let entradas = [], agenda = [];
   bitacora.then((x) => { entradas = x || []; pintar(); }).catch(() => {});
+  cargarAgenda().then((x) => { agenda = x; pintar(); });
   function pintar() {
     const d = leerPlanes(), p = d.planes.find((x) => x.id === d.activo) || d.planes[0];
     q("sel").innerHTML = d.planes.length ? d.planes.map((x) => `<option value="${esc(x.id)}"${p && x.id === p.id ? " selected" : ""}>${esc(x.titulo)} · importado ${esc(x.importado.slice(0, 10))}</option>`).join("") : `<option value="">Sin planes importados</option>`;
     q("borrar").disabled = !p;
     if (!p) { q("vista").innerHTML = `<p class="meta">Descarga la plantilla en Caja del analista → Normativa por país → «📊 Plantilla de proyecto en Excel», llénala (estados, avance, fechas) e impórtala aquí. Cada vez que la actualices, vuelve a importarla: reemplaza al plan con el mismo nombre.</p>`; return; }
     const r = resumenPlan(p);
-    q("vista").innerHTML = widgetsPlan(p, r, { cambios: cambiosQueTocan(p, entradas) });
+    q("vista").innerHTML = widgetsPlan(p, r, { cambios: cambiosQueTocan(p, entradas), reformas: reformasDelPlan(p, agenda) });
   }
   q("archivo").addEventListener("change", async (e) => {
     const f = e.target.files?.[0];

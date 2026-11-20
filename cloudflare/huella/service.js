@@ -9,6 +9,7 @@ import { servirAdmin as legalAdmin, servirPublico as legalPublico } from "../leg
 import { contar as contarVisita, resumen as resumenVisitas } from "../marketing/service.js";
 import { servirAdmin as aparienciaAdmin, servirPublico as aparienciaPublico } from "../apariencia/service.js";
 import { ingesta as ingestaVuln, consulta as consultaVuln } from "../seguridad/service.js";
+import { ingesta as ingestaPruebas, consulta as consultaPruebas } from "../pruebas/service.js";
 
 const ROOT = "/admin/huella/";
 const HEADERS = {
@@ -310,6 +311,7 @@ export async function serve(request, env, assets, paginasAdmin = {}) {
   }
   // Ingesta del monitor de vulnerabilidades: la hace el flujo diario con su token (no una sesión de navegador).
   if (route === "vulnerabilidades/ingesta" && request.method === "POST") return ingestaVuln(request, env, json);
+  if (route === "pruebas/ingesta" && request.method === "POST") return ingestaPruebas(request, env, json);
   if (!await authorized(request, env)) {
     if (route === "" && request.method === "GET") return new Response(null, {
       status: 303, headers: { ...HEADERS, Location: ROOT + "ingreso" }
@@ -319,6 +321,7 @@ export async function serve(request, env, assets, paginasAdmin = {}) {
   if (route === "salir" && request.method === "POST" && request.headers.get("Origin") === url.origin) return signOut();
   if (route === "marketing/visitas" && request.method === "GET") return resumenVisitas(env, json);
   if (route === "vulnerabilidades" && request.method === "GET") return consultaVuln(env, json);
+  if (route === "pruebas" && request.method === "GET") return consultaPruebas(env, json);
   if (route === "apariencia") return aparienciaAdmin(request, url, env, json, await sessionId(request, env));
   if (route === "legal") return legalAdmin(request, url, env, json, await sessionId(request, env));
   if (route === "sesion" && request.method === "GET") {
