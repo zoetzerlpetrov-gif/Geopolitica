@@ -1,6 +1,6 @@
 {
- "generado_utc": "2026-11-20T16:53:55Z",
- "agregadas_hoy": 13,
+ "generado_utc": "2026-11-20T20:55:36Z",
+ "agregadas_hoy": 0,
  "resumen": {
   "en_curso": 12,
   "federal": 12,
@@ -15,11 +15,56 @@
    "transporte_pasajeros": 1,
    "automotriz": 1,
    "hidrocarburos": 1
-  }
+  },
+  "por_tema": {
+   "energia": 6,
+   "animales": 3,
+   "transporte": 2,
+   "educacion": 1,
+   "medio_ambiente": 1,
+   "otros": 1,
+   "agua": 1
+  },
+  "desmentidas": 0
+ },
+ "gdelt_historico": false,
+ "proximo_periodo": {
+  "inicio": "2026-09-01",
+  "fin": "2026-12-15",
+  "en_curso": true
+ },
+ "temas": {
+  "familia_civil": "Familia, matrimonio, divorcio y herencias",
+  "ninez": "Niñas, niños y adolescentes",
+  "mujeres_igualdad": "Mujeres, igualdad y género",
+  "trabajo": "Trabajo, empleo y salarios",
+  "empresas": "Empresas y comercio",
+  "impuestos_dinero": "Impuestos, dinero y finanzas públicas",
+  "bancos_pagos": "Bancos, pagos y transferencias",
+  "telecom_internet": "Telecomunicaciones, internet y datos",
+  "seguridad_justicia": "Seguridad, justicia y delitos",
+  "salud": "Salud y medicamentos",
+  "educacion": "Educación",
+  "alimentos": "Alimentos y consumo",
+  "agricultura": "Agricultura y campo",
+  "ganaderia_pesca": "Ganadería y pesca",
+  "agua": "Agua",
+  "medio_ambiente": "Medio ambiente y clima",
+  "animales": "Animales",
+  "energia": "Energía, gasolina y luz",
+  "vivienda": "Vivienda y propiedad",
+  "transporte": "Transporte y movilidad",
+  "migracion": "Migración y nacionalidad",
+  "derechos_sociales": "Programas sociales, pensiones y derechos",
+  "politica_electoral": "Política, elecciones y gobierno",
+  "cultura_deporte": "Cultura, deporte y entretenimiento",
+  "turismo": "Turismo",
+  "salud_mental_adicciones": "Adicciones y salud mental"
  },
  "fuentes": {
   "DOF (sumario)": "ok",
   "Monitor de noticias": "ok",
+  "Búsqueda de GDELT (3 meses la primera vez)": "GDELT: HTTPError",
   "Gaceta Parlamentaria": "omitida: su robots.txt responde 403 (se trata como prohibido)",
   "SIL (Segob) y CONAMER": "por incorporar: verificar acceso desde GitHub Actions"
  },
@@ -64,6 +109,16 @@
    "nombre": "Ley o reforma nueva en discusión pública",
    "prob": 0.45,
    "meses": "1–9"
+  },
+  "por_entrar_en_vigor": {
+   "nombre": "Ya aprobada o publicada; entra en vigor más adelante",
+   "prob": 0.97,
+   "meses": "según la fecha"
+  },
+  "desmentida": {
+   "nombre": "Rumor o versión desmentida por un verificador o por la autoridad",
+   "prob": 0.02,
+   "meses": "—"
   }
  },
  "sectores_nombres": {
@@ -118,6 +173,14 @@
      "m": "rancherita.com.mx",
      "f": "2026-11-19"
     }
+   ],
+   "temas": [
+    "animales"
+   ],
+   "confirmacion": "varios medios",
+   "ventana": [
+    "2026-12",
+    "2027-02"
    ]
   },
   {
@@ -143,6 +206,14 @@
      "m": "Infobae México",
      "f": "2026-11-19"
     }
+   ],
+   "temas": [
+    "educacion"
+   ],
+   "confirmacion": "un solo medio (sin confirmar)",
+   "ventana": [
+    "2026-12",
+    "2027-02"
    ]
   },
   {
@@ -159,8 +230,8 @@
    "url": "https://www.eluniversal.com.mx/nacion/publican-nueva-ley-de-inversion-extranjera-instituciones-de-seguridad-tendran-voz-pero-no-voto/",
    "medio": "eluniversal.com.mx",
    "leyes": [
-    "Ley de Inversión Extranjera y Reglamento (RNIE)",
-    "Adquisición de inmuebles por extranjeros en zona restringida: Ley de Inversión Extranjera (fideicomisos y aviso/permiso de la SRE)"
+    "Adquisición de inmuebles por extranjeros en zona restringida: Ley de Inversión Extranjera (fideicomisos y aviso/permiso de la SRE)",
+    "Ley de Inversión Extranjera y Reglamento (RNIE)"
    ],
    "sectores": [
     "inmobiliario_desarrollo"
@@ -174,7 +245,12 @@
      "f": "2026-11-19"
     }
    ],
-   "publicada_el": "2026-11-19"
+   "publicada_el": "2026-11-19",
+   "temas": [
+    "empresas"
+   ],
+   "confirmacion": "un solo medio (sin confirmar)",
+   "ventana": null
   },
   {
    "id": "AG:541a719d8cb1",
@@ -199,6 +275,14 @@
      "m": "El Sol de México",
      "f": "2026-11-19"
     }
+   ],
+   "temas": [
+    "animales"
+   ],
+   "confirmacion": "un solo medio (sin confirmar)",
+   "ventana": [
+    "2026-12",
+    "2027-08"
    ]
   },
   {
@@ -224,6 +308,14 @@
      "m": "Expansión Política",
      "f": "2026-11-19"
     }
+   ],
+   "temas": [
+    "animales"
+   ],
+   "confirmacion": "un solo medio (sin confirmar)",
+   "ventana": [
+    "2026-12",
+    "2027-08"
    ]
   },
   {
@@ -252,6 +344,15 @@
      "m": "DOF",
      "f": "2026-09-23"
     }
+   ],
+   "temas": [
+    "medio_ambiente",
+    "transporte"
+   ],
+   "confirmacion": "oficial (DOF)",
+   "ventana": [
+    "2026-11",
+    "2027-03"
    ]
   },
   {
@@ -280,6 +381,15 @@
      "m": "DOF",
      "f": "2026-09-07"
     }
+   ],
+   "temas": [
+    "energia",
+    "transporte"
+   ],
+   "confirmacion": "oficial (DOF)",
+   "ventana": [
+    "2026-11",
+    "2027-03"
    ]
   },
   {
@@ -305,6 +415,12 @@
      "m": "DOF",
      "f": "2026-08-26"
     }
+   ],
+   "temas": [],
+   "confirmacion": "oficial (DOF)",
+   "ventana": [
+    "2026-11",
+    "2027-08"
    ]
   },
   {
@@ -333,6 +449,15 @@
      "m": "DOF",
      "f": "2026-06-23"
     }
+   ],
+   "temas": [
+    "energia",
+    "agua"
+   ],
+   "confirmacion": "oficial (DOF)",
+   "ventana": [
+    "2026-11",
+    "2026-12"
    ]
   },
   {
@@ -361,6 +486,14 @@
      "m": "DOF",
      "f": "2026-06-23"
     }
+   ],
+   "temas": [
+    "energia"
+   ],
+   "confirmacion": "oficial (DOF)",
+   "ventana": [
+    "2026-11",
+    "2026-12"
    ]
   },
   {
@@ -388,6 +521,14 @@
      "m": "DOF",
      "f": "2026-05-28"
     }
+   ],
+   "temas": [
+    "energia"
+   ],
+   "confirmacion": "oficial (DOF)",
+   "ventana": [
+    "2026-11",
+    "2026-11"
    ]
   },
   {
@@ -415,6 +556,14 @@
      "m": "DOF",
      "f": "2026-05-28"
     }
+   ],
+   "temas": [
+    "energia"
+   ],
+   "confirmacion": "oficial (DOF)",
+   "ventana": [
+    "2026-11",
+    "2026-11"
    ]
   },
   {
@@ -442,6 +591,14 @@
      "m": "DOF",
      "f": "2026-05-28"
     }
+   ],
+   "temas": [
+    "energia"
+   ],
+   "confirmacion": "oficial (DOF)",
+   "ventana": [
+    "2026-11",
+    "2026-11"
    ]
   }
  ]
