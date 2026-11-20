@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vulnerabilidades y ataques</title>
+  <meta name="description" content="Solo administración: revisión diaria de vulnerabilidades del proyecto, historial y qué corrige Claude y qué requiere tu intervención.">
+  <meta name="robots" content="noindex">
+  <meta name="color-scheme" content="light dark">
+  <script>try { const t = localStorage.getItem("gp_theme"); if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23C8102E' d='M44 44 30 4h40L56 44 96 30v40L56 56l14 40H30l14-40L4 70V30z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/app.css">
+  <style>
+    body { display: block; height: auto; overflow: auto; }
+    .ops { max-width: 1300px; margin: 0 auto; padding: 16px; }
+    .meta { color: var(--text-2); font-size: 13px; }
+    .kpis { display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0 16px; }
+    .kpi { border: 1px solid var(--line); border-radius: var(--radius); padding: 8px 14px; background: var(--surface); min-width: 140px; }
+    .kpi b { display: block; font-size: 24px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th, td { border-bottom: 1px solid var(--line); padding: 8px 6px; text-align: left; vertical-align: top; }
+    th { background: var(--surface-2); }
+    .tabla { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); margin-bottom: 18px; }
+    .sev { font-weight: 700; white-space: nowrap; } .sev-critica { color: #fff; background: #8b0000; padding: 1px 6px; border-radius: 4px; } .sev-alta { color: #C8102E; } .sev-media { color: #b8860b; } .sev-baja { color: #2e7d32; } .sev-info { color: var(--text-2); }
+    .chip { font-size: 12px; border: 1px solid var(--line); border-radius: 999px; padding: 1px 8px; white-space: nowrap; }
+    .nueva { background: rgba(200,16,46,.15); }
+    .filtros { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0; }
+    .hist svg { width: 100%; height: auto; }
+    details summary { cursor: pointer; font-weight: 600; }
+    .aviso { border-left: 4px solid #C8102E; padding: 8px 12px; background: rgba(200,16,46,.08); border-radius: 4px; }
+  </style>
+  <script type="module" src="js/apariencia.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="link-btn" href="./">← Regresar al Mapa</a>
+    <h1>🛡️ Vulnerabilidades y ataques (solo admin)</h1>
+  </header>
+  <main class="ops">
+    <p class="meta">Revisión automática cada día (04:47, Ciudad de México): dependencias con fallas conocidas, secretos en el código, inyección de código y de SQL, flujos de GitHub, encabezados de seguridad, archivos expuestos, protección de Admin, certificados, alertas de GitHub y controles que requieren a una persona. Los resultados se guardan solo en la base privada del Worker: no se publican en el sitio ni en GitHub. El vigía de cada 10 minutos (ataques en curso y modo de protección) está en el <a href="estado.html">Centro de control</a>.</p>
+    <p id="vu-error" class="aviso" hidden></p>
+    <div id="vu-kpis" class="kpis" aria-live="polite">Cargando…</div>
+    <h2>Qué hacer hoy</h2>
+    <div class="filtros">
+      <label>Severidad <select id="vu-sev"><option value="">Todas</option><option value="critica">Crítica</option><option value="alta">Alta</option><option value="media">Media</option><option value="baja">Baja</option></select></label>
+      <label>Quién lo corrige <select id="vu-quien"><option value="">Todos</option><option value="claude">Claude (en el código)</option><option value="tu">Tú (en un panel o cuenta)</option><option value="ambos">Ambos</option></select></label>
+      <label>Categoría <select id="vu-cat"><option value="">Todas</option></select></label>
+    </div>
+    <div class="tabla"><table><thead><tr><th>Severidad</th><th>Hallazgo</th><th>Detalle</th><th>Qué hacer</th><th>Quién</th><th>Desde</th></tr></thead><tbody id="vu-filas"></tbody></table></div>
+    <h2>Historial</h2>
+    <div id="vu-hist" class="hist"></div>
+    <details><summary>Revisiones de la última corrida</summary><div id="vu-revisiones"></div></details>
+    <details><summary>Bitácora (corridas anteriores)</summary><div id="vu-bitacora"></div></details>
+    <h2>Cómo pedir una corrección</h2>
+    <ol>
+      <li>En la tabla, filtra «Quién lo corrige: Claude».</li>
+      <li>Copia el título del hallazgo y pídele a Claude: «Corrige este hallazgo del monitor de vulnerabilidades: …».</li>
+      <li>Los de «Tú» traen el paso a paso en «Qué hacer». Al terminarlos, pídele a Claude que los marque como confirmados (config/seguridad_manual.json).</li>
+      <li>Al día siguiente, el hallazgo corregido desaparece y queda en la bitácora como resuelto.</li>
+    </ol>
+  </main>
+  <script type="module" src="js/vulnerabilidades.js"></script>
+  <script type="module" src="js/vista_enlaces.js"></script>
+</body>
+</html>

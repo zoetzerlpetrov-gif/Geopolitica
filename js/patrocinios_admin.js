@@ -182,7 +182,7 @@ export async function iniciar(doc = document) {
     const { borradorContrato } = await import("./contrato_patrocinio.js");
     const html = borradorContrato(leerForm());
     const a = doc.createElement("a"); a.href = URL.createObjectURL(new Blob([html], { type: "application/msword" })); a.download = `contrato-${slug($("pt-marca").value) || "patrocinio"}.doc`; a.click();
-    const w = window.open("", "_blank"); if (w) { w.document.write(html); w.document.close(); }
+    window.open(URL.createObjectURL(new Blob([html], { type: "text/html;charset=utf-8" })), "_blank");
     $("pt-contrato-estado").textContent = "Borrador descargado (.doc, se abre en Word) y abierto en otra pestaña (Ctrl+P → Guardar como PDF).";
   });
   $("pt-contrato-archivo").addEventListener("change", async (e) => {

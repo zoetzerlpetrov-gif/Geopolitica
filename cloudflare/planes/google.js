@@ -27,6 +27,27 @@ let tablaLista = false;
 
 export const googleConfigurado = (env) => Boolean(env.GOOGLE_CLIENT_ID?.trim() && env.GOOGLE_CLIENT_SECRET?.trim() && env.OSINT_SESSION_SECRET?.length >= 32);
 
+// Registro gratuito (plan Demo): solo el correo verificado y la fecha de alta. Sin nombre, foto ni otros datos.
+export const TABLA_REGISTROS = "CREATE TABLE IF NOT EXISTS dominus_registros (email TEXT PRIMARY KEY NOT NULL CHECK (length(email) BETWEEN 3 AND 254 AND email = lower(email) AND email LIKE '%_@_%._%'), creado INTEGER NOT NULL DEFAULT (unixepoch())) STRICT";
+let registrosListos = false;
+
+/** Registra el correo (idempotente). Consulta parametrizada: el correo nunca se concatena al SQL. */
+export async function registrar(db, email) {
+  const e = String(email || "").toLowerCase();
+  if (!db || !CORREO.test(e)) return false;
+  if (!registrosListos) { await db.prepare(TABLA_REGISTROS).run(); registrosListos = true; }
+  await db.prepare("INSERT OR IGNORE INTO dominus_registros (email) VALUES (?)").bind(e).run();
+  return true;
+}
+
+/** ¿El correo tiene registro gratuito? */
+export async function registrado(db, email) {
+  const e = String(email || "").toLowerCase();
+  if (!db || !CORREO.test(e)) return false;
+  if (!registrosListos) { await db.prepare(TABLA_REGISTROS).run(); registrosListos = true; }
+  return Boolean(await db.prepare("SELECT 1 AS si FROM dominus_registros WHERE email = ?").bind(e).first());
+}
+
 /** Plan vigente de un correo (o null). */
 export async function planPorCorreo(db, email, orden) {
   if (!db || !email) return null;
@@ -82,7 +103,8 @@ export async function completarGoogle(request, url, env, planDe) {
   const email = String(perfil?.email || "").toLowerCase();
   if (perfil?.email_verified !== true || !CORREO.test(email)) return negar();
   try {
-    if (!await planDe(email)) return negar();
+    // Sin plan de pago, entrar con Google registra la cuenta en el plan Demo (gratuito).
+    if (!await planDe(email) && !await registrar(env.OSINT_PLANS_DB, email)) return negar();
     const mail = b64url(UTF8.encode(email)), vence = now() + TTL;
     const firma = await crypto.subtle.sign("HMAC", await key(env), UTF8.encode(`google.${mail}.${vence}`));
     return redirect("/cuenta/", [limpiar, cookie(SESSION_G, `${mail}.${vence}.${b64url(firma)}`, TTL)]);

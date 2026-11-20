@@ -725,3 +725,18 @@ test("OSINT_ORIGIN admite varias direcciones (admin.dominusosint.com y workers.d
   assert.equal(configured(new URL("https://geopolitica.zoetzerl-petrov.workers.dev/admin/huella/"), env), true);
   assert.equal(configured(new URL("https://otro.example.com/admin/huella/"), env), false);
 });
+
+test("Admin sirve sus páginas empaquetadas en el Worker (sin depender de /ops/ ni de Cloudflare Access)", async () => {
+  const { paginaEmpaquetada, ENCABEZADOS_ADMIN } = await import("../../cloudflare/huella/admin-map.js");
+  const paginas = { "continuidad-familiar": "<h1>Continuidad</h1>", legal: "<h1>Legal</h1>" };
+  const r = paginaEmpaquetada("/continuidad-familiar.html", paginas);
+  assert.equal(r.status, 200);
+  assert.equal(await r.text(), "<h1>Continuidad</h1>");
+  assert.equal(r.headers.get("cache-control"), "private, no-store");
+  assert.equal(r.headers.get("x-frame-options"), "DENY");
+  assert.ok(paginaEmpaquetada("/legal", paginas));
+  assert.equal(paginaEmpaquetada("/index.html", paginas), null, "el mapa sigue saliendo de Pages");
+  assert.equal(paginaEmpaquetada("/js/app.js", paginas), null);
+  assert.equal(paginaEmpaquetada("/demo.html", { demo: "x" }), null, "solo páginas de administración");
+  assert.equal(ENCABEZADOS_ADMIN["X-Robots-Tag"], "noindex, nofollow");
+});
