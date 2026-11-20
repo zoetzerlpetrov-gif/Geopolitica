@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tablero de pruebas</title>
+  <meta name="description" content="Solo administración: resultados de las pruebas integrales por rol y de las pruebas unitarias, historial y documentación de qué se prueba.">
+  <meta name="robots" content="noindex">
+  <meta name="color-scheme" content="light dark">
+  <script>try { const t = localStorage.getItem("gp_theme"); if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23C8102E' d='M44 44 30 4h40L56 44 96 30v40L56 56l14 40H30l14-40L4 70V30z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/app.css">
+  <style>
+    body { display: block; height: auto; overflow: auto; }
+    .ops { max-width: 1300px; margin: 0 auto; padding: 16px; }
+    .meta { color: var(--text-2); font-size: 13px; }
+    .kpis { display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0 16px; }
+    .kpi { border: 1px solid var(--line); border-radius: var(--radius); padding: 8px 14px; background: var(--surface); min-width: 140px; }
+    .kpi b { display: block; font-size: 24px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th, td { border-bottom: 1px solid var(--line); padding: 7px 6px; text-align: left; vertical-align: top; }
+    th { background: var(--surface-2); }
+    .tabla { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); margin-bottom: 18px; }
+    .ok { color: #2e7d32; font-weight: 700; } .mal { color: #C8102E; font-weight: 700; } .aviso-t { color: #b8860b; }
+    .hist svg { width: 100%; height: auto; }
+    details summary { cursor: pointer; font-weight: 600; }
+    .aviso { border-left: 4px solid #C8102E; padding: 8px 12px; background: rgba(200,16,46,.08); border-radius: 4px; }
+    .doc li { margin: 4px 0; }
+  </style>
+  <script type="module" src="js/apariencia.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="link-btn" href="./">← Regresar al Mapa</a>
+    <h1>🧪 Tablero de pruebas (solo admin)</h1>
+  </header>
+  <main class="ops">
+    <p class="meta">Dos veces al día (05:37 y 17:37, Ciudad de México) un navegador real recorre el sitio con cada rol (Admin, Demo, Recon, Analyst y Command) y se corren las pruebas unitarias. El resumen se guarda solo en la base privada del Worker: no se publica en el sitio ni en GitHub. El detalle completo de cada corrida queda en GitHub Actions («Pruebas integrales por rol») durante 14 días.</p>
+    <p id="pr-error" class="aviso" hidden></p>
+    <div id="pr-kpis" class="kpis" aria-live="polite">Cargando…</div>
+    <h2>Última corrida por rol</h2>
+    <div id="pr-roles" class="tabla"></div>
+    <h2>Comprobaciones de la última corrida</h2>
+    <div id="pr-comprobaciones" class="tabla"></div>
+    <h2>Problemas por rol</h2>
+    <div id="pr-problemas"></div>
+    <h2>Evolución (problemas graves y pruebas unitarias)</h2>
+    <div id="pr-hist" class="hist"></div>
+    <details><summary>Historial de corridas</summary><div id="pr-bitacora" class="tabla"></div></details>
+    <details><summary>Datos que usa cada plan (medido en la prueba)</summary><div id="pr-datos" class="tabla"></div></details>
+    <h2>Qué se prueba (documentación)</h2>
+    <ol class="doc">
+      <li><b>Arranque y errores</b>: cada rol abre el mapa; se anotan errores de JavaScript, de consola y datos propios que no cargan (HTTP ≥ 400).</li>
+      <li><b>Lo de solo administración</b>: en Demo, Recon, Analyst y Command no debe verse nada marcado como solo admin, ni grupos vacíos en el menú.</li>
+      <li><b>Candados por plan</b>: cada grupo del menú lleva candado solo si el plan no lo incluye (config/planes.json); los candados no deben parpadear (se cuentan los cambios en 6 s).</li>
+      <li><b>Capas</b>: se prende y apaga cada casilla de amenazas, riesgos, trenes, anomalías y corporativo; se anota cuántos objetos trae y si queda algo en el mapa al apagarla.</li>
+      <li><b>Imágenes satelitales</b>: cada imagen debe aparecer y desaparecer (también con clics rápidos).</li>
+      <li><b>En movimiento</b>: aviones, barcos, satélites y demás categorías se prenden y apagan.</li>
+      <li><b>Páginas</b>: se abre cada página que el rol puede ver y se anotan errores.</li>
+      <li><b>Tema</b>: el botón 🌓 cambia entre claro y oscuro y regresa.</li>
+      <li><b>Mejorar plan</b>: en Demo, Recon y Analyst el botón abre la ventana con opciones de compra; en Command no aparece.</li>
+      <li><b>Traducción</b>: con el idioma en inglés, el menú «Secciones» cambia a «Sections» (Admin y Demo).</li>
+      <li><b>Pruebas unitarias</b>: cerca de 900 pruebas de Python (fuentes de datos, monitores, reglas) y cerca de 800 de JavaScript (páginas, cálculos, seguridad del Worker).</li>
+    </ol>
+    <p class="meta">Grave = error de JavaScript, página que no carga, imagen que no se quita, algo de solo admin visible, candados que parpadean o una comprobación fallida. Las capas vacías son aviso (pueden depender de la hora o de la fuente).</p>
+    <h2>Cómo pedir una corrección</h2>
+    <ol>
+      <li>En «Problemas por rol», copia la línea del problema.</li>
+      <li>Pídele a Claude: «Corrige este problema del tablero de pruebas: …».</li>
+      <li>En la siguiente corrida, el problema debe desaparecer y el número de graves bajar.</li>
+    </ol>
+  </main>
+  <script type="module" src="js/pruebas.js"></script>
+  <script type="module" src="js/vista_enlaces.js"></script>
+</body>
+</html>

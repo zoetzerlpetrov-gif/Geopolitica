@@ -203,7 +203,8 @@ def senal(fecha, fuente, etapa, titulo, url, medio, cats, idx, ambito="federal")
     tema = clave_tema(titulo, url) if fuente.startswith("Monitor") else (url + "|" + M.norm(titulo)[:80])
     return {"id": _id(ambito, tema), "detectado": fecha, "actualizado": fecha, "fuente": fuente, "ambito": ambito, "etapa": etapa,
             "etapa_nombre": e["nombre"], "probabilidad": e["prob"], "horizonte_meses": e["meses"], "titulo": M.limpiar(titulo)[:300],
-            "url": url, "medio": medio, "leyes": [l["nombre"] for l in leyes[:5]], "sectores": sectores, "temas": temas_de(titulo),
+            "url": url, "medio": medio, "leyes": [l["nombre"] for l in leyes[:5]], "leyes_ids": [f"MEX:{l['id']}" for l in leyes[:5]],
+            "sectores": sectores, "temas": temas_de(titulo),
             "estado": "desmentida" if etapa == "desmentida" else "en curso",
             "notas": [{"t": M.limpiar(titulo)[:300], "u": url, "m": medio, "f": fecha}]}
 
@@ -380,7 +381,7 @@ def construir(salida, vivos, ahora=None, gdelt=None):
                 v.update({k: s[k] for k in ("etapa", "etapa_nombre", "probabilidad", "horizonte_meses", "titulo", "url", "medio")})
                 if s.get("vigor_desde"):
                     v["vigor_desde"] = s["vigor_desde"]
-            for k in ("leyes", "sectores", "temas"):
+            for k in ("leyes", "leyes_ids", "sectores", "temas"):
                 v[k] = sorted(set(v.get(k) or []) | set(s[k]))[:8]
         else:
             por_id[s["id"]] = s

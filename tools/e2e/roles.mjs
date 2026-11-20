@@ -63,16 +63,33 @@ const capasMapa = (page, prefijos) => page.evaluate((p) => {
   return m ? m.getStyle().layers.map((l) => l.id).filter((id) => p.some((x) => id.startsWith(x))) : null;
 }, prefijos);
 
+/** Traducción: con el idioma inglés guardado, el menú «Secciones» debe decir «Sections». */
+async function probarIdioma(navegador, rol) {
+  const ctx = await navegador.newContext({ viewport: { width: 1440, height: 900 } });
+  await ctx.addInitScript(() => { try { localStorage.setItem("gp_idioma", "en"); } catch { /* sin almacenamiento */ } });
+  const p = await ctx.newPage();
+  await p.goto(`${BASE}/index.html${consulta(rol)}`, { waitUntil: "load", timeout: 90000 }).catch(() => {});
+  const ok = await p.waitForFunction(() => /Sections/.test(document.querySelector("#menu-secciones > summary")?.textContent || ""), null, { timeout: 30000 }).then(() => true).catch(() => false);
+  const texto = await p.evaluate(() => document.querySelector("#menu-secciones > summary")?.textContent.trim() || "").catch(() => "");
+  await ctx.close();
+  return { nombre: "Traducción al inglés del menú", ok, detalle: texto };
+}
+
 async function probarRol(navegador, rol) {
-  const r = { rol, errores: [], capas: [], imagenes: [], movimiento: [], paginas: [], solo_admin_visible: [], grupos_vacios: [] };
+  const r = { rol, errores: [], capas: [], imagenes: [], movimiento: [], paginas: [], solo_admin_visible: [], grupos_vacios: [], comprobaciones: [] };
+  const comprobar = (nombre, ok, detalle = "") => r.comprobaciones.push({ nombre, ok: Boolean(ok), detalle: String(detalle).slice(0, 200) });
   const page = await navegador.newPage({ viewport: { width: 1440, height: 900 } });
   vigilar(page, r.errores);
+  // Archivos de data/ que pide este rol (para config/datos_por_plan.json: lo que solo piden planes superiores se protege).
+  const datos = new Set();
+  page.on("request", (q) => { const u = q.url(); if (u.startsWith(BASE + "/data/")) datos.add(u.slice(BASE.length + 1).split(/[?#]/)[0]); });
   const t0 = Date.now();
   await page.goto(`${BASE}/index.html${consulta(rol)}`, { waitUntil: "domcontentloaded", timeout: 90000 });
   // Con ?e2e=1 la app expone el mapa (globalThis.__e2e); un sitio publicado sin ese acceso se prueba igual, sin revisar capas.
   await page.waitForFunction(() => document.querySelector("[data-riesgo]") && (!globalThis.__e2e || globalThis.__e2e.arranque?.mapaListo), null, { timeout: 120000 })
     .catch(() => r.errores.push({ tipo: "arranque", msg: "el mapa o el menú de amenazas no terminó de cargar en 2 min" }));
   r.arranque_s = Math.round((Date.now() - t0) / 1000);
+  r.datos = datos;
 
   if (rol !== "admin") {
     // Candados del menú: durante 6 s ya cargado no deben ponerse y quitarse (parpadeo). Con el tema «ocultar íconos»
@@ -86,6 +103,35 @@ async function probarRol(navegador, rol) {
     r.solo_admin_visible = await page.evaluate(() => [...document.querySelectorAll("[data-solo-admin]")].map((e) => (e.textContent || e.id).trim().slice(0, 80)));
     r.grupos_vacios = await page.evaluate(() => [...document.querySelectorAll("details.subgrupo-d")]
       .filter((d) => !d.querySelector("input[type=checkbox]")).map((d) => d.querySelector("summary")?.textContent.trim().slice(0, 80)));
+  }
+
+  // Comprobaciones de interfaz: tema claro/oscuro, candados por plan y botón «Mejorar plan».
+  const tema = await page.evaluate(async () => {
+    const b = document.getElementById("btn-tema"), antes = document.documentElement.dataset.theme || "";
+    if (!b) return { hay: false };
+    b.click(); await new Promise((ok) => setTimeout(ok, 300));
+    const despues = document.documentElement.dataset.theme || "";
+    b.click(); await new Promise((ok) => setTimeout(ok, 300));
+    return { hay: true, cambia: antes !== despues, vuelve: (document.documentElement.dataset.theme || "") === antes };
+  });
+  comprobar("Tema claro/oscuro cambia y regresa", tema.hay && tema.cambia && tema.vuelve, JSON.stringify(tema));
+  if (rol !== "admin") {
+    const req = planes.acceso_por_plan?.grupos || {};
+    const grupos = await page.evaluate(() => [...document.querySelectorAll("summary.grupo-tit[data-grupo]")]
+      .map((s) => ({ g: s.dataset.grupo, candado: Boolean(s.querySelector(".chip.candado")) && !/en Demo/.test(s.querySelector(".chip.candado")?.textContent || "") })));
+    const mal = grupos.filter(({ g, candado }) => req[g] && candado !== (nivel(req[g]) > orden(rol)));
+    comprobar("Candados del menú según el plan", !mal.length, mal.map((x) => `${x.g}: ${x.candado ? "con candado sin deber" : "sin candado debiendo"}`).join(", "));
+    const ultimo = nivel(rol) === IDS_PLAN.length - 1;
+    const mejorar = await page.evaluate(async () => {
+      const b = document.getElementById("plan-mejorar");
+      if (!b) return { hay: false };
+      b.click(); await new Promise((ok) => setTimeout(ok, 400));
+      const v = document.querySelector(".plan-ventana, dialog[open]");
+      const botones = v ? v.querySelectorAll("a[href], button").length : 0;
+      document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
+      return { hay: true, abre: Boolean(v), botones };
+    });
+    comprobar("Botón «Mejorar plan»", ultimo ? !mejorar.hay : mejorar.hay && mejorar.abre && mejorar.botones > 0, JSON.stringify(mejorar));
   }
 
   // Casillas de capas (amenazas y riesgos, trenes, anomalías, corporativo).
@@ -136,12 +182,14 @@ async function probarRol(navegador, rol) {
     const p = await navegador.newPage();
     const errs = [];
     vigilar(p, errs);
+    p.on("request", (q) => { const u = q.url(); if (u.startsWith(BASE + "/data/")) datos.add(u.slice(BASE.length + 1).split(/[?#]/)[0]); });
     const resp = await p.goto(`${BASE}/${f}${consulta(rol).replace("&e2e=1", "").replace("?e2e=1", "")}`, { waitUntil: "load", timeout: 60000 }).catch((e) => ({ status: () => 0, e }));
     await p.waitForTimeout(2500);
     const bloqueada = await p.evaluate(() => /Sección no disponible|Disponible desde el plan/.test(document.body?.innerText || "")).catch(() => false);
     r.paginas.push({ pagina: f, http: resp.status(), bloqueada, errores: errs.map((e) => `${e.tipo}: ${e.msg}`) });
     await p.close();
   }
+  r.datos = [...datos].sort();
   return r;
 }
 
@@ -152,7 +200,8 @@ function resumen(r) {
   const paginasMal = r.paginas.filter((p) => p.http >= 400 || p.http === 0 || p.errores.some((e) => e.startsWith("js")));
   const js = r.errores.filter((e) => e.tipo === "js" || e.tipo === "arranque");
   const parpadeo = (r.parpadeo_candados || 0) > 4 ? 1 : 0;  // algunos cambios al terminar de dibujar el menú son normales
-  return { vacias, pegadas, sinImagen, paginasMal, js, parpadeo, grave: js.length + pegadas.length + paginasMal.length + r.solo_admin_visible.length + parpadeo };
+  const fallidas = (r.comprobaciones || []).filter((c) => !c.ok);
+  return { vacias, pegadas, sinImagen, paginasMal, js, parpadeo, fallidas, grave: js.length + pegadas.length + paginasMal.length + r.solo_admin_visible.length + parpadeo + fallidas.length };
 }
 
 function markdown(resultados, inicio) {
@@ -172,6 +221,7 @@ function markdown(resultados, inicio) {
     if (s.paginasMal.length) l.push(``, `Páginas con error:`, ...s.paginasMal.map((p) => `- ${p.pagina} (HTTP ${p.http}) ${p.errores.slice(0, 2).join(" · ")}`));
     if (r.solo_admin_visible.length) l.push(``, `Elementos de solo admin visibles:`, ...r.solo_admin_visible.map((x) => `- ${x}`));
     if (s.parpadeo) l.push(``, `Candados del menú que parpadean: ${r.parpadeo_candados} cambios en 6 s`);
+    if ((r.comprobaciones || []).length) l.push(``, `Comprobaciones:`, ...r.comprobaciones.map((c) => `- ${c.ok ? "✅" : "❌"} ${c.nombre}${c.ok ? "" : ` (${c.detalle})`}`));
     if (r.grupos_vacios.length) l.push(``, `Grupos del menú sin casillas:`, ...r.grupos_vacios.map((x) => `- ${x}`));
     const datos = [...new Set(r.errores.filter((e) => e.tipo === "datos" || e.tipo === "red").map((e) => e.msg))];
     if (datos.length) l.push(``, `Datos propios que fallaron:`, ...datos.slice(0, 40).map((m) => `- ${m}`));
@@ -184,7 +234,11 @@ const navegador = await chromium.launch(process.env.CHROMIUM ? { executablePath:
 const resultados = [];
 for (const rol of ROLES) {
   console.log(`== ${rol}`);
-  try { resultados.push(await probarRol(navegador, rol)); }
+  try {
+    const r = await probarRol(navegador, rol);
+    if (rol === "admin" || rol === "demo") r.comprobaciones.push(await probarIdioma(navegador, rol));
+    resultados.push(r);
+  }
   catch (e) { resultados.push({ rol, errores: [{ tipo: "arranque", msg: String(e.message || e) }], capas: [], imagenes: [], movimiento: [], paginas: [], solo_admin_visible: [], grupos_vacios: [], arranque_s: null }); }
   const s = resumen(resultados.at(-1));
   console.log(`   capas ${resultados.at(-1).capas.length} (vacías ${s.vacias.length}) · imágenes pegadas ${s.pegadas.length} · páginas con error ${s.paginasMal.length} · JS ${s.js.length}`);

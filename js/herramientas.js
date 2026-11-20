@@ -2,6 +2,7 @@
 import { esc, safeUrl, activarLimpiar } from "./util.js";
 activarLimpiar();
 import * as H from "./herr-logica.js";
+import { cargarAgenda, reformasDelSector, htmlReformas } from "./agenda-avisos.js";
 
 const $ = (id) => document.getElementById(id);
 const leer = (k, def) => { try { return JSON.parse(localStorage.getItem(k)) ?? def; } catch (e) { return def; } };
@@ -362,6 +363,13 @@ function pintarCambiosAud() {
     <ul>${sel.slice(0, 5).map((e) => `<li>${chipImp(e.impacto)} ${esc(e.fecha)} · ${esc(e.pais)} · <a href="${esc(e.url)}" target="_blank" rel="noopener">${esc(e.titulo.slice(0, 140))}</a></li>`).join("")}</ul>
     <button type="button" id="aud-ver-bit">Ver todos en la Bitácora normativa</button></div>` : "";
   $("aud-ver-bit")?.addEventListener("click", () => irABitacora({ sector: audSel.value }));
+  const sector = audSel.value;
+  cargarAgenda().then((ag) => {
+    if (audSel.value !== sector) return;
+    const r = reformasDelSector(sector, ag);
+    $("aud-cambios").querySelector(".aud-reformas")?.remove();
+    if (r.length) $("aud-cambios").insertAdjacentHTML("beforeend", `<div class="tarjeta aud-reformas"><p><b>🔮 ${r.length} reformas en curso pueden cambiar este sector en los próximos meses</b> (agenda regulatoria). Considéralas al definir controles y evidencia.</p>${htmlReformas(r, { max: 5 })}<p><a href="agenda.html">Ver la agenda regulatoria completa</a></p></div>`);
+  });
 }
 bitacoraP.then(() => { if (audCfg) pintarCambiosAud(); });
 
