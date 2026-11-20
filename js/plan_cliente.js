@@ -81,6 +81,16 @@ export function htmlMejorar(planes, plan, conVista, motivo = "") {
     <p class="plan-pie">${conSesion() ? `<a href="${esc(ADMIN_ORIGEN)}/cuenta/">Mi cuenta</a> · Al pagar usa el mismo correo de tu cuenta.` : `¿Ya pagaste? <a href="${esc(ADMIN_ORIGEN)}/cuenta/">Inicia sesión</a> · ¿Aún no tienes cuenta? <a href="${esc(ADMIN_ORIGEN)}/cuenta/google">Regístrate gratis</a>. Al pagar usa el mismo correo con el que te registraste.`}</p>`;
 }
 
+// Candados y atenuado SOLO con CSS: el navegador los calcula del estado «disabled» de cada casilla, sin agregar ni quitar
+// elementos. Así no parpadean aunque el menú se redibuje mientras carga (antes un <span>🔒 se perdía en cada redibujo).
+const CTRL_CSS = ":is(input[type=checkbox],input[type=radio],select)";
+export const SIN_ACCESO_CSS = `#panel details:not(.plan-parcial):has(${CTRL_CSS}):not(:has(${CTRL_CSS}:not(:disabled))), #panel details.bloqueado-plan:not(:has(${CTRL_CSS}))`;
+const OPCION_OFF_CSS = `#panel :is(label,.fila):has(${CTRL_CSS}:disabled):not(summary *)`;
+const CSS_CANDADOS = `:is(${SIN_ACCESO_CSS})>:not(summary){opacity:.45;filter:grayscale(.7);cursor:not-allowed}:is(${SIN_ACCESO_CSS})>summary{opacity:.75}`
+  + `:is(${SIN_ACCESO_CSS})>summary::before{content:"🔒 ";font-size:.9em}:is(${SIN_ACCESO_CSS})>:not(summary) *{cursor:not-allowed!important}`
+  + `${OPCION_OFF_CSS}{opacity:.45;filter:grayscale(.7);cursor:not-allowed}${OPCION_OFF_CSS}::after{content:" 🔒";font-size:.85em}`
+  + `:is(${SIN_ACCESO_CSS}) :is(label,.fila)::after{content:none!important}:is(${SIN_ACCESO_CSS}) :is(label,.fila){opacity:1;filter:none}`;
+
 const ESTILO = `.plan-flotante{position:fixed;left:14px;bottom:14px;z-index:900;font:600 14px/1 var(--font,system-ui);padding:10px 14px;border-radius:999px;border:1px solid var(--accent,#c9a227);background:var(--surface,#101826);color:var(--text,#e3e7ee);box-shadow:0 4px 14px rgba(0,0,0,.35);cursor:pointer}
 .plan-flotante:hover{background:var(--accent,#c9a227);color:#111}
 .plan-ventana{max-width:min(1040px,96vw);max-height:92vh;overflow:auto;border:1px solid var(--line,#243248);border-radius:10px;background:var(--surface,#101826);color:var(--text,#e3e7ee);padding:18px 20px;font:15px/1.5 var(--font,system-ui)}
@@ -93,7 +103,7 @@ const ESTILO = `.plan-flotante{position:fixed;left:14px;bottom:14px;z-index:900;
 .plan-cuenta-alta{background:var(--accent,#c9a227);color:#111;border-color:var(--accent,#c9a227)}
 .plan-acceso-flotante{position:fixed;right:14px;bottom:14px;z-index:900}
 @media (max-width:700px){.plan-acceso:not(.plan-acceso-flotante){display:none}.plan-acceso-flotante{bottom:62px;left:14px;right:auto}}
-.plan-sin-acceso>:not(summary){opacity:.45;filter:grayscale(.7);cursor:not-allowed}.plan-sin-acceso>summary{opacity:.75}.plan-sin-acceso>:not(summary) *{cursor:not-allowed!important}.plan-candado{font-size:.9em}.plan-opcion-off{opacity:.45;filter:grayscale(.7);cursor:not-allowed}.plan-opcion-off::after{content:" 🔒";font-size:.85em}.plan-sin-acceso .plan-opcion-off{opacity:1;filter:none}.plan-sin-acceso .plan-opcion-off::after{content:none}
+${CSS_CANDADOS}
 .plan-motivo{border-left:4px solid var(--accent,#c9a227);padding:4px 10px}.plan-bloqueado{opacity:.75}
 @media print{body.sin-imprimir>*{display:none!important}body.sin-imprimir::before{content:"🔒 Imprimir y guardar como PDF está disponible en el plan Command.";display:block;padding:40px;font:18px system-ui}}`;
 
@@ -145,33 +155,16 @@ export function marcarNoDisponible(planes, plan, conVista, raiz = document) {
     const c = [...el.querySelectorAll(CTRL)].filter((x) => !x.closest("summary") && !x.closest(".aviso-plan") && !x.closest(".plan-ventana"));
     return c.length > 0 && c.every((x) => x.disabled);
   };
-  // Por opción: cada casilla que el plan no incluye se atenúa con 🔒; las permitidas quedan normales. Una sección completa
-  // solo se atenúa si NINGUNA de sus opciones está permitida (p. ej. en Demo, «En movimiento» sigue activa por los satélites).
-  const pasar = () => {
-    for (const cb of raiz.querySelectorAll("#panel input[type=checkbox], #panel input[type=radio]")) {
-      if (cb.closest("summary") || cb.closest(".aviso-plan")) continue;
-      (cb.closest("label, .fila") || cb).classList.toggle("plan-opcion-off", cb.disabled);
-    }
-    for (const el of raiz.querySelectorAll("#panel details, #panel .bloqueado-plan")) {
-      const no = sinAcceso(el) || (el.classList.contains("bloqueado-plan") && !el.querySelector(CTRL));
-      el.classList.toggle("plan-sin-acceso", no);
-      const sum = el.querySelector(":scope > summary");
-      const candado = sum?.querySelector(":scope > .plan-candado");
-      if (sum && no && !candado) sum.insertAdjacentHTML("afterbegin", '<span class="plan-candado" aria-hidden="true">🔒 </span>');
-      if (!no && candado) candado.remove();
-    }
+  // Lo que no incluye el plan se marca solo con CSS (CSS_CANDADOS: sin parpadeo). Aquí solo se atiende el clic: en una
+  // casilla deshabilitada o en una sección sin ninguna opción permitida, se explica qué plan lo incluye.
+  const zonaBloqueada = (t) => {
+    const fila = t.closest?.("label, .fila");
+    if (fila && !fila.closest("summary") && [...fila.querySelectorAll(CTRL)].some((x) => x.disabled)) return fila;
+    for (let d = t.closest?.("details"); d; d = d.parentElement?.closest("details")) if ((sinAcceso(d) && !d.classList.contains("plan-parcial")) || (d.classList.contains("bloqueado-plan") && !d.querySelector(CTRL))) return d;
+    return null;
   };
-  // Al cargar y unos segundos después (los catálogos del menú se dibujan en segundo plano).
-  pasar();
-  for (const ms of [1500, 4000, 9000, 15000]) setTimeout(pasar, ms);
-  // Y cada vez que el menú habilita o deshabilita una opción (los catálogos se dibujan en segundo plano). Solo cambia
-  // clases según el estado real de cada casilla, así que no parpadea.
-  let t = null;
-  const panelMenu = raiz.getElementById?.("panel");
-  if (panelMenu) new MutationObserver(() => { clearTimeout(t); t = setTimeout(pasar, 300); })
-    .observe(panelMenu, { subtree: true, childList: true, attributes: true, attributeFilter: ["disabled"] });
   raiz.addEventListener("click", (e) => {
-    const zona = e.target.closest?.(".plan-opcion-off, .plan-sin-acceso");
+    const zona = zonaBloqueada(e.target);
     if (!zona || e.target.closest("summary") || e.target.closest(".aviso-plan a")) return;
     const g = zona.closest("[data-grupo]")?.dataset.grupo;
     const req = planes.planes.find((p) => p.id === (planes.acceso_por_plan?.grupos?.[g])) || planes.planes[planes.planes.findIndex((p) => p.id === plan) + 1];

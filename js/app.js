@@ -86,6 +86,7 @@ const vistaLista = (async () => {
     // Partes de un grupo de pago que todos los planes pueden usar: satélites públicos y humedad, rocío y CO₂.
     const libre = plan === "demo" ? DEMO_LIBRE[s.dataset.grupo] : null;
     if (!libre) d.classList.add("bloqueado-plan");
+    else d.classList.add("plan-parcial");  // parte del grupo es libre en Demo: el grupo completo nunca lleva candado
     s.insertAdjacentHTML("beforeend", `<span class="chip candado">${libre ? `${esc(libre.chip)} en Demo` : `🔒 ${esc(req.nombre)}`}</span>`);
     // Se puede desplegar y contraer todo (menús, secciones y subtipos) para ver qué incluye, pero no usarlo.
     soloVer(d, libre ? libre.selector : "");

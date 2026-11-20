@@ -92,13 +92,18 @@ async function probarRol(navegador, rol) {
   r.datos = datos;
 
   if (rol !== "admin") {
-    // Candados del menú: durante 6 s ya cargado no deben ponerse y quitarse (parpadeo). Con el tema «ocultar íconos»
-    // apariencia.js quitaba el 🔒 y plan_cliente.js lo volvía a poner sin fin.
+    // Candados del menú: durante 6 s ya cargado no deben ponerse y quitarse (parpadeo).
     r.parpadeo_candados = await page.evaluate(() => new Promise((ok) => {
-      let n = 0;
-      const ob = new MutationObserver((ms) => { for (const m of ms) for (const x of [...m.addedNodes, ...m.removedNodes]) if (x.nodeType === 1 && x.classList.contains("plan-candado")) n++; });
-      ob.observe(document.body, { subtree: true, childList: true });
-      setTimeout(() => { ob.disconnect(); ok(n); }, 6000);
+      // El candado se dibuja con CSS (::before del título): se cuenta cuántas veces un título lo pierde después de tenerlo.
+      const con = new WeakSet(); let n = 0; const t0 = performance.now();
+      const paso = () => {
+        for (const s of document.querySelectorAll("#panel details > summary")) {
+          const tiene = getComputedStyle(s, "::before").content.includes("🔒");
+          if (tiene) con.add(s); else if (con.has(s)) { n++; con.delete(s); }
+        }
+        if (performance.now() - t0 < 6000) setTimeout(paso, 100); else ok(n);
+      };
+      paso();
     }));
     r.solo_admin_visible = await page.evaluate(() => [...document.querySelectorAll("[data-solo-admin]")].map((e) => (e.textContent || e.id).trim().slice(0, 80)));
     r.grupos_vacios = await page.evaluate(() => [...document.querySelectorAll("details.subgrupo-d")]
@@ -107,19 +112,22 @@ async function probarRol(navegador, rol) {
 
   // Comprobaciones de interfaz: tema claro/oscuro, candados por plan y botón «Mejorar plan».
   const tema = await page.evaluate(async () => {
-    const b = document.getElementById("btn-tema"), antes = document.documentElement.dataset.theme || "";
+    // Se compara el color de fondo real (el tema «automático» y el explícito equivalente se ven igual).
+    const b = document.getElementById("btn-tema"), fondo = () => getComputedStyle(document.body).backgroundColor, antes = fondo();
     if (!b) return { hay: false };
     b.click(); await new Promise((ok) => setTimeout(ok, 300));
-    const despues = document.documentElement.dataset.theme || "";
+    const despues = fondo();
     b.click(); await new Promise((ok) => setTimeout(ok, 300));
-    return { hay: true, cambia: antes !== despues, vuelve: (document.documentElement.dataset.theme || "") === antes };
+    return { hay: true, cambia: antes !== despues, vuelve: fondo() === antes };
   });
   comprobar("Tema claro/oscuro cambia y regresa", tema.hay && tema.cambia && tema.vuelve, JSON.stringify(tema));
   if (rol !== "admin") {
     const req = planes.acceso_por_plan?.grupos || {};
     const grupos = await page.evaluate(() => [...document.querySelectorAll("summary.grupo-tit[data-grupo]")]
-      .map((s) => ({ g: s.dataset.grupo, candado: Boolean(s.querySelector(".chip.candado")) && !/en Demo/.test(s.querySelector(".chip.candado")?.textContent || "") })));
-    const mal = grupos.filter(({ g, candado }) => req[g] && candado !== (nivel(req[g]) > orden(rol)));
+      .map((s) => ({ g: s.dataset.grupo, libre: /en Demo/.test(s.querySelector(".chip.candado")?.textContent || ""),
+        candado: Boolean(s.querySelector(".chip.candado")) && !/en Demo/.test(s.querySelector(".chip.candado")?.textContent || "") })));
+    // Un grupo con parte libre en Demo (satélites, humedad) muestra «… en Demo» en lugar del candado: es lo esperado.
+    const mal = grupos.filter(({ g, candado, libre }) => req[g] && !(libre && rol === "demo") && candado !== (nivel(req[g]) > orden(rol)));
     comprobar("Candados del menú según el plan", !mal.length, mal.map((x) => `${x.g}: ${x.candado ? "con candado sin deber" : "sin candado debiendo"}`).join(", "));
     const ultimo = nivel(rol) === IDS_PLAN.length - 1;
     const mejorar = await page.evaluate(async () => {
@@ -199,7 +207,7 @@ function resumen(r) {
   const sinImagen = r.imagenes.filter((i) => i.aparece === false);
   const paginasMal = r.paginas.filter((p) => p.http >= 400 || p.http === 0 || p.errores.some((e) => e.startsWith("js")));
   const js = r.errores.filter((e) => e.tipo === "js" || e.tipo === "arranque");
-  const parpadeo = (r.parpadeo_candados || 0) > 4 ? 1 : 0;  // algunos cambios al terminar de dibujar el menú son normales
+  const parpadeo = (r.parpadeo_candados || 0) > 0 ? 1 : 0;
   const fallidas = (r.comprobaciones || []).filter((c) => !c.ok);
   return { vacias, pegadas, sinImagen, paginasMal, js, parpadeo, fallidas, grave: js.length + pegadas.length + paginasMal.length + r.solo_admin_visible.length + parpadeo + fallidas.length };
 }

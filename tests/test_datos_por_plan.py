@@ -12,7 +12,7 @@ def test_cada_archivo_queda_con_el_plan_mas_bajo_que_lo_pidio():
         {"rol": "recon", "datos": ["data/vivos/sismos.geojson", "data/vivos/trenes.geojson", "data/vivos/rastros/a1.json"]},
         {"rol": "analyst", "datos": ["data/vivos/trenes.geojson", "data/history/mx.json"]},
         {"rol": "command", "datos": ["data/vivos/seguimiento.json"]},
-        {"rol": "admin", "datos": ["data/vivos/marketing_borradores.json", "data/vivos/seguimiento.json", "data/../x"]},
+        {"rol": "admin", "datos": ["data/vivos/marketing_borradores.json", "data/vivos/seguimiento.json", "data/../x", "data/vivos/noticiero.json"]},
     ]}
     archivos, medidos = D.calcular(informe)
     assert archivos == {"data/vivos/trenes.geojson": "recon", "data/vivos/rastros/": "recon",

@@ -17,6 +17,13 @@ SALIDA = os.path.join(RAIZ, "config", "datos_por_plan.json")
 ORDEN = ["demo", "recon", "analyst", "command", "admin"]
 # Datos que siempre son públicos (configuración del mapa, estado del sitio, índices): no se protegen nunca.
 SIEMPRE_PUBLICO = re.compile(r"^data/(events\.json|indice-paises\.json|run-log\.json|base/|estado/|history/)")
+# Archivos que leen desde el sitio público las automatizaciones (video de YouTube, flujos de GitHub) o páginas que se
+# comparten por enlace fuera de los planes (Cartera para directivos, demo para directivos): deben seguir públicos.
+LEIDOS_FUERA = {
+    "data/vivos/noticiero.json", "data/normativa/bitacora.json", "data/normativa/agenda.json", "data/normativa/estado.json",
+    "data/vivos/indicadores.json", "data/economia/indicadores.json", "data/vivos/calor_frio.geojson",
+    "data/vivos/ciclones_mundo.geojson", "data/portafolio/portfolio_data.json", "data/vivos/ara_sadasi.json", "data/vivos/efos_69b.json",
+}
 # Directorios con muchos archivos que cambian de nombre (rastros, cortes de tiempo): se protegen por prefijo.
 PREFIJO = re.compile(r"^(data/vivos/(rastros|rastros-buques|ct|clima|satcat)/)")
 
@@ -33,7 +40,7 @@ def calcular(informe):
         if rol not in ORDEN:
             continue
         for ruta in r.get("datos") or []:
-            if not ruta.startswith("data/") or ".." in ruta or SIEMPRE_PUBLICO.match(ruta):
+            if not ruta.startswith("data/") or ".." in ruta or SIEMPRE_PUBLICO.match(ruta) or ruta in LEIDOS_FUERA:
                 continue
             k = clave(ruta)
             pedidos.setdefault(k, set()).add(rol)
