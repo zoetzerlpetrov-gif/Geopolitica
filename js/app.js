@@ -744,13 +744,11 @@ function eventosSinteticos(n) {
  */
 async function asegurarMapLibre() {
   if (globalThis.maplibregl) return;
-  await new Promise((ok, mal) => {
-    const s = document.createElement("script");
-    s.src = `vendor/maplibre-gl/maplibre-gl.js?reintento=${Date.now()}`;  // otra URL: no la toma de la caché rota
-    s.onload = ok;
-    s.onerror = () => mal(new Error("no se pudo descargar MapLibre (revisa tu conexión y recarga)"));
-    document.head.append(s);
-  });
+  try {
+    // MapLibre 6 es un módulo: otra URL (?reintento) para no tomar una copia rota de la caché.
+    const m = await import(`../vendor/maplibre-gl/maplibre-gl.mjs?reintento=${Date.now()}`);
+    globalThis.maplibregl = { ...m };  // copia modificable (el módulo es de solo lectura)
+  } catch { throw new Error("no se pudo descargar MapLibre (revisa tu conexión y recarga)"); }
   if (!globalThis.maplibregl) throw new Error("MapLibre no se inicializó (recarga con Ctrl+Shift+R)");
 }
 

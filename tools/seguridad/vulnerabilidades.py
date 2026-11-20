@@ -124,7 +124,7 @@ def dependencias_cdn(archivos):
     return [("npm", n, v, r) for (n, v), r in vistos.items()]
 
 
-VENDOR = [("maplibre-gl", "vendor/maplibre-gl/maplibre-gl.js", re.compile(r"maplibre-gl v?(\d+\.\d+\.\d+)|v(\d+\.\d+\.\d+)"))]
+VENDOR = [("maplibre-gl", "vendor/maplibre-gl/maplibre-gl.mjs", re.compile(r"maplibre-gl v?(\d+\.\d+\.\d+)|v(\d+\.\d+\.\d+)"))]
 
 
 def dependencias_vendor(archivos):
@@ -408,6 +408,16 @@ def revisar_tls(dias=dias_certificado):
 
 
 # ---------------------------------------------------------------- 10. GitHub
+def ubicacion(a):
+    """Archivo y línea de una alerta (code scanning) o paquete y manifiesto (Dependabot), para poder corregirla."""
+    loc = ((a.get("most_recent_instance") or {}).get("location") or {})
+    if loc.get("path"):
+        return f"{loc['path']}, línea {loc.get('start_line', '?')}. Ver en GitHub → Security."
+    dep = a.get("dependency") or {}
+    if dep:
+        return f"{(dep.get('package') or {}).get('name', '?')} en {dep.get('manifest_path', '?')}. Ver en GitHub → Security."
+    return "Ver en GitHub → Security."
+
 def revisar_github(repo, token, pedir=http):
     if not (repo and token):
         raise LookupError("sin GITHUB_TOKEN")
@@ -427,7 +437,7 @@ def revisar_github(repo, token, pedir=http):
             if tipo == "sec":
                 sev = "critica"
             hall.append(hallazgo(f"gh-{tipo}:{a.get('number')}", "Alertas de GitHub", sev, f"Alerta de {nombre} n.º {a.get('number')}: {str(regla.get('description') or regla.get('summary') or a.get('secret_type_display_name') or '')[:120]}",
-                                 "Ver en GitHub → Security.", "Claude la corrige en el código; si es un secreto, primero revócalo tú.", "ambos" if tipo == "sec" else "claude"))
+                                 ubicacion(a), "Claude la corrige en el código; si es un secreto, primero revócalo tú.", "ambos" if tipo == "sec" else "claude"))
     estado, _, datos = pedir(f"https://api.github.com/repos/{repo}/rulesets", cabeceras=cab)
     if estado == 200 and not json.loads(datos):
         hall.append(hallazgo("gh-ruleset", "Ransomware y borrado", "alta", "main no tiene regla contra borrado o reescritura",

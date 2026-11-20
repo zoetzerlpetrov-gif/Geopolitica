@@ -7,6 +7,7 @@
 
 export const TABLA = "CREATE TABLE IF NOT EXISTS dominus_vulnerabilidades (id INTEGER PRIMARY KEY AUTOINCREMENT, fecha TEXT NOT NULL CHECK (length(fecha) BETWEEN 10 AND 30), datos TEXT NOT NULL CHECK (length(datos) <= 400000)) STRICT";
 const MAX_CUERPO = 400000, MAX_HALLAZGOS = 400, CONSERVAR = 400;
+export const UMBRAL_OPCION_B = 3;
 const SEVERIDADES = ["critica", "alta", "media", "baja", "info"];
 const QUIEN = ["claude", "tu", "ambos"];
 let lista = false;
@@ -73,6 +74,13 @@ export async function ingesta(request, env, json) {
     h.severidad = "alta";
     h.titulo = `Datos por plan servidos desde el Worker — ya hay ${clientes} cliente(s) de pago`;
   }
+  // Con varios clientes, el cobro debe seguir el tipo de cambio del día (opción B de Mercado Pago): obligatorio.
+  if (clientes >= UMBRAL_OPCION_B && !informe.hallazgos.some((h) => h.id === "manual:mp-opcion-b")) informe.hallazgos.push({
+    id: "manual:mp-opcion-b", categoria: "Cobro", severidad: "alta", quien: "ambos",
+    titulo: `Cambiar el cobro de Mercado Pago a la opción B (tipo de cambio del día) — ya hay ${clientes} clientes de pago`,
+    detalle: "Con montos fijos en pesos, cada cliente paga distinto según el FIX del día en que se suscribió y el precio en USD deja de coincidir.",
+    accion: "Pídele a Claude: «Activar la opción B de Mercado Pago». El Worker creará cada suscripción con el monto en pesos del FIX del día.",
+  });
   await db.prepare("INSERT INTO dominus_vulnerabilidades (fecha, datos) VALUES (?, ?)").bind(informe.fecha, JSON.stringify(informe)).run();
   await db.prepare(`DELETE FROM dominus_vulnerabilidades WHERE id NOT IN (SELECT id FROM dominus_vulnerabilidades ORDER BY id DESC LIMIT ?)`).bind(CONSERVAR).run();
   return json({ ok: true, clientes_pago: clientes });

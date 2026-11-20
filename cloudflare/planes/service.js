@@ -1,6 +1,8 @@
 import config from "../../config/planes.json" with { type: "json" };
 import { begin, configured, sessionId, signOut } from "../huella/auth.js";
-import { completarGoogle, correoSesion, googleConfigurado, iniciarGoogle, planPorCorreo, registrado, salirGoogle } from "./google.js";
+import { CSS as CSS_CUENTA, paginaCuenta } from "./cuenta-ui.js";
+import { avisoMercadoPago } from "./mercadopago.js";
+import { completarGoogle, correoSesion, googleConfigurado, iniciarGoogle, planPorCorreo, registrado, salirGoogle, TABLA_EMAIL } from "./google.js";
 
 const ORDER = ["demo", "recon", "analyst", "command"];
 const groups = config.acceso_por_plan.grupos;
@@ -34,21 +36,19 @@ export async function activePlan(db, id) {
   return ORDER.indexOf(row?.plan) > 0 ? row.plan : null;
 }
 
+// Página de la cuenta: CSS aparte (cuenta.css) y fuentes del propio sitio; sin scripts.
+const CSP_CUENTA = "default-src 'none'; style-src 'self' https://dominusosint.com; font-src https://dominusosint.com; img-src 'self' data:; form-action 'self'; base-uri 'none'; frame-ancestors 'none'";
 function page(plan, failed, google = false) {
-  const mapa = '<p><a href="https://dominusosint.com/?revisar=1">Volver al mapa con tu plan</a></p>';
-  const content = plan
-    ? `<p>${plan === "demo" ? "Cuenta registrada en el plan <strong>DEMO</strong> (gratuito)." : `Plan activo <strong>${plan.toUpperCase()}</strong>.`}</p>${mapa}
-       ${plan === "demo" ? '<p><a href="https://dominusosint.com/planes.html">Ver planes y comprar</a></p>' : ""}
-       <form method="post" action="salir"><button type="submit">Cerrar sesión</button></form>`
-    : `${failed ? '<p role="alert">No se pudo iniciar sesión. Inténtalo de nuevo.</p>' : ""}
-       ${google ? '<p>Entra o regístrate gratis con tu cuenta de Google. Si ya pagaste, usa el mismo correo con el que compraste.</p><p><a href="google">Continuar con Google</a></p><p class="meta">Al continuar aceptas los <a href="https://dominusosint.com/terminos.html">Términos</a> y el <a href="https://dominusosint.com/privacidad.html">Aviso de privacidad</a>. Solo guardamos tu correo y la fecha de alta.</p><p class="meta">¿Tu plan está ligado a GitHub? <a href="ingreso">Entrar con GitHub</a></p>' : '<p>Entra con la cuenta de GitHub a la que se asignó un plan.</p><a href="ingreso">Continuar con GitHub</a>'}`;
-  return new Response(`<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Cuenta · DOMINUS</title><link rel="stylesheet" href="/admin/huella/huella.css"></head><body><header><a href="https://dominusosint.com/">Mapa</a></header><main><section class="panel"><h1>Mi cuenta DOMINUS</h1>${content}</section></main></body></html>`,
-    { headers: { ...headers, "Content-Type": "text/html; charset=utf-8" } });
+  return new Response(paginaCuenta({ plan, fallo: failed, google }),
+    { headers: { ...headers, "Content-Security-Policy": CSP_CUENTA, "Content-Type": "text/html; charset=utf-8" } });
 }
 
 export async function servePlans(request, url, env, authRoot) {
   if (!configured(url, env) || !env.OSINT_PLANS_DB) return Response.json({ error: "Acceso a planes sin configurar." }, { status: 503, headers });
   const route = url.pathname.slice("/cuenta/".length);
+  // Avisos de Mercado Pago (alta y baja automáticas): firma verificada dentro de avisoMercadoPago.
+  if (route === "mercadopago/aviso" && request.method === "POST") return avisoMercadoPago(request, url, env, TABLA_EMAIL);
+  if (route === "cuenta.css" && request.method === "GET") return new Response(CSS_CUENTA, { headers: { ...headers, "Content-Type": "text/css; charset=utf-8", "Cache-Control": "public, max-age=3600" } });
   if (route === "ingreso" && request.method === "GET") return begin(url, env, authRoot, "planes");
   if (route === "google" && request.method === "GET") return googleConfigurado(env) ? iniciarGoogle(url, env) : Response.json({ error: "Inicio con Google sin configurar." }, { status: 503, headers });
   if (route === "google/callback" && request.method === "GET" && googleConfigurado(env)) return completarGoogle(request, url, env, (email) => planPorCorreo(env.OSINT_PLANS_DB, email, ORDER));
