@@ -101,3 +101,43 @@ def test_video_avisos_primero_y_bloque_lo_que_viene():
     assert len(out) == 1 and out[0]["seccion"] == "agenda" and "estimación" in out[0]["resumen"] and "80 por ciento" in out[0]["resumen"]
     eleg = [{"seccion": "politica_mx"}, {"seccion": "dof"}, {"seccion": "economia"}]
     assert [n["seccion"] for n in G.con_agenda(eleg, out)] == ["politica_mx", "dof", "agenda", "economia"]
+
+
+def test_temas_de_todas_las_areas_y_por_dependencia():
+    assert "familia_civil" in A.temas_de("Reforma al Código Civil: divorcio y custodia de hijos")
+    assert "trabajo" in A.temas_de("Iniciativa obliga a empresas a contratar 5% de jóvenes; reforma a la Ley Federal del Trabajo")
+    assert "telecom_internet" in A.temas_de("Senado avala reforma de telecomunicaciones y registro de líneas celulares")
+    assert A.temas_de("PROY-NOM-041-ENER/SE-2025, ventiladores")[0] == "energia"
+    assert "animales" in A.temas_de("Nueva Ley de Bienestar Animal") and "derechos_sociales" not in A.temas_de("Nueva Ley de Bienestar Animal")
+
+
+def test_entrada_en_vigor_futura_y_periodo_de_sesiones():
+    assert A.fecha_vigor("Reforma laboral entrará en vigor en enero de 2027", AHORA) == "2027-01"
+    assert A.fecha_vigor("Será obligatorio a partir de marzo", AHORA) == "2027-03"
+    assert A.fecha_vigor("Senado aprueba reforma", AHORA) is None
+    p = A.proximo_periodo(AHORA)
+    assert p == {"inicio": "2026-09-01", "fin": "2026-12-15", "en_curso": True}
+    assert A.proximo_periodo(datetime(2026, 12, 20, tzinfo=timezone.utc))["inicio"] == "2027-02-01"
+
+
+def test_desmentido_aparece_y_matiza(tmp_path):
+    notas = [
+        {"t": "Proponen reforma a la Ley Federal del Trabajo para que empresas contraten 60% de mujeres", "u": "https://a.mx/1", "m": "a.mx", "f": "2026-11-18T10:00:00Z", "s": ["reformas_mx"]},
+        {"t": "Es falso que la reforma a la Ley Federal del Trabajo obligue a contratar 60% de mujeres en México", "u": "https://v.es/2", "m": "Maldita.es", "tipo": "Verificador de datos", "f": "2026-11-19T10:00:00Z", "s": ["conspiracion"]},
+        {"t": "Reforma entrará en vigor en enero de 2027: nueva ley de plataformas digitales", "u": "https://c.mx/3", "m": "c.mx", "f": "2026-11-19T10:00:00Z", "s": ["reformas_mx"]},
+    ]
+    sal, viv = _vivos(tmp_path, notas, {})
+    d = A.construir(sal, viv, AHORA)
+    trab = [s for s in d["senales"] if "60%" in s["titulo"]]
+    assert len(trab) == 1 and trab[0]["verificaciones"] and trab[0]["confirmacion"].startswith("desmentida")
+    vig = [s for s in d["senales"] if s["etapa"] == "por_entrar_en_vigor"][0]
+    assert vig["vigor_desde"] == "2027-01" and vig["ventana"] == ["2027-01", "2027-01"]
+
+
+def test_gdelt_tolera_limite_y_convierte_titulares():
+    import json as _j
+    ok = _j.dumps({"articles": [{"title": "Senado aprueba reforma al Código Civil", "url": "https://x.mx/1", "domain": "x.mx", "seendate": "20261119T101500Z", "sourcecountry": "Mexico"}]}).encode()
+    notas, err = A.desde_gdelt(lambda u: ok, "3months", dormir=lambda s: None)
+    assert err is None and notas[0]["f"] == "2026-11-19" and notas[0]["s"] == ["gdelt_mx"]
+    notas, err = A.desde_gdelt(lambda u: b"Please limit requests to one every 5 seconds", "3months", dormir=lambda s: None)
+    assert notas == [] and "limitó" in err

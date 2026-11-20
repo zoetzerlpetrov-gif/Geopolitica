@@ -40,7 +40,7 @@ jobs:
       - name: Revisar diarios oficiales
         run: python3 tools/normativa/monitor.py normativa vivos
       - name: Agenda regulatoria (próximas reformas, con historial)
-        run: python3 tools/normativa/agenda.py normativa vivos
+        run: python3 tools/normativa/agenda.py normativa vivos --gdelt
       - name: Verificar que la bitácora solo crece
         run: |
           python3 - <<'PY'

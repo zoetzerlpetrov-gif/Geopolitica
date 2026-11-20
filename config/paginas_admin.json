@@ -2,6 +2,7 @@
   "_nota": "Páginas de solo administración. Al publicar (tools/pages/mover_admin.py) se mueven a /ops/ para protegerlas con Cloudflare Access en una sola regla (dominusosint.com/ops/*). Quedan fuera las que se comparten con terceros por enlace: demo.html (directivos), cartera.html (vista de directivos) y camaras.html (plan Demo).",
   "ruta": "ops",
   "paginas": [
+    "agenda",
     "analista",
     "analitica",
     "apariencia",
