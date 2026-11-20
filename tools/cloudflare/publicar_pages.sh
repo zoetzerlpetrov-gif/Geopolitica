@@ -75,6 +75,8 @@ if [ ${#protegidos[@]} -gt 0 ]; then
     echo "::error::Datos por plan activos pero R2 no está disponible: no se publica para no exponer ni perder datos."
     exit 1
   fi
+  # Resumen sin contenido (fechas y errores) para que el Centro de control siga vigilando estos archivos.
+  python3 "$raiz/tools/pages/resumen_protegidos.py" sitio "${protegidos[@]}"
   BPLAN=dominus-datos-plan
   $W r2 object get "$BPLAN/_huellas.txt" --remote --pipe > huellas_plan_previas.txt 2>/dev/null || : > huellas_plan_previas.txt
   : > huellas_plan.txt
