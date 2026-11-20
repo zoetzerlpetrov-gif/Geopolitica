@@ -48,7 +48,7 @@
     const cat = await getJSON("config/planes.json");
     const fix = fixDeIndicadores(await getJSON("data/vivos/indicadores.json", { bust: true }).catch(() => null));
     const actual = new URLSearchParams(location.search).get("plan") ? planActual(cat) : "";
-    document.getElementById("pl-fix").textContent = fix ? `FIX de Banxico usado: ${fix.valor} pesos por dólar (${fix.fecha}).` : "Sin tipo de cambio disponible: se muestran los precios en dólares.";
+    document.getElementById("pl-fix").textContent = fix ? `Precios en dólares (USD). El cobro se hace en pesos con el FIX de Banxico: ${fix.valor} pesos por dólar (${fix.fecha}).` : "Precios en dólares (USD). Sin tipo de cambio disponible para mostrar la referencia en pesos.";
     document.getElementById("pl-tarjetas").innerHTML = cat.planes.map((p) => `
       <section class="pl-plan${p.id === actual ? " actual" : ""}" id="${esc(p.id)}">
         <h2>${esc(p.nombre)}${p.id === actual ? ` <span class="chip vista-pago">tu plan</span>` : ""}</h2>

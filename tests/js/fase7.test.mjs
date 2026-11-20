@@ -27,7 +27,7 @@ test("precio en pesos: dólares × FIX, hacia arriba al peso entero", () => {
 
 test("texto del precio y precios de los tres planes", () => {
   const fix = { fecha: "2026-10-28", valor: 18.4215 };
-  assert.equal(textoPrecio(cat.planes[1], fix, cat.cobro.texto), "92 MXN al mes (USD 4.99 al tipo de cambio FIX de Banxico del 28 de octubre de 2026)");
+  assert.equal(textoPrecio(cat.planes[1], fix, cat.cobro.texto), "USD 4.99 al mes (se cobra en pesos: 92 MXN al tipo de cambio FIX de Banxico del 28 de octubre de 2026)");
   assert.match(textoPrecio(cat.planes[1], null), /^USD 4\.99 al mes/);
   const p = preciosPlanes(cat, fix);
   assert.deepEqual(p.map((x) => [x.id, x.usd, x.mxn]), [["demo", 0, 0], ["recon", 4.99, 92], ["analyst", 8.99, 166], ["command", 12.99, 240]]);

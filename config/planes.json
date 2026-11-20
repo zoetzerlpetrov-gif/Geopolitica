@@ -13,7 +13,8 @@
    "regla": "Se usa el FIX publicado para el día de hoy (hora de Ciudad de México); si aún no se publica, el del último día hábil anterior.",
    "redondeo": "Hacia arriba, al peso entero."
   },
-  "texto": "{mxn} MXN al mes (USD {usd} al tipo de cambio FIX de Banxico del {fecha})"
+  "texto": "USD {usd} al mes (se cobra en pesos: {mxn} MXN al tipo de cambio FIX de Banxico del {fecha})",
+  "_regla_precios": "Los precios siempre se muestran en USD (sitio, demostración, PDF y PowerPoint). El monto en pesos solo acompaña como referencia del cobro."
  },
  "planes": [
   {

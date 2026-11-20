@@ -116,7 +116,7 @@ test("planes: el grupo de un plan superior pide ese plan; el propio o inferior n
   assert.equal(planFaltante(planes, "demo", "paginas", "noticiero.html"), null, "sin regla: lo decide la lista de solo admin");
   const fix = fixDeIndicadores({ grupos: [{ datos: [{ id: "SF46410", valor: 21 }, { id: "SF43718", valor: 18.4215, fecha: "2026-10-28" }] }] });
   assert.deepEqual(fix, { fecha: "2026-10-28", valor: 18.4215 });
-  assert.equal(precioCorto(planes.planes.find((p) => p.id === "analyst"), fix), "166 MXN al mes");
+  assert.equal(precioCorto(planes.planes.find((p) => p.id === "analyst"), fix), "USD 8.99 al mes");
   assert.equal(precioCorto(planes.planes[0], fix), "Gratis");
   assert.equal(precioCorto(planes.planes[1], null), "USD 4.99 al mes");
   const filas = filasComparacion(planes);

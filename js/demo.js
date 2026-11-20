@@ -4,6 +4,10 @@ export const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "
 const $ = (id) => document.getElementById(id);
 const PPTX = "https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js";
 
+/** Precios de los planes, siempre en dólares (regla del proyecto: también en el PDF y el PowerPoint). */
+export const precioUsd = (usd) => (Number(usd) === 0 ? "Gratis" : `USD ${Number(usd).toFixed(2)} al mes`);
+export const preciosPlanes = (cat) => (cat?.planes || []).map((p) => `${p.nombre}: ${precioUsd(p.usd)}`);
+
 /** HTML de un módulo: captura (ampliable), qué hace, para quién y ejemplo resuelto. */
 export function htmlModulo(m) {
   return `<article class="modulo" id="m-${esc(m.id)}">
@@ -11,6 +15,7 @@ export function htmlModulo(m) {
     <div><h3>${esc(m.titulo)}</h3>
       <span class="etq">Qué hace</span><p>${esc(m.que_hace)}</p>
       <span class="etq">Para quién</span><p>${esc(m.para_quien)}</p>
+      ${(m.precios || []).length ? `<span class="etq">Precios (USD)</span><ul>${m.precios.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : ""}
       <span class="etq">Ejemplo resuelto</span><ol>${(m.ejemplo || []).map((p) => `<li>${esc(p)}</li>`).join("")}</ol>
       ${m.pagina ? `<p><a href="${esc(m.pagina)}">Abrir el módulo →</a></p>` : ""}</div>
   </article>`;
@@ -50,6 +55,8 @@ async function exportarPptx(d) {
         sl.addText([
           { text: "QUÉ HACE\n", options: { color: ACENTO, bold: true, fontSize: 12 } }, { text: m.que_hace + "\n\n", options: { color: TEXTO, fontSize: 12 } },
           { text: "PARA QUIÉN\n", options: { color: ACENTO, bold: true, fontSize: 12 } }, { text: m.para_quien + "\n\n", options: { color: TEXTO, fontSize: 12 } },
+          ...((m.precios || []).length ? [{ text: "PRECIOS (USD)\n", options: { color: ACENTO, bold: true, fontSize: 12 } },
+            { text: m.precios.join("\n") + "\n\n", options: { color: TEXTO, fontSize: 12 } }] : []),
           { text: "EJEMPLO\n", options: { color: ACENTO, bold: true, fontSize: 12 } },
           ...m.ejemplo.map((t, i) => ({ text: `${i + 1}. ${t}\n`, options: { color: TEXTO, fontSize: 11 } })),
         ], { x: 7.8, y: 1.0, w: 5.1, h: 6.1, valign: "top" });
@@ -78,6 +85,9 @@ function iniciarVisor() {
 
 async function iniciar() {
   const d = await (await fetch("config/demo.json", { cache: "no-cache" })).json();
+  // Precios desde la fuente única (config/planes.json), en dólares.
+  const cat = await fetch("config/planes.json", { cache: "no-cache" }).then((r) => r.json()).catch(() => null);
+  for (const c of d.capitulos) for (const m of c.modulos) if (m.id === "planes" && cat) m.precios = preciosPlanes(cat);
   $("d-titulo").textContent = d.titulo;
   $("d-subtitulo").textContent = d.subtitulo;
   $("d-problema").innerHTML = d.problema.map((t) => `<li>${esc(t)}</li>`).join("");
