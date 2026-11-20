@@ -1,0 +1,64 @@
+name: Vulnerabilidades
+
+# Cada día (04:47, Ciudad de México): revisa dependencias, secretos, inyección de código, flujos, encabezados, archivos
+# expuestos, protección de Admin, certificados y alertas de GitHub (tools/seguridad/vulnerabilidades.py) y manda el
+# resultado al Worker (base D1 privada). El repositorio es público: el registro de esta corrida solo muestra totales.
+# Autenticación con el Worker: un token aleatorio nuevo en cada corrida, guardado como secreto VULN_INGEST_TOKEN del
+# Worker «geopolitica» (mismo método que huella-oauth.yml). Si ya hay clientes de pago, abre un recordatorio (issue).
+on:
+  schedule:
+    - cron: "47 10 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+  security-events: read
+
+concurrency:
+  group: vulnerabilidades
+  cancel-in-progress: false
+
+jobs:
+  revisar:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || vars.CLOUDFLARE_ACCOUNT_ID }}
+      WRANGLER_SEND_METRICS: 'false'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+      - name: Token de esta corrida (se guarda como secreto del Worker)
+        id: token
+        shell: bash
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "::warning::Sin CLOUDFLARE_API_TOKEN: la revisión corre, pero no se guarda en Admin."
+            exit 0
+          fi
+          TOKEN="$(openssl rand -hex 32)"
+          echo "::add-mask::$TOKEN"
+          printf '{"VULN_INGEST_TOKEN":"%s"}' "$TOKEN" | npx --yes wrangler@4.158.0 secret bulk --name geopolitica --config cloudflare/huella/wrangler.toml > /dev/null
+          echo "token=$TOKEN" >> "$GITHUB_OUTPUT"
+          sleep 20
+      - name: Revisar y enviar al Worker
+        id: revisar
+        env:
+          VULN_INGEST_TOKEN: ${{ steps.token.outputs.token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/seguridad/vulnerabilidades.py
+      - name: Recordatorio al llegar el primer cliente de pago
+        if: steps.revisar.outputs.clientes_pago != '' && steps.revisar.outputs.clientes_pago != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          TITULO="🔐 Ya hay clientes de pago: servir los datos por plan desde el Worker"
+          if ! gh issue list --repo "$GITHUB_REPOSITORY" --state open --search "$TITULO in:title" --json number --jq '.[].number' | grep -q .; then
+            gh issue create --repo "$GITHUB_REPOSITORY" --title "$TITULO" --body "El monitor de vulnerabilidades detectó al menos un cliente con plan de pago activo. El sitio es estático: los candados ordenan lo que ve el cliente, pero no protegen los archivos de data/. Pídele a Claude: «Servir los datos por plan desde el Worker». Detalle en Admin → Sistema → Vulnerabilidades y ataques."
+          fi

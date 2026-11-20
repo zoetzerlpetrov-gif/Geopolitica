@@ -1,0 +1,4 @@
+{
+  "_nota": "Controles del monitor de vulnerabilidades que requieren a una persona. Al confirmarlos, su clave se agrega a «confirmados» y dejan de aparecer: 2fa, respaldo, rate-limit, repo-privado. «datos-por-plan» se confirma solo cuando los datos de cada plan se sirvan desde el Worker.",
+  "confirmados": []
+}

@@ -3,9 +3,8 @@
 import * as X from "./exportar-logica.js";
 
 const LIB = {
-  jspdf: "https://cdn.jsdelivr.net/npm/jspdf@2.5.2/+esm",
-  autotable: "https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.4/dist/jspdf.plugin.autotable.mjs",
-  xlsx: "https://cdn.jsdelivr.net/npm/xlsx@0.18.5/+esm",
+  jspdf: "https://cdn.jsdelivr.net/npm/jspdf@4.2.1/+esm",
+  autotable: "https://cdn.jsdelivr.net/npm/jspdf-autotable@5.0.9/dist/jspdf.plugin.autotable.mjs",
 };
 
 export function descargarBlob(nombre, blob) {
@@ -85,12 +84,13 @@ async function aPDF(cols, filas, { titulo, nota, svg }) {
 }
 
 async function aXLSX(cols, filas, { titulo }) {
-  const XLSX = await import(LIB.xlsx);
-  const hoja = XLSX.utils.aoa_to_sheet([cols, ...filas.map((f) => cols.map((k) => (typeof f[k] === "bigint" ? Number(f[k]) : f[k] ?? null)))]);
-  const libro = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(libro, hoja, String(titulo).replace(/[\\/?*[\]:]/g, " ").slice(0, 31) || "Datos");
-  const datos = XLSX.write(libro, { bookType: "xlsx", type: "array" });
-  return new Blob([datos], { type: X.FORMATOS.xlsx[2] });
+  // Escritor propio (js/xlsx-escritor.js): sin bibliotecas externas. Antes se usaba SheetJS 0.18.5 desde npm, que tiene
+  // vulnerabilidades conocidas sin corrección en npm. Los textos van como texto (nunca como fórmula).
+  const { libroXLSXComprimido } = await import("./xlsx-escritor.js");
+  const valor = (v) => (typeof v === "bigint" ? Number(v) : v instanceof Date ? v.toISOString() : v != null && typeof v === "object" ? JSON.stringify(v) : v ?? null);
+  const hoja = { nombre: String(titulo).replace(/[\\/?*[\]:]/g, " ").slice(0, 31) || "Datos", congelar: { fila: 1, col: 0 },
+    filas: [cols.map((c) => ({ v: c, s: "encabezado" })), ...filas.map((f) => cols.map((k) => valor(f[k])))] };
+  return new Blob([await libroXLSXComprimido([hoja], { titulo })], { type: X.FORMATOS.xlsx[2] });
 }
 
 /**
@@ -128,10 +128,11 @@ export async function exportarDocumento(formato, { titulo = "Documento", html = 
     return descargarBlob(`${base}.doc`, new Blob(["﻿", word], { type: "application/msword" }));
   }
   if (formato === "imprimir") {
-    const v = window.open("", "_blank");
+    // Se abre como documento propio (sin document.write, que interpreta el texto al vuelo).
+    const url = URL.createObjectURL(new Blob([pagina], { type: "text/html;charset=utf-8" }));
+    const v = window.open(url, "_blank");
     if (!v) throw new Error("El navegador bloqueó la ventana de impresión; permite ventanas emergentes para este sitio.");
-    v.document.write(pagina); v.document.close(); v.focus();
-    setTimeout(() => v.print(), 400);
+    v.addEventListener?.("load", () => { v.focus(); v.print(); URL.revokeObjectURL(url); }, { once: true });
     return;
   }
   // PDF de texto (seleccionable y nítido), con saltos de página limpios y número de página.

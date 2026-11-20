@@ -10,6 +10,15 @@ import { precioCorto, enlaceCompra } from "./planes.js";
 
 const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 const REVISADO = "gp_plan_revisado", CADA_MS = 10 * 60 * 1000;
+/** ¿Hay una sesión verificada en esta pestaña (registro gratuito o plan de pago)? */
+const conSesion = (almacen = globalThis.sessionStorage) => { try { return Boolean(almacen?.getItem(PLAN_SESION)); } catch { return false; } };
+
+/** Botones de cuenta: «Iniciar sesión» y «Registrarse gratis», o «Mi cuenta» si ya hay sesión. */
+export function htmlCuenta(sesion, nombrePlan = "") {
+  return sesion
+    ? `<a class="plan-cuenta" href="${esc(ADMIN_ORIGEN)}/cuenta/" title="Ver tu cuenta y cerrar sesión">👤 Mi cuenta${nombrePlan ? ` · ${esc(nombrePlan)}` : ""}</a>`
+    : `<a class="plan-cuenta" href="${esc(ADMIN_ORIGEN)}/cuenta/" title="Si ya tienes cuenta o ya pagaste">Iniciar sesión</a><a class="plan-cuenta plan-cuenta-alta" href="${esc(ADMIN_ORIGEN)}/cuenta/google" title="Gratis, con tu cuenta de Google">Registrarse gratis</a>`;
+}
 
 /** Consulta el plan de la cuenta en el Worker (cookie de sesión del mismo sitio). Si cambió, lo guarda y recarga. */
 export async function verificarPlan(planes, { almacen = globalThis.sessionStorage, forzar = /[?&]revisar=1\b/.test(globalThis.location?.search || "") } = {}) {
@@ -55,10 +64,11 @@ export function htmlMejorar(planes, plan, conVista, motivo = "") {
     <div class="plan-opciones">${superiores.map((p) => {
       const compra = enlaceCompra(p);
       return `<section><h3>${esc(p.nombre)} · ${esc(precioCorto(p))}</h3><ul>${(p.incluye || []).slice(0, 4).map((x) => `<li>${esc(x)}</li>`).join("")}</ul>
-        <p>${compra ? `<a class="plan-btn" href="${esc(compra)}" target="_blank" rel="noopener noreferrer">Comprar ${esc(p.nombre)}</a> ` : ""}<a href="${esc(conVista(`planes.html#${p.id}`))}">Ver detalle</a></p></section>`;
+        <p>${compra ? `<a class="plan-btn" href="${esc(compra)}" target="_blank" rel="noopener noreferrer">💳 Comprar ${esc(p.nombre)}</a>` : `<span class="plan-btn plan-btn-off" aria-disabled="true" title="El cobro en línea se activa en cuanto estén los enlaces de Mercado Pago">💳 Comprar · muy pronto</span>`}
+        <br><a href="${esc(conVista(`planes.html#${p.id}`))}">Ver detalle</a></p></section>`;
     }).join("")}</div>
-    <p class="plan-pie"><a class="plan-btn" href="${esc(conVista("planes.html"))}">Ver todos los planes y precios</a>
-      · ¿Ya pagaste? <a href="${esc(ADMIN_ORIGEN)}/cuenta/">Inicia sesión</a> y vuelve al mapa.</p>`;
+    <p class="plan-pie"><a class="plan-btn" href="${esc(conVista("planes.html"))}">Ver todos los planes y precios</a></p>
+    <p class="plan-pie">${conSesion() ? `<a href="${esc(ADMIN_ORIGEN)}/cuenta/">Mi cuenta</a>` : `¿Ya pagaste? <a href="${esc(ADMIN_ORIGEN)}/cuenta/">Inicia sesión</a> · ¿Aún no tienes cuenta? <a href="${esc(ADMIN_ORIGEN)}/cuenta/google">Regístrate gratis</a> (se necesita para comprar).`}</p>`;
 }
 
 const ESTILO = `.plan-flotante{position:fixed;left:14px;bottom:14px;z-index:900;font:600 14px/1 var(--font,system-ui);padding:10px 14px;border-radius:999px;border:1px solid var(--accent,#c9a227);background:var(--surface,#101826);color:var(--text,#e3e7ee);box-shadow:0 4px 14px rgba(0,0,0,.35);cursor:pointer}
@@ -68,6 +78,11 @@ const ESTILO = `.plan-flotante{position:fixed;left:14px;bottom:14px;z-index:900;
 .plan-opciones{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}.plan-opciones section{border:1px solid var(--line,#243248);border-radius:8px;padding:10px}
 .plan-opciones ul{margin:4px 0;padding-left:18px;font-size:13px}.plan-cerrar{float:right;background:none;border:0;color:inherit;font-size:20px;cursor:pointer}
 .plan-btn{display:inline-block;padding:6px 12px;border-radius:6px;background:var(--accent,#c9a227);color:#111 !important;text-decoration:none;font-weight:700}
+.plan-btn-off{opacity:.55;cursor:not-allowed;background:var(--line,#555);color:var(--text,#eee)!important}
+.plan-acceso{display:inline-flex;gap:6px;align-items:center;margin-left:8px}.plan-cuenta{font:600 13px/1 var(--font,system-ui);padding:7px 10px;border-radius:6px;border:1px solid var(--line,#243248);color:var(--text,#e3e7ee);text-decoration:none;white-space:nowrap;background:var(--surface,transparent)}
+.plan-cuenta-alta{background:var(--accent,#c9a227);color:#111;border-color:var(--accent,#c9a227)}
+.plan-acceso-flotante{position:fixed;right:14px;bottom:14px;z-index:900}
+@media (max-width:700px){.plan-acceso:not(.plan-acceso-flotante){display:none}.plan-acceso-flotante{bottom:62px;left:14px;right:auto}}
 .plan-motivo{border-left:4px solid var(--accent,#c9a227);padding:4px 10px}.plan-bloqueado{opacity:.75}
 @media print{body.sin-imprimir>*{display:none!important}body.sin-imprimir::before{content:"🔒 Imprimir y guardar como PDF está disponible en el plan Command.";display:block;padding:40px;font:18px system-ui}}`;
 
@@ -124,7 +139,18 @@ export function iniciarPlanCliente(planes, plan, conVista, { compartida = false 
     b.addEventListener("click", () => ventana(htmlMejorar(planes, plan, conVista)));
     document.body.append(b);
   }
-  if (!esSitioAdmin()) verificarPlan(planes).catch(() => {});
+  // Acceso a la cuenta (solo en el sitio público): en la barra superior si existe; si no, flotante.
+  if (!esSitioAdmin()) {
+    const nombre = planes.planes.find((p) => p.id === plan)?.nombre || "";
+    const caja = document.createElement("span");
+    caja.className = "plan-acceso"; caja.id = "plan-acceso";
+    caja.innerHTML = htmlCuenta(conSesion(), nombre);
+    const ancla = document.querySelector(".topbar .vista-pago, .topbar .marca, header .marca");
+    if (ancla) ancla.after(caja); else { caja.classList.add("plan-acceso-flotante"); document.body.append(caja); }
+    // En pantallas chicas la barra se oculta: copia flotante.
+    if (ancla && matchMedia?.("(max-width:700px)").matches) { const f = caja.cloneNode(true); f.id = "plan-acceso-movil"; f.classList.add("plan-acceso-flotante"); document.body.append(f); }
+    verificarPlan(planes).catch(() => {});
+  }
 }
 
 export { PLAN_SESION };

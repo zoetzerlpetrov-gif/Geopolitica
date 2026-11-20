@@ -40,3 +40,15 @@ test("planPorCorreo crea la tabla y consulta en minúsculas", async () => {
   assert.match(sql[0], /^CREATE TABLE IF NOT EXISTS dominus_memberships_email/);
   assert.equal(await planPorCorreo(db, null, ORDER), null);
 });
+
+test("Registro gratuito: entrar con Google sin plan registra el correo (Demo) con consulta parametrizada", async () => {
+  const { registrar, registrado } = await import("../../cloudflare/planes/google.js");
+  const sql = [], filas = new Set();
+  const db = { prepare(q) { sql.push(q); return { run: async () => ({}), bind: (...v) => ({ run: async () => { filas.add(v[0]); return {}; }, first: async () => (filas.has(v[0]) ? { si: 1 } : null) }) }; } };
+  assert.equal(await registrar(db, "Nuevo@Ejemplo.com"), true);
+  assert.equal(await registrado(db, "nuevo@ejemplo.com"), true);
+  assert.equal(await registrado(db, "otro@ejemplo.com"), false);
+  assert.equal(await registrar(db, "x'); DROP TABLE dominus_registros;--"), false, "correo inválido: no se intenta");
+  assert.ok(sql.every((q) => !/nuevo@|otro@|DROP/i.test(q)), "el correo nunca va dentro del SQL");
+  assert.ok(sql.some((q) => q.includes("INSERT OR IGNORE INTO dominus_registros (email) VALUES (?)")));
+});

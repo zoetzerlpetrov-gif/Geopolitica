@@ -1,31 +1,64 @@
-"""Recolector de vulnerabilidades (tools/vulnerabilidades.py): puntajes, producto y combinación con KEV y EPSS."""
-import datetime as dt
-import os
-import sys
+"""Monitor diario de vulnerabilidades (tools/seguridad/vulnerabilidades.py): detecta lo que debe y no filtra secretos."""
+import importlib.util
+import json
+from pathlib import Path
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "tools"))
-import vulnerabilidades as V  # noqa: E402
-
-CVE = {"id": "CVE-2026-0001", "metrics": {"cvssMetricV31": [{"cvssData": {"baseScore": 9.8, "vectorString": "CVSS:3.1/AV:N", "baseSeverity": "CRITICAL"}}],
-                                          "cvssMetricV40": [{"cvssData": {"baseScore": 9.2, "vectorString": "CVSS:4.0/AV:N", "baseSeverity": "CRITICAL"}}]},
-       "configurations": [{"nodes": [{"cpeMatch": [{"vulnerable": True, "criteria": "cpe:2.3:a:php:php:8.3.0:*:*:*:*:*:*:*"}]}]}]}
+RAIZ = Path(__file__).resolve().parents[1]
+spec = importlib.util.spec_from_file_location("vuln", RAIZ / "tools" / "seguridad" / "vulnerabilidades.py")
+v = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(v)
 
 
-def test_puntaje_prefiere_cvss4_y_producto_cpe():
-    p = V.puntaje(CVE)
-    assert p["cvss"] == 9.2 and p["version"] == "4.0"
-    assert V.producto_cpe(CVE) == "php:php"
-    assert V.puntaje({})["cvss"] is None
+def test_inyeccion_python_detectada():
+    codigo = "import os, subprocess, yaml, pickle\nos.system(x)\nsubprocess.run(c, shell=True)\nyaml.load(t)\npickle.loads(b)\ncur.execute(f'SELECT * FROM t WHERE a={a}')\ncur.execute('SELECT ?', (a,))\neval(z)\n"
+    titulos = [h["titulo"] for h in v.revisar_python_codigo(codigo, "x.py")]
+    assert any("os.system" in t for t in titulos) and any("shell=True" in t for t in titulos)
+    assert any("SafeLoader" in t for t in titulos) and any("pickle" in t for t in titulos)
+    assert sum("SQL" in t for t in titulos) == 1, "la consulta con parámetros no se marca"
+    assert any("eval" in t for t in titulos)
 
 
-def test_combinar_marca_kev_y_ordena():
-    nvd = {"CVE-1": {"id": "CVE-1", "cvss": 9.8, "producto": "a:b", "descripcion": "x"}, "CVE-2": {"id": "CVE-2", "cvss": 9.1, "producto": "c:d", "descripcion": "y"}}
-    kev = {"CVE-2": {"proveedor": "C", "producto": "D", "nombre": "D RCE", "agregado": "2026-10-20", "limite": "", "ransomware": "Known", "accion": "Parchar"},
-           "CVE-3": {"proveedor": "GitLab", "producto": "GitLab", "nombre": "GitLab RCE", "agregado": "2026-10-01", "limite": "", "ransomware": "", "accion": ""},
-           "CVE-OLD": {"proveedor": "X", "producto": "Y", "nombre": "viejo", "agregado": "2020-01-01", "limite": "", "ransomware": "", "accion": ""}}
-    r = V.combinar(nvd, kev, {"CVE-1": {"epss": 0.9, "percentil": 0.99}}, hoy=dt.date(2026, 10, 22))
-    ids = [v["id"] for v in r]
-    assert "CVE-OLD" not in ids and "CVE-3" in ids
-    assert ids[0] in ("CVE-2", "CVE-3")  # las explotadas (KEV) van primero
-    assert r[-1]["id"] == "CVE-1" and r[-1]["epss"] == 0.9
-    assert all(v["url"].startswith("https://nvd.nist.gov/vuln/detail/") for v in r)
+def test_workflow_con_inyeccion_y_sin_fijar(tmp_path, monkeypatch):
+    wf = "on: issues\njobs:\n  a:\n    steps:\n      - uses: actions/checkout@v4\n      - run: echo ${{ github.event.issue.title }}\n"
+    monkeypatch.setattr(v, "leer", lambda ruta: wf)
+    h = v.revisar_workflows([".github/workflows/x.yml"])[0]
+    ids = [x["id"] for x in h]
+    assert any(i.startswith("wf-iny:") for i in ids) and any(i.startswith("wf-pin:") for i in ids)
+
+
+def test_secretos_no_se_copian(monkeypatch):
+    llave = "AKIA" + "ABCDEFGHIJKLMNOP"
+    monkeypatch.setattr(v, "leer", lambda ruta: f"clave = '{llave}'\n")
+    h = v.revisar_secretos(["config.js"])[0]
+    assert h and h[0]["severidad"] == "critica"
+    assert llave not in json.dumps(h), "el informe nunca incluye el secreto"
+
+
+def test_proyecto_sin_inyeccion_python_ni_secretos():
+    archivos = v.archivos_repo()
+    assert not v.revisar_secretos(archivos)[0]
+    assert not v.revisar_python(archivos)[0]
+    assert not [h for h in v.revisar_workflows(archivos)[0] if h["severidad"] in ("critica", "alta")]
+
+
+def test_controles_manuales_y_aviso_de_clientes():
+    sin = {h["id"]: h for h in v.controles_manuales(0)}
+    con = {h["id"]: h for h in v.controles_manuales(2)}
+    assert sin["manual:datos-por-plan"]["severidad"] == "media"
+    assert con["manual:datos-por-plan"]["severidad"] == "alta" and "2 CLIENTE" in con["manual:datos-por-plan"]["titulo"]
+    assert "manual:2fa" in sin
+
+
+def test_una_revision_que_falla_no_detiene_las_demas():
+    def rota():
+        raise ValueError("x")
+    h, r = v.correr([("rota", rota), ("bien", lambda: ([], "ok")), ("sin", lambda: (_ for _ in ()).throw(LookupError("sin token")))])
+    assert [x["estado"] for x in r] == ["error", "ok", "omitida"]
+
+
+def test_dependencias_cdn_y_python():
+    deps, sueltas = v.dependencias_python(["requirements-dev.txt"])
+    assert any(n == "pytest" for _, n, _, _ in deps)
+    cdn = v.dependencias_cdn(["js/exportar.js"])
+    assert ("npm", "jspdf", "4.2.1", "js/exportar.js") in cdn
+    assert not any(n == "xlsx" for _, n, _, _ in cdn), "SheetJS 0.18.5 ya no se usa"

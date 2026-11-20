@@ -17,7 +17,24 @@ export function rutaPages(pathname) {
 }
 const headers = { "Cache-Control": "private, no-store", "Referrer-Policy": "no-referrer" };
 
-export async function adminMap(request, url, env) {
+/** Encabezados de las páginas de administración: privadas, sin caché, sin incrustarse en otros sitios. */
+export const ENCABEZADOS_ADMIN = {
+  ...headers,
+  "Content-Type": "text/html; charset=utf-8",
+  "X-Content-Type-Options": "nosniff",
+  "X-Frame-Options": "DENY",
+  "Content-Security-Policy": "frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'",
+  "X-Robots-Tag": "noindex, nofollow",
+};
+
+/** Respuesta con la página de administración empaquetada para «/legal.html» o «/legal», o null si no es una de ellas. */
+export function paginaEmpaquetada(pathname, paginasAdmin = {}, method = "GET") {
+  const nombre = String(pathname).slice(1).replace(/\.html$/, "");
+  if (!OPS.has(nombre) || typeof paginasAdmin[nombre] !== "string") return null;
+  return new Response(method === "HEAD" ? null : paginasAdmin[nombre], { status: 200, headers: ENCABEZADOS_ADMIN });
+}
+
+export async function adminMap(request, url, env, paginasAdmin = {}) {
   if (!(url.hostname.endsWith(".workers.dev") || url.hostname === "admin.dominusosint.com") || !configured(url, env)) return null;
   if (!["GET", "HEAD"].includes(request.method)) {
     return new Response(null, { status: 405, headers: { ...headers, Allow: "GET, HEAD" } });
@@ -28,6 +45,11 @@ export async function adminMap(request, url, env) {
     }
     return new Response(null, { status: 403, headers });
   }
+
+  // Páginas de administración: vienen empaquetadas en el Worker (paginas-admin.js), así que no dependen de /ops/ ni
+  // de Cloudflare Access. Antes se pedían a /ops/ con un token de servicio y, si Access no lo aceptaba, daba 502.
+  const empaquetada = paginaEmpaquetada(url.pathname, paginasAdmin, request.method);
+  if (empaquetada) return empaquetada;
 
   const target = new URL(mapPath, mapOrigin);
   target.pathname = rutaPages(url.pathname);

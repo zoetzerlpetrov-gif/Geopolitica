@@ -1,6 +1,6 @@
 import config from "../../config/planes.json" with { type: "json" };
 import { begin, configured, sessionId, signOut } from "../huella/auth.js";
-import { completarGoogle, correoSesion, googleConfigurado, iniciarGoogle, planPorCorreo, salirGoogle } from "./google.js";
+import { completarGoogle, correoSesion, googleConfigurado, iniciarGoogle, planPorCorreo, registrado, salirGoogle } from "./google.js";
 
 const ORDER = ["demo", "recon", "analyst", "command"];
 const groups = config.acceso_por_plan.grupos;
@@ -35,12 +35,14 @@ export async function activePlan(db, id) {
 }
 
 function page(plan, failed, google = false) {
+  const mapa = '<p><a href="https://dominusosint.com/?revisar=1">Volver al mapa con tu plan</a></p>';
   const content = plan
-    ? `<p>Plan activo <strong>${plan.toUpperCase()}</strong>.</p><p><a href="https://dominusosint.com/?revisar=1">Volver al mapa con tu plan</a></p>
+    ? `<p>${plan === "demo" ? "Cuenta registrada en el plan <strong>DEMO</strong> (gratuito)." : `Plan activo <strong>${plan.toUpperCase()}</strong>.`}</p>${mapa}
+       ${plan === "demo" ? '<p><a href="https://dominusosint.com/planes.html">Ver planes y comprar</a></p>' : ""}
        <form method="post" action="salir"><button type="submit">Cerrar sesión</button></form>`
-    : `${failed ? '<p role="alert">No se pudo abrir una sesión con un plan activo.</p>' : ""}
-       ${google ? '<p>Entra con la cuenta de Google a la que se asignó tu plan.</p><p><a href="google">Continuar con Google</a></p><p class="meta">¿Tu plan está ligado a GitHub? <a href="ingreso">Entrar con GitHub</a></p>' : '<p>Entra con la cuenta de GitHub a la que se asignó un plan.</p><a href="ingreso">Continuar con GitHub</a>'}`;
-  return new Response(`<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Cuenta · DOMINUS</title><link rel="stylesheet" href="/admin/huella/huella.css"></head><body><header><a href="/">Mapa</a></header><main><section class="panel"><h1>Mi cuenta DOMINUS</h1>${content}</section></main></body></html>`,
+    : `${failed ? '<p role="alert">No se pudo iniciar sesión. Inténtalo de nuevo.</p>' : ""}
+       ${google ? '<p>Entra o regístrate gratis con tu cuenta de Google. Si ya pagaste, usa el mismo correo con el que compraste.</p><p><a href="google">Continuar con Google</a></p><p class="meta">Al continuar aceptas los <a href="https://dominusosint.com/terminos.html">Términos</a> y el <a href="https://dominusosint.com/privacidad.html">Aviso de privacidad</a>. Solo guardamos tu correo y la fecha de alta.</p><p class="meta">¿Tu plan está ligado a GitHub? <a href="ingreso">Entrar con GitHub</a></p>' : '<p>Entra con la cuenta de GitHub a la que se asignó un plan.</p><a href="ingreso">Continuar con GitHub</a>'}`;
+  return new Response(`<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Cuenta · DOMINUS</title><link rel="stylesheet" href="/admin/huella/huella.css"></head><body><header><a href="https://dominusosint.com/">Mapa</a></header><main><section class="panel"><h1>Mi cuenta DOMINUS</h1>${content}</section></main></body></html>`,
     { headers: { ...headers, "Content-Type": "text/html; charset=utf-8" } });
 }
 
@@ -58,8 +60,10 @@ export async function servePlans(request, url, env, authRoot) {
   }
   if (request.method !== "GET") return Response.json({ error: "Método inválido." }, { status: 405, headers });
   try {
+    const correo = await correoSesion(request, env);
     const plan = await activePlan(env.OSINT_PLANS_DB, await sessionId(request, env, "planes"))
-      || await planPorCorreo(env.OSINT_PLANS_DB, await correoSesion(request, env), ORDER);
+      || await planPorCorreo(env.OSINT_PLANS_DB, correo, ORDER)
+      || (await registrado(env.OSINT_PLANS_DB, correo) ? "demo" : null);
     if (route === "") return page(plan, url.searchParams.get("estado") === "sin-acceso", googleConfigurado(env));
     if (route === "sesion" || route === "permiso") {
       const h = route === "sesion" ? { ...headers, ...corsMapa(request) } : headers;
@@ -67,7 +71,7 @@ export async function servePlans(request, url, env, authRoot) {
       if (route === "sesion") return Response.json({ plan }, { headers: h });
       const group = url.searchParams.get("grupo");
       if (!Object.hasOwn(groups, group)) return Response.json({ error: "Grupo desconocido." }, { status: 404, headers });
-      const minimum = ORDER.indexOf(groups[group]);
+      const minimum = ORDER.indexOf(groups[group]);  // «demo» (registro gratuito) solo abre lo del plan Demo
       const allowed = minimum >= 0 && ORDER.indexOf(plan) >= minimum;
       return Response.json({ allowed }, { status: allowed ? 200 : 403, headers });
     }

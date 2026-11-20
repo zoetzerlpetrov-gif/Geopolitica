@@ -28,6 +28,7 @@
     .tut pre { max-width: 100%; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; padding: 10px; background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--radius); }
     .tut details[id] { scroll-margin-top: 100px; }
     .tut [hidden] { display: none !important; }
+    .t-roles{width:100%;border-collapse:collapse;font-size:14px;margin:8px 0}.t-roles td,.t-roles th{border:1px solid var(--line);padding:6px;text-align:left;vertical-align:top}
   </style>
 <script type="module" src="js/apariencia.js"></script>
 </head>
@@ -448,15 +449,63 @@
       </details>
     </section>
 
+    <section id="t-planes" data-tema>
+      <h2>9. Tu cuenta, tu plan y qué puedes hacer</h2>
+      <p>Al entrar a dominusosint.com ves el plan <b>Demo</b>. Lo que pertenece a un plan superior aparece con 🔒: puedes ver qué incluye, pero no usarlo. Los precios están en dólares (USD) y el cobro se hace en pesos al tipo de cambio FIX de Banxico del día.</p>
+      <table class="t-roles"><tr><th>Plan</th><th>Precio</th><th>Qué incluye</th><th>Descargar, exportar e imprimir</th></tr>
+        <tr><td>Demo</td><td>Gratis, con registro</td><td>Mapa con capas fijas, eventos y noticias del día anterior, cámaras públicas, satélites, reportes del día anterior, tutorial</td><td>🔒 No</td></tr>
+        <tr><td>Recon</td><td>USD 4.99 al mes</td><td>Todo lo de Demo al día, infraestructura y conflictos, riesgos y clima, en movimiento, fenómenos anómalos, Monitor México, taxonomía</td><td>🔒 No</td></tr>
+        <tr><td>Analyst</td><td>USD 8.99 al mes</td><td>Todo lo de Recon, narrativas y estrategia, historia por país, herramientas del panel, investigación, matriz de riesgo</td><td>🔒 No</td></tr>
+        <tr><td>Command</td><td>USD 12.99 al mes</td><td>Todo lo de Analyst, seguimiento de lugares, vuelos y barcos, y descargas</td><td>✅ Sí</td></tr></table>
+      <details class="paso"><summary>Registrarme gratis (plan Demo)</summary><div class="ejemplo"><ol>
+        <li>Arriba, junto al logotipo, pulsa <b>«Registrarse gratis»</b>.</li>
+        <li>Elige tu cuenta de Google. Solo se guarda tu correo y la fecha de alta.</li>
+        <li>En «Mi cuenta DOMINUS» verás «Cuenta registrada en el plan DEMO». Pulsa <b>«Volver al mapa con tu plan»</b>.</li>
+        <li>Arriba aparece <b>«👤 Mi cuenta · Demo»</b>.</li></ol></div></details>
+      <details class="paso"><summary>Comprar un plan</summary><div class="ejemplo"><ol>
+        <li>Pulsa el botón <b>«⬆ Mejorar plan»</b> (abajo a la izquierda) o abre <a href="planes.html">Planes y precios</a>.</li>
+        <li>Elige el plan y pulsa <b>«💳 Comprar»</b>. Se abre Mercado Pago, que cobra en pesos el equivalente del precio en dólares.</li>
+        <li>Paga con el <b>mismo correo de Google</b> con el que te registraste.</li>
+        <li>Cuando el plan quede activo, pulsa <b>«Iniciar sesión»</b> y luego «Volver al mapa con tu plan».</li></ol></div></details>
+      <details class="paso"><summary>Ya pagué y sigo viendo Demo</summary><div class="ejemplo"><ol>
+        <li>Pulsa <b>«Iniciar sesión»</b> y entra con el correo con el que pagaste.</li>
+        <li>Pulsa «Volver al mapa con tu plan»: el mapa revisa tu plan al volver.</li>
+        <li>Si sigue en Demo, cierra la pestaña, ábrela de nuevo y escribe a soporte desde <a href="soporte.html">Soporte</a>.</li></ol></div></details>
+      <details class="paso"><summary>Un botón dice 🔒 al descargar o imprimir</summary><div class="ejemplo"><p>Descargar PDF, exportar e imprimir están en el plan <b>Command</b>. En los demás planes puedes leer los reportes en pantalla. Al pulsar el botón con 🔒 se abre la ventana con los planes.</p></div></details>
+    </section>
+
+    <section data-solo-admin id="t-admin" data-tema>
+      <h2>10. Administración (solo para quien administra)</h2>
+      <p>La versión completa del sitio vive en <b>https://admin.dominusosint.com/</b>, detrás de tu inicio de sesión con GitHub. En dominusosint.com tú también ves lo mismo que un visitante (Demo), para que nadie más vea el menú Admin.</p>
+      <details class="paso"><summary>Entrar a Admin</summary><div class="ejemplo"><ol>
+        <li>Abre https://admin.dominusosint.com/ (guárdalo en favoritos).</li>
+        <li>Pulsa «Continuar con GitHub» y entra con tu cuenta de administración.</li>
+        <li>Verás el mapa completo y, en <b>Secciones → Admin</b>, los grupos «Acceso administrativo», «Análisis», «Negocio» y «Sistema».</li>
+        <li>Las páginas de Admin se sirven desde el propio Worker: no dependen de Cloudflare Access.</li></ol></div></details>
+      <details class="paso"><summary>Ver el sitio como un cliente de cada plan</summary><div class="ejemplo"><ol>
+        <li>En admin.dominusosint.com, arriba a la izquierda, usa el selector <b>«Plan»</b>.</li>
+        <li>Elige Demo, Recon, Analyst o Command: la página se recarga con esa vista (equivale a «?vista=pago&amp;plan=recon»).</li>
+        <li>Para volver a la vista completa, quita «?vista=pago…» de la dirección.</li></ol></div></details>
+      <details class="paso"><summary>Dar de alta a un cliente que pagó</summary><div class="ejemplo"><ol>
+        <li>En Cloudflare, abre <b>Workers y Pages → D1 → dominusosint-planes → Console</b>.</li>
+        <li>Escribe la orden con el correo del cliente, por ejemplo: <code>INSERT INTO dominus_memberships_email (email, plan) VALUES ('cliente@ejemplo.com', 'analyst');</code></li>
+        <li>Para darlo de baja: <code>UPDATE dominus_memberships_email SET active = 0 WHERE email = 'cliente@ejemplo.com';</code></li>
+        <li>El cliente pulsa «Iniciar sesión» y vuelve al mapa: ya ve su plan.</li></ol></div></details>
+      <details class="paso"><summary>Revisión diaria</summary><div class="ejemplo"><ol>
+        <li><b>Admin → Sistema → Cuotas de APIs</b>: semáforo de llaves, tokens y límites, y el aviso de clientes de pago.</li>
+        <li><b>Admin → Sistema → Centro de control</b>: tareas automáticas y fuentes.</li>
+        <li><b>Autoauditoría</b>: controles de seguridad y pendientes (incluida la protección de datos por plan desde el Worker).</li></ol></div></details>
+    </section>
+
     <section id="t-faq" data-tema>
-      <h2>9. Problemas frecuentes</h2>
+      <h2>11. Problemas frecuentes</h2>
       <details class="paso"><summary>Una capa no muestra nada</summary><ol><li>Revisa si dice «desde zoom N»: acércate.</li><li>Si dice «sin datos en la última construcción», la fuente no respondió esa semana.</li><li>Las capas de noticias de 72 h pueden estar en cero si no hubo notas.</li></ol></details>
       <details class="paso"><summary>Cambios recién publicados no aparecen</summary><p>Recarga con <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd>. La página se actualiza sola cuando detecta una versión nueva.</p></details>
       <details class="paso"><summary>Mis listas desaparecieron</summary><p>Mi lista de inmuebles, oficios, cronologías, llave de Groq y lugares seguidos se guardan en tu navegador. Borrar datos de navegación o usar otro equipo los pierde: usa los botones de exportar.</p></details>
     </section>
 
     <section id="t-glosario" data-tema>
-      <h2>10. Glosario</h2>
+      <h2>12. Glosario</h2>
       <ul>
         <li><b>OSINT</b>: inteligencia de fuentes abiertas.</li><li><b>Capa</b>: conjunto de datos que se dibuja sobre el mapa.</li>
         <li><b>Zoom</b>: nivel de acercamiento (0 = mundo completo; 15 = calles).</li><li><b>ADS-B / AIS</b>: señales que transmiten aviones y barcos con su posición.</li>
