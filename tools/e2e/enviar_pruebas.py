@@ -61,7 +61,7 @@ def resumen_rol(r):
     js = [e for e in r.get("errores", []) if e.get("tipo") in ("js", "arranque")]
     peg = [i for i in r.get("imagenes", []) if i.get("quedo_al_quitar") or i.get("quedo_al_quitar_rapido")]
     fallidas = [c for c in r.get("comprobaciones", []) if not c.get("ok")]
-    parp = 1 if (r.get("parpadeo_candados") or 0) > 4 else 0
+    parp = 1 if (r.get("parpadeo_candados") or 0) > 0 else 0
     return {"rol": r.get("rol"), "arranque_s": r.get("arranque_s") or 0, "capas": len(r.get("capas", [])),
             "vacias": sum(1 for c in r.get("capas", []) if re.match(r"^0\b|sin datos|sin respuesta", str(c.get("resultado", "")))),
             "pegadas": len(peg), "sin_imagen": sum(1 for i in r.get("imagenes", []) if i.get("aparece") is False),
