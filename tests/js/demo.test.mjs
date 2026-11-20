@@ -17,3 +17,14 @@ test("el módulo se escapa y su imagen se puede ampliar", () => {
   const h = htmlModulo({ id: "x", titulo: "<b>T</b>", captura: "mapa.jpg", que_hace: "q", para_quien: "p", ejemplo: ["a"], pagina: "./" });
   assert.ok(h.includes("&lt;b&gt;T") && !h.includes("<b>T") && h.includes("data-ampliar"));
 });
+
+test("los precios de la demostración (página, PDF y PowerPoint) se muestran en dólares", async () => {
+  const { preciosPlanes } = await import("../../js/demo.js");
+  const cat = JSON.parse(readFileSync(new URL("../../config/planes.json", import.meta.url), "utf8"));
+  const p = preciosPlanes(cat);
+  assert.equal(p.length, cat.planes.length);
+  assert.ok(p.every((t) => /: (Gratis|USD \d+\.\d{2} al mes)$/.test(t)), p.join(" | "));
+  assert.ok(!p.join(" ").includes("MXN"));
+  const h = htmlModulo({ id: "planes", titulo: "Planes", captura: "planes.jpg", que_hace: "q", para_quien: "p", ejemplo: ["a"], precios: p });
+  assert.ok(h.includes("Precios (USD)") && h.includes("USD 4.99 al mes"));
+});

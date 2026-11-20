@@ -41,19 +41,19 @@ export function fechaLarga(iso) {
   return `${d} de ${MESES[m - 1]} de ${a}`;
 }
 
-/** Texto del precio: «93 MXN al mes (USD 4.99 al tipo de cambio FIX de Banxico del 28 de octubre de 2026)». */
-export function textoPrecio(plan, fix, plantilla = "{mxn} MXN al mes (USD {usd} al tipo de cambio FIX de Banxico del {fecha})") {
+/** Texto del precio, siempre en dólares: «USD 4.99 al mes (se cobra en pesos: 92 MXN al tipo de cambio FIX de Banxico del 28 de octubre de 2026)». */
+export const PLANTILLA_PRECIO = "USD {usd} al mes (se cobra en pesos: {mxn} MXN al tipo de cambio FIX de Banxico del {fecha})";
+export function textoPrecio(plan, fix, plantilla = PLANTILLA_PRECIO) {
   if (plan.usd === 0) return "Gratis, con registro";
   const mxn = fix ? precioMxn(plan.usd, fix.valor) : null;
   if (mxn == null) return `USD ${plan.usd.toFixed(2)} al mes (sin tipo de cambio disponible)`;
   return plantilla.replace("{mxn}", mxn.toLocaleString("es-MX")).replace("{usd}", plan.usd.toFixed(2)).replace("{fecha}", fechaLarga(fix.fecha));
 }
 
-/** Precio corto para etiquetas: «Gratis», «92 MXN al mes» o, sin tipo de cambio, «USD 4.99 al mes». */
+/** Precio corto para etiquetas, siempre en dólares: «Gratis» o «USD 4.99 al mes». `fix` se acepta por compatibilidad. */
+// eslint-disable-next-line no-unused-vars
 export function precioCorto(plan, fix) {
-  if (plan.usd === 0) return "Gratis";
-  const mxn = fix ? precioMxn(plan.usd, fix.valor) : null;
-  return mxn == null ? `USD ${plan.usd.toFixed(2)} al mes` : `${mxn.toLocaleString("es-MX")} MXN al mes`;
+  return plan.usd === 0 ? "Gratis" : `USD ${Number(plan.usd).toFixed(2)} al mes`;
 }
 
 /** Precios de todos los planes con el FIX vigente. */
