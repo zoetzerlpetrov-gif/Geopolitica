@@ -25,6 +25,20 @@ export const EXTERNOS = IDIOMAS.map(([k]) => k).filter((k) => k !== "es" && !ORD
 
 // es | en | fr | de | it
 const FILAS = `
+← Regresar al Mapa|← Back to the map|← Retour à la carte|← Zurück zur Karte|← Torna alla mappa
+⬆ Mejorar plan|⬆ Upgrade plan|⬆ Améliorer l'offre|⬆ Plan upgraden|⬆ Migliora il piano
+Iniciar sesión|Sign in|Se connecter|Anmelden|Accedi
+Registrarse gratis|Sign up free|S'inscrire gratuitement|Kostenlos registrieren|Registrati gratis
+⬆ Mejora tu plan|⬆ Upgrade your plan|⬆ Améliorez votre offre|⬆ Ihren Plan upgraden|⬆ Migliora il tuo piano
+✓ Tu plan actual|✓ Your current plan|✓ Votre offre actuelle|✓ Ihr aktueller Plan|✓ Il tuo piano attuale
+Incluido en tu plan|Included in your plan|Inclus dans votre offre|In Ihrem Plan enthalten|Incluso nel tuo piano
+Comparativo por sección|Comparison by section|Comparaison par section|Vergleich nach Bereich|Confronto per sezione
+Ver detalle|See details|Voir le détail|Details ansehen|Vedi dettagli
+Sección|Section|Section|Bereich|Sezione
+Gratis|Free|Gratuit|Kostenlos|Gratis
+Mi cuenta|My account|Mon compte|Mein Konto|Il mio account
+Planes y precios|Plans and prices|Offres et tarifs|Pläne und Preise|Piani e prezzi
+Ver la página de planes y precios|See the plans and prices page|Voir la page des offres et tarifs|Seite mit Plänen und Preisen ansehen|Vedi la pagina dei piani e prezzi
 Saltar a la lista de eventos|Skip to the event list|Aller à la liste des événements|Zur Ereignisliste springen|Vai all'elenco degli eventi
 Mostrar u ocultar panel|Show or hide panel|Afficher ou masquer le panneau|Seitenleiste ein- oder ausblenden|Mostra o nascondi il pannello
 Cargando…|Loading…|Chargement…|Wird geladen…|Caricamento…

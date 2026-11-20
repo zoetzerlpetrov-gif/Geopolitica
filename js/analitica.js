@@ -121,7 +121,7 @@ async function mapaResultado(pts) {
   if (!pts) return;
   if (!window.maplibregl) {
     const css = document.createElement("link"); css.rel = "stylesheet"; css.href = "vendor/maplibre-gl/maplibre-gl.css"; document.head.appendChild(css);
-    await new Promise((ok, mal) => { const sc = document.createElement("script"); sc.src = "vendor/maplibre-gl/maplibre-gl.js"; sc.onload = ok; sc.onerror = mal; document.head.appendChild(sc); });
+    window.maplibregl = { ...(await import("../vendor/maplibre-gl/maplibre-gl.mjs")) };  // MapLibre 6: módulo ESM (copia modificable)
   }
   const max = Math.max(1, ...pts.map((p) => p.valor || 0));
   const datos = { type: "FeatureCollection", features: pts.map((p) => ({ type: "Feature", geometry: { type: "Point", coordinates: [p.lon, p.lat] }, properties: { e: p.etiqueta, v: p.valor, r: 4 + 14 * Math.sqrt((p.valor || 0) / max) } })) };

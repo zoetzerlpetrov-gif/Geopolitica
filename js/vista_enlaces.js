@@ -2,7 +2,8 @@
 // el de la cuenta verificada o Demo. En administración se simula con ?vista=pago&plan=… y los enlaces internos lo
 // conservan, para que volver al mapa no lleve a la versión completa ni a otro plan. También impide abrir directo una
 // sección de solo admin o de un plan superior. En administración sin ?vista=pago no hace nada.
-import "./bitacora.js";  // bitácora local de errores para soporte (soporte.html), en todas las páginas
+import "./bitacora.js";
+import "./idioma_pagina.js";  // el idioma elegido en el mapa se aplica también aquí  // bitácora local de errores para soporte (soporte.html), en todas las páginas
 import { vistaActual, planActual, planFaltante, esSitioAdmin } from "./licencias.js";
 import { iniciarPlanCliente } from "./plan_cliente.js";
 import { paginaSoloAdmin } from "./planes.js";

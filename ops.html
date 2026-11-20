@@ -53,6 +53,7 @@
       <button role="tab" aria-selected="false" data-p="plantillas">🗂️ Plantillas por fase</button>
       <button role="tab" aria-selected="false" data-p="biblioteca">📚 Biblioteca de metodologías</button>
       <button role="tab" aria-selected="false" data-p="riesgos">🎲 Risk Management y escenarios</button>
+      <button role="tab" aria-selected="false" data-p="ciber">🔐 Ciberseguridad</button>
       <button role="tab" aria-selected="false" data-p="informe">📄 Informe de las 6 fases</button>
       <button role="tab" aria-selected="false" data-p="proyecto">🗂️ Proyecto (plan importado)</button>
       <button role="tab" aria-selected="false" data-p="tableros">📊 Tableros y War Room</button>
@@ -86,6 +87,35 @@
       <div id="ops-esc"></div>
     </section>
 
+    <section class="panel" id="p-ciber" hidden>
+      <h2>🔐 Diagnóstico de ciberseguridad</h2>
+      <p class="meta">Para cualquier empresa, de cualquier giro o sector. Cuestionario guiado de 31 preguntas en lenguaje sencillo, ligado a <b>NIST CSF 2.0</b>
+        (Gobernar, Identificar, Proteger, Detectar, Responder, Recuperar), <b>CIS Controls v8</b> y el Anexo A de <b>ISO/IEC 27001:2022</b>. Da la madurez por
+        función, la preparación frente a ransomware, robo de contraseñas y fuerza bruta, phishing, fallas sin actualizar, proveedores y fuga de datos, y un plan
+        de acción a 30, 90 y 180 días. Es una autoevaluación, no una auditoría. Las respuestas se guardan solo en este navegador.</p>
+      <div class="cb-cab">
+        <label>Diagnóstico guardado <select id="cb-cliente"></select></label>
+        <label>Empresa <input id="cb-nombre" maxlength="80" placeholder="Nombre de la empresa" autocomplete="off"></label>
+        <label>Dominio (opcional) <input id="cb-dominio" maxlength="253" placeholder="empresa.com.mx" autocomplete="off"></label>
+        <button type="button" class="btn" id="cb-revisar">🔎 Revisar dominio</button>
+      </div>
+      <div id="cb-dns" aria-live="polite"></div>
+      <div class="cb-cols"><div id="cb-preguntas">Cargando…</div><div><div id="cb-resultado" aria-live="polite"></div>
+        <p class="cb-acc"><select id="cb-formato" aria-label="Formato del reporte"><option value="doc">Word (.doc)</option><option value="pdf">PDF</option><option value="html">HTML</option><option value="md">Markdown</option><option value="imprimir">Imprimir</option></select>
+          <button type="button" class="btn" id="cb-exportar">⬇ Exportar reporte</button> <button type="button" class="btn" id="cb-reiniciar">↺ Reiniciar</button></p></div></div>
+      <style>
+        .cb-cab{display:flex;flex-wrap:wrap;gap:10px;align-items:end;margin:10px 0}.cb-cab label{display:flex;flex-direction:column;font-size:13px;gap:3px}
+        .cb-cols{display:grid;grid-template-columns:1.15fr .85fr;gap:18px;align-items:start}@media (max-width:980px){.cb-cols{grid-template-columns:1fr}}
+        .cb-cols>div:last-child{position:sticky;top:8px}
+        .cb-funcion{border:1px solid var(--line);border-radius:var(--radius);padding:6px 10px;margin:8px 0}.cb-funcion summary{cursor:pointer}
+        .cb-q{border:0;border-top:1px solid var(--line);margin:6px 0;padding:8px 0}.cb-q legend{font-weight:600;padding:0}.cb-op{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:14px}
+        .cb-kpis{display:flex;flex-wrap:wrap;gap:8px}.cb-kpi{border:1px solid var(--line);border-radius:var(--radius);padding:8px 12px;min-width:140px;background:var(--surface)}
+        .cb-kpi span,.cb-kpi small{display:block;font-size:12px;color:var(--text-2)}.cb-kpi b{font-size:26px}
+        .cb-dos{display:grid;grid-template-columns:1fr;gap:8px;align-items:center;justify-items:center}.cb-dos>div{width:100%}
+        .cb-radar{width:100%;max-width:340px}.cb-barra{display:grid;grid-template-columns:minmax(0,1fr) 38% 44px;gap:8px;align-items:center;font-size:13px;margin:6px 0}.cb-barra::after{content:none}.cb-barra i{min-width:3px}
+        .cb-pista{display:block;height:10px;border-radius:5px;background:var(--surface-2);overflow:hidden}.cb-barra i{display:block;height:100%;border-radius:5px}.cb-dns{list-style:none;padding:0}.cb-dns li{margin:6px 0}
+      </style>
+    </section>
     <section class="panel" id="p-informe" hidden>
       <h2>Informe integral DOMINUS OPS</h2>
       <p class="meta">Reúne todo lo capturado (Cliente, Readiness Assessment y DMI, gobernanza y RACI, plantillas por fase, biblioteca, KPIs y escenarios de riesgo) en un informe de estilo consultoría:
@@ -236,6 +266,7 @@
     </section>
   </main>
   <script type="module" src="js/ops.js"></script>
+  <script type="module" src="js/ops-ciber.js"></script>
   <script type="module" src="js/autoauditoria.js"></script>
   <script type="module" src="js/vista_enlaces.js"></script>
 </body>

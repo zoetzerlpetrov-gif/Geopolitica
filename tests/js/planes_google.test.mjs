@@ -52,3 +52,13 @@ test("Registro gratuito: entrar con Google sin plan registra el correo (Demo) co
   assert.ok(sql.every((q) => !/nuevo@|otro@|DROP/i.test(q)), "el correo nunca va dentro del SQL");
   assert.ok(sql.some((q) => q.includes("INSERT OR IGNORE INTO dominus_registros (email) VALUES (?)")));
 });
+
+test("Mi cuenta: página con estilo propio, escapada y sin estilos en línea", async () => {
+  const { paginaCuenta, CSS } = await import("../../cloudflare/planes/cuenta-ui.js");
+  const sin = paginaCuenta({}), con = paginaCuenta({ plan: "recon" }), fallo = paginaCuenta({ fallo: true });
+  assert.ok(sin.includes("Continuar con Google") && sin.includes("Ver el mapa sin cuenta"), "registrarse no es obligatorio para ver el mapa");
+  assert.ok(con.includes("RECON") === false && con.includes("Recon") && con.includes("USD 4.99 / mes") && con.includes("Cerrar sesión"));
+  assert.ok(fallo.includes('role="alert"'));
+  assert.ok(!/style=|<script/i.test(sin + con), "sin estilos ni scripts en línea (CSP)");
+  assert.ok(CSS.includes("Barlow Condensed") && CSS.includes("prefers-color-scheme:light"));
+});

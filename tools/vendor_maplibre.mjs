@@ -5,7 +5,7 @@
 //   - satellite.js    (MIT)           propagación SGP4 de órbitas (en un Web Worker)
 import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 const libs = [
-  ["maplibre-gl", ["dist/maplibre-gl.js", "dist/maplibre-gl.css", "LICENSE.txt"]],
+  ["maplibre-gl", ["dist/maplibre-gl.mjs", "dist/maplibre-gl-worker.mjs", "dist/maplibre-gl.css", "LICENSE.txt"]],  // v6: solo ESM (lo carga vendor/maplibre-gl/cargar.mjs)
   ["pmtiles", ["dist/pmtiles.js"]],
   ["satellite.js", ["dist/satellite.min.js", "LICENSE.md"]],
 ];

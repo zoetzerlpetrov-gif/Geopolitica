@@ -659,9 +659,8 @@
   </footer>
 
   <script type="module" src="js/bitacora.js"></script>
-  <script src="vendor/maplibre-gl/maplibre-gl.js"></script>
-  <!-- Arranca los workers de MapLibre mientras se ejecutan los módulos de la app (no espera a crear el mapa). -->
-  <script>try { maplibregl.prewarm(); } catch (e) {}</script>
+  <!-- MapLibre 6 (ESM): va antes de app.js para que window.maplibregl exista cuando arranque; también precalienta los workers. -->
+  <script type="module" src="vendor/maplibre-gl/cargar.mjs"></script>
   <script type="module" src="js/app.js?v=203"></script>
   <script type="module" src="js/utm.js"></script>
   <script type="module" src="js/vista_enlaces.js?v=3"></script>

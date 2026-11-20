@@ -56,9 +56,9 @@ export function precioCorto(plan, fix) {
   return plan.usd === 0 ? "Gratis" : `USD ${Number(plan.usd).toFixed(2)} al mes`;
 }
 
-/** Enlace de compra del plan (solo suscripciones de Mercado Pago en https), o null. */
+/** Enlace de compra del plan (solo Mercado Pago en https: mercadopago.com(.mx) o su acortador mpago.la), o null. */
 export function enlaceCompra(plan) {
-  try { const u = new URL(String(plan?.compra_url || "")); return u.protocol === "https:" && /(^|\.)mercadopago\.com(\.mx)?$/.test(u.hostname) ? u.href : null; } catch { return null; }
+  try { const u = new URL(String(plan?.compra_url || "")); return u.protocol === "https:" && (/(^|\.)mercadopago\.com(\.mx)?$/.test(u.hostname) || u.hostname === "mpago.la") ? u.href : null; } catch { return null; }
 }
 
 /** Precios de todos los planes con el FIX vigente. */
