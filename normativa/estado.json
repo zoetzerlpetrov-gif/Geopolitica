@@ -1,5 +1,5 @@
 {
- "generado_utc": "2026-11-20T20:53:36Z",
+ "generado_utc": "2026-11-20T21:57:18Z",
  "fuentes": {
   "MEX": {
    "fuente": "Diario Oficial de la Federación y Cámara de Diputados",
@@ -27,10 +27,10 @@
   },
   "EUR": {
    "fuente": "Oficina de Publicaciones de la UE (Cellar)",
-   "ok": true,
-   "estado": "ok",
-   "nuevas": 2,
-   "error": "",
+   "ok": false,
+   "estado": "error",
+   "nuevas": 0,
+   "error": "HTTPError: HTTP Error 504: Gateway Time-out",
    "hasta": "2026-11-20"
   },
   "JPN": {

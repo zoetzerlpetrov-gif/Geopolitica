@@ -1,5 +1,5 @@
 {
- "generado_utc": "2026-11-20T20:55:36Z",
+ "generado_utc": "2026-11-20T21:58:59Z",
  "agregadas_hoy": 0,
  "resumen": {
   "en_curso": 12,
@@ -181,7 +181,8 @@
    "ventana": [
     "2026-12",
     "2027-02"
-   ]
+   ],
+   "leyes_ids": []
   },
   {
    "id": "AG:570c1741dbd9",
@@ -250,7 +251,11 @@
     "empresas"
    ],
    "confirmacion": "un solo medio (sin confirmar)",
-   "ventana": null
+   "ventana": null,
+   "leyes_ids": [
+    "MEX:lie",
+    "MEX:zona_restringida"
+   ]
   },
   {
    "id": "AG:541a719d8cb1",
@@ -283,7 +288,8 @@
    "ventana": [
     "2026-12",
     "2027-08"
-   ]
+   ],
+   "leyes_ids": []
   },
   {
    "id": "AG:9dcfee958c1f",
@@ -316,7 +322,8 @@
    "ventana": [
     "2026-12",
     "2027-08"
-   ]
+   ],
+   "leyes_ids": []
   },
   {
    "id": "AG:a4a67a26dc83",
