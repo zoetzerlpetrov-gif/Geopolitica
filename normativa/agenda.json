@@ -1,0 +1,448 @@
+{
+ "generado_utc": "2026-11-20T16:53:55Z",
+ "agregadas_hoy": 13,
+ "resumen": {
+  "en_curso": 12,
+  "federal": 12,
+  "estatal": 0,
+  "publicadas": 1,
+  "alta_probabilidad": 9,
+  "por_sector": {
+   "sin sector": 5,
+   "energia_electrica": 5,
+   "manufactura_immex": 2,
+   "logistica": 1,
+   "transporte_pasajeros": 1,
+   "automotriz": 1,
+   "hidrocarburos": 1
+  }
+ },
+ "fuentes": {
+  "DOF (sumario)": "ok",
+  "Monitor de noticias": "ok",
+  "Gaceta Parlamentaria": "omitida: su robots.txt responde 403 (se trata como prohibido)",
+  "SIL (Segob) y CONAMER": "por incorporar: verificar acceso desde GitHub Actions"
+ },
+ "nota": "La probabilidad es una estimación por etapa del proceso y origen, no un pronóstico oficial. Confirma siempre en la fuente.",
+ "etapas": {
+  "consulta": {
+   "nombre": "Proyecto en consulta pública",
+   "prob": 0.75,
+   "meses": "1–6"
+  },
+  "iniciativa": {
+   "nombre": "Iniciativa presentada",
+   "prob": 0.15,
+   "meses": "3–18"
+  },
+  "iniciativa_ejecutivo": {
+   "nombre": "Iniciativa del Ejecutivo federal",
+   "prob": 0.7,
+   "meses": "1–6"
+  },
+  "dictamen": {
+   "nombre": "Dictamen en comisiones",
+   "prob": 0.6,
+   "meses": "1–4"
+  },
+  "aprobada_camara": {
+   "nombre": "Aprobada en una cámara (minuta)",
+   "prob": 0.8,
+   "meses": "1–3"
+  },
+  "aprobada_congreso": {
+   "nombre": "Aprobada por el Congreso; falta publicar en el DOF",
+   "prob": 0.93,
+   "meses": "0–1"
+  },
+  "programa": {
+   "nombre": "Programa de normalización o mejora regulatoria",
+   "prob": 0.5,
+   "meses": "3–12"
+  },
+  "anunciada": {
+   "nombre": "Ley o reforma nueva en discusión pública",
+   "prob": 0.45,
+   "meses": "1–9"
+  }
+ },
+ "sectores_nombres": {
+  "automotriz": "Automotriz y autopartes",
+  "energia_electrica": "Energía eléctrica (generación, transmisión, distribución, renovables)",
+  "hidrocarburos": "Hidrocarburos (exploración, refinación, ductos, estaciones de servicio)",
+  "aeronautico": "Aeronáutico y aeroespacial",
+  "farmaceutico": "Farmacéutico y dispositivos médicos",
+  "construccion": "Construcción e infraestructura",
+  "defensa": "Defensa, armamento y bienes de uso dual (cumplimiento)",
+  "seguros": "Seguros y fianzas",
+  "bancos": "Bancos y servicios financieros",
+  "mineria": "Minería",
+  "alimentos": "Alimentos y bebidas",
+  "telecom": "Telecomunicaciones",
+  "ti_digital": "Tecnología, nube y servicios digitales",
+  "logistica": "Transporte y logística"
+ },
+ "senales": [
+  {
+   "id": "AG:576602014692",
+   "detectado": "2026-11-19",
+   "actualizado": "2026-11-19",
+   "fuente": "Monitor de noticias (titular)",
+   "ambito": "federal",
+   "etapa": "aprobada_camara",
+   "etapa_nombre": "Aprobada en una cámara (minuta)",
+   "probabilidad": 0.8,
+   "horizonte_meses": "1–3",
+   "titulo": "Congreso aprueba nueva Ley de Protección Animal en México; contempla multas de hasta 234 mil pesos por maltrato",
+   "url": "https://rancherita.com.mx/noticias/detalles/200683/congreso-aprueba-nueva-ley-de-proteccion-animal-en-mexico-contempla-multas-de-hasta-234-mil-pesos-por-maltrato.html",
+   "medio": "rancherita.com.mx",
+   "leyes": [],
+   "sectores": [],
+   "estado": "en curso",
+   "notas": [
+    {
+     "t": "Carlos Canturosas destaca nueva ley que sanciona el maltrato y abandono animal",
+     "u": "https://horacero.com.mx/tamaulipas/carlos-canturosas-proteccion-animal",
+     "m": "horacero.com.mx",
+     "f": "2026-11-19"
+    },
+    {
+     "t": "Nueva ley contra el maltrato animal obligará a estados y municipios a modificar sus reglamentos: regidora Adriana Muñoz",
+     "u": "https://plumaslibres.com.mx/2026/11/19/nueva-ley-contra-el-maltrato-animal-obligara-a-estados-y-municipios-a-modificar-sus-reglamentos-regidora-adriana-munoz/",
+     "m": "plumaslibres.com.mx",
+     "f": "2026-11-19"
+    },
+    {
+     "t": "Congreso aprueba nueva Ley de Protección Animal en México; contempla multas de hasta 234 mil pesos por maltrato",
+     "u": "https://rancherita.com.mx/noticias/detalles/200683/congreso-aprueba-nueva-ley-de-proteccion-animal-en-mexico-contempla-multas-de-hasta-234-mil-pesos-por-maltrato.html",
+     "m": "rancherita.com.mx",
+     "f": "2026-11-19"
+    }
+   ]
+  },
+  {
+   "id": "AG:570c1741dbd9",
+   "detectado": "2026-11-19",
+   "actualizado": "2026-11-19",
+   "fuente": "Monitor de noticias (titular)",
+   "ambito": "federal",
+   "etapa": "aprobada_camara",
+   "etapa_nombre": "Aprobada en una cámara (minuta)",
+   "probabilidad": 0.8,
+   "horizonte_meses": "1–3",
+   "titulo": "Senado avala reforma contra violencia sexual en escuelas: establece sancionar a agresores y erradicar estereotipos sexistas",
+   "url": "https://www.infobae.com/mexico/2026/11/19/senado-avala-reforma-contra-violencia-sexual-en-escuelas-establece-sancionar-a-agresores-y-erradicar-estereotipos-sexistas/",
+   "medio": "Infobae México",
+   "leyes": [],
+   "sectores": [],
+   "estado": "en curso",
+   "notas": [
+    {
+     "t": "Senado avala reforma contra violencia sexual en escuelas: establece sancionar a agresores y erradicar estereotipos sexistas",
+     "u": "https://www.infobae.com/mexico/2026/11/19/senado-avala-reforma-contra-violencia-sexual-en-escuelas-establece-sancionar-a-agresores-y-erradicar-estereotipos-sexistas/",
+     "m": "Infobae México",
+     "f": "2026-11-19"
+    }
+   ]
+  },
+  {
+   "id": "AG:86b98407bb93",
+   "detectado": "2026-11-19",
+   "actualizado": "2026-11-19",
+   "fuente": "Monitor de noticias (titular)",
+   "ambito": "federal",
+   "etapa": "anunciada",
+   "etapa_nombre": "Ley o reforma nueva en discusión pública",
+   "probabilidad": 0.45,
+   "horizonte_meses": "1–9",
+   "titulo": "Nueva Ley de Inversión Extranjera: Instituciones de seguridad tendrán voz, pero no voto",
+   "url": "https://www.eluniversal.com.mx/nacion/publican-nueva-ley-de-inversion-extranjera-instituciones-de-seguridad-tendran-voz-pero-no-voto/",
+   "medio": "eluniversal.com.mx",
+   "leyes": [
+    "Ley de Inversión Extranjera y Reglamento (RNIE)",
+    "Adquisición de inmuebles por extranjeros en zona restringida: Ley de Inversión Extranjera (fideicomisos y aviso/permiso de la SRE)"
+   ],
+   "sectores": [
+    "inmobiliario_desarrollo"
+   ],
+   "estado": "publicada",
+   "notas": [
+    {
+     "t": "Nueva Ley de Inversión Extranjera: Instituciones de seguridad tendrán voz, pero no voto",
+     "u": "https://www.eluniversal.com.mx/nacion/publican-nueva-ley-de-inversion-extranjera-instituciones-de-seguridad-tendran-voz-pero-no-voto/",
+     "m": "eluniversal.com.mx",
+     "f": "2026-11-19"
+    }
+   ],
+   "publicada_el": "2026-11-19"
+  },
+  {
+   "id": "AG:541a719d8cb1",
+   "detectado": "2026-11-19",
+   "actualizado": "2026-11-19",
+   "fuente": "Monitor de noticias (titular)",
+   "ambito": "federal",
+   "etapa": "anunciada",
+   "etapa_nombre": "Ley o reforma nueva en discusión pública",
+   "probabilidad": 0.45,
+   "horizonte_meses": "1–9",
+   "titulo": "Nueva Ley de Bienestar Animal: estos son los cambios tras el reconocimiento de toda la fauna como seres sintientes",
+   "url": "https://oem.com.mx/elsoldemexico/mexico/nueva-ley-de-bienestar-animal-estos-son-los-cambios-tras-el-reconocimiento-de-toda-la-fauna-como-seres-sintientes-33218729",
+   "medio": "El Sol de México",
+   "leyes": [],
+   "sectores": [],
+   "estado": "en curso",
+   "notas": [
+    {
+     "t": "Nueva Ley de Bienestar Animal: estos son los cambios tras el reconocimiento de toda la fauna como seres sintientes",
+     "u": "https://oem.com.mx/elsoldemexico/mexico/nueva-ley-de-bienestar-animal-estos-son-los-cambios-tras-el-reconocimiento-de-toda-la-fauna-como-seres-sintientes-33218729",
+     "m": "El Sol de México",
+     "f": "2026-11-19"
+    }
+   ]
+  },
+  {
+   "id": "AG:9dcfee958c1f",
+   "detectado": "2026-11-19",
+   "actualizado": "2026-11-19",
+   "fuente": "Monitor de noticias (titular)",
+   "ambito": "federal",
+   "etapa": "anunciada",
+   "etapa_nombre": "Ley o reforma nueva en discusión pública",
+   "probabilidad": 0.45,
+   "horizonte_meses": "1–9",
+   "titulo": "¿Tienes perro o gato? Tendrás que registrarlo: qué dice la nueva ley en México",
+   "url": "https://politica.expansion.mx/mexico/2026/11/19/ley-bienestar-animal-registro-mascotas-maltrato",
+   "medio": "Expansión Política",
+   "leyes": [],
+   "sectores": [],
+   "estado": "en curso",
+   "notas": [
+    {
+     "t": "¿Tienes perro o gato? Tendrás que registrarlo: qué dice la nueva ley en México",
+     "u": "https://politica.expansion.mx/mexico/2026/11/19/ley-bienestar-animal-registro-mascotas-maltrato",
+     "m": "Expansión Política",
+     "f": "2026-11-19"
+    }
+   ]
+  },
+  {
+   "id": "AG:a4a67a26dc83",
+   "detectado": "2026-09-23",
+   "actualizado": "2026-09-23",
+   "fuente": "Diario Oficial de la Federación (sumario)",
+   "ambito": "federal",
+   "etapa": "consulta",
+   "etapa_nombre": "Proyecto en consulta pública",
+   "probabilidad": 0.75,
+   "horizonte_meses": "1–6",
+   "titulo": "Aviso de consulta pública del Proyecto de Norma Oficial Mexicana PROY-NOM-019-SICT2/2026, Especificaciones técnicas y disposiciones generales para la limpieza, manejo y control de remanentes y residuos peligrosos en las unidades vehiculares que transportan substancias, materiales y residuos peligros",
+   "url": "https://dof.gob.mx/index.php?year=2026&month=09&day=23",
+   "medio": "DOF",
+   "leyes": [],
+   "sectores": [
+    "logistica",
+    "transporte_pasajeros"
+   ],
+   "estado": "en curso",
+   "notas": [
+    {
+     "t": "Aviso de consulta pública del Proyecto de Norma Oficial Mexicana PROY-NOM-019-SICT2/2026, Especificaciones técnicas y disposiciones generales para la limpieza, manejo y control de remanentes y residuos peligrosos en las unidades vehiculares que transportan substancias, materiales y residuos peligros",
+     "u": "https://dof.gob.mx/index.php?year=2026&month=09&day=23",
+     "m": "DOF",
+     "f": "2026-09-23"
+    }
+   ]
+  },
+  {
+   "id": "AG:741554d70716",
+   "detectado": "2026-09-07",
+   "actualizado": "2026-09-07",
+   "fuente": "Diario Oficial de la Federación (sumario)",
+   "ambito": "federal",
+   "etapa": "consulta",
+   "etapa_nombre": "Proyecto en consulta pública",
+   "probabilidad": 0.75,
+   "horizonte_meses": "1–6",
+   "titulo": "Aviso de consulta pública del Proyecto de Norma Oficial Mexicana PROY-NOM-030-ASEA-2026, Distribución de Gas Licuado de Petróleo por medio de Auto- tanque y Vehículo de Reparto.",
+   "url": "https://dof.gob.mx/index.php?year=2026&month=09&day=07",
+   "medio": "DOF",
+   "leyes": [],
+   "sectores": [
+    "automotriz",
+    "hidrocarburos"
+   ],
+   "estado": "en curso",
+   "notas": [
+    {
+     "t": "Aviso de consulta pública del Proyecto de Norma Oficial Mexicana PROY-NOM-030-ASEA-2026, Distribución de Gas Licuado de Petróleo por medio de Auto- tanque y Vehículo de Reparto.",
+     "u": "https://dof.gob.mx/index.php?year=2026&month=09&day=07",
+     "m": "DOF",
+     "f": "2026-09-07"
+    }
+   ]
+  },
+  {
+   "id": "AG:d44672c8562a",
+   "detectado": "2026-08-26",
+   "actualizado": "2026-08-26",
+   "fuente": "Diario Oficial de la Federación (sumario)",
+   "ambito": "federal",
+   "etapa": "programa",
+   "etapa_nombre": "Programa de normalización o mejora regulatoria",
+   "probabilidad": 0.5,
+   "horizonte_meses": "3–12",
+   "titulo": "Suplemento del Programa Nacional de Infraestructura de la Calidad 2026.",
+   "url": "https://dof.gob.mx/index.php?year=2026&month=08&day=26",
+   "medio": "DOF",
+   "leyes": [],
+   "sectores": [],
+   "estado": "en curso",
+   "notas": [
+    {
+     "t": "Suplemento del Programa Nacional de Infraestructura de la Calidad 2026.",
+     "u": "https://dof.gob.mx/index.php?year=2026&month=08&day=26",
+     "m": "DOF",
+     "f": "2026-08-26"
+    }
+   ]
+  },
+  {
+   "id": "AG:55a27042da3c",
+   "detectado": "2026-06-23",
+   "actualizado": "2026-06-23",
+   "fuente": "Diario Oficial de la Federación (sumario)",
+   "ambito": "federal",
+   "etapa": "consulta",
+   "etapa_nombre": "Proyecto en consulta pública",
+   "probabilidad": 0.75,
+   "horizonte_meses": "1–6",
+   "titulo": "Aviso de consulta pública del Proyecto de Norma Oficial Mexicana PROY-NOM-039-ENER/SE-2025, Rendimiento térmico, ahorro de gas y seguridad de los calentadores de agua solares de baja presión y de los calentadores de agua solares de baja presión con respaldo de un calentador de agua que utiliza como",
+   "url": "https://dof.gob.mx/index.php?year=2026&month=06&day=23",
+   "medio": "DOF",
+   "leyes": [],
+   "sectores": [
+    "energia_electrica",
+    "manufactura_immex"
+   ],
+   "estado": "en curso",
+   "notas": [
+    {
+     "t": "Aviso de consulta pública del Proyecto de Norma Oficial Mexicana PROY-NOM-039-ENER/SE-2025, Rendimiento térmico, ahorro de gas y seguridad de los calentadores de agua solares de baja presión y de los calentadores de agua solares de baja presión con respaldo de un calentador de agua que utiliza como",
+     "u": "https://dof.gob.mx/index.php?year=2026&month=06&day=23",
+     "m": "DOF",
+     "f": "2026-06-23"
+    }
+   ]
+  },
+  {
+   "id": "AG:7bd36c466951",
+   "detectado": "2026-06-23",
+   "actualizado": "2026-06-23",
+   "fuente": "Diario Oficial de la Federación (sumario)",
+   "ambito": "federal",
+   "etapa": "consulta",
+   "etapa_nombre": "Proyecto en consulta pública",
+   "probabilidad": 0.75,
+   "horizonte_meses": "1–6",
+   "titulo": "Aviso de consulta pública del Proyecto de Norma Oficial Mexicana PROY-NOM-041-ENER/SE-2025, Eficiencia energética y requisitos de seguridad de ventiladores. Límites, métodos de prueba y etiquetado.",
+   "url": "https://dof.gob.mx/index.php?year=2026&month=06&day=23",
+   "medio": "DOF",
+   "leyes": [],
+   "sectores": [
+    "energia_electrica",
+    "manufactura_immex"
+   ],
+   "estado": "en curso",
+   "notas": [
+    {
+     "t": "Aviso de consulta pública del Proyecto de Norma Oficial Mexicana PROY-NOM-041-ENER/SE-2025, Eficiencia energética y requisitos de seguridad de ventiladores. Límites, métodos de prueba y etiquetado.",
+     "u": "https://dof.gob.mx/index.php?year=2026&month=06&day=23",
+     "m": "DOF",
+     "f": "2026-06-23"
+    }
+   ]
+  },
+  {
+   "id": "AG:02b0b7e20288",
+   "detectado": "2026-05-28",
+   "actualizado": "2026-05-28",
+   "fuente": "Diario Oficial de la Federación (sumario)",
+   "ambito": "federal",
+   "etapa": "consulta",
+   "etapa_nombre": "Proyecto en consulta pública",
+   "probabilidad": 0.75,
+   "horizonte_meses": "1–6",
+   "titulo": "Aviso de consulta pública del Proyecto de Norma Oficial Mexicana PROY-NOM-004-NUCL-2025, Clasificación de los desechos radiactivos.",
+   "url": "https://dof.gob.mx/index.php?year=2026&month=05&day=28",
+   "medio": "DOF",
+   "leyes": [],
+   "sectores": [
+    "energia_electrica"
+   ],
+   "estado": "en curso",
+   "notas": [
+    {
+     "t": "Aviso de consulta pública del Proyecto de Norma Oficial Mexicana PROY-NOM-004-NUCL-2025, Clasificación de los desechos radiactivos.",
+     "u": "https://dof.gob.mx/index.php?year=2026&month=05&day=28",
+     "m": "DOF",
+     "f": "2026-05-28"
+    }
+   ]
+  },
+  {
+   "id": "AG:0c9b339b91a7",
+   "detectado": "2026-05-28",
+   "actualizado": "2026-05-28",
+   "fuente": "Diario Oficial de la Federación (sumario)",
+   "ambito": "federal",
+   "etapa": "consulta",
+   "etapa_nombre": "Proyecto en consulta pública",
+   "probabilidad": 0.75,
+   "horizonte_meses": "1–6",
+   "titulo": "Aviso de consulta pública del Proyecto de Norma Oficial Mexicana PROY-NOM-035-NUCL-2026, Criterios para la dispensa de materiales que contengan o estén contaminados con material radiactivo.",
+   "url": "https://dof.gob.mx/index.php?year=2026&month=05&day=28",
+   "medio": "DOF",
+   "leyes": [],
+   "sectores": [
+    "energia_electrica"
+   ],
+   "estado": "en curso",
+   "notas": [
+    {
+     "t": "Aviso de consulta pública del Proyecto de Norma Oficial Mexicana PROY-NOM-035-NUCL-2026, Criterios para la dispensa de materiales que contengan o estén contaminados con material radiactivo.",
+     "u": "https://dof.gob.mx/index.php?year=2026&month=05&day=28",
+     "m": "DOF",
+     "f": "2026-05-28"
+    }
+   ]
+  },
+  {
+   "id": "AG:890de67f16c0",
+   "detectado": "2026-05-28",
+   "actualizado": "2026-05-28",
+   "fuente": "Diario Oficial de la Federación (sumario)",
+   "ambito": "federal",
+   "etapa": "consulta",
+   "etapa_nombre": "Proyecto en consulta pública",
+   "probabilidad": 0.75,
+   "horizonte_meses": "1–6",
+   "titulo": "Aviso de consulta pública del Proyecto de Norma Oficial Mexicana PROY-NOM-041-NUCL-2025, Límites anuales de incorporación y concentraciones en liberaciones.",
+   "url": "https://dof.gob.mx/index.php?year=2026&month=05&day=28",
+   "medio": "DOF",
+   "leyes": [],
+   "sectores": [
+    "energia_electrica"
+   ],
+   "estado": "en curso",
+   "notas": [
+    {
+     "t": "Aviso de consulta pública del Proyecto de Norma Oficial Mexicana PROY-NOM-041-NUCL-2025, Límites anuales de incorporación y concentraciones en liberaciones.",
+     "u": "https://dof.gob.mx/index.php?year=2026&month=05&day=28",
+     "m": "DOF",
+     "f": "2026-05-28"
+    }
+   ]
+  }
+ ]
+}
