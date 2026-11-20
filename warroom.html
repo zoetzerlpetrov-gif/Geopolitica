@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="es">
-<head>
+<head><script>try{const t=localStorage.getItem('gp_theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch{}</script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>War Room DOMINUS</title>
@@ -9,6 +9,11 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23C8102E' d='M44 44 30 4h40L56 44 96 30v40L56 56l14 40H30l14-40L4 70V30z'/%3E%3C/svg%3E">
   <style>
     :root { --line: #ffffff22; --surface: #121821; --text: #e8edf3; }
+    /* Tema claro elegido en el mapa (gp_theme). */
+    :root[data-theme="light"] { --line: #00000022; --surface: #ffffff; --text: #1b1f24; }
+    :root[data-theme="light"] body { background: #f4f2ed; }
+    :root[data-theme="light"] a { color: #0b5cad; }
+    :root[data-theme="light"] button { background: #ece8df; }
     body { margin: 0; background: #0a0f15; color: var(--text); font-family: system-ui, Segoe UI, Roboto, sans-serif; }
     header { display: flex; flex-wrap: wrap; gap: 12px; align-items: baseline; justify-content: space-between; padding: 12px 18px; border-bottom: 2px solid #C8102E; }
     header h1 { margin: 0; font-size: 20px; letter-spacing: .04em; } .meta { font-size: 12px; opacity: .7; }

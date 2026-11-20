@@ -4,9 +4,10 @@
 // que se pide a la red son la plantilla y los indicadores públicos del propio sitio (data/vivos), de solo lectura.
 import {
   NIVELES, nivelActual, validarCambio, estancia, avance, completarFase, informeMarkdown, exportarCifrado, importarCifrado,
+  validarDestino, destinosVigentes,
 } from "./continuidad-logica.js";
 import { descargar } from "./web-cripto.js";
-import { svgTraslado, LEYENDA } from "./continuidad-mapa.js";
+import { svgTraslado, LEYENDA, ROLES, desproyectar } from "./continuidad-mapa.js";
 
 const CLAVE = "dominus_continuidad_v1";
 const $ = (id) => document.getElementById(id);
@@ -14,7 +15,9 @@ const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").
 const hoy = () => new Date().toISOString().slice(0, 10);
 const NOMBRE = { verde: "Verde", amarillo: "Amarillo", naranja: "Naranja", rojo: "Rojo" };
 
-const vacio = () => ({ bitacora: [], hechos: {}, completas: {}, faseActual: "f0", escenarios: {}, perfiles: {}, integrantes: {}, perfilesPropios: [], destinos: {}, pace: {} });
+const vacio = () => ({ bitacora: [], hechos: {}, completas: {}, faseActual: "f0", escenarios: {}, perfiles: {}, integrantes: {}, perfilesPropios: [], destinos: {}, pace: {}, destinosCambios: {}, destinosQuitados: [], destinosPropios: [] });
+/** Destinos vigentes (plantilla editada + propios): los usan el tablero, el mapa y la pestaña Destinos. */
+const DEST = () => destinosVigentes(P, E);
 /** Perfiles de la plantilla más los que agregó la familia (estos solo viven en este navegador y en el respaldo cifrado). */
 const ID_SEGURO = /^propio_[a-z0-9]{1,16}$/;
 const todosPerfiles = () => [...P.perfiles, ...(E.perfilesPropios || []).filter((x) => ID_SEGURO.test(String(x?.id)) && Array.isArray(x.checklist))];
@@ -40,8 +43,8 @@ function pestana(id, enfocar = false) {
 function pintarTablero() {
   const n = nivelActual(E.bitacora), fase = P.fases.find((f) => f.id === E.faseActual) || P.fases[0];
   const listas = [...P.fases.map((f) => [f.nombre, f.checklist, `${f.id}.`]), ...todosPerfiles().map((p) => [p.nombre, p.checklist, `${p.id}.`]), ...P.checklists_generales.map((c) => [c.nombre, c.checklist, `${c.id}.`])];
-  const est = Object.entries(E.destinos).filter(([, d]) => d.llegada).map(([id, d]) => {
-    const dest = P.destinos.find((x) => x.id === id), e = estancia(d.llegada, dest?.estancia_dias ?? null, hoy(), { diaDecision: P.avisos_estancia.dia_decision, antes: P.avisos_estancia.dias_antes_del_limite });
+  const est = Object.entries(E.destinos).filter(([id, d]) => d.llegada && DEST().some((x) => x.id === id)).map(([id, d]) => {
+    const dest = DEST().find((x) => x.id === id), e = estancia(d.llegada, dest?.estancia_dias ?? null, hoy(), { diaDecision: P.avisos_estancia.dia_decision, antes: P.avisos_estancia.dias_antes_del_limite });
     return `<li><b>${esc(dest?.destino || id)}</b>: día ${esc(e.transcurridos)}${e.restantes != null ? ` · quedan ${esc(e.restantes)}` : ""}${e.avisos.map((a) => ` <span class="cf-aviso">⚠️ ${esc(a.texto)}</span>`).join("")}</li>`;
   });
   $("cf-tablero").innerHTML = `<div class="cf-kpis">
@@ -62,14 +65,16 @@ async function pintarMapa() {
   }
   const llegadas = {}, dias = {};
   for (const [id, d] of Object.entries(E.destinos || {})) {
-    if (!d?.llegada) continue;
-    const dest = P.destinos.find((x) => x.id === id);
+    const dest = DEST().find((x) => x.id === id);
+    if (!d?.llegada || !dest) continue;
     const e = estancia(d.llegada, dest?.estancia_dias ?? null, hoy(), { diaDecision: P.avisos_estancia.dia_decision, antes: P.avisos_estancia.dias_antes_del_limite });
     llegadas[id] = true; dias[id] = e.transcurridos;
   }
   const n = nivelActual(E.bitacora);
   const fases = P.fases.map((f, i) => `<li class="${f.id === E.faseActual ? "actual" : ""}"><b>${esc(i)}</b><span>${esc(f.nombre.replace(/^Fase \d+\s*·\s*/, ""))}</span><small>${esc(avance(f.checklist, E.hechos, `${f.id}.`).pct)} %</small></li>`).join("");
-  cont.innerHTML = svgTraslado(P, geo, { llegadas, nivel: NOMBRE[n], dias })
+  const svg = svgTraslado({ ...P, destinos: DEST() }, geo, { llegadas, nivel: NOMBRE[n], dias });
+  if ($("cf-fd-mapa")) $("cf-fd-mapa").innerHTML = svg;
+  cont.innerHTML = svg
     + `<p class="cm-leyenda">${LEYENDA.map(([c, t]) => `<span><i style="background:${esc(c)}"></i>${esc(t)}</span>`).join("")}</p>`
     + `<ol class="cm-fases" aria-label="Fases del plan">${fases}</ol>`;
 }
@@ -159,11 +164,43 @@ function agregarPerfil(e) {
   guardar(); pintarPerfiles(); pintarTablero();
 }
 function pintarDestinos() {
-  $("cf-destinos").innerHTML = `<table class="cf-tabla"><tr><th>Destino</th><th>Rol</th><th>Cómo se llega</th><th>Estancia legal</th><th>Salud</th><th>Riesgos</th><th>Llegada y días</th></tr>${P.destinos.map((d) => {
+  $("cf-destinos").innerHTML = `<table class="cf-tabla"><tr><th>Destino</th><th>Rol</th><th>Cómo se llega</th><th>Estancia legal</th><th>Salud</th><th>Riesgos</th><th>Llegada y días</th><th>Acciones</th></tr>${DEST().map((d) => {
     const llegada = E.destinos[d.id]?.llegada || "", e = estancia(llegada, d.estancia_dias, hoy(), { diaDecision: P.avisos_estancia.dia_decision, antes: P.avisos_estancia.dias_antes_del_limite });
     return `<tr><td><b>${esc(d.destino)}</b></td><td>${esc(d.rol)}</td><td>${esc(d.como)}</td><td>${esc(d.estancia)}</td><td>${esc(d.salud)}</td><td>${esc(d.riesgos)}</td>
-      <td><input type="date" data-llegada="${d.id}" value="${esc(llegada)}">${e ? `<br>Día ${esc(e.transcurridos)}${e.restantes != null ? ` · quedan ${esc(e.restantes)}` : ""}${e.avisos.map((a) => `<br><span class="cf-aviso">⚠️ ${esc(a.texto)}</span>`).join("")}` : ""}</td></tr>`;
-  }).join("")}</table><p class="meta">${esc(P.verificar)}</p>`;
+      <td><input type="date" data-llegada="${esc(d.id)}" value="${esc(llegada)}">${e ? `<br>Día ${esc(e.transcurridos)}${e.restantes != null ? ` · quedan ${esc(e.restantes)}` : ""}${e.avisos.map((a) => `<br><span class="cf-aviso">⚠️ ${esc(a.texto)}</span>`).join("")}` : ""}</td>
+      <td><button type="button" data-editar-destino="${esc(d.id)}">✏️ Editar</button> <button type="button" data-quitar-destino="${esc(d.id)}">🗑️ Eliminar</button>${d.propio ? `<br><span class="meta">destino propio</span>` : E.destinosCambios[d.id] ? `<br><span class="meta">editado</span>` : ""}</td></tr>`;
+  }).join("")}</table>${DEST().length ? "" : `<p class="meta">No hay destinos. Agrega uno abajo o restaura los de la plantilla.</p>`}<p class="meta">${esc(P.verificar)}</p>`;
+}
+
+// Formulario de destino: agregar uno nuevo o editar uno existente (de la plantilla o propio).
+const CAMPOS_FD = ["destino", "rol", "como", "estancia_dias", "estancia", "salud", "riesgos", "lon", "lat"];
+function llenarFormDestino(d = null) {
+  $("cf-fd-id").value = d?.id || "";
+  for (const k of CAMPOS_FD) $(`cf-fd-${k}`).value = k === "lon" ? (d?.coords?.[0] ?? "") : k === "lat" ? (d?.coords?.[1] ?? "") : (d?.[k] ?? (k === "rol" ? "Otro" : ""));
+  $("cf-fd-titulo").textContent = d ? `Editar destino: ${d.destino}` : "Agregar un destino";
+  $("cf-fd-cancelar").hidden = !d;
+  $("cf-fd-estado").textContent = "";
+}
+function guardarDestino(e) {
+  e.preventDefault();
+  const datos = Object.fromEntries(CAMPOS_FD.map((k) => [k, $(`cf-fd-${k}`).value]));
+  const v = validarDestino(datos);
+  if (!v.ok) { $("cf-fd-estado").textContent = `⛔ ${v.motivo}`; return; }
+  const id = $("cf-fd-id").value, nombre = v.destino.destino;
+  if (!id) E.destinosPropios = [...(E.destinosPropios || []), { ...v.destino, id: `dpropio_${Date.now().toString(36)}` }];
+  else if ((E.destinosPropios || []).some((x) => x.id === id)) E.destinosPropios = E.destinosPropios.map((x) => (x.id === id ? { ...v.destino, id } : x));
+  else if (P.destinos.some((x) => x.id === id)) E.destinosCambios = { ...(E.destinosCambios || {}), [id]: v.destino };
+  guardar(); llenarFormDestino(); pintarTodo();
+  $("cf-fd-estado").textContent = `✅ Destino «${nombre}» ${id ? "actualizado" : "agregado"}. El tablero y el mapa ya lo muestran.`;
+}
+function quitarDestino(id) {
+  const d = DEST().find((x) => x.id === id);
+  if (!d || !confirm(`¿Eliminar el destino «${d.destino}»? También se borra su fecha de llegada.`)) return;
+  if (d.propio) E.destinosPropios = (E.destinosPropios || []).filter((x) => x.id !== id);
+  else E.destinosQuitados = [...new Set([...(E.destinosQuitados || []), id])];
+  delete E.destinos[id];
+  if ($("cf-fd-id").value === id) llenarFormDestino();
+  guardar(); pintarTodo();
 }
 function pintarPace() {
   $("cf-pace").innerHTML = `<table class="cf-tabla"><tr><th>Nivel PACE</th><th>Ejemplo genérico</th><th>Valor real (solo en este navegador)</th></tr>${P.pace.map((x) => `<tr><td><b>${esc(x.nombre)}</b></td><td>${esc(x.ejemplo)}</td><td><textarea data-pace="${x.id}" maxlength="500" rows="2" autocomplete="off">${esc(E.pace[x.id] || "")}</textarea></td></tr>`).join("")}</table>`;
@@ -187,6 +224,26 @@ function eventos() {
   $("cf-cat").innerHTML = `<option value="">Todas</option>${[...new Set(P.escenarios.map((x) => x.categoria))].map((c) => `<option>${esc(c)}</option>`).join("")}`;
   $("cf-cat").addEventListener("change", pintarEscenarios);
   $("cf-form-perfil").addEventListener("submit", agregarPerfil);
+  $("cf-fd-rol").innerHTML = [...ROLES.filter((r) => r !== "Retorno"), "Retorno", "Otro"].map((r) => `<option>${esc(r)}</option>`).join("");
+  $("cf-form-destino").addEventListener("submit", guardarDestino);
+  $("cf-fd-cancelar").addEventListener("click", () => llenarFormDestino());
+  $("cf-destinos").addEventListener("click", (e) => {
+    const ed = e.target.closest("[data-editar-destino]")?.dataset.editarDestino, qu = e.target.closest("[data-quitar-destino]")?.dataset.quitarDestino;
+    if (ed) { llenarFormDestino(DEST().find((x) => x.id === ed)); $("cf-form-destino").scrollIntoView({ behavior: "smooth", block: "start" }); $("cf-fd-destino").focus(); }
+    if (qu) quitarDestino(qu);
+  });
+  $("cf-fd-restaurar").addEventListener("click", () => {
+    if (!confirm("¿Restaurar los destinos de la plantilla? Se deshacen las ediciones y vuelven los que eliminaste. Tus destinos propios se conservan.")) return;
+    E.destinosCambios = {}; E.destinosQuitados = []; guardar(); llenarFormDestino(); pintarTodo();
+  });
+  // Clic en el mini mapa de la pestaña Destinos: pone la longitud y latitud del punto (genérico, de ciudad o región).
+  $("cf-fd-mapa").addEventListener("click", (e) => {
+    const svg = e.target.closest("svg[data-vista]"); if (!svg) return;
+    const r = svg.getBoundingClientRect(), [lonMin, lonMax, latMin, latMax] = svg.dataset.vista.split(",").map(Number);
+    const [lon, lat] = desproyectar((e.clientX - r.left) / r.width, (e.clientY - r.top) / r.height, { lonMin, lonMax, latMin, latMax });
+    $("cf-fd-lon").value = lon; $("cf-fd-lat").value = lat;
+    $("cf-fd-estado").textContent = `📍 Punto elegido: ${lat}, ${lon}. Guarda el destino para verlo en el mapa.`;
+  });
   $("cf-perfiles").addEventListener("click", (e) => {
     const id = e.target.closest("[data-quitar-perfil]")?.dataset.quitarPerfil;
     if (!id || !confirm("¿Quitar este perfil propio y su avance?")) return;

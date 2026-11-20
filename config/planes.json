@@ -14,6 +14,7 @@
    "redondeo": "Hacia arriba, al peso entero."
   },
   "texto": "USD {usd} al mes (se cobra en pesos: {mxn} MXN al tipo de cambio FIX de Banxico del {fecha})",
+  "_compra": "compra_url de cada plan: enlace de suscripción de Mercado Pago (https://www.mercadopago.com.mx/subscriptions/checkout?preapproval_plan_id=...). Vacío: el botón invita a escribir a soporte. No es un secreto.",
   "_regla_precios": "Los precios siempre se muestran en USD (sitio, demostración, PDF y PowerPoint). El monto en pesos solo acompaña como referencia del cobro."
  },
  "planes": [
@@ -46,6 +47,7 @@
    "id": "recon",
    "nombre": "Recon",
    "usd": 4.99,
+   "compra_url": "",
    "estado": "aprobado",
    "resumen": "Reconocimiento: mapa, eventos y alertas.",
    "incluye": [
@@ -63,6 +65,7 @@
    "id": "analyst",
    "nombre": "Analyst",
    "usd": 8.99,
+   "compra_url": "",
    "estado": "aprobado",
    "resumen": "Análisis: todo lo de Recon más herramientas de investigación.",
    "incluye": [
@@ -78,6 +81,7 @@
    "id": "command",
    "nombre": "Command",
    "usd": 12.99,
+   "compra_url": "",
    "estado": "aprobado",
    "resumen": "Mando: todo lo de Analyst más seguimiento propio.",
    "incluye": [
@@ -226,6 +230,7 @@
  ],
  "acceso": "Por el correo con que se registra la persona. Soporte solo por correo; sin Telegram, Discord ni WhatsApp.",
  "acceso_por_plan": {
+  "acciones": { "descargar": "command" },
   "_nota": "Plan mínimo para cada grupo del menú izquierdo (data-grupo) y cada sección. En la versión de pago lo de un plan superior se muestra con candado, el nombre del plan y su precio; lo de solo admin no se muestra. Satélites de SatNOGS disponibles también en Demo dentro del grupo En movimiento.",
   "grupos": {
    "eventos": "demo",
@@ -258,7 +263,7 @@
    "b-capas-img": "demo",
    "rg-vdm-aire": "recon"
   },
-  "nombres": {
+  "nombres": {"descargar": "⬇️ Descargar, exportar e imprimir reportes y documentos", 
    "eventos": "📰 Eventos y noticias",
    "capas": "🗺️ Capas del mapa (capas fijas)",
    "reportes": "📑 Reportes diarios",

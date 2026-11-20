@@ -15,6 +15,16 @@ const headers = {
 export const TABLA = "CREATE TABLE IF NOT EXISTS dominus_memberships ( github_id TEXT PRIMARY KEY NOT NULL CHECK ( length(github_id) BETWEEN 1 AND 20 AND github_id GLOB '[1-9]*' AND github_id NOT GLOB '*[^0-9]*' ), plan TEXT NOT NULL CHECK (plan IN ('recon', 'analyst', 'command')), active INTEGER NOT NULL DEFAULT 1 CHECK (active IN (0, 1)), expires_at INTEGER CHECK (expires_at IS NULL OR expires_at > 0), updated_at INTEGER NOT NULL DEFAULT (unixepoch()) ) STRICT;";
 let tablaLista = false;
 
+// El mapa público (dominusosint.com) pregunta aquí el plan de la cuenta. Solo esos orígenes, con la cookie de sesión
+// (mismo sitio: admin.dominusosint.com). DESTINOS_FIJOS: no se llama a otros servicios.
+export const ORIGENES_MAPA = ["https://dominusosint.com", "https://www.dominusosint.com"];
+export function corsMapa(request) {
+  const origen = request.headers.get("Origin");
+  return ORIGENES_MAPA.includes(origen)
+    ? { "Access-Control-Allow-Origin": origen, "Access-Control-Allow-Credentials": "true", Vary: "Origin" }
+    : { Vary: "Origin" };
+}
+
 export async function activePlan(db, id) {
   if (!db || !id) return null;
   if (!tablaLista) { await db.prepare(TABLA).run(); tablaLista = true; }
@@ -26,7 +36,7 @@ export async function activePlan(db, id) {
 
 function page(plan, failed, google = false) {
   const content = plan
-    ? `<p>Plan activo <strong>${plan.toUpperCase()}</strong>.</p><p>Consulta tu asignación de prueba. El mapa público conserva su vista Demo y la simulación de planes.</p>
+    ? `<p>Plan activo <strong>${plan.toUpperCase()}</strong>.</p><p><a href="https://dominusosint.com/?revisar=1">Volver al mapa con tu plan</a></p>
        <form method="post" action="salir"><button type="submit">Cerrar sesión</button></form>`
     : `${failed ? '<p role="alert">No se pudo abrir una sesión con un plan activo.</p>' : ""}
        ${google ? '<p>Entra con la cuenta de Google a la que se asignó tu plan.</p><p><a href="google">Continuar con Google</a></p><p class="meta">¿Tu plan está ligado a GitHub? <a href="ingreso">Entrar con GitHub</a></p>' : '<p>Entra con la cuenta de GitHub a la que se asignó un plan.</p><a href="ingreso">Continuar con GitHub</a>'}`;
@@ -52,8 +62,9 @@ export async function servePlans(request, url, env, authRoot) {
       || await planPorCorreo(env.OSINT_PLANS_DB, await correoSesion(request, env), ORDER);
     if (route === "") return page(plan, url.searchParams.get("estado") === "sin-acceso", googleConfigurado(env));
     if (route === "sesion" || route === "permiso") {
-      if (!plan) return Response.json({ error: "No hay un plan activo." }, { status: 403, headers });
-      if (route === "sesion") return Response.json({ plan }, { headers });
+      const h = route === "sesion" ? { ...headers, ...corsMapa(request) } : headers;
+      if (!plan) return Response.json({ error: "No hay un plan activo." }, { status: 403, headers: h });
+      if (route === "sesion") return Response.json({ plan }, { headers: h });
       const group = url.searchParams.get("grupo");
       if (!Object.hasOwn(groups, group)) return Response.json({ error: "Grupo desconocido." }, { status: 404, headers });
       const minimum = ORDER.indexOf(groups[group]);

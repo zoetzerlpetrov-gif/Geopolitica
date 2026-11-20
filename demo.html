@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="es">
-<head>
+<head><script>try{const t=localStorage.getItem('gp_theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch{}</script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
@@ -10,6 +10,10 @@
   <link rel="stylesheet" href="vendor/fonts/fuentes.css">
   <style>
     :root { --bg: #0a0f17; --panel: #101826; --panel2: #172234; --texto: #e3e7ee; --texto2: #9aa7bd; --linea: #243248; --acento: #c9a227; --rojo: #C8102E; }
+    /* Tema claro elegido en el mapa (gp_theme): la demostración lo respeta igual que el resto del sitio. */
+    :root[data-theme="light"] { --bg: #f6f4ef; --panel: #ffffff; --panel2: #efebe3; --texto: #1b1f24; --texto2: #4f5866; --linea: #d6d0c4; --acento: #8a6d12; }
+    :root[data-theme="light"] .barra { background: rgba(246,244,239,.95); }
+    :root[data-theme="light"] header { background: linear-gradient(180deg, #ece7dc, var(--bg)); }
     * { box-sizing: border-box; }
     body { margin: 0; background: var(--bg); color: var(--texto); font: 16px/1.6 "IBM Plex Sans", system-ui, sans-serif; }
     h1, h2, h3, .kicker { font-family: "Barlow Condensed", "IBM Plex Sans", sans-serif; letter-spacing: .06em; }

@@ -56,6 +56,11 @@ export function precioCorto(plan, fix) {
   return plan.usd === 0 ? "Gratis" : `USD ${Number(plan.usd).toFixed(2)} al mes`;
 }
 
+/** Enlace de compra del plan (solo suscripciones de Mercado Pago en https), o null. */
+export function enlaceCompra(plan) {
+  try { const u = new URL(String(plan?.compra_url || "")); return u.protocol === "https:" && /(^|\.)mercadopago\.com(\.mx)?$/.test(u.hostname) ? u.href : null; } catch { return null; }
+}
+
 /** Precios de todos los planes con el FIX vigente. */
 export const preciosPlanes = (cat, fix) =>
   (cat?.planes || []).map((p) => ({ id: p.id, nombre: p.nombre, usd: p.usd, mxn: p.usd === 0 ? 0 : fix ? precioMxn(p.usd, fix.valor) : null, fix_fecha: fix?.fecha || null, texto: textoPrecio(p, fix, cat?.cobro?.texto) }));
@@ -72,7 +77,7 @@ export function filasComparacion(cat) {
   const ids = (cat?.planes || []).map((p) => p.id);
   const acc = cat?.acceso_por_plan || {};
   const filas = [];
-  for (const tipo of ["grupos", "bloques", "paginas"]) {
+  for (const tipo of ["grupos", "bloques", "paginas", "acciones"]) {
     for (const [clave, req] of Object.entries(acc[tipo] || {})) {
       if (clave === "planes.html") continue;
       filas.push({ clave, nombre: acc.nombres?.[clave] || clave, incluido: ids.map((id) => ids.indexOf(id) >= ids.indexOf(req)) });

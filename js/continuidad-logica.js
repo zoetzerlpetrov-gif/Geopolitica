@@ -107,3 +107,39 @@ export async function importarCifrado(paquete, contrasena) {
   if (d?.tipo !== TIPO_RESPALDO || typeof d.estado !== "object") throw Error("El archivo no es un respaldo de Continuidad familiar.");
   return d.estado;
 }
+
+// ---------------------------------------------------------------- destinos editables
+// La plantilla trae destinos genéricos; la familia puede editarlos, quitarlos o agregar propios. Los cambios viven solo
+// en este navegador (E.destinosCambios, E.destinosQuitados, E.destinosPropios) y en el respaldo cifrado.
+export const ID_DESTINO_PROPIO = /^dpropio_[a-z0-9]{1,16}$/;
+const CAMPOS_DESTINO = { destino: 80, rol: 40, como: 200, estancia: 200, salud: 200, riesgos: 300 };
+
+/** Limpia y valida un destino capturado. Devuelve { ok, destino } o { ok: false, motivo }. */
+export function validarDestino(d) {
+  const x = {};
+  for (const [k, max] of Object.entries(CAMPOS_DESTINO)) x[k] = String(d?.[k] ?? "").trim().slice(0, max);
+  if (!x.destino) return { ok: false, motivo: "Escribe el nombre del destino (ciudad, región o país; nunca un domicilio)." };
+  if (!x.rol) x.rol = "Otro";
+  const dias = d?.estancia_dias === "" || d?.estancia_dias == null ? null : Number(d.estancia_dias);
+  if (dias != null && !(Number.isInteger(dias) && dias > 0 && dias <= 3650)) return { ok: false, motivo: "Los días de estancia deben ser un número entero entre 1 y 3650, o quedar vacíos." };
+  x.estancia_dias = dias;
+  const lon = Number(d?.lon ?? d?.coords?.[0]), lat = Number(d?.lat ?? d?.coords?.[1]);
+  const conCoords = String(d?.lon ?? d?.coords?.[0] ?? "") !== "" && String(d?.lat ?? d?.coords?.[1] ?? "") !== "";
+  if (conCoords) {
+    if (!(Number.isFinite(lon) && Number.isFinite(lat) && Math.abs(lon) <= 180 && Math.abs(lat) <= 85)) return { ok: false, motivo: "Longitud entre -180 y 180 y latitud entre -85 y 85." };
+    x.coords = [Math.round(lon * 100) / 100, Math.round(lat * 100) / 100];  // 2 decimales: ~1 km, punto genérico de ciudad
+  } else x.coords = null;
+  return { ok: true, destino: x };
+}
+
+/** Destinos vigentes: plantilla con ediciones, sin los quitados, y después los propios. */
+export function destinosVigentes(plantilla, { destinosCambios = {}, destinosQuitados = [], destinosPropios = [] } = {}) {
+  const quitados = new Set(destinosQuitados);
+  const base = (plantilla?.destinos || []).filter((d) => !quitados.has(d.id)).map((d) => {
+    const c = destinosCambios[d.id];
+    return c ? { ...d, ...c, id: d.id, coords: c.coords === undefined ? d.coords : c.coords } : d;
+  });
+  const propios = (destinosPropios || []).filter((d) => ID_DESTINO_PROPIO.test(String(d?.id)) && !quitados.has(d.id))
+    .map((d) => { const v = validarDestino(d); return v.ok ? { ...v.destino, id: d.id, propio: true } : null; }).filter(Boolean);
+  return [...base, ...propios];
+}
