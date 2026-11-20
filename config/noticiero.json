@@ -1,5 +1,5 @@
 {
- "descripcion": "Noticiero DOMINUS: 32 secciones. Cada una junta titulares de dos vías: (1) feeds RSS e índices oficiales de noticias elegidos para la sección (se leen solo si su robots.txt lo permite); (2) en las secciones con «gkg», titulares de GDELT GKG (medios de todo el mundo cada 15 min) cuyo título coincide con esa expresión, más estricta que «palabras» porque GDELT trae de todo. «palabras» reparte las notas de un feed compartido por varias secciones. «gkg_dominio» (opcional) limita GDELT a medios cuyo dominio coincida; «gkg_excluir_dominio» descarta sitios de boletines de prensa. Solo se guardan título, medio, fecha, enlace y, si el medio la declara, su imagen para compartir; nunca el texto. «tipo» describe al medio (agencia, público, estatal extranjero, independiente, verificador…), no su línea política.",
+ "descripcion": "Noticiero DOMINUS: 34 secciones. Cada una junta titulares de dos vías: (1) feeds RSS e índices oficiales de noticias elegidos para la sección (se leen solo si su robots.txt lo permite); (2) en las secciones con «gkg», titulares de GDELT GKG (medios de todo el mundo cada 15 min) cuyo título coincide con esa expresión, más estricta que «palabras» porque GDELT trae de todo. «palabras» reparte las notas de un feed compartido por varias secciones. «gkg_dominio» (opcional) limita GDELT a medios cuyo dominio coincida; «gkg_excluir_dominio» descarta sitios de boletines de prensa. Solo se guardan título, medio, fecha, enlace y, si el medio la declara, su imagen para compartir; nunca el texto. «tipo» describe al medio (agencia, público, estatal extranjero, independiente, verificador…), no su línea política.",
  "secciones": [
   {
    "id": "geopolitica",
@@ -1161,6 +1161,97 @@
     "banxico|banco de m[eé]xico": 5
    },
    "max": 60
+  },
+  {
+   "id": "reformas_mx",
+   "titulo": "Reformas y leyes en México (lo que viene)",
+   "nota": "Iniciativas, dictámenes, minutas, reformas aprobadas y normas en consulta, en todos los temas: familia, niñez, mujeres, trabajo, empresas, impuestos, bancos y pagos, telecomunicaciones, alimentos, campo, agua, animales, seguridad y más. Una iniciativa es solo una propuesta: la mayoría no se aprueba. El texto oficial está en el DOF y en las gacetas del Congreso.",
+   "palabras": "iniciativa|dictamen|minuta|(senado|c[aá]mara de diputados|diputados|senadores|congreso|comisi[oó]n(es)?)\\b.{0,60}\\b(aprob|avala|propone|discute|analiza|turna|reforma)|reforma (a|al|de) (la|el|los) (ley|c[oó]digo|constituci|art[ií]culo)|nueva ley|ley general (de|del|para)|ley federal (de|del|para)|propone(n)? (reformar|una reforma|una ley|que se)|(entra|entrar[aá]|entran) en vigor|ser[aá] obligatori|periodo (ordinario|extraordinario) de sesiones|agenda legislativa|paquete econ[oó]mico|miscel[aá]nea fiscal|norma oficial mexicana|proy-nom|consulta p[uú]blica|(es falso|desmiente|bulo).{0,60}(ley|reforma)",
+   "gkg": "iniciativa|dictamen|minuta|(senado|c[aá]mara de diputados|diputados|senadores|congreso|comisi[oó]n(es)?)\\b.{0,60}\\b(aprob|avala|propone|discute|analiza|turna|reforma)|reforma (a|al|de) (la|el|los) (ley|c[oó]digo|constituci|art[ií]culo)|nueva ley|ley general (de|del|para)|ley federal (de|del|para)|propone(n)? (reformar|una reforma|una ley|que se)|(entra|entrar[aá]|entran) en vigor|ser[aá] obligatori|periodo (ordinario|extraordinario) de sesiones|agenda legislativa|paquete econ[oó]mico|miscel[aá]nea fiscal|norma oficial mexicana|proy-nom|consulta p[uú]blica|(es falso|desmiente|bulo).{0,60}(ley|reforma)",
+   "gkg_dominio": "\\.mx$|(^|\\.)mvsnoticias\\.com$|(^|\\.)latinus\\.us$",
+   "max": 100,
+   "feeds": [
+    {
+     "nombre": "El Economista",
+     "url": "https://www.eleconomista.com.mx/rss/ultimas-noticias",
+     "tipo": "Diario de negocios de México",
+     "filtrar": true
+    },
+    {
+     "nombre": "El Financiero",
+     "url": "https://www.elfinanciero.com.mx/arc/outboundfeeds/rss/?outputType=xml",
+     "tipo": "Diario de negocios de México",
+     "filtrar": true
+    },
+    {
+     "nombre": "Expansión",
+     "url": "https://expansion.mx/rss",
+     "tipo": "Revista de negocios de México",
+     "filtrar": true
+    },
+    {
+     "nombre": "Expansión Política",
+     "url": "https://politica.expansion.mx/rss",
+     "tipo": "Revista de México",
+     "filtrar": true
+    },
+    {
+     "nombre": "La Jornada (política)",
+     "url": "https://www.jornada.com.mx/rss/politica.xml?v=1",
+     "tipo": "Diario de México",
+     "filtrar": true
+    },
+    {
+     "nombre": "El Sol de México",
+     "url": "https://www.elsoldemexico.com.mx/rss.xml",
+     "tipo": "Diario de México (Organización Editorial Mexicana)",
+     "filtrar": true
+    },
+    {
+     "nombre": "Infobae México",
+     "url": "https://www.infobae.com/arc/outboundfeeds/rss/category/mexico/",
+     "tipo": "Medio digital (Argentina) con sección México",
+     "filtrar": true
+    },
+    {
+     "nombre": "Xataka México",
+     "url": "https://www.xataka.com.mx/feedburner.xml",
+     "tipo": "Medio de tecnología",
+     "filtrar": true
+    },
+    {
+     "nombre": "Mexico News Daily",
+     "url": "https://mexiconewsdaily.com/feed/",
+     "tipo": "Medio en inglés sobre México",
+     "filtrar": true
+    },
+    {
+     "nombre": "IMCO",
+     "url": "https://imco.org.mx/feed/",
+     "tipo": "Centro de investigación en políticas públicas (México)",
+     "filtrar": true
+    },
+    {
+     "nombre": "Notus",
+     "url": "https://notus.com.mx/feed/",
+     "tipo": "Medio digital (México)",
+     "filtrar": true
+    },
+    {
+     "nombre": "Latinus",
+     "url": "https://latinus.us/sitemaps/news.xml",
+     "tipo": "Medio privado mexicano",
+     "formato": "sitemap_noticias",
+     "filtrar": true
+    },
+    {
+     "nombre": "MVS Noticias",
+     "url": "https://mvsnoticias.com/sitemaps/news.xml",
+     "tipo": "Medio privado mexicano",
+     "formato": "sitemap_noticias",
+     "filtrar": true
+    }
+   ]
   }
  ],
  "gkg_excluir_dominio": "prnewswire|businesswire|globenewswire|einpresswire|dailypolitical|tickerreport|pr-inside|finanznachrichten|marketscreener|openpr|newsfilecorp|accessnewswire"

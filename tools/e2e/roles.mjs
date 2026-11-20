@@ -75,6 +75,14 @@ async function probarRol(navegador, rol) {
   r.arranque_s = Math.round((Date.now() - t0) / 1000);
 
   if (rol !== "admin") {
+    // Candados del menú: durante 6 s ya cargado no deben ponerse y quitarse (parpadeo). Con el tema «ocultar íconos»
+    // apariencia.js quitaba el 🔒 y plan_cliente.js lo volvía a poner sin fin.
+    r.parpadeo_candados = await page.evaluate(() => new Promise((ok) => {
+      let n = 0;
+      const ob = new MutationObserver((ms) => { for (const m of ms) for (const x of [...m.addedNodes, ...m.removedNodes]) if (x.nodeType === 1 && x.classList.contains("plan-candado")) n++; });
+      ob.observe(document.body, { subtree: true, childList: true });
+      setTimeout(() => { ob.disconnect(); ok(n); }, 6000);
+    }));
     r.solo_admin_visible = await page.evaluate(() => [...document.querySelectorAll("[data-solo-admin]")].map((e) => (e.textContent || e.id).trim().slice(0, 80)));
     r.grupos_vacios = await page.evaluate(() => [...document.querySelectorAll("details.subgrupo-d")]
       .filter((d) => !d.querySelector("input[type=checkbox]")).map((d) => d.querySelector("summary")?.textContent.trim().slice(0, 80)));
@@ -143,7 +151,8 @@ function resumen(r) {
   const sinImagen = r.imagenes.filter((i) => i.aparece === false);
   const paginasMal = r.paginas.filter((p) => p.http >= 400 || p.http === 0 || p.errores.some((e) => e.startsWith("js")));
   const js = r.errores.filter((e) => e.tipo === "js" || e.tipo === "arranque");
-  return { vacias, pegadas, sinImagen, paginasMal, js, grave: js.length + pegadas.length + paginasMal.length + r.solo_admin_visible.length };
+  const parpadeo = (r.parpadeo_candados || 0) > 4 ? 1 : 0;  // algunos cambios al terminar de dibujar el menú son normales
+  return { vacias, pegadas, sinImagen, paginasMal, js, parpadeo, grave: js.length + pegadas.length + paginasMal.length + r.solo_admin_visible.length + parpadeo };
 }
 
 function markdown(resultados, inicio) {
@@ -162,6 +171,7 @@ function markdown(resultados, inicio) {
     if (s.sinImagen.length) l.push(``, `Imágenes que no aparecieron en 30 s:`, ...s.sinImagen.map((i) => `- ${i.id}`));
     if (s.paginasMal.length) l.push(``, `Páginas con error:`, ...s.paginasMal.map((p) => `- ${p.pagina} (HTTP ${p.http}) ${p.errores.slice(0, 2).join(" · ")}`));
     if (r.solo_admin_visible.length) l.push(``, `Elementos de solo admin visibles:`, ...r.solo_admin_visible.map((x) => `- ${x}`));
+    if (s.parpadeo) l.push(``, `Candados del menú que parpadean: ${r.parpadeo_candados} cambios en 6 s`);
     if (r.grupos_vacios.length) l.push(``, `Grupos del menú sin casillas:`, ...r.grupos_vacios.map((x) => `- ${x}`));
     const datos = [...new Set(r.errores.filter((e) => e.tipo === "datos" || e.tipo === "red").map((e) => e.msg))];
     if (datos.length) l.push(``, `Datos propios que fallaron:`, ...datos.slice(0, 40).map((m) => `- ${m}`));

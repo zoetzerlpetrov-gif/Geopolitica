@@ -74,8 +74,7 @@
     "Historia por país",
     "Herramientas del panel",
     "Investigación",
-    "Matriz de riesgo por país",
-    "Agenda regulatoria de México (próximas reformas)"
+    "Matriz de riesgo por país"
    ]
   },
   {
@@ -93,6 +92,11 @@
   }
  ],
  "solo_admin": [
+  {
+   "tipo": "pagina",
+   "href": "agenda.html",
+   "nombre": "Agenda regulatoria de México"
+  },
   {
    "tipo": "pagina",
    "href": "noticiero.html",
@@ -257,15 +261,14 @@
    "matriz.html": "analyst",
    "soporte.html": "demo",
    "privacidad.html": "demo",
-   "terminos.html": "demo",
-   "agenda.html": "analyst"
+   "terminos.html": "demo"
   },
   "bloques": {
    "b-capas-ent": "recon",
    "b-capas-img": "demo",
    "rg-vdm-aire": "recon"
   },
-  "nombres": {"agenda.html": "🔮 Agenda regulatoria de México (próximas reformas)", "descargar": "⬇️ Descargar, exportar e imprimir reportes y documentos", 
+  "nombres": {"descargar": "⬇️ Descargar, exportar e imprimir reportes y documentos", 
    "eventos": "📰 Eventos y noticias",
    "capas": "🗺️ Capas del mapa (capas fijas)",
    "reportes": "📑 Reportes diarios",

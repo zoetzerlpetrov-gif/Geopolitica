@@ -38,7 +38,9 @@ function ocultarIconos(raiz) {
     if (n && EMOJI.test(n.textContent) && sinEmoji(n.textContent).trim()) n.textContent = sinEmoji(n.textContent);
     const sp = el.firstElementChild;   // emoji en su propio <span aria-hidden>
     // Solo el emoji en su propio <span>: los íconos dibujados (la cruz roja de la marca, <svg> o <img>) se conservan.
-    if (sp?.tagName === "SPAN" && sp.getAttribute("aria-hidden") === "true" && sp.textContent.trim() && !sinEmoji(sp.textContent).trim()) sp.remove();
+    // El candado del plan (.plan-candado) no es decoración: indica qué no incluye el plan. Si se quitara, plan_cliente.js
+    // lo volvería a poner y los dos se alternarían sin fin (parpadeo de candados en el menú).
+    if (sp?.tagName === "SPAN" && sp.getAttribute("aria-hidden") === "true" && !sp.classList.contains("plan-candado") && sp.textContent.trim() && !sinEmoji(sp.textContent).trim()) sp.remove();
   }
 }
 
