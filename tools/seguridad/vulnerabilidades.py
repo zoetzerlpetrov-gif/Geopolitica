@@ -32,6 +32,7 @@ import ssl
 import subprocess
 import sys
 import urllib.error
+import urllib.parse
 import urllib.request
 from datetime import datetime, timezone
 
@@ -376,7 +377,8 @@ def revisar_admin(pedir=http):
             hall.append(hallazgo(f"admin-api:{ruta}", "Protección de Admin", "critica", f"La API {ruta} no niega el acceso sin sesión",
                                  f"Respondió {estado}.", "Revisar el orden de las rutas en cloudflare/huella/service.js.", "claude"))
     estado, cab, _ = pedir("https://dominusosint.com/ops/legal", seguir=False)
-    if not (300 <= estado < 400 and "cloudflareaccess.com" in cab.get("location", "")):
+    destino = urllib.parse.urlsplit(cab.get("location", "")).hostname or ""
+    if not (300 <= estado < 400 and destino.endswith(".cloudflareaccess.com")):
         hall.append(hallazgo("ops-sin-access", "Protección de Admin", "alta", "/ops/ no está detrás de Cloudflare Access",
                              f"dominusosint.com/ops/legal respondió {estado}.",
                              "Cloudflare → Zero Trust → Access → Applications: revisar que la aplicación cubra dominusosint.com/ops/*.", "tu"))
@@ -389,6 +391,7 @@ def revisar_admin(pedir=http):
 
 def dias_certificado(host, puerto=443):
     ctx = ssl.create_default_context()
+    ctx.minimum_version = ssl.TLSVersion.TLSv1_2
     with socket.create_connection((host, puerto), timeout=15) as s, ctx.wrap_socket(s, server_hostname=host) as t:
         vence = datetime.strptime(t.getpeercert()["notAfter"], "%b %d %H:%M:%S %Y %Z").replace(tzinfo=timezone.utc)
     return (vence - datetime.now(timezone.utc)).days
