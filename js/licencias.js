@@ -3,14 +3,30 @@
 // Las cámaras conservan su ficha y enlace al operador. La incorporación de sus medios se decide por fuente.
 // El sitio público permite simular la vista comercial con ?vista=pago.
 
-/** Plan que se simula en la vista de pago: ?plan=demo|recon|analyst|command (o window.DOMINUS_PLAN en la versión comercial).
- *  Sin indicarlo, el plan más alto. */
-export function planActual(planes, search = globalThis.location?.search || "", global = globalThis.DOMINUS_PLAN) {
+// ---------------------------------------------------------------- dominio: público o administración
+// dominusosint.com (y dominus-osint.pages.dev) es el sitio PÚBLICO: siempre muestra la vista de pago con el plan de la
+// cuenta verificada (o Demo si nadie inició sesión). La versión completa solo existe en el sitio de administración
+// (admin.dominusosint.com, detrás del inicio de sesión), en /ops/ (detrás de Cloudflare Access) y en local (pruebas).
+export const PLAN_SESION = "gp_plan_sesion";
+export function esSitioAdmin(host = globalThis.location?.hostname || "", ruta = globalThis.location?.pathname || "") {
+  return host === "admin.dominusosint.com" || /\.workers\.dev$/.test(host) || host === "localhost" || host === "127.0.0.1" || host === "" || ruta.startsWith("/ops/");
+}
+/** Plan verificado por el Worker para esta pestaña (lo guarda vista_enlaces.js tras consultar /cuenta/sesion). */
+export function planDeSesion(ids, almacen = globalThis.sessionStorage) {
+  try { const p = almacen?.getItem(PLAN_SESION); return ids.includes(p) ? p : null; } catch { return null; }
+}
+
+/** Plan de la vista de pago. En el sitio público: el plan verificado de la cuenta o «demo» (no se acepta ?plan=, para que
+ *  no se pueda abrir un plan superior escribiendo el enlace). En administración: ?plan=demo|recon|analyst|command para
+ *  simularlo (sin indicarlo, el más alto). window.DOMINUS_PLAN lo fija la versión comercial. */
+export function planActual(planes, search = globalThis.location?.search || "", global = globalThis.DOMINUS_PLAN, admin = esSitioAdmin()) {
   const ids = (planes?.planes || []).map((p) => p.id);
+  if (ids.includes(global)) return global;
+  if (!admin) return planDeSesion(ids) || (ids.includes("demo") ? "demo" : ids[0]);
   // Se toma el ÚLTIMO «plan=<válido>» del texto: así funciona aunque el enlace venga pegado dos veces
   // (p. ej. «?vista=pago&plan=index.html?vista=pago&plan=demo»).
   const validos = [...String(search).matchAll(/plan=([a-z]+)/gi)].map((m) => m[1].toLowerCase()).filter((x) => ids.includes(x));
-  const pedido = global || validos.at(-1);
+  const pedido = validos.at(-1);
   return ids.includes(pedido) ? pedido : ids.at(-1);
 }
 
@@ -29,11 +45,19 @@ export function fixDeIndicadores(ind) {
   return null;
 }
 
-/** «pago» si la página se abrió con ?vista=pago o si la versión comercial lo fija en window.DOMINUS_VISTA; si no, «completa». */
-export function vistaActual(search = globalThis.location?.search || "", global = globalThis.DOMINUS_VISTA) {
+/** «pago» en el sitio público (siempre), si la página se abrió con ?vista=pago o si la versión comercial lo fija en
+ *  window.DOMINUS_VISTA; «completa» solo en administración sin ?vista=pago. */
+export function vistaActual(search = globalThis.location?.search || "", global = globalThis.DOMINUS_VISTA, admin = esSitioAdmin()) {
   if (global === "pago" || global === "admin") return global === "pago" ? "pago" : "completa";
+  if (!admin) return "pago";
   // Basta con que «vista=pago» aparezca en el enlace, aunque venga mezclado («?vista=index.html?vista=pago»).
   return /(?:^|[?&])vista=(?:[^&]*[?&])?vista=pago|(?:^|[?&])vista=pago(?:$|[&#])/i.test(String(search)) ? "pago" : "completa";
+}
+
+/** Plan mínimo para descargar, exportar e imprimir reportes y documentos (config/planes.json → acceso_por_plan.acciones). */
+export function puedeDescargar(planes, plan) {
+  const ids = (planes?.planes || []).map((p) => p.id), req = planes?.acceso_por_plan?.acciones?.descargar || "command";
+  return ids.indexOf(plan) >= ids.indexOf(req);
 }
 
 /** ¿La fuente permite uso comercial? Solo «sí» confirmado; «no» y «por verificar» (null) quedan para admin. */

@@ -122,7 +122,7 @@
       { "id": "planes", "titulo": "Planes", "pagina": "planes.html", "captura": "planes.jpg",
         "que_hace": "Cuatro niveles (Demo, Recon, Analyst y Command) con lo que incluye cada uno. Las fuentes sin licencia comercial no aparecen en la versión de pago.",
         "para_quien": "Clientes y área comercial.",
-        "ejemplo": ["Compara qué grupos del menú incluye cada plan.", "Prueba la vista de un plan con «?vista=pago&plan=recon».", "El acceso de clientes es con su cuenta de Google."] },
+        "ejemplo": ["Compara qué grupos del menú incluye cada plan.", "En admin.dominusosint.com, prueba la vista de un plan con «?vista=pago&plan=recon»; en dominusosint.com cada visitante ve Demo o el plan de su cuenta.", "El acceso de clientes es con su cuenta de Google."] },
       { "id": "marketing", "titulo": "Marketing y patrocinios (uso interno)", "pagina": "marketing.html", "captura": "marketing.jpg",
         "que_hace": "Plan, calendario y borradores de contenido por red social con métricas, y gestión de patrocinios con análisis de riesgos del contrato.",
         "para_quien": "Uso interno.",

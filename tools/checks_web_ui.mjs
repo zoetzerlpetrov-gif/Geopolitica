@@ -153,8 +153,8 @@ test('Tema de fases: preferencia del mapa, alternancia, sincronización y almace
 });
 
 test('Tutorial: capítulo de fases integrado al índice y al buscador, enlaces locales y ejemplos navegables',async()=>{
- const dom=new JSDOM(readFileSync(new URL('tutorial.html',root),'utf8'),{url:'https://site.example/tutorial.html'});
- globalThis.window=dom.window;globalThis.document=dom.window.document;
+ const dom=new JSDOM(readFileSync(new URL('tutorial.html',root),'utf8'),{url:'http://localhost/tutorial.html'});
+ globalThis.window=dom.window;globalThis.location=dom.window.location;globalThis.document=dom.window.document;
  const inventory=JSON.parse(readFileSync(new URL('config/tutorial_inventario.json',root),'utf8'));
  globalThis.fetch=async url=>{assert.equal(url,'config/tutorial_inventario.json');return {ok:true,json:async()=>inventory};};
  await import(new URL('js/tutorial.js',root));

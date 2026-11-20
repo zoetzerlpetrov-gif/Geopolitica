@@ -82,3 +82,33 @@ test("el informe en claro solo lleva plantilla y avance", () => {
   assert.ok(P.escenarios.length >= 90 && new Set(P.escenarios.map((x) => x.id)).size === P.escenarios.length);
   assert.equal(P.niveles.map((n) => n.id).join(), "verde,amarillo,naranja,rojo");
 });
+
+test("destinos: se editan, se quitan y se agregan propios, y el mapa los dibuja", async () => {
+  const { destinosVigentes, validarDestino } = await import("../../js/continuidad-logica.js");
+  const { svgTraslado, vistaPara, desproyectar } = await import("../../js/continuidad-mapa.js");
+  const P = JSON.parse(readFileSync(new URL("../../data/continuidad/plantilla.json", import.meta.url), "utf8"));
+  assert.equal(validarDestino({ destino: "" }).ok, false);
+  assert.equal(validarDestino({ destino: "X", estancia_dias: "0" }).ok, false);
+  assert.equal(validarDestino({ destino: "X", lon: "200", lat: "0" }).ok, false);
+  const tokio = validarDestino({ destino: "Tokio, Japón", rol: "Reserva lejana", lon: "139.69", lat: "35.69", estancia_dias: "90" });
+  assert.ok(tokio.ok && tokio.destino.coords[0] === 139.69 && tokio.destino.estancia_dias === 90);
+  const E = {
+    destinosCambios: { costa_rica: { ...P.destinos[0], destino: "San José, Costa Rica" } },
+    destinosQuitados: ["uruguay"],
+    destinosPropios: [{ ...tokio.destino, id: "dpropio_abc" }, { destino: "malo", id: "../x" }],
+  };
+  const v = destinosVigentes(P, E);
+  assert.equal(v.find((d) => d.id === "costa_rica").destino, "San José, Costa Rica");
+  assert.ok(!v.some((d) => d.id === "uruguay"));
+  assert.ok(v.some((d) => d.id === "dpropio_abc") && !v.some((d) => d.id === "../x"));
+  const geo = { features: [] };
+  const svg = svgTraslado({ ...P, destinos: v }, geo);
+  assert.ok(svg.includes("Tokio") && svg.includes("San José") && !svg.includes("Uruguay"));
+  // La vista crece para incluir Tokio y el clic se traduce de vuelta a coordenadas.
+  const vis = vistaPara([[139.69, 35.69]]);
+  assert.ok(vis.lonMax >= 149);
+  const [lon, lat] = desproyectar(0.5, 0.5, { lonMin: -100, lonMax: 100, latMin: -50, latMax: 50 });
+  assert.deepEqual([lon, lat], [0, 0]);
+  const xss = destinosVigentes(P, { destinosPropios: [{ id: "dpropio_x", destino: "<img src=x onerror=alert(1)>", lon: 0, lat: 0 }] });
+  assert.ok(!svgTraslado({ ...P, destinos: xss }, geo).includes("<img"));
+});

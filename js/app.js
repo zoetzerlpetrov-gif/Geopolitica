@@ -109,10 +109,15 @@ const vistaLista = (async () => {
     a.href = `planes.html?plan=${plan}#${req.id}`;
   }
   document.querySelector('a[href="tutorial.html"]')?.insertAdjacentHTML("beforebegin", `<a href="planes.html?plan=${esc(plan)}">💳 Planes y precios</a>`);
-  // Selector para cambiar de plan simulado sin escribir enlaces (recarga con ?vista=pago&plan=…).
-  document.querySelector(".marca")?.insertAdjacentHTML("afterend", `<label class="vista-pago" title="Simulación: así lo ve quien paga este plan">Plan
-    <select id="sel-plan-pago">${planes.planes.map((p) => `<option value="${esc(p.id)}"${p.id === plan ? " selected" : ""}>${esc(p.nombre)}</option>`).join("")}</select></label>`);
-  document.getElementById("sel-plan-pago")?.addEventListener("change", (e) => { location.search = `?vista=pago&plan=${encodeURIComponent(e.target.value)}`; });
+  if (LIC.esSitioAdmin()) {
+    // Administración: selector para simular un plan sin escribir enlaces (recarga con ?vista=pago&plan=…).
+    document.querySelector(".marca")?.insertAdjacentHTML("afterend", `<label class="vista-pago" title="Simulación: así lo ve quien paga este plan">Plan
+      <select id="sel-plan-pago">${planes.planes.map((p) => `<option value="${esc(p.id)}"${p.id === plan ? " selected" : ""}>${esc(p.nombre)}</option>`).join("")}</select></label>`);
+    document.getElementById("sel-plan-pago")?.addEventListener("change", (e) => { location.search = `?vista=pago&plan=${encodeURIComponent(e.target.value)}`; });
+  } else {
+    // Sitio público: el plan es el de la cuenta (o Demo); solo se muestra, y lleva a Planes y precios.
+    document.querySelector(".marca")?.insertAdjacentHTML("afterend", `<a class="vista-pago" href="planes.html#${esc(plan)}" title="Tu plan · ver planes y precios">Plan <b>${esc(nombrePlan)}</b></a>`);
+  }
   return { ...r, aireVDM: !LIC.planFaltante(planes, plan, "bloques", "rg-vdm-aire") };
 })().catch((e) => { console.error("vista de pago", e); return null; });
 

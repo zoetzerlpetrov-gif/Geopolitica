@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="es">
-<head>
+<head><script>try{const t=localStorage.getItem('gp_theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch{}</script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Planes DOMINUS OSINT</title>
@@ -22,6 +22,7 @@
     .pl-tabla th, .pl-tabla td { border-bottom: 1px solid var(--line); padding: 6px 8px; text-align: center; }
     .pl-tabla th:first-child, .pl-tabla td:first-child { text-align: left; }
     .pl-tabla-wrap { overflow-x: auto; }
+    .pl-comprar { display: inline-block; padding: 7px 14px; border-radius: 6px; background: var(--accent); color: #111; font-weight: 700; text-decoration: none; }
     .si { color: #2E7D32; font-weight: 700; } .no { color: var(--text-2); }
   </style>
 <script type="module" src="js/apariencia.js"></script>
@@ -35,6 +36,7 @@
     <p class="pl-intro">El precio se fija en dólares y se cobra en pesos con el <b>tipo de cambio FIX de Banxico</b> del día (o del último día hábil),
       redondeado hacia arriba al peso. En el menú, lo que pertenece a un plan superior aparece con 🔒: puedes ver qué incluye, pero no usarlo.</p>
     <p class="meta" id="pl-fix">Consultando el tipo de cambio…</p>
+    <p class="meta" id="pl-cuenta">¿Ya tienes un plan? <a id="pl-ingreso" href="https://admin.dominusosint.com/cuenta/">Inicia sesión con tu cuenta</a> y vuelve al mapa: verás lo que incluye tu plan.</p>
     <div class="pl-tarjetas" id="pl-tarjetas">Cargando…</div>
     <h2>Comparación por sección</h2>
     <div class="pl-tabla-wrap"><table class="pl-tabla" id="pl-tabla"></table></div>
@@ -43,17 +45,18 @@
   </main>
   <script type="module">
     import { esc, getJSON } from "./js/util.js";
-    import { precioCorto, textoPrecio, filasComparacion } from "./js/planes.js";
-    import { fixDeIndicadores, planActual } from "./js/licencias.js";
+    import { precioCorto, textoPrecio, filasComparacion, enlaceCompra } from "./js/planes.js";
+    import { fixDeIndicadores, planActual, vistaActual } from "./js/licencias.js";
     const cat = await getJSON("config/planes.json");
     const fix = fixDeIndicadores(await getJSON("data/vivos/indicadores.json", { bust: true }).catch(() => null));
-    const actual = new URLSearchParams(location.search).get("plan") ? planActual(cat) : "";
+    const actual = vistaActual() === "pago" ? planActual(cat) : "";
     document.getElementById("pl-fix").textContent = fix ? `Precios en dólares (USD). El cobro se hace en pesos con el FIX de Banxico: ${fix.valor} pesos por dólar (${fix.fecha}).` : "Precios en dólares (USD). Sin tipo de cambio disponible para mostrar la referencia en pesos.";
     document.getElementById("pl-tarjetas").innerHTML = cat.planes.map((p) => `
       <section class="pl-plan${p.id === actual ? " actual" : ""}" id="${esc(p.id)}">
         <h2>${esc(p.nombre)}${p.id === actual ? ` <span class="chip vista-pago">tu plan</span>` : ""}</h2>
         <div class="pl-precio">${esc(precioCorto(p, fix))}</div>
         <p class="meta">${esc(textoPrecio(p, fix, cat.cobro.texto))}</p>
+        ${p.usd > 0 ? (enlaceCompra(p) ? `<p><a class="pl-comprar" href="${esc(enlaceCompra(p))}" target="_blank" rel="noopener noreferrer">Comprar ${esc(p.nombre)}</a></p>` : `<p class="meta">Compra en línea: muy pronto.</p>`) : ""}
         <p>${esc(p.resumen)}</p>
         <ul>${p.incluye.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>
         ${(p.no_incluye || []).length ? `<p class="meta">No incluye: ${p.no_incluye.map(esc).join(" · ")}</p>` : ""}

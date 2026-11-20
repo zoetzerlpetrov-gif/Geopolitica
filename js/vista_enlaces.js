@@ -1,8 +1,10 @@
-// Versión de pago en todas las páginas (Fase 7): los enlaces internos conservan ?vista=pago&plan=…, para que volver al
-// mapa o pasar a otra sección no lleve a la versión completa (admin) ni a otro plan. También impide abrir directo una
-// sección de solo admin o de un plan superior. Sin ?vista=pago no hace nada: la versión completa queda igual.
+// Versión de pago en todas las páginas (Fase 7). En el sitio público (dominusosint.com) siempre está activa: el plan es
+// el de la cuenta verificada o Demo. En administración se simula con ?vista=pago&plan=… y los enlaces internos lo
+// conservan, para que volver al mapa no lleve a la versión completa ni a otro plan. También impide abrir directo una
+// sección de solo admin o de un plan superior. En administración sin ?vista=pago no hace nada.
 import "./bitacora.js";  // bitácora local de errores para soporte (soporte.html), en todas las páginas
-import { vistaActual, planActual, planFaltante } from "./licencias.js";
+import { vistaActual, planActual, planFaltante, esSitioAdmin } from "./licencias.js";
+import { iniciarPlanCliente } from "./plan_cliente.js";
 import { paginaSoloAdmin } from "./planes.js";
 
 const PAGINA = /^(?:\.\/|\.\.?$|[\w-]+\.html)?(?:[?#].*)?$/i;
@@ -27,8 +29,13 @@ export function conVista(href, plan) {
   return `${ruta || "./"}?vista=pago&plan=${encodeURIComponent(plan)}${resto ? "&" + resto : ""}${h.length ? "#" + h.join("#") : ""}`;
 }
 
+/** Páginas que se comparten por enlace con terceros (demostración para directivos y vista de directivo de la cartera):
+ *  se abren tal cual, sin candados ni botón de planes. */
+export const COMPARTIDAS = new Set(["demo.html", "cartera.html"]);
+
 async function iniciar() {
   if (vistaActual() !== "pago") return;
+  const admin = esSitioAdmin();
   for (const elemento of document.querySelectorAll("[data-solo-admin]")) elemento.remove();
   const [planes, ops] = await Promise.all([
     fetch("config/planes.json", { cache: "no-cache" }).then((r) => r.json()),
@@ -40,9 +47,12 @@ async function iniciar() {
   const plan = planActual(planes);
   const ultimo = location.pathname.split("/").pop() || "index.html";
   const aqui = paginaDe(/\.html$/i.test(ultimo) ? ultimo : ultimo + ".html");  // Cloudflare sirve /tutorial sin «.html»
+  if (!admin && COMPARTIDAS.has(aqui)) return;
+  // En el sitio público el plan no viaja en el enlace (sale de la sesión); en administración sí, para simularlo.
+  const enlace = (href) => (admin ? conVista(href, plan) : href);
   const salir = (titulo, texto) => {
     document.body.innerHTML = `<main style="max-width:640px;margin:15vh auto;padding:0 16px;font:16px/1.5 system-ui,sans-serif">
-      <h1>${titulo}</h1><p>${texto}</p><p><a href="${conVista("./", plan)}">Volver al mapa</a> · <a href="${conVista("planes.html", plan)}">Ver planes</a></p></main>`;
+      <h1>${titulo}</h1><p>${texto}</p><p><a href="${enlace("./")}">Volver al mapa</a> · <a href="${enlace("planes.html")}">Ver planes</a></p></main>`;
   };
   if (location.pathname.includes("/ops/") || soloAdmin(aqui)) return salir("Sección no disponible", "Esta sección no forma parte de los planes.");
   const falta = planFaltante(planes, plan, "paginas", aqui);
@@ -65,10 +75,10 @@ async function iniciar() {
       a.classList.add("enlace-bloqueado");
       a.textContent = `🔒 ${a.textContent.trim()} · plan ${req.nombre}`;
       a.title = `Disponible desde el plan ${req.nombre}`;
-      a.setAttribute("href", conVista(`planes.html#${req.id}`, plan));
+      a.setAttribute("href", enlace(`planes.html#${req.id}`));
       return;
     }
-    const nuevo = conVista(href, plan);
+    const nuevo = enlace(href);
     if (nuevo !== href) a.setAttribute("href", nuevo);
   };
   const todo = (raiz) => { if (raiz.matches?.("a[href]")) arreglar(raiz); for (const a of raiz.querySelectorAll?.("a[href]") || []) arreglar(a); };
@@ -81,6 +91,8 @@ async function iniciar() {
     }
   }).observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ["href"] });
   // Formularios GET internos: llevan la vista y el plan como campos ocultos.
+  iniciarPlanCliente(planes, plan, enlace);
+  if (!admin) return;
   for (const f of document.querySelectorAll("form[action]")) if (esInterno(f.getAttribute("action"))) {
     f.insertAdjacentHTML("beforeend", `<input type="hidden" name="vista" value="pago"><input type="hidden" name="plan" value="${encodeURIComponent(plan)}">`);
   }
