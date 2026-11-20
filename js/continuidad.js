@@ -167,7 +167,7 @@ function pintarDestinos() {
   $("cf-destinos").innerHTML = `<table class="cf-tabla"><tr><th>Destino</th><th>Rol</th><th>Cómo se llega</th><th>Estancia legal</th><th>Salud</th><th>Riesgos</th><th>Llegada y días</th><th>Acciones</th></tr>${DEST().map((d) => {
     const llegada = E.destinos[d.id]?.llegada || "", e = estancia(llegada, d.estancia_dias, hoy(), { diaDecision: P.avisos_estancia.dia_decision, antes: P.avisos_estancia.dias_antes_del_limite });
     return `<tr><td><b>${esc(d.destino)}</b></td><td>${esc(d.rol)}</td><td>${esc(d.como)}</td><td>${esc(d.estancia)}</td><td>${esc(d.salud)}</td><td>${esc(d.riesgos)}</td>
-      <td><input type="date" data-llegada="${d.id}" value="${esc(llegada)}">${e ? `<br>Día ${esc(e.transcurridos)}${e.restantes != null ? ` · quedan ${esc(e.restantes)}` : ""}${e.avisos.map((a) => `<br><span class="cf-aviso">⚠️ ${esc(a.texto)}</span>`).join("")}` : ""}</td>
+      <td><input type="date" data-llegada="${esc(d.id)}" value="${esc(llegada)}">${e ? `<br>Día ${esc(e.transcurridos)}${e.restantes != null ? ` · quedan ${esc(e.restantes)}` : ""}${e.avisos.map((a) => `<br><span class="cf-aviso">⚠️ ${esc(a.texto)}</span>`).join("")}` : ""}</td>
       <td><button type="button" data-editar-destino="${esc(d.id)}">✏️ Editar</button> <button type="button" data-quitar-destino="${esc(d.id)}">🗑️ Eliminar</button>${d.propio ? `<br><span class="meta">destino propio</span>` : E.destinosCambios[d.id] ? `<br><span class="meta">editado</span>` : ""}</td></tr>`;
   }).join("")}</table>${DEST().length ? "" : `<p class="meta">No hay destinos. Agrega uno abajo o restaura los de la plantilla.</p>`}<p class="meta">${esc(P.verificar)}</p>`;
 }
