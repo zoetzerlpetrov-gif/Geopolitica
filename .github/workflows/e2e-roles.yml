@@ -1,6 +1,6 @@
 name: Pruebas integrales por rol
 
-# Recorre el sitio publicado con un navegador real, una vez por rol (admin, demo, recon, analyst, command): prende y
+# Recorre el sitio con un navegador real, una vez por rol (admin, demo, recon, analyst, command): prende y
 # apaga cada capa, imagen satelital y categoría en movimiento, abre las páginas del rol y anota errores de JavaScript,
 # datos que no cargan, capas vacías, imágenes que no se quitan y elementos de solo administración visibles.
 # El informe queda como artefacto (14 días) y en el resumen de la corrida. Falla (rojo) si hay errores de JavaScript,
@@ -33,9 +33,15 @@ jobs:
         run: |
           npm install --prefix /tmp/pw --no-save --no-audit --no-fund playwright@1.48.2
           /tmp/pw/node_modules/.bin/playwright install --with-deps chromium
-      - name: Recorrer el sitio publicado por rol
+      # El sitio público siempre muestra Demo (o el plan de la cuenta) y no acepta ?plan=; para probar cada plan se usa una
+      # copia local del sitio (donde sí se simula el plan) con los datos reales de dominusosint.com (tools/e2e/servidor_local.py).
+      - name: Copia local del sitio con los datos publicados
+        run: |
+          python3 tools/e2e/servidor_local.py 8000 &
+          for i in $(seq 1 30); do curl -sf -o /dev/null http://127.0.0.1:8000/ && break; sleep 1; done
+      - name: Recorrer el sitio por rol
         env:
-          BASE: https://dominusosint.com
+          BASE: http://127.0.0.1:8000
           PLAYWRIGHT_MODULE: /tmp/pw/node_modules/playwright
           ROLES: ${{ github.event.inputs.roles }}
         run: |
