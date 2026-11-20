@@ -49,7 +49,7 @@ export function planDeSuscripcion(s) {
 
 async function api(ruta, env) {
   const r = await fetch(`https://api.mercadopago.com${ruta}`, { headers: { Authorization: `Bearer ${env.MP_ACCESS_TOKEN.trim()}` }, redirect: "manual", signal: AbortSignal.timeout(15000) });
-  if (!r.ok) throw new Error(`Mercado Pago respondió ${r.status}`);
+  if (!r.ok) throw Object.assign(new Error(`Mercado Pago respondió ${r.status}`), { status: r.status });
   return r.json();
 }
 
@@ -113,7 +113,13 @@ export async function avisoMercadoPago(request, url, env, tablaEmail) {
       const pago = await api(`/authorized_payments/${encodeURIComponent(id)}`, env);
       if (ID.test(String(pago.preapproval_id || ""))) r = await aplicarSuscripcion(db, await api(`/preapproval/${encodeURIComponent(pago.preapproval_id)}`, env));
     }
-  } catch (e) { r = { estado: "error", email: null, plan: null }; nota = String(e.message).slice(0, 120); }
+  } catch (e) {
+    // 404/400: la suscripción no existe (p. ej. «Simular notificación» usa el id de ejemplo 123456). Se registra y se
+    // confirma; reintentar no la haría aparecer. Errores de red o 5xx: se pide a Mercado Pago que reintente.
+    const definitivo = e.status === 404 || e.status === 400;
+    r = { estado: definitivo ? "no-encontrada" : "error", email: null, plan: null };
+    nota = String(e.message).slice(0, 120);
+  }
   await db.prepare("INSERT INTO dominus_pagos (tipo, mp_id, estado, email, plan, nota) VALUES (?, ?, ?, ?, ?, ?)")
     .bind(tipo.slice(0, 40) || "desconocido", id, r.estado, r.email, r.plan, nota).run();
   // Ante un error de la API se pide a Mercado Pago que reintente (500); lo demás se confirma.
