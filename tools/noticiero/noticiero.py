@@ -138,9 +138,21 @@ def clave_titulo(t):
     return T.norm(t).strip()[:90]
 
 
-def unir(previos, nuevos, ahora, horas=HORAS, maximo=MAX_SECCION):
+def limites_de(cfg):
+    """Por sección: tope propio («max»), expresión de «prioridad» (avisos que afectan a la gente: entran antes que el resto
+    aunque sean más antiguos) y «repetidos» ({expresión: máximo}; p. ej. no más de 5 notas de Banxico en Avisos oficiales)."""
+    out = {}
+    for x in cfg.get("secciones", []):
+        out[x["id"]] = {"max": int(x.get("max") or MAX_SECCION), "prioridad": _rx(x["prioridad"]) if x.get("prioridad") else None,
+                        "repetidos": [(_rx(k), int(v)) for k, v in (x.get("repetidos") or {}).items()]}
+    return out
+
+
+def unir(previos, nuevos, ahora, horas=HORAS, maximo=MAX_SECCION, limites=None):
     """Une sin repetir enlaces ni titulares, conserva `horas` y deja como máximo `maximo` notas por sección (las más
-    recientes). Una nota repetida suma las secciones de sus copias; la versión RSS gana a la de GDELT (trae el tipo de medio)."""
+    recientes; las que coinciden con la «prioridad» de la sección van primero). Una nota repetida suma las secciones de sus
+    copias; la versión RSS gana a la de GDELT (trae el tipo de medio)."""
+    limites = limites or {}
     limite = (ahora - timedelta(hours=horas)).strftime("%Y-%m-%dT%H:%M:%SZ")
     futuro = (ahora + timedelta(hours=1)).strftime("%Y-%m-%dT%H:%M:%SZ")
     por_url, por_titulo = {}, {}
@@ -153,13 +165,39 @@ def unir(previos, nuevos, ahora, horas=HORAS, maximo=MAX_SECCION):
             previa["s"] = list(dict.fromkeys(previa["s"] + n["s"]))
             continue
         por_url[n["u"]] = por_titulo[clave_titulo(n["t"])] = n
-    cuenta, out = {}, []
-    for n in sorted(por_url.values(), key=lambda x: x["f"], reverse=True):
-        n["s"] = [s for s in n["s"] if cuenta.get(s, 0) < maximo]
-        if n["s"]:
-            for s in n["s"]:
-                cuenta[s] = cuenta.get(s, 0) + 1
-            out.append(n)
+    cuenta, rep, quedan = {}, {}, {}
+    recientes = sorted(por_url.values(), key=lambda x: x["f"], reverse=True)
+
+    def cabe(n, sid, solo_prioridad):
+        lim = limites.get(sid) or {}
+        pri = lim.get("prioridad")
+        if solo_prioridad and not (pri and pri.search(n["t"])):
+            return False
+        if cuenta.get(sid, 0) >= lim.get("max", maximo):
+            return False
+        for i, (rx, tope) in enumerate(lim.get("repetidos", [])):
+            if rx.search(n["t"]) and rep.get((sid, i), 0) >= tope:
+                return False
+        return True
+
+    def contar(n, sid):
+        cuenta[sid] = cuenta.get(sid, 0) + 1
+        for i, (rx, _) in enumerate((limites.get(sid) or {}).get("repetidos", [])):
+            if rx.search(n["t"]):
+                rep[(sid, i)] = rep.get((sid, i), 0) + 1
+
+    for vuelta in (True, False):  # 1.ª vuelta: solo notas prioritarias de cada sección; 2.ª: el resto por fecha
+        for n in recientes:
+            ya = quedan.setdefault(id(n), [])
+            for sid in n["s"]:
+                if sid not in ya and cabe(n, sid, vuelta):
+                    ya.append(sid)
+                    contar(n, sid)
+    out = []
+    for n in recientes:
+        secs = [x for x in n["s"] if x in quedan.get(id(n), [])]
+        if secs:
+            out.append({**n, "s": secs})
     return out
 
 
@@ -201,7 +239,7 @@ def main(archivos=4):
     n_gkg, e_gkg = de_gkg(reglas, archivos, excluir)
     n_rss, e_rss, ok = de_rss(cfg, reglas)
     ahora = datetime.now(timezone.utc)
-    notas = unir(previos, n_gkg + n_rss, ahora)
+    notas = unir(previos, n_gkg + n_rss, ahora, limites=limites_de(cfg))
     secciones = [{"id": s["id"], "titulo": s["titulo"], "nota": s.get("nota", ""),
                   "fuentes": [{"nombre": f["nombre"], "tipo": f["tipo"]} for f in s.get("feeds", [])]} for s in cfg["secciones"]]
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
