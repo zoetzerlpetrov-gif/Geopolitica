@@ -1,5 +1,6 @@
 import config from "../../config/planes.json" with { type: "json" };
-import { begin, configured, sessionId, signOut } from "../huella/auth.js";
+import { authorized, begin, configured, sessionId, signOut } from "../huella/auth.js";
+import { servirDatos } from "./datos.js";
 import { CSS as CSS_CUENTA, paginaCuenta } from "./cuenta-ui.js";
 import { avisoMercadoPago } from "./mercadopago.js";
 import { completarGoogle, correoSesion, googleConfigurado, iniciarGoogle, planPorCorreo, registrado, salirGoogle, TABLA_EMAIL } from "./google.js";
@@ -65,6 +66,11 @@ export async function servePlans(request, url, env, authRoot) {
       || await planPorCorreo(env.OSINT_PLANS_DB, correo, ORDER)
       || (await registrado(env.OSINT_PLANS_DB, correo) ? "demo" : null);
     if (route === "") return page(plan, url.searchParams.get("estado") === "sin-acceso", googleConfigurado(env));
+    // Datos por plan (fase 2): archivos de data/ que solo ven los planes de pago, desde R2 y con la sesión del mapa.
+    if (route.startsWith("datos/")) {
+      const cors = corsMapa(request);
+      return servirDatos(env, route.slice("datos/".length), plan, await authorized(request, env).catch(() => false), cors);
+    }
     if (route === "sesion" || route === "permiso") {
       const h = route === "sesion" ? { ...headers, ...corsMapa(request) } : headers;
       if (!plan) return Response.json({ error: "No hay un plan activo." }, { status: 403, headers: h });
