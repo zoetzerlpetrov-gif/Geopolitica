@@ -28,8 +28,12 @@ const valorDe = (el) => (el.type === "checkbox" || el.type === "radio" ? el.chec
  * Aplica lo guardado a los controles presentes. `soloSubtipos` vuelve a aplicar los subtipos después de que una
  * capa termina de encenderse (al encender una capa se marcan todos sus subtipos).
  */
+let aplicando = false;  // cambios que dispara esta misma restauración (no se vuelven a guardar)
+
 export function aplicar(raiz, estado, { soloSubtipos = false } = {}) {
   let n = 0;
+  aplicando = true;
+  try {
   for (const el of controles(raiz)) {
     const k = claveDe(el);
     if (!k || !(k in (estado.controles || {}))) continue;
@@ -40,6 +44,7 @@ export function aplicar(raiz, estado, { soloSubtipos = false } = {}) {
     el.dispatchEvent(new Event("change", { bubbles: true }));
     n++;
   }
+  } finally { aplicando = false; }
   return n;
 }
 
@@ -59,7 +64,8 @@ export function iniciarEstadoMapa(panel, map, { almacen = globalThis.sessionStor
   // 2) Cada cambio del usuario en el menú se recuerda.
   panel.addEventListener("change", (e) => {
     const k = claveDe(e.target);
-    if (!k || !e.isTrusted) return;
+    // Se guarda todo cambio (clic directo, ✕ de «Encendidas», «Apagar todas»…) salvo los que hace la restauración.
+    if (!k || aplicando) return;
     estado.controles[k] = valorDe(e.target);
     guardar(estado, almacen);
   });

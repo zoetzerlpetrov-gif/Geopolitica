@@ -33,3 +33,17 @@ test("un estado guardado dañado no rompe el mapa", () => {
   assert.deepEqual(leer({ getItem: () => "{no es json" }), {});
   assert.deepEqual(leer(null), {});
 });
+
+test("la ✕ de «Encendidas» (cambio por código) se recuerda y la restauración no la revierte", async () => {
+  const { iniciarEstadoMapa } = await import("../../js/estado_mapa.js");
+  const datos = {}, almacen = { getItem: (k) => datos[k] ?? null, setItem: (k, v) => { datos[k] = v; } };
+  const oyentes = [];
+  const cb = { id: "", dataset: { riesgo: "sismos" }, checked: true, type: "checkbox", value: "on", disabled: false, closest: () => null };
+  const panel = { querySelectorAll: () => [cb], addEventListener: (t, f) => oyentes.push(f) };
+  cb.dispatchEvent = (e) => oyentes.forEach((f) => f({ ...e, target: cb }));
+  globalThis.MutationObserver ??= class { observe() {} disconnect() {} };
+  almacen.setItem("gp_estado_mapa_v1", JSON.stringify({ controles: { "riesgo:sismos": true } }));
+  iniciarEstadoMapa(panel, null, { almacen, conHash: true });
+  cb.checked = false; cb.dispatchEvent({ type: "change" });  // como el botón ✕ (no es un clic del usuario)
+  assert.equal(JSON.parse(datos.gp_estado_mapa_v1).controles["riesgo:sismos"], false);
+});
