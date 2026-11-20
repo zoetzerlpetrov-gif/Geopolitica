@@ -23,6 +23,9 @@ export async function getJSON(url, { bust = false } = {}) {
   const pre = globalThis.__pre?.[url];
   if (pre) { delete globalThis.__pre[url]; return pre; }
   // El parámetro anticaché se agrega con «&» si la URL ya trae parámetros (p. ej. la API de NWS).
+  // Solo rutas del propio sitio o https (nunca otros esquemas como file:, data: o javascript:).
+  const destino = new URL(url, globalThis.location?.href || "https://dominusosint.com/");
+  if (destino.protocol !== "https:" && destino.origin !== globalThis.location?.origin) throw new Error(`${url}: dirección no permitida`);
   const r = await fetch(bust ? `${url}${url.includes("?") ? "&" : "?"}t=${Date.now()}` : url, { cache: "no-store" });
   if (!r.ok) throw new Error(`${url}: HTTP ${r.status}`);
   return r.json();

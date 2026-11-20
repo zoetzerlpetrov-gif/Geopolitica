@@ -60,7 +60,7 @@ export function htmlMatriz(filas) {
     const n = nivel(p, i), x = o + (i - 1) * c, y = (5 - p) * c;
     const aqui = filas.filter((f) => f.prob === p && f.impacto === i);
     s += `<rect x="${x}" y="${y}" width="${c - 2}" height="${c - 2}" fill="${n.color}" opacity="0.28"><title>Probabilidad ${p} × impacto ${i} = ${n.valor} (${n.etiqueta})</title></rect>`;
-    if (aqui.length) s += `<text x="${x + c / 2 - 1}" y="${y + c / 2 + 5}" text-anchor="middle" class="matriz-n">${aqui.map((f) => f.num).join(",")}</text>`;
+    if (aqui.length) s += `<text x="${x + c / 2 - 1}" y="${y + c / 2 + 5}" text-anchor="middle" class="matriz-n">${aqui.map((f) => Number(f.num) || 0).join(",")}</text>`;
   }
   s += `<text x="${o + c * 2.5}" y="${o + c * 5 - 2}" text-anchor="middle" class="matriz-eje">Impacto →</text>`;
   s += `<text x="10" y="${c * 2.5}" text-anchor="middle" class="matriz-eje" transform="rotate(-90 10 ${c * 2.5})">Probabilidad →</text></svg>`;

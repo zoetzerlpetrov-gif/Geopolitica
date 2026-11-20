@@ -122,7 +122,7 @@ export function analizarOffice(entradas, textos) {
   const alertas = [];
   const macros = nombres.filter((n) => /vbaProject\.bin|vbaData\.xml|\/macros\//i.test(n));
   if (macros.length) alertas.push({ nivel: "alto", texto: `Contiene macros (${macros.join(", ")}): pueden ejecutar código al abrirse. No las habilites si no confías en el origen.` });
-  const ole = nombres.filter((n) => /embeddings\/|oleObject|\.bin$/i.test(n) && !/vbaProject/i.test(n));
+  const ole = nombres.filter((n) => (/embeddings\/|oleObject/i.test(n) || /\.bin$/i.test(n)) && !/vbaProject/i.test(n));
   if (ole.length) alertas.push({ nivel: "medio", texto: `Objetos incrustados (${ole.length}): otros archivos metidos dentro del documento.` });
   if (externos.length) alertas.push({ nivel: "medio", texto: `Vínculos externos (${externos.length}): el documento puede pedir recursos a internet al abrirse (rastreo o descarga de plantillas).` });
   if (/attachedTemplate[^>]+TargetMode="External"/.test(rels)) alertas.push({ nivel: "alto", texto: "Plantilla remota: técnica usada para descargar macros al abrir el documento (inyección de plantilla)." });
