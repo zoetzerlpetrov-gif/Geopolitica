@@ -177,7 +177,7 @@ def para_voz(texto, legal=False):
     t = re.sub(r"\b(\d{1,3})((?:,\d{3})+)\b(?!\.\d)", lambda m: m.group(1) + m.group(2).replace(",", ""), t)
     t = re.sub(r"\b(\d{1,3})((?:,\d{3})+)(\.\d+)", lambda m: m.group(1) + m.group(2).replace(",", "") + m.group(3), t)
     t = re.sub(r"(\d)\.(\d)", r"\1 punto \2", t)
-    t = t.replace("%", " por ciento").replace("‑", "-")
+    t = t.replace("%", " por ciento").replace("‑", "-").replace(" · ", ", ").replace("·", ", ")  # el «·» no se pronuncia
     return pronunciar(re.sub(r"\s+", " ", t).strip())
 
 
@@ -264,7 +264,7 @@ CORTO = {"politica_mx": "Política en México", "oficial_mx": "Avisos oficiales 
          "ciberseguridad": "Ciberseguridad", "cbdc": "Monedas digitales", "tecnologia": "Tecnología", "organismos": "Organismos internacionales", "salud": "Salud",
          "nutricion": "Nutrición", "agenda2030": "Agenda 2030", "clima": "Clima y desastres", "eventos_impacto": "Clima y economía",
          "cultura": "Cultura", "espectaculos": "Espectáculos", "gastronomia_viajes": "Gastronomía y viajes",
-         "belleza_moda": "Belleza y moda", "familia": "Familia y parejas · noticias positivas", "infantil": "Niñas y niños", "conspiracion": "Teorías de conspiración",
+         "belleza_moda": "Belleza y moda", "familia": "Familia y parejas", "infantil": "Niñas y niños", "conspiracion": "Teorías de conspiración",
          "politica_mx_critica": "Política en México", "dof": "Diario Oficial de la Federación"}
 # Lo que la IA debe buscar en la sección cuando el nombre corto no basta.
 TEMA = {
@@ -299,9 +299,13 @@ INFANTIL = re.compile(r"ni[nñ]as?\b|ni[nñ]os?\b|infan|menores|adolescen|escuel
 FAMILIA_TEMA = re.compile('familia|matrimonio|pareja|espos[oa]s?|bodas?\\b|crianza|madres?\\b|padres\\b|family|families|marriage|couples?\\b|husband|wife|parents', re.I)
 FAMILIA_POSITIVA = re.compile('celebr|aniversario|bodas?\\b|reencuentr|solidari|ayuda|apoyo|bienestar|bondad|reconcilia|crianza|conciliaci[oó]n|voluntar|donaci[oó]n|reconoc|inspira|bondad|fortalec|celebrat|anniversary|wedding|reunit|support|donat|raises?|surpris|love|fosters?|kindness|help|cleaning|limpieza|limpian|passion', re.I)
 FAMILIA_NEGATIVA = re.compile(r"asesin|homicid|violencia|maltrato|abuso|fraude|divorci|separaci[oó]n|killed|murder|abuse|divorce|obispo|sacerdote|pontific", re.I)
+# Política y corrupción: una «boda de una familia morenista en un hotel de lujo» no es una nota familiar, es de política.
+FAMILIA_POLITICA = re.compile(r"morena\b|morenist|\bpan\b|panist|\bpri\b|priist|\bpvem\b|movimiento ciudadano|partido|diputad|senador|funcionari|gobernador|alcald|"
+                              r"presidenci|secretari[oa] de|pol[ií]tic|corrupc|nepotis|peculado|desv[ií]o|huachicol|lavado|lujo|luxury|politician|senator|governor|corrupt", re.I)
 
 def noticia_familiar_positiva(titulo):
-    return bool(FAMILIA_TEMA.search(titulo) and FAMILIA_POSITIVA.search(titulo) and not FAMILIA_NEGATIVA.search(titulo))
+    return bool(FAMILIA_TEMA.search(titulo) and FAMILIA_POSITIVA.search(titulo) and not FAMILIA_NEGATIVA.search(titulo)
+                and not FAMILIA_POLITICA.search(titulo))
 
 
 POR_SECCION = {"politica_mx": 2, "oficial_mx": 2, "geopolitica": 2}  # las demás: solo la nota más relevante
@@ -766,7 +770,8 @@ def guion(fecha, elegidas, indicadores=None, portafolio=None, clima=None, cifras
         esc.append({"tipo": "nota", "encabezado": n["seccion_nombre"], "seccion": n["seccion"], "texto": n["resumen"], "medio": n["medio"], "url": n["url"], "dato": n.get("dato"),
                     "titular": bool(n.get("titular")),
                     "voz": (f"{n['seccion_nombre']}. " if not esc or esc[-1].get("encabezado") != n["seccion_nombre"] else "") + n["voz"]})
-        if n["seccion"] == "ciberseguridad" and (perfil := perfil_estafa(n["titulo"])):
+        # La orientación solo se agrega si el titular permite identificar la modalidad; si no, no se dice nada genérico.
+        if n["seccion"] == "ciberseguridad" and (perfil := perfil_estafa(n["titulo"])) and perfil.get("modalidad") != "sin_detalle":
             for encabezado, texto in [("Modus operandi · orientación general", perfil["modus"]),
                                       ("Cómo evitar la estafa", perfil["prevencion"])]:
                 esc.append({"tipo": "nota", "encabezado": encabezado, "seccion": "ciberseguridad",
