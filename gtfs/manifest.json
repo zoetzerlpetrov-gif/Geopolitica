@@ -1,0 +1,42 @@
+{
+  "format": "dominus-gtfs-manifest-v1",
+  "generatedAt": "2026-11-20T23:58:01.057018Z",
+  "feeds": [
+    {
+      "id": "ktmb",
+      "name": "KTMB · trenes de Malasia",
+      "url": "https://api.data.gov.my/gtfs-static/ktmb",
+      "license": "CC BY 4.0 · data.gov.my / operador",
+      "file": "ktmb.zip",
+      "bytes": 46918,
+      "sha256": "3ace75cb0ad1994ed4c81b07bd8626f8fc8bbafe48fe73f0405b5ffcc9d52cd1",
+      "collectedAt": "2026-11-20T23:58:01.057018Z",
+      "attemptedAt": "2026-11-20T23:58:01.057018Z",
+      "status": "ok"
+    },
+    {
+      "id": "mybas-johor",
+      "name": "BAS.MY · autobuses de Johor Bahru",
+      "url": "https://api.data.gov.my/gtfs-static/mybas-johor",
+      "license": "CC BY 4.0 · data.gov.my / operador",
+      "file": "mybas-johor.zip",
+      "bytes": 4866611,
+      "sha256": "9efc1c79d449bd6281ff8411b6075d278f823225672589563f88106cfac69234",
+      "collectedAt": "2026-11-20T23:58:01.057018Z",
+      "attemptedAt": "2026-11-20T23:58:01.057018Z",
+      "status": "ok"
+    },
+    {
+      "id": "mybas-kangar",
+      "name": "BAS.MY · autobuses de Kangar",
+      "url": "https://api.data.gov.my/gtfs-static/mybas-kangar",
+      "license": "CC BY 4.0 · data.gov.my / operador",
+      "file": "mybas-kangar.zip",
+      "bytes": 71832,
+      "sha256": "ceb76ba59d41fc86d511877fb589bc78388b8a1a7ab37604b140f3de8e3b67b9",
+      "collectedAt": "2026-11-20T23:58:01.057018Z",
+      "attemptedAt": "2026-11-20T23:58:01.057018Z",
+      "status": "ok"
+    }
+  ]
+}
