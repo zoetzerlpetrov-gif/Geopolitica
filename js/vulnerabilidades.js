@@ -22,10 +22,28 @@ export function comparar(corridas) {
   };
 }
 
+/** Historial de cada hallazgo visto alguna vez: primera y última vez, y si sigue pendiente o ya se resolvió (y cuándo). */
+export function historial(corridas) {
+  const orden = [...corridas].sort((a, b) => String(a.fecha).localeCompare(String(b.fecha)));
+  const ultima = orden.at(-1), vivos = new Set((ultima?.hallazgos || []).map((h) => h.id)), mapa = new Map();
+  orden.forEach((c, i) => {
+    const ids = new Set((c.hallazgos || []).map((h) => h.id));
+    for (const h of c.hallazgos || []) {
+      const r = mapa.get(h.id) || { ...h, primera: c.fecha, ultima: c.fecha, resuelto: null };
+      Object.assign(r, { titulo: h.titulo, severidad: h.severidad, ultima: c.fecha, resuelto: null });
+      mapa.set(h.id, r);
+    }
+    for (const [id, r] of mapa) if (!ids.has(id) && !r.resuelto && r.ultima < c.fecha) r.resuelto = c.fecha;
+    void i;
+  });
+  return [...mapa.values()].map((r) => ({ ...r, estado: vivos.has(r.id) ? "pendiente" : "resuelto" }))
+    .sort((a, b) => (a.estado === b.estado ? ORDEN.indexOf(a.severidad) - ORDEN.indexOf(b.severidad) : a.estado === "pendiente" ? -1 : 1));
+}
+
 export function filaHallazgo(h, { nuevo = false, desde = "" } = {}) {
   return `<tr class="${nuevo ? "nueva" : ""}"><td><span class="sev sev-${esc(h.severidad)}">${esc(NOMBRE[h.severidad] || h.severidad)}</span>${nuevo ? ' <span class="chip">nuevo</span>' : ""}</td>
     <td><b>${esc(h.titulo)}</b><br><span class="meta">${esc(h.categoria)}</span></td><td>${esc(h.detalle)}</td><td>${esc(h.accion)}</td>
-    <td><span class="chip">${esc(QUIEN[h.quien] || h.quien)}</span></td><td class="meta">${esc(String(desde).slice(0, 10))}</td></tr>`;
+    <td><span class="chip">${esc(QUIEN[h.quien] || h.quien)}</span></td><td><span class="estado-pend">⏳ Pendiente</span><br><span class="meta">desde ${esc(String(desde).slice(0, 10))}</span></td></tr>`;
 }
 
 /** Barras apiladas por día (críticas, altas, medias) de las últimas 60 corridas. */
@@ -78,6 +96,11 @@ async function iniciar() {
   pintar();
   $("vu-hist").innerHTML = svgHistorial(corridas);
   $("vu-revisiones").innerHTML = `<table><tr><th>Revisión</th><th>Estado</th><th>Nota</th></tr>${(actual.revisiones || []).map((r) => `<tr><td>${esc(r.nombre)}</td><td>${esc(r.estado)}</td><td class="meta">${esc(r.nota)}</td></tr>`).join("")}</table>`;
+  const hist = historial(corridas), resueltos = hist.filter((h) => h.estado === "resuelto");
+  $("vu-historial").innerHTML = `<p class="meta">${hist.length} hallazgos vistos desde la primera revisión: ${hist.length - resueltos.length} pendientes y ${resueltos.length} resueltos (corregidos en el código o descartados en GitHub como falso positivo).</p>
+    <table><tr><th>Estado</th><th>Severidad</th><th>Hallazgo</th><th>Visto por primera vez</th><th>Resuelto</th></tr>${hist.map((h) => `<tr><td>${h.estado === "pendiente" ? '<span class="estado-pend">⏳ Pendiente</span>' : '<span class="estado-ok">✅ Resuelto</span>'}</td>
+      <td><span class="sev sev-${esc(h.severidad)}">${esc(NOMBRE[h.severidad] || h.severidad)}</span></td><td>${esc(h.titulo)}<br><span class="meta">${esc(h.categoria)}</span></td>
+      <td class="meta">${esc(String(h.primera).slice(0, 10))}</td><td class="meta">${h.resuelto ? esc(String(h.resuelto).slice(0, 10)) : "—"}</td></tr>`).join("")}</table>`;
   $("vu-bitacora").innerHTML = `<table><tr><th>Fecha</th><th>Críticos</th><th>Altos</th><th>Medios</th><th>Bajos</th><th>Resueltos ese día</th></tr>${corridas.map((x, i) => {
     const n = conteo(x.hallazgos), prev = corridas[i + 1];
     const res = prev ? prev.hallazgos.filter((h) => !x.hallazgos.some((y) => y.id === h.id)) : [];

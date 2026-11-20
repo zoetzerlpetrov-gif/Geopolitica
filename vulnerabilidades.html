@@ -27,6 +27,7 @@
     .filtros { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0; }
     .hist svg { width: 100%; height: auto; }
     details summary { cursor: pointer; font-weight: 600; }
+    .estado-pend { color: #b8860b; font-weight: 700; white-space: nowrap; } .estado-ok { color: #2e7d32; font-weight: 700; white-space: nowrap; }
     .aviso { border-left: 4px solid #C8102E; padding: 8px 12px; background: rgba(200,16,46,.08); border-radius: 4px; }
   </style>
   <script type="module" src="js/apariencia.js"></script>
@@ -46,8 +47,10 @@
       <label>Quién lo corrige <select id="vu-quien"><option value="">Todos</option><option value="claude">Claude (en el código)</option><option value="tu">Tú (en un panel o cuenta)</option><option value="ambos">Ambos</option></select></label>
       <label>Categoría <select id="vu-cat"><option value="">Todas</option></select></label>
     </div>
-    <div class="tabla"><table><thead><tr><th>Severidad</th><th>Hallazgo</th><th>Detalle</th><th>Qué hacer</th><th>Quién</th><th>Desde</th></tr></thead><tbody id="vu-filas"></tbody></table></div>
-    <h2>Historial</h2>
+    <div class="tabla"><table><thead><tr><th>Severidad</th><th>Hallazgo</th><th>Detalle</th><th>Qué hacer</th><th>Quién</th><th>Estado</th></tr></thead><tbody id="vu-filas"></tbody></table></div>
+    <h2>Historial de cada hallazgo (pendientes y resueltos)</h2>
+    <div id="vu-historial" class="tabla"></div>
+    <h2>Evolución por día</h2>
     <div id="vu-hist" class="hist"></div>
     <details><summary>Revisiones de la última corrida</summary><div id="vu-revisiones"></div></details>
     <details><summary>Bitácora (corridas anteriores)</summary><div id="vu-bitacora"></div></details>

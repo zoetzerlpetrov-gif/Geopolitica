@@ -83,7 +83,22 @@ export async function aplicarSuscripcion(db, s) {
 export async function avisoMercadoPago(request, url, env, tablaEmail) {
   const ok = () => new Response(null, { status: 200 });  // Mercado Pago reintenta si no recibe 200/201
   if (!mercadoPagoConfigurado(env) || !env.OSINT_PLANS_DB) return new Response(null, { status: 503 });
-  if (!await firmaValida(request, url, env.MP_WEBHOOK_SECRET.trim())) return new Response(null, { status: 401 });
+  if (!await firmaValida(request, url, env.MP_WEBHOOK_SECRET.trim())) {
+    // Bitácora mínima de rechazos con forma de aviso de Mercado Pago (tipo e id, nunca el contenido), para diagnosticar
+    // «Simular notificación». Se conservan los últimos 500 registros.
+    if (request.headers.get("x-signature") && request.headers.get("x-request-id")) {
+      try {
+        const db = env.OSINT_PLANS_DB;
+        await preparar(db, tablaEmail);
+        const idAviso = String(url.searchParams.get("data.id") || "").slice(0, 64).replace(/[^A-Za-z0-9_-]/g, "");
+        const tipoAviso = String(url.searchParams.get("type") || url.searchParams.get("topic") || "").slice(0, 40).replace(/[^a-z_.]/g, "");
+        await db.prepare("INSERT INTO dominus_pagos (tipo, mp_id, estado, nota) VALUES (?, ?, 'firma-invalida', ?)")
+          .bind(tipoAviso || "desconocido", idAviso || "-", "Firma o fecha del aviso no válidas").run();
+        await db.prepare("DELETE FROM dominus_pagos WHERE id NOT IN (SELECT id FROM dominus_pagos ORDER BY id DESC LIMIT 500)").run();
+      } catch { /* la bitácora nunca impide responder */ }
+    }
+    return new Response(null, { status: 401 });
+  }
   let cuerpo = {};
   try { cuerpo = JSON.parse((await request.text()).slice(0, 20000) || "{}"); } catch { /* sin cuerpo: se usa la URL */ }
   const tipo = String(cuerpo.type || url.searchParams.get("type") || "");

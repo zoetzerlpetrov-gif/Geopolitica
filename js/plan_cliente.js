@@ -67,7 +67,7 @@ export function htmlMejorar(planes, plan, conVista, motivo = "") {
       : `<span class="plan-btn plan-btn-off" aria-disabled="true">💳 Comprar · muy pronto</span>`;
     return `<section class="${j === i ? "plan-actual" : ""}"><h3>${esc(p.nombre)}</h3><p class="plan-precio">${esc(precioCorto(p))}</p>
       <ul>${(p.incluye || []).slice(0, 4).map((x) => `<li>${esc(x)}</li>`).join("")}</ul>
-      <p>${boton}<br><a href="${esc(conVista(`planes.html#${p.id}`))}">Ver detalle</a></p></section>`;
+      <p class="plan-acciones-tarjeta">${boton}<a href="${esc(conVista(`planes.html#${p.id}`))}">Ver detalle</a></p></section>`;
   };
   const filas = filasComparacion(planes);
   const tabla = `<details class="plan-comparar" open><summary>Comparativo por sección</summary><div class="plan-tabla"><table>
@@ -85,7 +85,7 @@ const ESTILO = `.plan-flotante{position:fixed;left:14px;bottom:14px;z-index:900;
 .plan-flotante:hover{background:var(--accent,#c9a227);color:#111}
 .plan-ventana{max-width:min(1040px,96vw);max-height:92vh;overflow:auto;border:1px solid var(--line,#243248);border-radius:10px;background:var(--surface,#101826);color:var(--text,#e3e7ee);padding:18px 20px;font:15px/1.5 var(--font,system-ui)}
 .plan-ventana::backdrop{background:rgba(0,0,0,.6)}.plan-ventana h2{margin:0 0 8px}.plan-ventana h3{margin:0 0 4px;font-size:16px}
-.plan-opciones{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}.plan-opciones section.plan-actual{border:2px solid var(--accent,#c9a227)}.plan-precio{font-size:18px;font-weight:700;margin:0 0 4px}.plan-btn-actual{background:transparent;border:1px solid var(--accent,#c9a227);color:var(--text,#eee)!important}.plan-tabla{overflow-x:auto}.plan-tabla table{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}.plan-tabla th,.plan-tabla td{border-bottom:1px solid var(--line,#243248);padding:4px 6px;text-align:center}.plan-tabla td:first-child,.plan-tabla th:first-child{text-align:left}.plan-tabla .plan-actual{background:rgba(201,162,39,.14)}.plan-comparar{margin:12px 0}.plan-comparar summary{cursor:pointer;font-weight:700}.plan-opciones section{border:1px solid var(--line,#243248);border-radius:8px;padding:10px}
+.plan-opciones{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}.plan-opciones section{display:flex;flex-direction:column}.plan-acciones-tarjeta{margin:auto 0 0;padding-top:10px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}.plan-acciones-tarjeta .plan-btn{min-width:80%;text-align:center}.plan-opciones section.plan-actual{border:2px solid var(--accent,#c9a227)}.plan-precio{font-size:18px;font-weight:700;margin:0 0 4px}.plan-btn-actual{background:transparent;border:1px solid var(--accent,#c9a227);color:var(--text,#eee)!important}.plan-tabla{overflow-x:auto}.plan-tabla table{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}.plan-tabla th,.plan-tabla td{border-bottom:1px solid var(--line,#243248);padding:4px 6px;text-align:center}.plan-tabla td:first-child,.plan-tabla th:first-child{text-align:left}.plan-tabla .plan-actual{background:rgba(201,162,39,.14)}.plan-comparar{margin:12px 0}.plan-comparar summary{cursor:pointer;font-weight:700}.plan-opciones section{border:1px solid var(--line,#243248);border-radius:8px;padding:10px}
 .plan-opciones ul{margin:4px 0;padding-left:18px;font-size:13px}.plan-cerrar{float:right;background:none;border:0;color:inherit;font-size:20px;cursor:pointer}
 .plan-btn{display:inline-block;padding:6px 12px;border-radius:6px;background:var(--accent,#c9a227);color:#111 !important;text-decoration:none;font-weight:700}
 .plan-btn-off{opacity:.55;cursor:not-allowed;background:var(--line,#555);color:var(--text,#eee)!important}
@@ -139,25 +139,24 @@ function bloquearDescargas(planes, plan, conVista) {
 /** Atenúa lo que el plan no incluye (grupos y bloques del menú con todos sus controles deshabilitados) y, al intentar
  *  usarlo, explica qué plan lo incluye en lugar de no hacer nada. */
 export function marcarNoDisponible(planes, plan, conVista, raiz = document) {
-  const CTRL = "input, select, textarea, button";
+  // Solo casillas y listas (los botones se deshabilitan un momento mientras cargan y harían parpadear el candado).
+  const CTRL = "input[type=checkbox], input[type=radio], select";
   const sinAcceso = (el) => {
     const c = [...el.querySelectorAll(CTRL)].filter((x) => !x.closest("summary") && !x.closest(".aviso-plan") && !x.closest(".plan-ventana"));
     return c.length > 0 && c.every((x) => x.disabled);
   };
+  // Marca estable: lo que el plan no incluye no cambia durante la visita, así que una vez marcado no se desmarca.
   const pasar = () => {
     for (const el of raiz.querySelectorAll("#panel details, .bloqueado-plan")) {
-      const no = el.classList.contains("bloqueado-plan") || sinAcceso(el);
-      el.classList.toggle("plan-sin-acceso", no);
+      if (el.classList.contains("plan-sin-acceso") || !(el.classList.contains("bloqueado-plan") || sinAcceso(el))) continue;
+      el.classList.add("plan-sin-acceso");
       const sum = el.querySelector(":scope > summary");
-      if (sum && no && !sum.querySelector(".plan-candado")) sum.insertAdjacentHTML("afterbegin", '<span class="plan-candado" aria-hidden="true">🔒 </span>');
-      if (sum && !no) sum.querySelector(".plan-candado")?.remove();
+      if (sum && !sum.querySelector(".plan-candado")) sum.insertAdjacentHTML("afterbegin", '<span class="plan-candado" aria-hidden="true">🔒 </span>');
     }
   };
-  let t = null;
-  const programar = () => { clearTimeout(t); t = setTimeout(pasar, 200); };
+  // Al cargar y unos segundos después (los catálogos del menú se dibujan en segundo plano).
   pasar();
-  const panel = raiz.getElementById?.("panel");
-  if (panel) new MutationObserver(programar).observe(panel, { childList: true, subtree: true, attributes: true, attributeFilter: ["disabled"] });
+  for (const ms of [1500, 4000, 9000, 15000]) setTimeout(pasar, ms);
   raiz.addEventListener("click", (e) => {
     const zona = e.target.closest?.(".plan-sin-acceso");
     if (!zona || e.target.closest("summary") || e.target.closest(".aviso-plan a")) return;

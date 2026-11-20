@@ -50,3 +50,14 @@ test("la página compara corridas: nuevos, resueltos y desde cuándo", () => {
   assert.ok(!fila.includes("<img") && fila.includes("&lt;img"));
   assert.match(svgHistorial([hoy, ayer]), /<svg/);
 });
+
+test("historial: cada hallazgo con estado pendiente o resuelto y fecha de resolución", async () => {
+  const { historial } = await import("../../js/vulnerabilidades.js");
+  const h = (id) => ({ id, categoria: "X", severidad: "alta", titulo: id, detalle: "", accion: "", quien: "claude" });
+  const r = historial([
+    { fecha: "2026-11-21T10:47:00Z", hallazgos: [h("a")] },
+    { fecha: "2026-11-20T10:47:00Z", hallazgos: [h("a"), h("b")] },
+  ]);
+  assert.deepEqual(r.map((x) => [x.id, x.estado, x.resuelto]), [["a", "pendiente", null], ["b", "resuelto", "2026-11-21T10:47:00Z"]]);
+  assert.equal(r[0].primera, "2026-11-20T10:47:00Z");
+});
