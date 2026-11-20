@@ -1,5 +1,5 @@
 {
- "generado_utc": "2026-11-19T22:26:33Z",
+ "generado_utc": "2026-11-20T10:25:10Z",
  "fuentes": {
   "MEX": {
    "fuente": "Diario Oficial de la Federación y Cámara de Diputados",
@@ -13,9 +13,9 @@
    "fuente": "Federal Register (API oficial)",
    "ok": true,
    "estado": "ok",
-   "nuevas": 2,
+   "nuevas": 3,
    "error": "",
-   "hasta": "2026-11-19"
+   "hasta": "2026-11-20"
   },
   "CAN": {
    "fuente": "Canada Gazette, Parte II",
@@ -23,15 +23,15 @@
    "estado": "ok",
    "nuevas": 0,
    "error": "",
-   "hasta": "2026-11-19"
+   "hasta": "2026-11-20"
   },
   "EUR": {
    "fuente": "Oficina de Publicaciones de la UE (Cellar)",
    "ok": true,
    "estado": "ok",
-   "nuevas": 3,
+   "nuevas": 4,
    "error": "",
-   "hasta": "2026-11-19"
+   "hasta": "2026-11-20"
   },
   "JPN": {
    "fuente": "e-Gov, API de leyes v2",
@@ -39,15 +39,15 @@
    "estado": "ok",
    "nuevas": 1,
    "error": "",
-   "hasta": "2026-11-19"
+   "hasta": "2026-11-20"
   },
   "RUS": {
    "fuente": "Portal oficial de publicación de actos jurídicos",
-   "ok": false,
-   "estado": "error",
-   "nuevas": 0,
-   "error": "HTTPError: HTTP Error 500: Internal Server Error",
-   "hasta": "2026-11-19"
+   "ok": true,
+   "estado": "ok",
+   "nuevas": 1,
+   "error": "",
+   "hasta": "2026-11-20"
   },
   "ARG": {
    "fuente": "Boletín Oficial, primera sección",
@@ -55,7 +55,7 @@
    "estado": "ok",
    "nuevas": 0,
    "error": "",
-   "hasta": "2026-11-19"
+   "hasta": "2026-11-20"
   }
  },
  "sin_fuente": {
@@ -75,41 +75,41 @@
   "MDO": "Sanciones: revisión semanal manual en OFAC, el mapa de sanciones de la UE y la ONU."
  },
  "ultima_fecha": {
-  "USA": "2026-11-19",
-  "CAN": "2026-11-19",
-  "EUR": "2026-11-19",
-  "JPN": "2026-11-19",
-  "RUS": "2026-11-19",
+  "USA": "2026-11-20",
+  "CAN": "2026-11-20",
+  "EUR": "2026-11-20",
+  "JPN": "2026-11-20",
+  "RUS": "2026-11-20",
   "MEX": "2026-11-19",
-  "ARG": "2026-11-19"
+  "ARG": "2026-11-20"
  },
  "desactualizadas": [],
  "por_pais": {
   "USA": {
-   "total": 36,
+   "total": 37,
    "alto": 0,
-   "ultimos_30d": 29
+   "ultimos_30d": 30
+  },
+  "RUS": {
+   "total": 22,
+   "alto": 4,
+   "ultimos_30d": 22
   },
   "MEX": {
    "total": 554,
    "alto": 50,
-   "ultimos_30d": 42
+   "ultimos_30d": 41
   },
-  "RUS": {
-   "total": 21,
-   "alto": 4,
-   "ultimos_30d": 21
+  "EUR": {
+   "total": 58,
+   "alto": 8,
+   "ultimos_30d": 33
   },
   "JPN": {
    "total": 1,
    "alto": 0,
    "ultimos_30d": 1
-  },
-  "EUR": {
-   "total": 57,
-   "alto": 8,
-   "ultimos_30d": 32
   }
  },
- "agregadas_hoy": 2
+ "agregadas_hoy": 3
 }
