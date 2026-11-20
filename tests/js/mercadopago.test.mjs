@@ -45,3 +45,17 @@ test("el aviso sin firma válida se rechaza sin tocar la base", async () => {
   assert.equal(d.q.length, 0);
   assert.equal((await avisoMercadoPago(new Request(url, { method: "POST" }), url, {}, "CREATE")).status, 503, "sin secretos: no disponible");
 });
+
+test("«Simular notificación» (id de ejemplo inexistente): se registra y se responde 200, sin reintentos", async (t) => {
+  const SEC = "secreto-de-prueba", ts = Math.floor(Date.now() / 1000);
+  const llave = await crypto.subtle.importKey("raw", new TextEncoder().encode(SEC), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
+  const f = await crypto.subtle.sign("HMAC", llave, new TextEncoder().encode(`id:123456;request-id:r1;ts:${ts};`));
+  const v1 = [...new Uint8Array(f)].map((b) => b.toString(16).padStart(2, "0")).join("");
+  const url = new URL("https://admin.dominusosint.com/cuenta/mercadopago/aviso?data.id=123456&type=subscription_preapproval");
+  const q = []; const d = { prepare: (s) => ({ run: async () => q.push([s]), bind: (...v) => ({ run: async () => q.push([s, v]) }) }) };
+  t.mock.method(globalThis, "fetch", async () => new Response("{}", { status: 404 }));
+  const req = new Request(url, { method: "POST", headers: { "x-signature": `ts=${ts},v1=${v1}`, "x-request-id": "r1" }, body: JSON.stringify({ type: "subscription_preapproval", data: { id: "123456" } }) });
+  const r = await avisoMercadoPago(req, url, { MP_ACCESS_TOKEN: "x", MP_WEBHOOK_SECRET: SEC, OSINT_PLANS_DB: d }, "CREATE TABLE x");
+  assert.equal(r.status, 200);
+  assert.ok(q.some(([s, v]) => /INSERT INTO dominus_pagos/.test(s) && v?.[2] === "no-encontrada"));
+});
