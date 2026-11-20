@@ -14,3 +14,8 @@ fallthrough = true
 binding = "OSINT_PLANS_DB"
 database_name = "dominusosint-planes"
 database_id = "ef42877a-4f83-499a-8bed-bd4c498688de"
+
+# Datos por plan (config/datos_por_plan.json): bucket privado; solo el Worker lo lee (nunca se publica).
+[[r2_buckets]]
+binding = "DATOS_PLAN"
+bucket_name = "dominus-datos-plan"

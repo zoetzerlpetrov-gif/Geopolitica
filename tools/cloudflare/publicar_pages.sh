@@ -55,6 +55,38 @@ if [ ${#grandes[@]} -gt 0 ]; then
   done
   $W r2 object put "$BUCKET/_huellas.txt" --file huellas.txt --remote --content-type text/plain >/dev/null
 fi
+# 1b) Datos por plan (config/datos_por_plan.json con «activo»: true): los archivos que solo usan los planes de pago
+#     se suben al bucket privado dominus-datos-plan (solo los que cambiaron) y se quitan del sitio público.
+#     El Worker los entrega a la sesión con el plan (cloudflare/planes/datos.js). Con «activo»: false no se toca nada.
+mapfile -t protegidos < <(python3 - "$raiz/config/datos_por_plan.json" sitio <<'PY'
+import json, os, sys
+c = json.load(open(sys.argv[1], encoding="utf-8"))
+if c.get("activo"):
+    a = c.get("archivos") or {}
+    for base, _, fs in os.walk(os.path.join(sys.argv[2], "data")):
+        for f in fs:
+            r = os.path.relpath(os.path.join(base, f), sys.argv[2]).replace(os.sep, "/")
+            if r in a or any(k.endswith("/") and r.startswith(k) for k in a):
+                print(r)
+PY
+)
+if [ ${#protegidos[@]} -gt 0 ]; then
+  if [ "$r2" = 0 ]; then
+    echo "::error::Datos por plan activos pero R2 no está disponible: no se publica para no exponer ni perder datos."
+    exit 1
+  fi
+  BPLAN=dominus-datos-plan
+  $W r2 object get "$BPLAN/_huellas.txt" --remote --pipe > huellas_plan_previas.txt 2>/dev/null || : > huellas_plan_previas.txt
+  : > huellas_plan.txt
+  for f in "${protegidos[@]}"; do
+    h="$(sha256sum "sitio/$f" | cut -d' ' -f1)  $f"
+    echo "$h" >> huellas_plan.txt
+    grep -qxF "$h" huellas_plan_previas.txt || $W r2 object put "$BPLAN/$f" --file "sitio/$f" --remote --content-type application/octet-stream >/dev/null
+    rm -f "sitio/$f"
+  done
+  $W r2 object put "$BPLAN/_huellas.txt" --file huellas_plan.txt --remote --content-type text/plain >/dev/null
+  echo "Datos por plan: ${#protegidos[@]} archivos en R2 (privado) y fuera del sitio público."
+fi
 # 2) Las Functions solo se invocan en esas rutas (el resto es estático y no consume el cupo de Workers).
 python3 - "${rutas[@]}" > sitio/_routes.json <<'PY'
 import json, sys

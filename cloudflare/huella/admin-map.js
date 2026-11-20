@@ -1,4 +1,5 @@
 import { authorized, configured } from "./auth.js";
+import { planRequerido, servirDatos } from "../planes/datos.js";
 import adminPages from "../../config/paginas_admin.json" with { type: "json" };
 
 // El mapa completo se lee de Cloudflare Pages (antes de GitHub Pages). Las páginas de administración viven en /ops/
@@ -50,6 +51,9 @@ export async function adminMap(request, url, env, paginasAdmin = {}) {
   // de Cloudflare Access. Antes se pedían a /ops/ con un token de servicio y, si Access no lo aceptaba, daba 502.
   const empaquetada = paginaEmpaquetada(url.pathname, paginasAdmin, request.method);
   if (empaquetada) return empaquetada;
+  // Datos por plan (fase 2): ya no están en el sitio público; Admin los lee del bucket privado.
+  const rutaDatos = url.pathname.replace(/^\/(ops\/)?/, "");
+  if (planRequerido(rutaDatos)) return servirDatos(env, rutaDatos, "admin", true);
 
   const target = new URL(mapPath, mapOrigin);
   target.pathname = rutaPages(url.pathname);

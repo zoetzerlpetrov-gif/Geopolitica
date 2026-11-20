@@ -18,10 +18,37 @@ export function htmlImagenMedio(src, fuente, url) {
     <figcaption>Imagen: ${esc(fuente || "medio de la nota")} (se muestra desde su sitio).</figcaption></figure>`;
 }
 
+// Datos por plan (config/datos_por_plan.json, fase 2): en el sitio público, los archivos de data/ que solo usan los
+// planes de pago no se publican; se piden al Worker con la sesión de la cuenta. Con «activo»: false no cambia nada.
+const SITIO_PUBLICO = /^(www\.)?dominusosint\.com$|^dominus-osint\.pages\.dev$/;
+const ORIGEN_DATOS = "https://admin.dominusosint.com/cuenta/datos/";
+let cfgDatos = null;
+function listaDatosPlan() {
+  if (!SITIO_PUBLICO.test(globalThis.location?.hostname || "")) return Promise.resolve(null);
+  cfgDatos ||= fetch("config/datos_por_plan.json", { cache: "no-store" }).then((r) => (r.ok ? r.json() : null)).then((c) => (c?.activo ? c : null)).catch(() => null);
+  return cfgDatos;
+}
+
+/** Ruta de data/ protegida por plan según la lista (exacta o dentro de una carpeta); null si es pública. */
+export function rutaProtegida(ruta, cfg) {
+  const a = cfg?.activo ? cfg.archivos || {} : {};
+  if (!/^data\//.test(ruta) || ruta.includes("..")) return null;
+  return a[ruta] ? ruta : Object.keys(a).some((k) => k.endsWith("/") && ruta.startsWith(k)) ? ruta : null;
+}
+
 export async function getJSON(url, { bust = false } = {}) {
   // Datos de arranque que index.html ya pidió en paralelo con MapLibre: se usan una sola vez.
   const pre = globalThis.__pre?.[url];
   if (pre) { delete globalThis.__pre[url]; return pre; }
+  if (/^(\.\/)?data\//.test(url)) {
+    const cfg = await listaDatosPlan();
+    const ruta = cfg && rutaProtegida(url.replace(/^\.\//, "").split(/[?#]/)[0], cfg);
+    if (ruta) {
+      const r = await fetch(ORIGEN_DATOS + ruta, { credentials: "include", cache: "no-store" });
+      if (!r.ok) throw new Error(`${url}: ${r.status === 403 ? "tu plan no incluye estos datos" : `HTTP ${r.status}`}`);
+      return r.json();
+    }
+  }
   // El parámetro anticaché se agrega con «&» si la URL ya trae parámetros (p. ej. la API de NWS).
   // Solo rutas del propio sitio o https (nunca otros esquemas como file:, data: o javascript:).
   const destino = new URL(url, globalThis.location?.href || "https://dominusosint.com/");

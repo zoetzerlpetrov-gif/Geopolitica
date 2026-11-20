@@ -1,0 +1,6 @@
+{
+ "_nota": "Generado por tools/pages/datos_por_plan.py a partir de la prueba por rol. «activo»: false = solo lista; true = el sitio público deja de publicar estos archivos y el Worker los sirve desde R2 al plan indicado o superior.",
+ "activo": false,
+ "medido": "",
+ "archivos": {}
+}
