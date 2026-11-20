@@ -7,6 +7,7 @@ data/vivos/*) se piden al sitio publicado, de solo lectura. Uso: python3 tools/e
 """
 import http.server
 import os
+import re
 import sys
 import urllib.error
 import urllib.request
@@ -15,6 +16,9 @@ RAIZ = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 PUERTO = int(sys.argv[1]) if len(sys.argv) > 1 else 8000
 REMOTO = "https://dominusosint.com"
 UA = "Mozilla/5.0 (X11; Linux x86_64) DOMINUS-pruebas-e2e"
+# Solo rutas del propio sitio: letras, números, guiones, puntos y diagonales (sin «..», sin «//», sin esquema ni host).
+RUTA_PERMITIDA = re.compile(r"/(?:data|config|vendor|assets|fuentes\.html|reporte|ops)[A-Za-z0-9_./-]*")
+CONSULTA_PERMITIDA = re.compile(r"[A-Za-z0-9_=&.%-]{0,200}")
 
 
 class Manejador(http.server.SimpleHTTPRequestHandler):
@@ -31,8 +35,12 @@ class Manejador(http.server.SimpleHTTPRequestHandler):
             return self.send_error(403)
         if ruta.endswith("/") or os.path.exists(local):
             return super().do_GET()
+        consulta = self.path.split("?", 1)[1] if "?" in self.path else ""
+        if not RUTA_PERMITIDA.fullmatch(ruta) or ".." in ruta or "//" in ruta or not CONSULTA_PERMITIDA.fullmatch(consulta):
+            return self.send_error(404)
+        destino = REMOTO + ruta + (f"?{consulta}" if consulta else "")
         try:
-            with urllib.request.urlopen(urllib.request.Request(REMOTO + self.path, headers={"User-Agent": UA}), timeout=30) as r:
+            with urllib.request.urlopen(urllib.request.Request(destino, headers={"User-Agent": UA}), timeout=30) as r:
                 cuerpo = r.read()
                 self.send_response(r.status)
                 self.send_header("Content-Type", r.headers.get("Content-Type", "application/octet-stream"))
