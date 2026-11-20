@@ -14,6 +14,7 @@ import { Imagenes, IMAGENES, ayerUTC, haceDias } from "./imagenes.js";
 import { LineaTiempo } from "./linea-tiempo.js";
 import * as cuaderno from "./cuaderno.js";
 import { iniciarMenu } from "./menu.js";
+import { iniciarEstadoMapa } from "./estado_mapa.js";
 import { registrarAnimacion, iniciarBotonAnimar } from "./animacion.js";
 import * as BO from "./buscador_org.js";
 import { idsNuevos, sonar, iniciarSonido, PARPADEO_EV_MS } from "./avisos.js";
@@ -1151,6 +1152,9 @@ async function main() {
   btnLite.onclick = () => { storage.set("gp_lite", lite ? "0" : "1"); location.reload(); };
 
   arranque.listo = true;
+  // Al volver de otra sección se recupera lo que estaba encendido y filtrado, y la vista del mapa (solo esta pestaña).
+  const recuperarEstado = () => iniciarEstadoMapa($("panel"), api.map);
+  api.map.loaded() ? recuperarEstado() : api.map.once("load", recuperarEstado);
   const recargarEventos = async (datos = null) => {
     const antes = new Set(porId.keys());
     await cargarEventos({ datos }); featureTxt.clear(); porId = new Map(eventos.map((e) => [e.id, e])); linea.setEventos(eventos); await aplicarFiltros(); pintarSeguimiento();
