@@ -3648,7 +3648,7 @@
           "tipo": "ley",
           "autoridad": "Secretaría de la Defensa Nacional",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LFAFE.pdf",
-          "ultima_reforma": "2025-05-29 (última reforma de la ley según la Cámara de Diputados)",
+          "ultima_reforma": "2025-05-29 (última reforma de la ley según la Cámara de Diputados); Reglamento nuevo publicado en el DOF el 2026-11-20 (verificar entrada en vigor, transitorios y plazos de adecuación)",
           "aplica": "Fabricantes, importadores, comerciantes y usuarios de armas, municiones, explosivos y sustancias químicas relacionadas (incluye minería y construcción).",
           "obligaciones": [
             "Obtener permiso general o extraordinario de la Defensa para fabricar, comprar, almacenar, transportar o consumir explosivos y artificios.",
@@ -3676,7 +3676,8 @@
           ],
           "preguntas": [
             "¿El permiso general está revalidado y los informes mensuales presentados?",
-            "¿Los polvorines cumplen las condiciones de seguridad autorizadas por la Defensa?"
+            "¿Los polvorines cumplen las condiciones de seguridad autorizadas por la Defensa?",
+            "¿Se revisaron los cambios del nuevo Reglamento de la LFAFE (DOF 20-11-2026) en permisos, libros de control, informes y plazos de adecuación?"
           ]
         },
         {

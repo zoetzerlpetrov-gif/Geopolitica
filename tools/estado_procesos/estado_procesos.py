@@ -14,6 +14,7 @@ Uso: python3 tools/estado_procesos/estado_procesos.py <carpeta>   → ultimo.jso
      Termina con código 1 si algo está en «falla», para que GitHub avise por correo.
 """
 import json
+import re
 import os
 import sys
 import urllib.request
@@ -225,13 +226,16 @@ def revisar(cfg, repo, sitio, token=None, ahora=None, get=_get):
             contenido = get(base + f"?r={int(ahora.timestamp())}")
         except Exception:  # noqa: BLE001
             contenido = None
-        if contenido is None and not regla["archivo"].startswith("http"):
+        # Archivo protegido por plan (ya no está en el sitio público): se usa el resumen de fechas y errores. Una regla
+        # puede escribir la ruta completa del sitio («https://dominusosint.com/data/…») o la relativa («data/…»).
+        rel = re.sub(r"^https://(www\.)?dominusosint\.com/", "", regla["archivo"])
+        if contenido is None and not rel.startswith("http"):
             if protegidos is None:
                 try:
                     protegidos = get(sitio.rstrip("/") + f"/data/estado_protegidos.json?r={int(ahora.timestamp())}") or {}
                 except Exception:  # noqa: BLE001
                     protegidos = {}
-            contenido = protegidos.get(regla["archivo"]) if isinstance(protegidos, dict) else None
+            contenido = protegidos.get(rel) if isinstance(protegidos, dict) else None
         datos.append(evaluar_dato(regla, contenido, ahora))
     return {"fecha_utc": iso(ahora), "repositorio": repo, "sitio": sitio,
             "estado_global": global_de(workflows + datos), "workflows": workflows, "datos": datos}

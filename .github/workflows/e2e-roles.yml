@@ -65,7 +65,8 @@ jobs:
           while read -r f; do
             [[ "$f" =~ ^data/[A-Za-z0-9_./-]+$ ]] || continue
             mkdir -p "$(dirname "$f")"
-            npx --yes wrangler@4.158.0 r2 object get "dominus-datos-plan/$f" --remote --file "$f" >/dev/null 2>&1 && n=$((n+1)) || echo "No está en el bucket: $f"
+            # Si no está en el bucket, wrangler puede dejar un archivo vacío: se borra para que la copia local dé 404 como producción.
+            if npx --yes wrangler@4.158.0 r2 object get "dominus-datos-plan/$f" --remote --file "$f" >/dev/null 2>&1 && [ -s "$f" ]; then n=$((n+1)); else rm -f "$f"; echo "No está en el bucket: $f"; fi
           done < /tmp/protegidos.txt
           echo "Datos por plan descargados para la prueba: $n"
       - name: Copia local del sitio con los datos publicados

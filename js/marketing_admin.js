@@ -188,7 +188,8 @@ export const urlEditarPlan = () => `https://github.com/${REPO}/edit/main/config/
 
 export async function iniciar(doc = document) {
   const $ = (id) => doc.getElementById(id);
-  const pedir = async (u) => { try { const r = await fetch(u, { cache: "no-store" }); return r.ok ? r.json() : null; } catch { return null; } };
+  // «await» dentro del try: un archivo vacío o dañado se trata como «sin datos» en lugar de romper la página.
+  const pedir = async (u) => { try { const r = await fetch(u, { cache: "no-store" }); return r.ok ? await r.json() : null; } catch { return null; } };
   const [plan, bor, met] = await Promise.all([pedir("config/marketing.json"), pedir("data/vivos/marketing_borradores.json"), pedir("data/marketing/metricas.json")]);
   const est = leerEstado(globalThis.localStorage);
   const borradores = bor?.borradores || [];
