@@ -1,0 +1,49 @@
+{
+ "_nota": "Configuración de Admin → Vulnerabilidades en apps y plataformas (tools/seguridad/vulns_mundo.py). «inventario»: lo que usamos (fabricante y producto como los escribe CISA); se marca «te afecta». «marcas»: empresas y plataformas a vigilar en brechas de datos (Have I Been Pwned) y en la prensa. «verificar»: cómo comprobar la versión instalada, por fabricante o producto. Edita este archivo para agregar o quitar.",
+ "inventario": [
+  {"fabricante": "Apple", "productos": ["iOS", "iPadOS", "macOS", "Safari", "WebKit", "Multiple Products"]},
+  {"fabricante": "Microsoft", "productos": ["Windows", "Edge", "Office", "Exchange Server", "SharePoint", "Win32k", "Multiple Products"]},
+  {"fabricante": "Google", "productos": ["Chromium", "Chrome", "Android", "Chromium V8", "Skia"]},
+  {"fabricante": "Android", "productos": ["Kernel", "Framework", "Pixel"]},
+  {"fabricante": "Mozilla", "productos": ["Firefox", "Thunderbird"]},
+  {"fabricante": "Linux", "productos": ["Kernel"]},
+  {"fabricante": "Samsung", "productos": ["Mobile Devices"]},
+  {"fabricante": "Qualcomm", "productos": ["Multiple Chipsets"]},
+  {"fabricante": "Python", "productos": ["Python"]},
+  {"fabricante": "Node.js", "productos": ["Node.js"]},
+  {"fabricante": "WhatsApp", "productos": ["WhatsApp"]},
+  {"fabricante": "Zoom", "productos": ["Zoom"]},
+  {"fabricante": "7-Zip", "productos": ["7-Zip"]},
+  {"fabricante": "WinRAR", "productos": ["WinRAR"]},
+  {"fabricante": "RARLAB", "productos": ["WinRAR"]},
+  {"fabricante": "Adobe", "productos": ["Acrobat and Reader", "Acrobat Reader"]},
+  {"fabricante": "Cloudflare", "productos": []}
+ ],
+ "marcas": {
+  "Bancos en México": ["BBVA", "Banorte", "Santander", "Banamex", "Citibanamex", "HSBC", "Banco Azteca", "Inbursa", "Scotiabank", "BanCoppel", "Banregio", "Afirme", "Nu México", "Nubank", "Hey Banco", "Spin by OXXO", "Mercado Pago", "Klar", "Stori", "Banjército", "Bienestar"],
+  "Bancos y pagos en el extranjero": ["JPMorgan", "Chase", "Bank of America", "Wells Fargo", "Citibank", "Capital One", "PayPal", "Venmo", "Wise", "Revolut", "Visa", "Mastercard", "American Express", "Western Union", "Coinbase", "Binance"],
+  "Aerolíneas y viajes": ["Aeroméxico", "Aeromexico", "Volaris", "Viva Aerobus", "American Airlines", "United Airlines", "Delta", "Iberia", "Air Canada", "Copa Airlines", "Avianca", "LATAM", "Airbnb", "Expedia", "Booking", "Despegar", "Trivago", "Marriott", "Hilton", "Uber", "DiDi", "Cabify"],
+  "Tiendas y servicios": ["Mercado Libre", "Amazon", "Walmart", "Liverpool", "Coppel", "Elektra", "OXXO", "Rappi", "Netflix", "Spotify", "Disney", "Telcel", "AT&T", "Movistar", "Totalplay", "izzi", "Megacable", "CFE", "SAT", "IMSS", "Infonavit"],
+  "Plataformas y tecnología": ["Apple", "iCloud", "Google", "Gmail", "Microsoft", "Outlook", "WhatsApp", "Meta", "Facebook", "Instagram", "TikTok", "X", "Twitter", "LinkedIn", "Telegram", "Zoom", "Dropbox", "Adobe", "Canva", "Samsung", "OpenAI", "Cloudflare", "GitHub", "Ticketmaster", "AT&T"]
+ },
+ "verificar": {
+  "Apple|iOS|iPadOS": "iPhone o iPad: Ajustes → General → Información → «Versión de iOS». Actualiza en Ajustes → General → Actualización de software.",
+  "Apple|macOS": "Mac: menú  → Acerca de esta Mac (versión de macOS). Actualiza en Ajustes del Sistema → General → Actualización de software.",
+  "Apple|Safari|WebKit": "Safari se actualiza con el sistema: revisa la versión de iOS o macOS. En Mac: Safari → Acerca de Safari.",
+  "Apple": "Revisa la versión del sistema (Ajustes → General → Información) y compárala con la versión corregida.",
+  "Microsoft|Windows|Win32k": "Windows: tecla Windows + R → escribe «winver» → Enter (muestra versión y compilación). Actualiza en Configuración → Windows Update.",
+  "Microsoft|Edge": "Edge: escribe edge://settings/help en la barra de direcciones; se actualiza solo y muestra la versión.",
+  "Microsoft|Office": "Office: abre Word → Archivo → Cuenta → Opciones de actualización → Actualizar ahora (muestra la versión).",
+  "Microsoft": "Servidores Microsoft: revisa el número de compilación del producto y aplica la actualización de seguridad del mes (Patch Tuesday) desde Windows Update o el catálogo de Microsoft.",
+  "Google|Chrome|Chromium": "Chrome: escribe chrome://settings/help en la barra de direcciones; descarga la actualización y pide reiniciar el navegador.",
+  "Google|Android|Android|Pixel|Kernel|Framework": "Android: Ajustes → Sistema → Actualización de software y Ajustes → Seguridad → «Nivel de parche de seguridad» (debe ser igual o posterior a la fecha del boletín).",
+  "Mozilla|Firefox": "Firefox: menú ☰ → Ayuda → Acerca de Firefox (busca e instala la actualización).",
+  "Samsung": "Samsung: Ajustes → Actualización de software → Descargar e instalar; el nivel de parche aparece en Ajustes → Acerca del teléfono → Información de software.",
+  "Linux|Kernel": "Linux: en la terminal escribe «uname -r» (versión del kernel) y actualiza con el gestor de paquetes (por ejemplo, «sudo apt update && sudo apt upgrade»).",
+  "WhatsApp": "WhatsApp: App Store o Google Play → busca WhatsApp → «Actualizar». La versión está en WhatsApp → Ajustes → Ayuda.",
+  "Zoom": "Zoom: en la app, foto de perfil → «Buscar actualizaciones».",
+  "Adobe": "Acrobat/Reader: Ayuda → Buscar actualizaciones (Ayuda → Acerca de muestra la versión).",
+  "7-Zip|WinRAR|RARLAB": "Abre el programa → Ayuda → Acerca de (versión) y descarga la última versión del sitio oficial; no se actualizan solos.",
+  "*": "Busca la versión instalada en el menú «Acerca de» del programa o con el comando de versión del fabricante, y compárala con la versión corregida que indica el aviso del fabricante (enlace en la ficha)."
+ }
+}

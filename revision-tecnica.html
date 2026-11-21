@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Revisión técnica de vulnerabilidades</title>
+  <meta name="description" content="Solo administración: revisión técnica y pasiva de vulnerabilidades para empresas: correo (SPF, DMARC), DNS, puertos expuestos y fallas conocidas, software y dependencias, con informe.">
+  <meta name="robots" content="noindex">
+  <meta name="color-scheme" content="light dark">
+  <script>try { const t = localStorage.getItem("gp_theme"); if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23C8102E' d='M44 44 30 4h40L56 44 96 30v40L56 56l14 40H30l14-40L4 70V30z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/app.css">
+  <style>
+    body { display: block; height: auto; overflow: auto; }
+    .ops { max-width: 1150px; margin: 0 auto; padding: 16px; }
+    .meta { color: var(--text-2); font-size: 13px; }
+    .tarjeta { border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 14px; margin: 10px 0; background: var(--surface); }
+    .campo { display: grid; gap: 4px; margin: 8px 0; }
+    .campo input[type=text], .campo textarea { font: inherit; padding: 6px 8px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); }
+    .campo textarea { min-height: 110px; font-family: var(--mono, monospace); font-size: 13px; }
+    .btn { font: inherit; min-height: 38px; padding: 6px 14px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--accent, #c9a227); color: #111; font-weight: 700; cursor: pointer; }
+    .btn[disabled] { opacity: .5; cursor: not-allowed; }
+    .kpis { display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0; }
+    .kpi { border: 1px solid var(--line); border-radius: var(--radius); padding: 8px 14px; background: var(--surface); min-width: 110px; } .kpi b { display: block; font-size: 22px; }
+    .hall { border-left: 5px solid var(--line); padding: 8px 12px; margin: 8px 0; background: var(--surface); border-radius: 4px; }
+    .hall.critica { border-color: #8b0000; } .hall.alta { border-color: #C8102E; } .hall.media { border-color: #b8860b; } .hall.baja { border-color: #2e7d32; } .hall.info { border-color: #607d8b; }
+    .hall h3 { margin: 0 0 4px; font-size: 15px; } .hall p { margin: 4px 0; }
+    .aviso { border-left: 4px solid #b8860b; padding: 8px 12px; background: rgba(184,134,11,.08); border-radius: 4px; }
+    #rt-progreso li { font-size: 13px; }
+  </style>
+  <script type="module" src="js/apariencia.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="link-btn" href="./">← Regresar al Mapa</a>
+    <h1>🛠️ Revisión técnica de vulnerabilidades (empresas)</h1>
+  </header>
+  <main class="ops">
+    <p class="meta">Servicio técnico para clientes, complementario al diagnóstico de procesos y normas: revisa la configuración de correo y DNS del dominio, los puertos y fallas conocidas de sus IP públicas, su software y las dependencias de sus sistemas, y entrega un informe con qué corregir, a qué versión actualizar y cómo comprobarlo.</p>
+    <p class="aviso"><b>Solo con autorización por escrito de la empresa.</b> Es una revisión <b>pasiva</b>: consulta DNS público y datos que InternetDB (Shodan) ya recolectó, y compara versiones con catálogos públicos (CISA KEV, NVD, EPSS, OSV). No escanea ni intenta entrar a ningún sistema. Una prueba de penetración activa requiere contrato, alcance firmado y personal certificado.</p>
+    <div class="tarjeta">
+      <div class="campo"><label for="rt-empresa">Empresa</label><input id="rt-empresa" type="text" maxlength="120" placeholder="Nombre de la empresa"></div>
+      <div class="campo"><label for="rt-dominio">Dominio principal</label><input id="rt-dominio" type="text" maxlength="120" placeholder="ejemplo.com.mx" autocomplete="off"></div>
+      <div class="campo"><label for="rt-ips">IP públicas adicionales (opcional, una por línea)</label><textarea id="rt-ips" placeholder="203.0.113.10"></textarea></div>
+      <div class="campo"><label for="rt-inv">Software y versiones que usa la empresa (opcional, uno por línea: «producto versión»)</label><textarea id="rt-inv" placeholder="Windows Server 2019&#10;FortiOS 7.2.5&#10;Exchange Server 15.2&#10;Chrome 130.0.6723.58"></textarea></div>
+      <div class="campo"><label for="rt-deps">Dependencias de sus sistemas (opcional): package-lock.json o requirements.txt</label><input id="rt-deps" type="file" accept=".json,.txt" multiple></div>
+      <label><input id="rt-aut" type="checkbox"> Tengo autorización por escrito de la empresa para esta revisión.</label>
+      <p><button id="rt-correr" class="btn" type="button" disabled>Revisar</button> <button id="rt-informe" class="btn" type="button" hidden>⬇️ Descargar informe (Markdown)</button> <button id="rt-imprimir" class="btn" type="button" hidden>🖨️ Imprimir o guardar PDF</button></p>
+      <ul id="rt-progreso" class="meta"></ul>
+    </div>
+    <div id="rt-res" aria-live="polite"></div>
+    <details><summary>Qué revisa cada parte y por qué importa</summary>
+      <ol>
+        <li><b>Correo (SPF, DMARC)</b>: sin ellos, cualquiera puede mandar correos que parecen de la empresa (fraude del CEO, phishing a clientes).</li>
+        <li><b>DNS (CAA, DNSSEC)</b>: limitan quién emite certificados y evitan respuestas DNS falsificadas.</li>
+        <li><b>Puertos expuestos</b>: bases de datos, escritorio remoto (RDP), SMB o Telnet abiertos a internet son la puerta de entrada más común del ransomware.</li>
+        <li><b>Fallas conocidas en IP públicas</b>: si el software expuesto tiene una falla del catálogo KEV (ya explotada), es urgente.</li>
+        <li><b>Software y versiones</b>: se compara con las fallas que se están explotando y con la versión corregida.</li>
+        <li><b>Dependencias</b>: librerías de sus aplicaciones (npm, Python) con vulnerabilidades conocidas (OSV de Google).</li>
+      </ol>
+      <p class="meta">Para ir más allá (servicio por contrato): pruebas de penetración con alcance firmado (OWASP WSTG, PTES), escaneo autenticado de vulnerabilidades, revisión de configuración segura (CIS Benchmarks), gestión de parches y SBOM, y simulacros de phishing.</p>
+    </details>
+  </main>
+  <script type="module" src="js/revision-tecnica.js"></script>
+  <script type="module" src="js/vista_enlaces.js"></script>
+</body>
+</html>

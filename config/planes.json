@@ -94,6 +94,16 @@
  "solo_admin": [
   {
    "tipo": "pagina",
+   "href": "vulns-mundo.html",
+   "nombre": "Vulnerabilidades en apps y plataformas"
+  },
+  {
+   "tipo": "pagina",
+   "href": "revision-tecnica.html",
+   "nombre": "Revisión técnica de vulnerabilidades"
+  },
+  {
+   "tipo": "pagina",
    "href": "pruebas.html",
    "nombre": "Tablero de pruebas"
   },

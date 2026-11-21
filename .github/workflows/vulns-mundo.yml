@@ -1,0 +1,52 @@
+name: Vulnerabilidades en apps y plataformas
+
+# Una vez al día junta las vulnerabilidades que ya se explotan (CISA KEV) con su severidad y versión corregida (NVD), la
+# probabilidad de explotación (EPSS), las brechas de datos de empresas y plataformas (Have I Been Pwned) y los titulares
+# de hackeos del monitor de noticias (tools/seguridad/vulns_mundo.py). Conserva el historial y publica
+# seguridad/vulns_mundo.json en la rama datos-vulns-mundo. En el sitio es solo de Admin (config/datos_por_plan.json).
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "23 13 * * *"  # 07:23 en Ciudad de México
+
+permissions:
+  contents: write
+
+concurrency:
+  group: datos-vulns-mundo
+  cancel-in-progress: false
+
+jobs:
+  revisar:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+      - name: Historial anterior y titulares del monitor de noticias
+        run: |
+          mkdir -p datos/seguridad vivos
+          if git fetch --depth 1 origin datos-vulns-mundo 2>/dev/null; then git archive FETCH_HEAD seguridad | tar -x -C datos || true; fi
+          if git fetch --depth 1 origin datos-vivos 2>/dev/null; then git archive FETCH_HEAD vivos/noticiero.json | tar -x || true; fi
+          ls -la datos/seguridad vivos
+      - name: Revisar fuentes
+        run: python3 tools/seguridad/vulns_mundo.py datos/seguridad vivos
+      - name: Verificar que el historial no se perdió
+        run: |
+          python3 - <<'PY'
+          import json, sys
+          d = json.load(open("datos/seguridad/vulns_mundo.json"))
+          if not d.get("kev"):
+              sys.exit("Sin vulnerabilidades: no se publica para no borrar el historial")
+          PY
+      - name: Publicar en la rama datos-vulns-mundo
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd datos && rm -rf .git && git init -q && git checkout -q -b datos-vulns-mundo
+          git config user.name "geopolitica-bot" && git config user.email "actions@users.noreply.github.com"
+          git add seguridad && git commit -q -m "vulnerabilidades $(date -u +'%Y-%m-%d %H:%M')"
+          git push -q --force "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:datos-vulns-mundo
