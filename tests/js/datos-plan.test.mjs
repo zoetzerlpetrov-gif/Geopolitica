@@ -36,3 +36,9 @@ test("el cliente reconoce las rutas protegidas solo con la lista activa", async 
   assert.equal(rutaProtegida("data/vivos/trenes.geojson", { ...M, activo: false }), null);
   assert.equal(rutaProtegida("config/x.json", M), null);
 });
+
+test("un archivo no publicado (404) cuenta como 0, no como falla", async () => {
+  const { esNoPublicado } = await import("../../js/riesgos.js");
+  assert.ok(esNoPublicado(new Error("data/vivos/x.geojson: HTTP 404")));
+  assert.ok(!esNoPublicado(new Error("Failed to fetch")) && !esNoPublicado(new Error("x: HTTP 500")) && !esNoPublicado(new Error("x: tu plan no incluye estos datos")));
+});
