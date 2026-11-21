@@ -5,6 +5,7 @@ que estén al día aunque ya no estén en el sitio público. Salida: <sitio>/dat
 Uso: python3 tools/pages/resumen_protegidos.py <carpeta del sitio> <archivo protegido> [...]"""
 import json
 import os
+import re
 import sys
 
 RAIZ = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
@@ -23,7 +24,7 @@ def poner(destino, ruta, v):
 def resumir(sitio, protegidos, reglas):
     out = {}
     for r in reglas:
-        arch = r.get("archivo", "")
+        arch = re.sub(r"^https://(www\.)?dominusosint\.com/", "", r.get("archivo", ""))
         if arch not in protegidos:
             continue
         try:
