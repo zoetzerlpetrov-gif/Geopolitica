@@ -1,0 +1,992 @@
+{
+ "fecha_utc": "2026-11-21T20:00:35Z",
+ "repositorio": "zoetzerlpetrov-gif/Geopolitica",
+ "sitio": "https://dominusosint.com/",
+ "estado_global": "ok",
+ "workflows": [
+  {
+   "id": "vivos",
+   "nombre": "Datos en movimiento",
+   "workflow": "vivos.yml",
+   "cada": "20 min",
+   "afecta": "Aviones, barcos, satélites, riesgos y clima, noticiero, protocolos y el aviso rojo «cisne negro»",
+   "max_horas": 1,
+   "estado": "ok",
+   "ultimo_exito_utc": "2026-11-21T19:44:02Z",
+   "horas_sin_exito": 0.3,
+   "fallas_seguidas": 0,
+   "corridas_24h": {
+    "exito": 39,
+    "falla": 0,
+    "cancelada": 20,
+    "en_curso": 1
+   },
+   "duracion_media_min": 40.8,
+   "ultima_corrida": {
+    "estado": "in_progress",
+    "inicio_utc": "2026-11-21T19:41:01Z",
+    "url": "https://github.com/zoetzerlpetrov-gif/Geopolitica/actions/runs/44942235506"
+   },
+   "detalle": "Al día.",
+   "pasos_fallidos": [],
+   "pasos_lentos": [
+    {
+     "paso": "Actualizar",
+     "min": 15.2
+    },
+    {
+     "paso": "Avisos meteorológicos de Europa (MeteoAlarm, cada corrida; si falla se conservan los anter",
+     "min": 2.5
+    },
+    {
+     "paso": "Noticiero DOMINUS (31 secciones; GDELT GKG ya descargado + feeds RSS; si falla se conserva",
+     "min": 1.5
+    },
+    {
+     "paso": "Meteosat (EUMETSAT) para los bucles de nubes y color real en Europa, África y Asia (cada c",
+     "min": 1.4
+    },
+    {
+     "paso": "Publicar en Cloudflare Pages",
+     "min": 1.1
+    }
+   ]
+  },
+  {
+   "id": "reloj",
+   "nombre": "Reloj (respaldo del cron)",
+   "workflow": "reloj.yml",
+   "cada": "20 min",
+   "afecta": "Lanza «Datos en movimiento» y la ingesta cuando el cron de GitHub no se dispara",
+   "max_horas": 1,
+   "estado": "ok",
+   "ultimo_exito_utc": "2026-11-21T19:41:06Z",
+   "horas_sin_exito": 0.3,
+   "fallas_seguidas": 0,
+   "corridas_24h": {
+    "exito": 57,
+    "falla": 0,
+    "cancelada": 2,
+    "en_curso": 1
+   },
+   "duracion_media_min": 14.3,
+   "ultima_corrida": {
+    "estado": "in_progress",
+    "inicio_utc": "2026-11-21T19:41:03Z",
+    "url": "https://github.com/zoetzerlpetrov-gif/Geopolitica/actions/runs/44942237757"
+   },
+   "detalle": "Al día.",
+   "pasos_fallidos": [],
+   "pasos_lentos": [
+    {
+     "paso": "Esperar al siguiente horario y lanzar el workflow que toca (si no corrió ya)",
+     "min": 19.9
+    },
+    {
+     "paso": "Si lo lanzó el horario y la cadena sigue viva, no hacer nada",
+     "min": 0.0
+    },
+    {
+     "paso": "Programar el siguiente tic, con reintentos (un error pasajero de la API no debe cortar la ",
+     "min": 0.0
+    }
+   ]
+  },
+  {
+   "id": "ingesta",
+   "nombre": "Ingesta de eventos",
+   "workflow": "ingest.yml",
+   "cada": "1 h",
+   "afecta": "Eventos y noticias del mapa, historial de 90 días y reportes diarios",
+   "max_horas": 3,
+   "estado": "ok",
+   "ultimo_exito_utc": "2026-11-21T19:29:36Z",
+   "horas_sin_exito": 0.5,
+   "fallas_seguidas": 0,
+   "corridas_24h": {
+    "exito": 26,
+    "falla": 0,
+    "cancelada": 0,
+    "en_curso": 0
+   },
+   "duracion_media_min": 13.3,
+   "ultima_corrida": {
+    "estado": "success",
+    "inicio_utc": "2026-11-21T19:18:03Z",
+    "url": "https://github.com/zoetzerlpetrov-gif/Geopolitica/actions/runs/44940184077"
+   },
+   "detalle": "Al día.",
+   "pasos_fallidos": [],
+   "pasos_lentos": [
+    {
+     "paso": "Ingerir, clasificar y validar",
+     "min": 8.4
+    },
+    {
+     "paso": "Pruebas de JavaScript (cuenta regresiva, estilo, capas, escape de HTML)",
+     "min": 0.6
+    },
+    {
+     "paso": "Publicar en Cloudflare Pages",
+     "min": 0.5
+    },
+    {
+     "paso": "Caché del modelo abierto y de llama.cpp",
+     "min": 0.4
+    },
+    {
+     "paso": "Pruebas de Python (contratos, clasificador, dimensiones, privacidad)",
+     "min": 0.3
+    }
+   ]
+  },
+  {
+   "id": "capas",
+   "nombre": "Construir capas (PMTiles)",
+   "workflow": "capas.yml",
+   "cada": "4 h",
+   "afecta": "Capas fijas: infraestructura, cables, organizaciones, historia por país",
+   "max_horas": 9,
+   "estado": "ok",
+   "ultimo_exito_utc": "2026-11-21T12:57:16Z",
+   "horas_sin_exito": 7.1,
+   "fallas_seguidas": 0,
+   "corridas_24h": {
+    "exito": 2,
+    "falla": 0,
+    "cancelada": 0,
+    "en_curso": 0
+   },
+   "duracion_media_min": 14.0,
+   "ultima_corrida": {
+    "estado": "success",
+    "inicio_utc": "2026-11-21T12:46:16Z",
+    "url": "https://github.com/zoetzerlpetrov-gif/Geopolitica/actions/runs/44905545724"
+   },
+   "detalle": "Al día.",
+   "pasos_fallidos": [],
+   "pasos_lentos": [
+    {
+     "paso": "Construir capas",
+     "min": 8.2
+    },
+    {
+     "paso": "Publicar en Cloudflare Pages",
+     "min": 0.6
+    },
+    {
+     "paso": "Pruebas de JavaScript (cuenta regresiva, estilo, capas, escape de HTML)",
+     "min": 0.5
+    },
+    {
+     "paso": "Publicar en la rama datos-capas (reescrita, sin historial)",
+     "min": 0.3
+    },
+    {
+     "paso": "Instalar dependencias de prueba",
+     "min": 0.2
+    }
+   ]
+  },
+  {
+   "id": "economia",
+   "nombre": "Economía",
+   "workflow": "economia.yml",
+   "cada": "1 día",
+   "afecta": "Sección Economía (indicadores de México, EUA y UE, índices curiosos)",
+   "max_horas": 30,
+   "estado": "ok",
+   "ultimo_exito_utc": "2026-11-21T19:56:33Z",
+   "horas_sin_exito": 0.1,
+   "fallas_seguidas": 0,
+   "corridas_24h": {
+    "exito": 2,
+    "falla": 0,
+    "cancelada": 0,
+    "en_curso": 0
+   },
+   "duracion_media_min": 11.5,
+   "ultima_corrida": {
+    "estado": "success",
+    "inicio_utc": "2026-11-21T19:45:10Z",
+    "url": "https://github.com/zoetzerlpetrov-gif/Geopolitica/actions/runs/44942604977"
+   },
+   "detalle": "Al día.",
+   "pasos_fallidos": [],
+   "pasos_lentos": [
+    {
+     "paso": "Precios en México (SNIIM, CRE, INPC; si falla se conservan los anteriores)",
+     "min": 7.8
+    },
+    {
+     "paso": "Actualizar indicadores",
+     "min": 0.9
+    },
+    {
+     "paso": "Pruebas de JavaScript (cuenta regresiva, estilo, capas, escape de HTML)",
+     "min": 0.5
+    },
+    {
+     "paso": "Publicar en Cloudflare Pages",
+     "min": 0.5
+    },
+    {
+     "paso": "Pruebas de Python (contratos, clasificador, dimensiones, privacidad)",
+     "min": 0.3
+    }
+   ]
+  },
+  {
+   "id": "camaras",
+   "nombre": "Cámaras del mundo",
+   "workflow": "camaras.yml",
+   "cada": "1 día",
+   "afecta": "Lista de cámaras públicas",
+   "max_horas": 30,
+   "estado": "ok",
+   "ultimo_exito_utc": "2026-11-21T16:15:36Z",
+   "horas_sin_exito": 3.7,
+   "fallas_seguidas": 0,
+   "corridas_24h": {
+    "exito": 1,
+    "falla": 0,
+    "cancelada": 0,
+    "en_curso": 0
+   },
+   "duracion_media_min": 5.9,
+   "ultima_corrida": {
+    "estado": "success",
+    "inicio_utc": "2026-11-21T16:09:54Z",
+    "url": "https://github.com/zoetzerlpetrov-gif/Geopolitica/actions/runs/44923040675"
+   },
+   "detalle": "Al día.",
+   "pasos_fallidos": [],
+   "pasos_lentos": [
+    {
+     "paso": "Actualizar únicamente cámaras",
+     "min": 2.9
+    },
+    {
+     "paso": "Publicar en Cloudflare Pages",
+     "min": 0.6
+    },
+    {
+     "paso": "Pruebas de JavaScript (cuenta regresiva, estilo, capas, escape de HTML)",
+     "min": 0.5
+    },
+    {
+     "paso": "Publicar datos conservando todas las demás capas",
+     "min": 0.3
+    },
+    {
+     "paso": "Instalar dependencias de prueba",
+     "min": 0.2
+    }
+   ]
+  },
+  {
+   "id": "fuentes",
+   "nombre": "Salud de fuentes gratuitas",
+   "workflow": "fase23-fuentes.yml",
+   "cada": "1 día",
+   "afecta": "Monitor de fuentes de la plataforma (Fases 2-3)",
+   "max_horas": 30,
+   "estado": "ok",
+   "ultimo_exito_utc": "2026-11-21T12:54:37Z",
+   "horas_sin_exito": 7.1,
+   "fallas_seguidas": 0,
+   "corridas_24h": {
+    "exito": 1,
+    "falla": 0,
+    "cancelada": 0,
+    "en_curso": 0
+   },
+   "duracion_media_min": 2.1,
+   "ultima_corrida": {
+    "estado": "success",
+    "inicio_utc": "2026-11-21T12:52:16Z",
+    "url": "https://github.com/zoetzerlpetrov-gif/Geopolitica/actions/runs/44906031144"
+   },
+   "detalle": "Al día.",
+   "pasos_fallidos": [],
+   "pasos_lentos": [
+    {
+     "paso": "Pruebas de JavaScript (cuenta regresiva, estilo, capas, escape de HTML)",
+     "min": 0.5
+    },
+    {
+     "paso": "Publicar en Cloudflare Pages",
+     "min": 0.5
+    },
+    {
+     "paso": "Consultar fuentes sin claves ni expedientes",
+     "min": 0.2
+    },
+    {
+     "paso": "Instalar dependencias de prueba",
+     "min": 0.2
+    },
+    {
+     "paso": "Pruebas de Python (contratos, clasificador, dimensiones, privacidad)",
+     "min": 0.2
+    }
+   ]
+  },
+  {
+   "id": "entidades",
+   "nombre": "Entidades (Wikidata)",
+   "workflow": "entidades.yml",
+   "cada": "7 días",
+   "afecta": "Catálogo de organizaciones y empresas",
+   "max_horas": 194,
+   "estado": "ok",
+   "ultimo_exito_utc": "2026-11-16T13:54:24Z",
+   "horas_sin_exito": 126.1,
+   "fallas_seguidas": 0,
+   "corridas_24h": {
+    "exito": 0,
+    "falla": 0,
+    "cancelada": 0,
+    "en_curso": 0
+   },
+   "duracion_media_min": 1.4,
+   "ultima_corrida": {
+    "estado": "success",
+    "inicio_utc": "2026-11-16T13:52:56Z",
+    "url": "https://github.com/zoetzerlpetrov-gif/Geopolitica/actions/runs/43880065774"
+   },
+   "detalle": "Al día.",
+   "pasos_fallidos": [],
+   "pasos_lentos": [
+    {
+     "paso": "Extraer de Wikidata",
+     "min": 1.0
+    },
+    {
+     "paso": "Run pip install -r requirements-dev.txt",
+     "min": 0.2
+    },
+    {
+     "paso": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+     "min": 0.0
+    },
+    {
+     "paso": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+     "min": 0.0
+    },
+    {
+     "paso": "Validar (esquema cerrado de personas, sin coordenadas)",
+     "min": 0.0
+    }
+   ]
+  },
+  {
+   "id": "autoauditoria",
+   "nombre": "Autoauditoría semanal",
+   "workflow": "autoauditoria.yml",
+   "cada": "7 días",
+   "afecta": "Evaluación contra ISO 27001, OWASP y demás marcos",
+   "max_horas": 194,
+   "estado": "ok",
+   "ultimo_exito_utc": "2026-11-16T23:28:28Z",
+   "horas_sin_exito": 116.5,
+   "fallas_seguidas": 0,
+   "corridas_24h": {
+    "exito": 0,
+    "falla": 0,
+    "cancelada": 0,
+    "en_curso": 0
+   },
+   "duracion_media_min": 2.1,
+   "ultima_corrida": {
+    "estado": "success",
+    "inicio_utc": "2026-11-16T23:26:24Z",
+    "url": "https://github.com/zoetzerlpetrov-gif/Geopolitica/actions/runs/43979288965"
+   },
+   "detalle": "Al día.",
+   "pasos_fallidos": [],
+   "pasos_lentos": [
+    {
+     "paso": "Evaluar",
+     "min": 0.3
+    },
+    {
+     "paso": "Dependencias de las pruebas",
+     "min": 0.2
+    },
+    {
+     "paso": "Instalar dependencias de prueba",
+     "min": 0.2
+    },
+    {
+     "paso": "Pruebas de Python (contratos, clasificador, dimensiones, privacidad)",
+     "min": 0.2
+    },
+    {
+     "paso": "Armar el sitio (solo archivos públicos)",
+     "min": 0.2
+    }
+   ]
+  },
+  {
+   "id": "normativa",
+   "nombre": "Monitor normativo (diarios oficiales)",
+   "workflow": "normativa.yml",
+   "cada": "12 h",
+   "afecta": "Bitácora normativa, avisos de cambios en el catálogo de normativa y en auditorías, riesgo regulatorio en la simulación de escenarios",
+   "max_horas": 30,
+   "estado": "ok",
+   "ultimo_exito_utc": "2026-11-21T10:12:53Z",
+   "horas_sin_exito": 9.8,
+   "fallas_seguidas": 0,
+   "corridas_24h": {
+    "exito": 3,
+    "falla": 0,
+    "cancelada": 0,
+    "en_curso": 0
+   },
+   "duracion_media_min": 4.1,
+   "ultima_corrida": {
+    "estado": "success",
+    "inicio_utc": "2026-11-21T10:08:01Z",
+    "url": "https://github.com/zoetzerlpetrov-gif/Geopolitica/actions/runs/44892859661"
+   },
+   "detalle": "Al día.",
+   "pasos_fallidos": [],
+   "pasos_lentos": [
+    {
+     "paso": "Revisar diarios oficiales",
+     "min": 1.0
+    },
+    {
+     "paso": "Pruebas de JavaScript (cuenta regresiva, estilo, capas, escape de HTML)",
+     "min": 0.6
+    },
+    {
+     "paso": "Publicar en Cloudflare Pages",
+     "min": 0.4
+    },
+    {
+     "paso": "Agenda regulatoria (próximas reformas, con historial)",
+     "min": 0.3
+    },
+    {
+     "paso": "Pruebas de Python (contratos, clasificador, dimensiones, privacidad)",
+     "min": 0.3
+    }
+   ]
+  },
+  {
+   "id": "noticiero_video",
+   "nombre": "Brújula Diaria (noticiero en video)",
+   "workflow": "noticiero-video.yml",
+   "cada": "24 h",
+   "afecta": "Video diario de Brújula Diaria en YouTube (privado, solo administración)",
+   "max_horas": 30,
+   "estado": "ok",
+   "ultimo_exito_utc": "2026-11-21T14:13:20Z",
+   "horas_sin_exito": 5.8,
+   "fallas_seguidas": 0,
+   "corridas_24h": {
+    "exito": 2,
+    "falla": 0,
+    "cancelada": 0,
+    "en_curso": 0
+   },
+   "duracion_media_min": 45.8,
+   "ultima_corrida": {
+    "estado": "success",
+    "inicio_utc": "2026-11-21T13:21:04Z",
+    "url": "https://github.com/zoetzerlpetrov-gif/Geopolitica/actions/runs/44908418516"
+   },
+   "detalle": "Al día.",
+   "pasos_fallidos": [],
+   "pasos_lentos": [
+    {
+     "paso": "Armar el video",
+     "min": 49.4
+    },
+    {
+     "paso": "Voz de Brújula Diaria (Kokoro-82M, Apache-2.0, voz ef_dora)",
+     "min": 1.1
+    },
+    {
+     "paso": "ffmpeg (los servidores de GitHub ya no lo traen instalado)",
+     "min": 0.3
+    },
+    {
+     "paso": "Navegador para las escenas animadas (Playwright con Chromium) y fuente Inter",
+     "min": 0.3
+    },
+    {
+     "paso": "Caché del modelo abierto y de llama.cpp (el mismo de la ingesta)",
+     "min": 0.3
+    }
+   ]
+  },
+  {
+   "id": "comentarios_youtube",
+   "nombre": "Comentarios de YouTube (respuestas propuestas)",
+   "workflow": "comentarios-youtube.yml",
+   "cada": "24 h",
+   "afecta": "Respuestas propuestas a comentarios de Brújula Diaria (comentarios.html, solo administración)",
+   "max_horas": 30,
+   "estado": "ok",
+   "ultimo_exito_utc": "2026-11-21T07:46:21Z",
+   "horas_sin_exito": 12.2,
+   "fallas_seguidas": 0,
+   "corridas_24h": {
+    "exito": 1,
+    "falla": 0,
+    "cancelada": 0,
+    "en_curso": 0
+   },
+   "duracion_media_min": 2.7,
+   "ultima_corrida": {
+    "estado": "success",
+    "inicio_utc": "2026-11-21T07:43:43Z",
+    "url": "https://github.com/zoetzerlpetrov-gif/Geopolitica/actions/runs/44881576829"
+   },
+   "detalle": "Al día.",
+   "pasos_fallidos": [],
+   "pasos_lentos": [
+    {
+     "paso": "Pruebas de JavaScript (cuenta regresiva, estilo, capas, escape de HTML)",
+     "min": 0.5
+    },
+    {
+     "paso": "Publicar en Cloudflare Pages",
+     "min": 0.5
+    },
+    {
+     "paso": "Caché del modelo abierto y de llama.cpp (el mismo de la ingesta)",
+     "min": 0.3
+    },
+    {
+     "paso": "Instalar dependencias de prueba",
+     "min": 0.2
+    },
+    {
+     "paso": "Pruebas de Python (contratos, clasificador, dimensiones, privacidad)",
+     "min": 0.2
+    }
+   ]
+  },
+  {
+   "id": "estados_financieros",
+   "nombre": "Estados financieros (SEC EDGAR)",
+   "workflow": "estados-financieros.yml",
+   "cada": "7 días",
+   "afecta": "Análisis financiero de empresas del Portafolio (finanzas.html, solo administración)",
+   "max_horas": 194,
+   "estado": "ok",
+   "ultimo_exito_utc": "2026-11-21T17:09:43Z",
+   "horas_sin_exito": 2.8,
+   "fallas_seguidas": 0,
+   "corridas_24h": {
+    "exito": 1,
+    "falla": 0,
+    "cancelada": 0,
+    "en_curso": 0
+   },
+   "duracion_media_min": 15.6,
+   "ultima_corrida": {
+    "estado": "success",
+    "inicio_utc": "2026-11-21T16:50:30Z",
+    "url": "https://github.com/zoetzerlpetrov-gif/Geopolitica/actions/runs/44926756712"
+   },
+   "detalle": "Al día.",
+   "pasos_fallidos": [],
+   "pasos_lentos": [
+    {
+     "paso": "Estados financieros desde SEC EDGAR",
+     "min": 7.7
+    },
+    {
+     "paso": "Emisoras mexicanas y FIBRAs (reportes CNBV publicados por BIVA)",
+     "min": 7.7
+    },
+    {
+     "paso": "Criptomonedas (datos abiertos de las redes en DefiLlama)",
+     "min": 0.7
+    },
+    {
+     "paso": "Empresas europeas (informes ESEF vía filings.xbrl.org)",
+     "min": 0.5
+    },
+    {
+     "paso": "ETF (posiciones del formulario N-PORT de la SEC)",
+     "min": 0.5
+    }
+   ]
+  },
+  {
+   "id": "e2e_roles",
+   "nombre": "Pruebas integrales por rol (navegador real)",
+   "workflow": "e2e-roles.yml",
+   "cada": "12 h",
+   "afecta": "Revisión automática de capas, imágenes, menús y páginas para admin y cada plan (informe en la corrida de GitHub)",
+   "max_horas": 15,
+   "estado": "ok",
+   "ultimo_exito_utc": "2026-11-21T18:35:42Z",
+   "horas_sin_exito": 1.4,
+   "fallas_seguidas": 0,
+   "corridas_24h": {
+    "exito": 3,
+    "falla": 3,
+    "cancelada": 0,
+    "en_curso": 0
+   },
+   "duracion_media_min": 24.9,
+   "ultima_corrida": {
+    "estado": "success",
+    "inicio_utc": "2026-11-21T18:10:06Z",
+    "url": "https://github.com/zoetzerlpetrov-gif/Geopolitica/actions/runs/44934012447"
+   },
+   "detalle": "Al día.",
+   "pasos_fallidos": [],
+   "pasos_lentos": [
+    {
+     "paso": "Recorrer el sitio por rol",
+     "min": 21.2
+    },
+    {
+     "paso": "Datos por plan desde el bucket privado (solo para la copia local)",
+     "min": 2.1
+    },
+    {
+     "paso": "Pruebas unitarias (para el tablero)",
+     "min": 0.9
+    },
+    {
+     "paso": "Navegador (Playwright con Chromium)",
+     "min": 0.5
+    },
+    {
+     "paso": "Token del tablero de pruebas (secreto del Worker de esta corrida)",
+     "min": 0.4
+    }
+   ]
+  }
+ ],
+ "datos": [
+  {
+   "id": "d_vivos",
+   "nombre": "Datos en movimiento publicados",
+   "archivo": "data/vivos/estado.json",
+   "estado": "ok",
+   "generado_utc": "2026-11-21T19:33:42Z",
+   "horas": 0.4,
+   "max_horas": 1.5,
+   "errores": [],
+   "detalle": "Al día."
+  },
+  {
+   "id": "d_eventos",
+   "nombre": "Eventos publicados (ingesta)",
+   "archivo": "data/run-log.json",
+   "estado": "ok",
+   "generado_utc": "2026-11-21T19:18:55Z",
+   "horas": 0.7,
+   "max_horas": 3,
+   "errores": [
+    "El País Internacional: PermissionError: el robots.txt del sitio no permite leer este feed: se omite",
+    "International Crisis Group: PermissionError: el robots.txt del sitio no permite leer este feed: se omite"
+   ],
+   "detalle": "Al día. 2 fuente(s) con error (se conservan sus datos anteriores)."
+  },
+  {
+   "id": "d_noticiero",
+   "nombre": "Noticiero DOMINUS",
+   "archivo": "data/vivos/noticiero.json",
+   "estado": "ok",
+   "generado_utc": "2026-11-21T19:37:11Z",
+   "horas": 0.4,
+   "max_horas": 1.5,
+   "errores": [
+    "20261121193000.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+    "The Intercept: HTTP Error 500: Internal Server Error",
+    "El Buen Tono · BanCoppel: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1011)>",
+    "El Buen Tono · WhatsApp y fraudes: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1011)>",
+    "El Buen Tono · BBVA y fraudes: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1011)>",
+    "Food & Wine en Español: el robots.txt del sitio no permite leer este feed: se omite"
+   ],
+   "detalle": "Al día. 6 fuente(s) con error (se conservan sus datos anteriores)."
+  },
+  {
+   "id": "d_protocolos",
+   "nombre": "Protocolos y alertas «cisne negro»",
+   "archivo": "data/vivos/protocolos.geojson",
+   "estado": "ok",
+   "generado_utc": "2026-11-21T16:59:35Z",
+   "horas": 3.0,
+   "max_horas": 4,
+   "errores": [],
+   "detalle": "Al día."
+  },
+  {
+   "id": "d_autoauditoria",
+   "nombre": "Resultado de la autoauditoría",
+   "archivo": "data/autoauditoria/ultimo.json",
+   "estado": "ok",
+   "generado_utc": "2026-11-16T23:27:07Z",
+   "horas": 116.6,
+   "max_horas": 194,
+   "errores": [],
+   "detalle": "Al día."
+  },
+  {
+   "id": "d_economia",
+   "nombre": "Indicadores económicos",
+   "archivo": "data/economia/indicadores.json",
+   "estado": "ok",
+   "generado_utc": "2026-11-21T19:46:09Z",
+   "horas": 0.2,
+   "max_horas": 30,
+   "errores": [],
+   "detalle": "Al día."
+  },
+  {
+   "id": "d_aire",
+   "nombre": "Calidad del aire (Sensor.Community)",
+   "archivo": "data/vivos/aire_ciudades.geojson",
+   "estado": "ok",
+   "generado_utc": "2026-11-21T19:05:15Z",
+   "horas": 0.9,
+   "max_horas": 6,
+   "errores": [],
+   "detalle": "Al día."
+  },
+  {
+   "id": "d_humedad",
+   "nombre": "Humedad, punto de rocío y agua del aire (METAR)",
+   "archivo": "data/vivos/humedad_estaciones.geojson",
+   "estado": "ok",
+   "generado_utc": "2026-11-21T19:05:15Z",
+   "horas": 0.9,
+   "max_horas": 3,
+   "errores": [],
+   "detalle": "Al día."
+  },
+  {
+   "id": "d_monitor_mx",
+   "nombre": "Monitor México (Banxico)",
+   "archivo": "data/vivos/monitor_mx.json",
+   "estado": "ok",
+   "generado_utc": "2026-11-21T02:44:55Z",
+   "horas": 17.3,
+   "max_horas": 50,
+   "errores": [],
+   "detalle": "Al día."
+  },
+  {
+   "id": "d_contraste_mx",
+   "nombre": "Contraste de fuentes de México (ONU, Banxico, SESNSP)",
+   "archivo": "data/vivos/contraste_mx.json",
+   "estado": "ok",
+   "generado_utc": "2026-11-21T19:37:11Z",
+   "horas": 0.4,
+   "max_horas": 50,
+   "errores": [],
+   "detalle": "Al día."
+  },
+  {
+   "id": "d_pemex_cuba",
+   "nombre": "Petróleo de Pemex a Cuba (reportes a la SEC)",
+   "archivo": "data/vivos/pemex_cuba.json",
+   "estado": "ok",
+   "generado_utc": "2026-11-18T23:34:00Z",
+   "horas": 68.4,
+   "max_horas": 360,
+   "errores": [],
+   "detalle": "Al día."
+  },
+  {
+   "id": "d_entidades",
+   "nombre": "Monitor de entidades y razones sociales (DOF, SEC, GLEIF, 69-B)",
+   "archivo": "data/vivos/entidades.json",
+   "estado": "ok",
+   "generado_utc": "2026-11-21T15:31:22Z",
+   "horas": 4.5,
+   "max_horas": 50,
+   "errores": [],
+   "detalle": "Al día."
+  },
+  {
+   "id": "d_gei_cams",
+   "nombre": "CO₂, metano, CO y flujo de vegetación (CAMS)",
+   "archivo": "data/vivos/gei_cams.geojson",
+   "estado": "ok",
+   "generado_utc": "2026-11-21T14:34:44Z",
+   "horas": 5.4,
+   "max_horas": 50,
+   "errores": [
+    "superficie 2026-11-21: 400 Client Error: Bad Request for url: https://ads.atmosphere.copernicus.eu/api/retrieve/v1/processes/cams-global-greenhouse-gas-forecast",
+    "columna 2026-11-21: 400 Client Error: Bad Request for url: https://ads.atmosphere.copernicus.eu/api/retrieve/v1/processes/cams-global-greenhouse-gas-forecasts/e",
+    "flujo 2026-11-21: 400 Client Error: Bad Request for url: https://ads.atmosphere.copernicus.eu/api/retrieve/v1/processes/cams-global-greenhouse-gas-forecasts/exe"
+   ],
+   "detalle": "Al día. 3 fuente(s) con error (se conservan sus datos anteriores)."
+  },
+  {
+   "id": "d_flujo_co2",
+   "nombre": "Flujo de CO₂ de la vegetación (CAMS, malla 2°)",
+   "archivo": "data/vivos/flujo_co2.geojson",
+   "estado": "ok",
+   "generado_utc": "2026-11-21T14:34:44Z",
+   "horas": 5.4,
+   "max_horas": 50,
+   "errores": [],
+   "detalle": "Al día."
+  },
+  {
+   "id": "d_co2",
+   "nombre": "Dióxido de carbono (NOAA)",
+   "archivo": "data/vivos/co2.json",
+   "estado": "ok",
+   "generado_utc": "2026-11-21T00:23:48Z",
+   "horas": 19.6,
+   "max_horas": 50,
+   "errores": [],
+   "detalle": "Al día."
+  },
+  {
+   "id": "d_anomalias",
+   "nombre": "Fenómenos anómalos",
+   "archivo": "data/vivos/anomalias.geojson",
+   "estado": "ok",
+   "generado_utc": "2026-11-21T18:42:42Z",
+   "horas": 1.3,
+   "max_horas": 8,
+   "errores": [],
+   "detalle": "Al día."
+  },
+  {
+   "id": "d_estafas",
+   "nombre": "Estafas y prevención",
+   "archivo": "data/vivos/estafas.geojson",
+   "estado": "ok",
+   "generado_utc": "2026-11-21T19:40:37Z",
+   "horas": 0.3,
+   "max_horas": 4,
+   "errores": [
+    "El Buen Tono · BanCoppel: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1011)>",
+    "El Buen Tono · WhatsApp y fraudes: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1011)>",
+    "El Buen Tono · BBVA y fraudes: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1011)>",
+    "Síntesis · alertas de WhatsApp: HTTP Error 429: Too Many Requests"
+   ],
+   "detalle": "Al día. 4 fuente(s) con error (se conservan sus datos anteriores)."
+  },
+  {
+   "id": "d_ciberataques",
+   "nombre": "Ciberataques reportados por la prensa",
+   "archivo": "data/vivos/ciberataques.geojson",
+   "estado": "ok",
+   "generado_utc": "2026-11-21T18:43:05Z",
+   "horas": 1.3,
+   "max_horas": 4,
+   "errores": [],
+   "detalle": "Al día."
+  },
+  {
+   "id": "d_radiacion",
+   "nombre": "Radiación (sensores Safecast)",
+   "archivo": "data/vivos/radiacion.geojson",
+   "estado": "ok",
+   "generado_utc": "2026-11-21T18:44:51Z",
+   "horas": 1.3,
+   "max_horas": 4,
+   "errores": [],
+   "detalle": "Al día."
+  },
+  {
+   "id": "d_corporativo",
+   "nombre": "Mundo corporativo (noticias de empresas)",
+   "archivo": "data/vivos/corporativo.geojson",
+   "estado": "ok",
+   "generado_utc": "2026-11-21T18:44:07Z",
+   "horas": 1.3,
+   "max_horas": 4,
+   "errores": [],
+   "detalle": "Al día."
+  },
+  {
+   "id": "d_corp_empresas",
+   "nombre": "Empresas y organigramas (Wikidata)",
+   "archivo": "data/vivos/corporativo_empresas.json",
+   "estado": "ok",
+   "generado_utc": "2026-11-21T19:11:28Z",
+   "horas": 0.8,
+   "max_horas": 200,
+   "errores": [
+    "alias: error: HTTPError; se conserva el anterior"
+   ],
+   "detalle": "Al día. 1 fuente(s) con error (se conservan sus datos anteriores)."
+  },
+  {
+   "id": "d_elecciones",
+   "nombre": "Elecciones (Wikidata)",
+   "archivo": "data/vivos/elecciones.json",
+   "estado": "ok",
+   "generado_utc": "2026-11-21T19:41:20Z",
+   "horas": 0.3,
+   "max_horas": 10,
+   "errores": [],
+   "detalle": "Al día."
+  },
+  {
+   "id": "d_corporativo_8k",
+   "nombre": "Cambios de directivos reportados a la SEC (8-K 5.02)",
+   "archivo": "data/vivos/corporativo_8k.json",
+   "estado": "ok",
+   "generado_utc": "2026-11-21T19:41:19Z",
+   "horas": 0.3,
+   "max_horas": 30,
+   "errores": [],
+   "detalle": "Al día."
+  },
+  {
+   "id": "d_cisnes",
+   "nombre": "Cisnes blancos y negros (señales)",
+   "archivo": "data/vivos/cisnes.json",
+   "estado": "ok",
+   "generado_utc": "2026-11-21T19:41:21Z",
+   "horas": 0.3,
+   "max_horas": 3,
+   "errores": [],
+   "detalle": "Al día."
+  },
+  {
+   "id": "d_satelites",
+   "nombre": "Satélites (TLE de SatNOGS)",
+   "archivo": "data/vivos/satelites.json",
+   "estado": "ok",
+   "generado_utc": "2026-11-21T15:41:43Z",
+   "horas": 4.3,
+   "max_horas": 14,
+   "errores": [],
+   "detalle": "Al día."
+  },
+  {
+   "id": "d_normativa",
+   "nombre": "Bitácora normativa (diarios oficiales)",
+   "archivo": "data/normativa/estado.json",
+   "estado": "ok",
+   "generado_utc": "2026-11-21T10:08:08Z",
+   "horas": 9.9,
+   "max_horas": 30,
+   "errores": [],
+   "detalle": "Al día."
+  },
+  {
+   "id": "d_portafolio",
+   "nombre": "Portafolio (panel propio): reporte diario y noticias",
+   "archivo": "https://dominusosint.com/data/portafolio/daily_report.json",
+   "estado": "ok",
+   "generado_utc": "2026-11-21T17:01:42Z",
+   "horas": 3.0,
+   "max_horas": 30,
+   "errores": [],
+   "detalle": "Al día."
+  }
+ ]
+}
