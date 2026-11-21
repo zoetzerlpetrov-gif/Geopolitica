@@ -2167,7 +2167,12 @@ async function iniciarRiesgos() {
       if (!e.target.checked) return;
       // Capas que pueden estar vacías por la hora (trenes de madrugada): se explica en vez de mostrar solo «0».
       marca.textContent = (n === 0 && R.CAPAS.find((c) => c.id === id)?.notaCero?.()) || `${n.toLocaleString("es-MX")}`;
-    } catch (err) { e.target.checked = false; marca.textContent = "sin datos"; }
+    } catch (err) {
+      // Solo llega aquí una falla real (sin conexión, plan sin acceso o archivo dañado): no un «0». La casilla se puede
+      // volver a marcar para reintentar.
+      e.target.checked = false;
+      marca.textContent = /plan no incluye/.test(String(err?.message)) ? "no incluido en tu plan" : "sin conexión · vuelve a marcar para reintentar";
+    }
   };
   cont.addEventListener("change", alCambiarCapa);
   for (const idCont of ["trenes-capas", "anomalias-capas", "corporativo-capas"]) $(idCont)?.addEventListener("change", alCambiarCapa);
@@ -2314,7 +2319,8 @@ async function iniciarMovimiento(catalogo) {
       estado: "ok", objetos: totalConSpaceX(Object.fromEntries(Object.entries(satPublicos.grupos).filter(([g]) => !rv || g === "satnogs")), metaSpaceX),
       actualizado_utc: [satPublicos.satnogs_utc || satPublicos.generado_utc, metaSpaceX?.generado_utc].filter(Boolean).sort().at(-1),
     } : estado.pasos[pasoDe[tipo]];
-    const ok = p && (p.estado === "ok" || p.objetos);
+    // Con el paso registrado se muestra su número aunque sea 0 y la casilla se puede usar; «sin datos» solo si nunca se publicó.
+    const ok = Boolean(p);
     const vistos = new Set();
     const subs = (rv ? LIC.subtiposPago(cat.subtipos, rv) : cat.subtipos).filter((s) => { const k = tipo === "satelites" ? s.grupo : s.id; if (vistos.has(k)) return false; vistos.add(k); return true; });
     const filaSubtipo = (s) => {
@@ -2327,7 +2333,7 @@ async function iniciarMovimiento(catalogo) {
       <span class="sg-n">${ok ? `${(p.objetos || 0).toLocaleString("es-MX")} objetos` : "sin datos"}</span></summary><div class="capa-fam ${ok ? "" : "capa-off"}">
       <label class="fila"><span><input type="checkbox" data-mov="${tipo}" data-nombre="${esc(cat.nombre.es)}" ${ok ? "" : "disabled"}> Mostrar en el mapa</span>
         <span class="chip estado-${esc(cat.subtipos[0].estado_dato)}">${tipo === "satelites" ? "Estimado" : "Retrasado"}</span></label>
-      <div class="meta">${ok ? `${(p.objetos || 0).toLocaleString("es-MX")} objetos · actualizado ${esc((p.actualizado_utc || "").replace("T", " ").slice(0, 16))} UTC`
+      <div class="meta">${ok ? `${(p.objetos || 0).toLocaleString("es-MX")} objetos · actualizado ${esc((p.actualizado_utc || "").replace("T", " ").slice(0, 16))} UTC${p.estado && p.estado !== "ok" ? " · la última actualización falló: se muestran los datos anteriores" : ""}`
         : esc(p?.error || "Aún no hay instantánea (workflow «Datos en movimiento»)")}</div>
       ${tipo === "satelites" ? '<p class="meta">Fuentes por subtipo: SatNOGS DB (CC BY-SA 4.0), SpaceX/SupGP y catálogos anteriores. Posiciones estimadas con SGP4; cada fuente conserva su época y ventana de uso. Los grupos pueden compartir objetos.</p>' : ""}
       ${ok ? `<details><summary>Subtipos (${subs.length})</summary>${subs.map(filaSubtipo).join("")}${tipo === "satelites" ? `<p class="meta">SpaceX/SupGP: órbitas dentro de su ventana de uso; lanzamientos GCAT (J. McDowell, CC BY 4.0); el inventario no equivale a órbitas utilizables. Publicación SpaceX: ${esc((metaSpaceX?.generado_utc || "").slice(0,16))} UTC. Se omiten automáticamente los modelos vencidos. <a href="https://docs.space-safety.starlink.com/docs/space-safety-articles/starlink_cola_conops/" target="_blank" rel="noopener noreferrer">Fuente y formato</a></p>${panelSpaceX()}` : ""}</details>` : ""}

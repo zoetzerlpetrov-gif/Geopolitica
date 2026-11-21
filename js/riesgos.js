@@ -1640,6 +1640,10 @@ function otrosMedios(enlaces, principal) {
   return [...new Set(l.filter((x) => x.url !== principal).map((x) => x.source))].slice(0, 7).join(", ") || "—";
 }
 
+/** Un archivo que no está publicado (HTTP 404) significa «sin eventos que publicar»: la capa vale 0, no es una falla. */
+export const esNoPublicado = (e) => /HTTP 404\b/.test(String(e?.message || e));
+const VACIO = () => ({ type: "FeatureCollection", features: [] });
+
 export async function leerArchivo(nombre) {
   let ultimo, vacio = null;
   for (const base of BASES) {
@@ -1711,11 +1715,14 @@ export class Riesgos {
   async #datos(capa) {
     let fc;
     if (capa.generar) fc = await capa.generar(leerArchivo);
-    else if (capa.url) fc = await getJSON(capa.url, { bust: !capa.sinAnticache });
+    else if (capa.url) fc = await getJSON(capa.url, { bust: !capa.sinAnticache }).catch((e) => { if (esNoPublicado(e)) return VACIO(); throw e; });
     else {
       // Archivos del generador de riesgos + archivos propios (data/vivos/…); uno que falte no impide los demás.
-      const partes = await Promise.all([...capa.archivos.map((a) => leerArchivo(a).catch(() => null)), ...(capa.locales || []).map((u) => getJSON(u, { bust: true }).catch(() => null))]);
-      if (partes.every((p) => !p)) throw new Error("sin datos");
+      const errores = [];
+      const partes = await Promise.all([...capa.archivos.map((a) => leerArchivo(a).catch((e) => { errores.push(e); return null; })),
+        ...(capa.locales || []).map((u) => getJSON(u, { bust: true }).catch((e) => { errores.push(e); return null; }))]);
+      // Si todas las fuentes faltan porque no se publicó archivo (no hubo eventos), la capa vale 0; solo es error si no hubo conexión.
+      if (partes.every((p) => !p) && errores.some((e) => !esNoPublicado(e))) throw errores.find((e) => !esNoPublicado(e));
       fc = { type: "FeatureCollection", features: partes.flatMap((p) => p?.features || []) };
     }
     if (capa.complementar) fc = await capa.complementar(fc, leerArchivo);
