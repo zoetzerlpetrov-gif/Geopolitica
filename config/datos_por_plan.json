@@ -16,6 +16,7 @@
   "data/marketing/metricas.json": "admin",
   "data/portafolio/backtest.json": "admin",
   "data/portafolio/daily_report.json": "admin",
+  "data/seguridad/vulns_mundo.json": "admin",
   "data/vigia/estado.json": "admin",
   "data/vivos/aeronaves.json": "admin",
   "data/vivos/aeronaves_comercial.json": "recon",

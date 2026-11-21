@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vulnerabilidades en apps y plataformas</title>
+  <meta name="description" content="Solo administración: vulnerabilidades que ya se explotan en apps y plataformas comunes, versión a la que hay que actualizar, cómo verificarlo, brechas de datos y titulares, con historial.">
+  <meta name="robots" content="noindex">
+  <meta name="color-scheme" content="light dark">
+  <script>try { const t = localStorage.getItem("gp_theme"); if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23C8102E' d='M44 44 30 4h40L56 44 96 30v40L56 56l14 40H30l14-40L4 70V30z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/app.css">
+  <style>
+    body { display: block; height: auto; overflow: auto; }
+    .ops { max-width: 1400px; margin: 0 auto; padding: 16px; }
+    .meta { color: var(--text-2); font-size: 13px; }
+    .kpis { display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0 16px; }
+    .kpi { border: 1px solid var(--line); border-radius: var(--radius); padding: 8px 14px; background: var(--surface); min-width: 140px; }
+    .kpi b { display: block; font-size: 24px; }
+    .filtros { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0; align-items: center; }
+    .filtros select, .filtros input[type=search] { font: inherit; min-height: 34px; padding: 3px 8px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); }
+    .tabla { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); margin-bottom: 18px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+    th, td { border-bottom: 1px solid var(--line); padding: 7px 6px; text-align: left; vertical-align: top; }
+    th { background: var(--surface-2); position: sticky; top: 0; }
+    .sev-critical { color: #fff; background: #8b0000; padding: 1px 6px; border-radius: 4px; font-weight: 700; } .sev-high { color: #C8102E; font-weight: 700; } .sev-medium { color: #b8860b; font-weight: 700; } .sev-low { color: #2e7d32; }
+    .chip { font-size: 12px; border: 1px solid var(--line); border-radius: 999px; padding: 1px 8px; white-space: nowrap; display: inline-block; margin: 1px 2px; }
+    .rw { background: rgba(200,16,46,.15); border-color: #C8102E; }
+    .inv { background: rgba(184,134,11,.15); border-color: #b8860b; }
+    .hecho { opacity: .55; }
+    details summary { cursor: pointer; }
+    .aviso { border-left: 4px solid #b8860b; padding: 8px 12px; background: rgba(184,134,11,.08); border-radius: 4px; }
+    .ver { max-width: 340px; }
+  </style>
+  <script type="module" src="js/apariencia.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="link-btn" href="./">← Regresar al Mapa</a>
+    <h1>🧯 Vulnerabilidades en apps y plataformas (solo admin)</h1>
+  </header>
+  <main class="ops">
+    <p class="meta">Lista diaria de fallas de seguridad que <b>ya se están usando en ataques reales</b> (catálogo KEV de CISA), en sistemas, apps y plataformas comunes: Apple, Microsoft, Google, Android, navegadores, routers, servidores y más. Para cada una: qué es, qué tan grave es, a qué versión actualizar, cómo comprobar que ya la tienes y el aviso del fabricante. Abajo, las brechas de datos en empresas y plataformas (bancos, aerolíneas, viajes, tiendas) y los titulares de hackeos. Se guarda el historial de 2 años.</p>
+    <p id="vm-error" class="aviso" hidden></p>
+    <div id="vm-kpis" class="kpis" aria-live="polite">Cargando…</div>
+    <h2>1. Qué actualizar</h2>
+    <div class="filtros">
+      <input id="vm-q" type="search" placeholder="Buscar: iPhone, Chrome, Windows, CVE…" aria-label="Buscar">
+      <label>Fabricante <select id="vm-fab"><option value="">Todos</option></select></label>
+      <label>Periodo <select id="vm-dias"><option value="30">30 días</option><option value="90">90 días</option><option value="365">1 año</option><option value="9999">2 años</option></select></label>
+      <label>Riesgo <select id="vm-riesgo"><option value="">Todos</option><option value="critical">Solo críticas (CVSS ≥ 9)</option><option value="epss">Probabilidad de ataque ≥ 10 %</option><option value="ransomware">Usadas por ransomware</option></select></label>
+      <label><input id="vm-inv" type="checkbox"> Solo lo que usamos (inventario)</label>
+      <label><input id="vm-pend" type="checkbox"> Ocultar lo ya actualizado</label>
+    </div>
+    <div class="tabla"><table><thead><tr><th>Fecha</th><th>Fabricante y producto</th><th>Qué es</th><th>Gravedad</th><th>Actualiza a</th><th>Cómo verificar</th><th>Ya lo actualicé</th></tr></thead><tbody id="vm-filas"></tbody></table></div>
+    <p class="meta" id="vm-conteo"></p>
+    <h2>2. Brechas de datos en empresas y plataformas</h2>
+    <p class="meta">Filtraciones confirmadas por Have I Been Pwned: qué empresa, cuándo, cuántas cuentas y qué datos. Si tienes cuenta ahí: cambia la contraseña (y en cualquier otro sitio donde uses la misma), activa la verificación en dos pasos y desconfía de correos o llamadas que mencionen esos datos.</p>
+    <div class="filtros"><label>Categoría <select id="vm-cat"><option value="">Todas</option></select></label></div>
+    <div class="tabla"><table><thead><tr><th>Publicada</th><th>Empresa o plataforma</th><th>Fecha de la brecha</th><th>Cuentas</th><th>Datos expuestos</th></tr></thead><tbody id="vm-brechas"></tbody></table></div>
+    <h2>3. Hackeos y fraudes en la prensa (bancos, aerolíneas, viajes, apps)</h2>
+    <div class="tabla"><table><thead><tr><th>Fecha</th><th>Marca</th><th>Titular</th><th>Medio</th></tr></thead><tbody id="vm-prensa"></tbody></table></div>
+    <details><summary>Historial de lo que marcaste como actualizado</summary><div id="vm-historial" class="tabla"></div></details>
+    <details><summary>Fuentes y cómo leer esta página</summary>
+      <ul id="vm-fuentes"></ul>
+      <ol>
+        <li><b>KEV</b> (CISA, EUA): solo entran fallas con ataques confirmados. Si un producto que usas aparece aquí, actualízalo cuanto antes; «Fecha límite» es el plazo que CISA da a las agencias de EUA (sirve de referencia).</li>
+        <li><b>Gravedad</b>: CVSS de 0 a 10 (≥ 9 crítica) del NVD. <b>Probabilidad de ataque</b>: EPSS de FIRST, estimación de que se explote en 30 días.</li>
+        <li><b>Actualiza a</b>: primera versión corregida según el NVD. Si no aparece (fallas muy nuevas), usa el enlace «aviso del fabricante».</li>
+        <li><b>Ya lo actualicé</b>: se guarda solo en este navegador, con la fecha, y forma el historial de abajo.</li>
+        <li>Los bancos, aerolíneas y plataformas web (Airbnb, Expedia, bancos) se actualizan del lado de la empresa: lo que te toca es mantener al día su app, el sistema del teléfono y el navegador, y reaccionar a sus brechas (sección 2).</li>
+        <li>El inventario («lo que usamos») y las marcas a vigilar se editan en config/vulns_mundo.json.</li>
+      </ol>
+    </details>
+  </main>
+  <script type="module" src="js/vulns-mundo.js"></script>
+  <script type="module" src="js/vista_enlaces.js"></script>
+</body>
+</html>

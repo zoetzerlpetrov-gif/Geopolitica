@@ -38,7 +38,7 @@ jobs:
           ESRI_API_KEY: ${{ secrets.ESRI_API_KEY }}
         run: |
           mkdir -p _site
-          cp -r index.html analista.html fase2.html fase4.html operaciones.html colaboracion.html fase5.html transporte.html laboratorio.html plataforma.html camaras.html taxonomia.html reporte.html noticiero.html marco.html narrativas.html corporativo.html herramientas.html ops.html inmuebles.html analitica.html matriz.html warroom.html cartera.html conducta.html identidad.html tutorial.html planes.html estado.html soporte.html economia.html privacidad.html terminos.html comentarios.html patrocinios.html marketing.html legal.html entidades.html apariencia.html portafolio.html demo.html assets _redirects _headers SECURITY.md .well-known finanzas.html cisnes.html clima-impactos.html continuidad-familiar.html cuotas.html vulnerabilidades.html agenda.html pruebas.html 404.html sw.js css js vendor config data schema _site/
+          cp -r index.html analista.html fase2.html fase4.html operaciones.html colaboracion.html fase5.html transporte.html laboratorio.html plataforma.html camaras.html taxonomia.html reporte.html noticiero.html marco.html narrativas.html corporativo.html herramientas.html ops.html inmuebles.html analitica.html matriz.html warroom.html cartera.html conducta.html identidad.html tutorial.html planes.html estado.html soporte.html economia.html privacidad.html terminos.html comentarios.html patrocinios.html marketing.html legal.html entidades.html apariencia.html portafolio.html demo.html assets _redirects _headers SECURITY.md .well-known finanzas.html cisnes.html clima-impactos.html continuidad-familiar.html cuotas.html vulnerabilidades.html agenda.html pruebas.html vulns-mundo.html revision-tecnica.html 404.html sw.js css js vendor config data schema _site/
           cp SOURCES.md _site/ 2>/dev/null || true
           touch _site/.nojekyll
           python3 tools/pages/fuentes_pagina.py _site/fuentes.html   # fuentes y licencias dentro del sitio (sin enlazar al repositorio)
@@ -101,6 +101,11 @@ jobs:
             # Métricas del canal para el tablero de marketing (marketing.html, solo admin).
             mkdir -p _site/data/marketing
             git show FETCH_HEAD:marketing/metricas.json > /tmp/metricas.json 2>/dev/null && mv /tmp/metricas.json _site/data/marketing/ || true
+          fi
+          # Vulnerabilidades en apps y plataformas (vulns-mundo.html, solo admin): rama "datos-vulns-mundo".
+          mkdir -p _site/data/seguridad
+          if git fetch --depth 1 origin datos-vulns-mundo 2>/dev/null; then
+            git show FETCH_HEAD:seguridad/vulns_mundo.json > /tmp/vulns_mundo.json 2>/dev/null && mv /tmp/vulns_mundo.json _site/data/seguridad/ || true
           fi
           # Bitácora normativa (Caja del analista → Bitácora normativa): rama "datos-normativa", con historial.
           mkdir -p _site/data/normativa

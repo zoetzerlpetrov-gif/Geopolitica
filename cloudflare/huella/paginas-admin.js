@@ -32,8 +32,10 @@ import p29 from "../../patrocinios.html";
 import p30 from "../../plataforma.html";
 import p31 from "../../portafolio.html";
 import p32 from "../../pruebas.html";
-import p33 from "../../transporte.html";
-import p34 from "../../vulnerabilidades.html";
+import p33 from "../../revision-tecnica.html";
+import p34 from "../../transporte.html";
+import p35 from "../../vulnerabilidades.html";
+import p36 from "../../vulns-mundo.html";
 export default {
   "agenda": p0,
   "analista": p1,
@@ -68,6 +70,8 @@ export default {
   "plataforma": p30,
   "portafolio": p31,
   "pruebas": p32,
-  "transporte": p33,
-  "vulnerabilidades": p34,
+  "revision-tecnica": p33,
+  "transporte": p34,
+  "vulnerabilidades": p35,
+  "vulns-mundo": p36,
 };
