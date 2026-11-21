@@ -1,0 +1,6 @@
+{
+ "generado_utc": "2026-11-21T07:44:16Z",
+ "aviso": "Falta el permiso para leer y responder comentarios. En tu computadora vuelve a correr «python3 tools/noticiero_video/autorizar.py» (ahora pide subir videos y administrar comentarios) y reemplaza el secreto YT_REFRESH_TOKEN en GitHub con el valor nuevo.",
+ "videos": {},
+ "borradores": []
+}
