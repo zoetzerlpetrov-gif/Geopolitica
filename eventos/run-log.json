@@ -1,0 +1,356 @@
+{
+ "generado_utc": "2026-11-21T19:18:55Z",
+ "modo": "produccion",
+ "cron": "17 * * * *",
+ "intervalo_minutos": 60,
+ "proxima_ejecucion_utc": "2026-11-21T20:17:00Z",
+ "eventos_total": 3499,
+ "eventos_nuevos": 73,
+ "candidatos": 839,
+ "descartados": {
+  "fuera_de_ventana": 126,
+  "fuera_de_tema": 27,
+  "sin_clasificar": 221,
+  "red_social_sin_pais": 2,
+  "imagenes_portada": 47
+ },
+ "historial_borrados": 0,
+ "calidad": {
+  "eventos": 3499,
+  "sin_pais": 105,
+  "confianza_baja": 270,
+  "verificados": 13,
+  "con_varias_fuentes": 644,
+  "impacto_mexico": 1134,
+  "confianza_media": 0.64,
+  "por_area": {
+   "seguridad": 1787,
+   "instituciones": 535,
+   "geoeconomia": 323,
+   "tecnologia": 207,
+   "identidad": 193,
+   "energia": 96,
+   "geografia": 87,
+   "demografia": 69,
+   "clima": 64,
+   "regional": 58,
+   "riesgo": 38,
+   "infraestructura": 23,
+   "salud_nrbq": 19
+  },
+  "por_tipo_fuente": {
+   "noticia": 1653,
+   "base_datos": 1805,
+   "analisis": 3,
+   "red_social": 38
+  }
+ },
+ "ejemplos_sin_clasificar": [
+  {
+   "titulo": "French police officers sentenced for beating of music producer Michel Zecler",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/ck9d7e9wvvweo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Zelensky says Putin is a 'killer' after Trump calls Russian leader a friend",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cxnv4zvmdy0jo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Indian man sentenced to 19-plus years in plot to assassinate US-based Sikh separatist leader",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cq702ez8d4lwo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Miami or Vice City? Tour the real-world inspiration for GTA 6",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/videos/c8wy5d43zp9qo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "What the new UK-EU deal could mean for future post-Brexit relations",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/videos/c90k6gl3lyxeo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "These dead pets were meant to be cremated - then their bodies appeared on a livestream",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cmn502ek17yvo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "BUNDESLIGA: escuche el partido FC Schalke 04 vs. VfB Stuttgart",
+   "fuente": "DW Español",
+   "url": "https://www.dw.com/es/bundesliga-escuche-el-partido-fc-schalke-04-vs-vfb-stuttgart/a-80010680?maca=spa-rss-sp-all-1122-rdf"
+  },
+  {
+   "titulo": "Incendio en Irak deja al menos 4 muertos y 35 heridos",
+   "fuente": "DW Español",
+   "url": "https://www.dw.com/es/incendio-en-irak-deja-al-menos-4-muertos-y-35-heridos/a-80008442?maca=spa-rss-sp-all-1122-rdf"
+  },
+  {
+   "titulo": "Declaran culpable a sospechoso de iniciar letal incendio en Los Angeles en 2025",
+   "fuente": "DW Español",
+   "url": "https://www.dw.com/es/declaran-culpable-a-sospechoso-de-iniciar-letal-incendio-en-los-angeles-en-2025/a-80007540?maca=spa-rss-sp-all-1122-rdf"
+  },
+  {
+   "titulo": "Colombia: una reforma fiscal que desata el descontento",
+   "fuente": "DW Español",
+   "url": "https://www.dw.com/es/colombia-una-reforma-fiscal-que-desata-el-descontento/a-80006080?maca=spa-rss-sp-all-1122-rdf"
+  },
+  {
+   "titulo": "Conmebol ratifica su \"firme apoyo\" a la reelección de Infantino en la FIFA",
+   "fuente": "DW Español",
+   "url": "https://www.dw.com/es/conmebol-ratifica-su-firme-apoyo-a-la-reelección-de-infantino-en-la-fifa/a-80007323?maca=spa-rss-sp-all-1122-rdf"
+  },
+  {
+   "titulo": "The Beatles estrenan nuevo video de 'In My Life' que rinde homenaje a Liverpool",
+   "fuente": "DW Español",
+   "url": "https://www.dw.com/es/the-beatles-estrenan-nuevo-video-de-in-my-life-que-rinde-homenaje-a-liverpool/a-80005996?maca=spa-rss-sp-all-1122-rdf"
+  },
+  {
+   "titulo": "Potros, Schalke y Unión Berlín: el lado oscuro de la Bundesliga",
+   "fuente": "DW Español",
+   "url": "https://www.dw.com/es/potros-schalke-y-unión-berlín-el-lado-oscuro-de-la-bundesliga/a-80001685?maca=spa-rss-sp-all-1122-rdf"
+  },
+  {
+   "titulo": "La nueva generación alemana pide paso: las promesas de Klopp que quieren conquistar la Bundesliga",
+   "fuente": "DW Español",
+   "url": "https://www.dw.com/es/la-nueva-generación-alemana-pide-paso-las-promesas-de-klopp-que-quieren-conquistar-la-bundesliga/a-80001115?maca=spa-rss-sp-all-1122-rdf"
+  },
+  {
+   "titulo": "El mensaje de Pierce Brosnan a Robert Pattinson tras convertirse en James Bond",
+   "fuente": "DW Español",
+   "url": "https://www.dw.com/es/el-mensaje-de-pierce-brosnan-a-robert-pattinson-tras-convertirse-en-james-bond/a-79994161?maca=spa-rss-sp-all-1122-rdf"
+  }
+ ],
+ "resumen_ia": {
+  "proveedor": "local",
+  "modelo": "Qwen3-4B-Instruct-2507-Q4_K_M",
+  "resumidos": 1,
+  "rechazados": 5,
+  "motivos": {
+   "copia": 5
+  },
+  "errores": [],
+  "pendientes": 0
+ },
+ "fuentes": [
+  {
+   "id": "gdelt",
+   "nombre": "GDELT 2.0",
+   "estado": "ok",
+   "eventos": 135,
+   "segundos": 0.7,
+   "error": null
+  },
+  {
+   "id": "bbc",
+   "nombre": "BBC World",
+   "estado": "ok",
+   "eventos": 26,
+   "segundos": 0.6,
+   "error": null
+  },
+  {
+   "id": "dw",
+   "nombre": "DW Español",
+   "estado": "ok",
+   "eventos": 23,
+   "segundos": 0.4,
+   "error": null
+  },
+  {
+   "id": "france24",
+   "nombre": "France 24 Español",
+   "estado": "ok",
+   "eventos": 24,
+   "segundos": 0.3,
+   "error": null
+  },
+  {
+   "id": "elpais",
+   "nombre": "El País Internacional",
+   "estado": "error",
+   "eventos": 0,
+   "segundos": 0.2,
+   "error": "PermissionError: el robots.txt del sitio no permite leer este feed: se omite"
+  },
+  {
+   "id": "aljazeera",
+   "nombre": "Al Jazeera",
+   "estado": "ok",
+   "eventos": 25,
+   "segundos": 0.4,
+   "error": null
+  },
+  {
+   "id": "crisisgroup",
+   "nombre": "International Crisis Group",
+   "estado": "error",
+   "eventos": 0,
+   "segundos": 0.1,
+   "error": "PermissionError: el robots.txt del sitio no permite leer este feed: se omite"
+  },
+  {
+   "id": "cidob_bluesky",
+   "nombre": "CIDOB (Bluesky)",
+   "estado": "ok",
+   "eventos": 20,
+   "segundos": 0.8,
+   "error": null
+  },
+  {
+   "id": "mastodon_geopolitics",
+   "nombre": "Mastodon #geopolitics",
+   "estado": "ok",
+   "eventos": 20,
+   "segundos": 0.9,
+   "error": null
+  },
+  {
+   "id": "onu_noticias",
+   "nombre": "Noticias ONU",
+   "estado": "ok",
+   "eventos": 30,
+   "segundos": 0.3,
+   "error": null
+  },
+  {
+   "id": "jornada_politica",
+   "nombre": "La Jornada · Política",
+   "estado": "ok",
+   "eventos": 24,
+   "segundos": 0.3,
+   "error": null
+  },
+  {
+   "id": "jornada_economia",
+   "nombre": "La Jornada · Economía",
+   "estado": "ok",
+   "eventos": 9,
+   "segundos": 0.1,
+   "error": null
+  },
+  {
+   "id": "jornada_estados",
+   "nombre": "La Jornada · Estados",
+   "estado": "ok",
+   "eventos": 4,
+   "segundos": 0.1,
+   "error": null
+  },
+  {
+   "id": "infobae_mx",
+   "nombre": "Infobae México",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.6,
+   "error": null
+  },
+  {
+   "id": "eleconomista",
+   "nombre": "El Economista",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.4,
+   "error": null
+  },
+  {
+   "id": "elfinanciero",
+   "nombre": "El Financiero",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.5,
+   "error": null
+  },
+  {
+   "id": "expansion",
+   "nombre": "Expansión",
+   "estado": "ok",
+   "eventos": 39,
+   "segundos": 0.3,
+   "error": null
+  },
+  {
+   "id": "expansion_politica",
+   "nombre": "Expansión Política",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.8,
+   "error": null
+  },
+  {
+   "id": "elsoldemexico",
+   "nombre": "El Sol de México",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.7,
+   "error": null
+  },
+  {
+   "id": "zeta",
+   "nombre": "Zeta Tijuana",
+   "estado": "ok",
+   "eventos": 10,
+   "segundos": 0.3,
+   "error": null
+  },
+  {
+   "id": "piedepagina",
+   "nombre": "Pie de Página",
+   "estado": "ok",
+   "eventos": 10,
+   "segundos": 2.0,
+   "error": null
+  },
+  {
+   "id": "mvs",
+   "nombre": "MVS Noticias",
+   "estado": "ok",
+   "eventos": 80,
+   "segundos": 0.3,
+   "error": null
+  },
+  {
+   "id": "latinus",
+   "nombre": "Latinus",
+   "estado": "ok",
+   "eventos": 80,
+   "segundos": 0.2,
+   "error": null
+  },
+  {
+   "id": "oms",
+   "nombre": "OMS · brotes de enfermedades",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 1.8,
+   "error": null
+  },
+  {
+   "id": "ifrc",
+   "nombre": "Cruz Roja · emergencias (IFRC GO)",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 1.9,
+   "error": null
+  }
+ ],
+ "errores": [
+  "elpais: PermissionError: el robots.txt del sitio no permite leer este feed: se omite",
+  "crisisgroup: PermissionError: el robots.txt del sitio no permite leer este feed: se omite"
+ ],
+ "reportes": {
+  "mexico": {
+   "fecha": "2026-11-21",
+   "total": 290,
+   "pdf": true,
+   "ia": false
+  },
+  "global": {
+   "fecha": "2026-11-21",
+   "total": 1179,
+   "pdf": true,
+   "ia": false
+  }
+ }
+}
