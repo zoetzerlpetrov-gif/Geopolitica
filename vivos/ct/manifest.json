@@ -1,0 +1,70 @@
+{
+  "generated": "2026-11-21T17:02:41Z",
+  "sources": {
+    "fires": {
+      "count": 1915,
+      "updated": "2026-11-21T17:02:42Z",
+      "seconds": 1.2
+    },
+    "storms": {
+      "count": 0,
+      "updated": "2026-11-21T17:02:42Z",
+      "seconds": 0.0
+    },
+    "storm_tracks": {
+      "count": 0,
+      "updated": "2026-11-21T17:02:42Z",
+      "seconds": 0.0
+    },
+    "gdacs": {
+      "count": 0,
+      "updated": "2026-11-21T17:02:42Z",
+      "seconds": 0.0
+    },
+    "forecast": {
+      "count": 991,
+      "updated": "2026-11-21T17:05:55Z",
+      "seconds": 192.4
+    },
+    "airquality": {
+      "count": 0,
+      "updated": "2026-11-21T17:05:56Z",
+      "seconds": 1.1
+    },
+    "space": {
+      "count": 1,
+      "updated": "2026-11-21T17:05:56Z",
+      "seconds": 0.2
+    },
+    "security": {
+      "count": 0,
+      "updated": "2026-11-21T17:06:21Z",
+      "seconds": 24.7
+    },
+    "aviation_incidents": {
+      "count": 44,
+      "updated": "2026-11-21T17:06:22Z",
+      "seconds": 1.7
+    },
+    "severe_weather": {
+      "count": 16,
+      "updated": "2026-11-21T17:06:43Z",
+      "seconds": 20.2
+    },
+    "mass_movements": {
+      "count": 0,
+      "updated": "2026-11-21T17:08:07Z",
+      "seconds": 84.5
+    },
+    "advisories": {
+      "count": 0,
+      "updated": "2026-11-21T17:08:08Z",
+      "seconds": 0.5
+    },
+    "volcanoes": {
+      "count": 31,
+      "updated": "2026-11-21T17:08:08Z",
+      "seconds": 0.1
+    }
+  }
+}
