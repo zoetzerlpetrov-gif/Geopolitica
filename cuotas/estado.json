@@ -1,0 +1,429 @@
+{
+ "generado_utc": "2026-11-21T18:09:54+00:00",
+ "servicios": [
+  {
+   "id": "youtube_data",
+   "nombre": "YouTube Data API (subir video, comentarios, métricas)",
+   "secreto": "YT_REFRESH_TOKEN / YOUTUBE_API_KEY",
+   "limite": 10000,
+   "unidad": "unidades",
+   "periodo": "día",
+   "verificado": true,
+   "estimado": 1964.0,
+   "real": null,
+   "usado": 1964.0,
+   "pct": 0.1964,
+   "semaforo": "verde",
+   "detalle": [
+    {
+     "workflow": "noticiero-video.yml",
+     "corridas_dia": 1,
+     "llamadas_dia": 1700,
+     "nota": "subir video = 1,600 unidades + miniatura 50 + consultas"
+    },
+    {
+     "workflow": "comentarios-youtube.yml",
+     "corridas_dia": 1,
+     "llamadas_dia": 120,
+     "nota": "listar comentarios = 1 unidad por página; responder = 50"
+    },
+    {
+     "workflow": "vivos.yml",
+     "corridas_dia": 72,
+     "llamadas_dia": 144,
+     "nota": "métricas de videos (lectura)"
+    }
+   ],
+   "panel": "https://console.cloud.google.com/apis/api/youtube.googleapis.com/quotas",
+   "si_excede": "Pedir aumento de cuota en Google Cloud (gratis, con formulario de auditoría) o espaciar los comentarios.",
+   "uso_por_visitas": false
+  },
+  {
+   "id": "github_api",
+   "nombre": "API de GitHub (token de los workflows)",
+   "secreto": "GITHUB_TOKEN",
+   "limite": 1000,
+   "unidad": "peticiones",
+   "periodo": "hora",
+   "verificado": true,
+   "estimado": 0.0,
+   "real": {
+    "usado": 3,
+    "limite": 5000,
+    "restante": 4997,
+    "periodo": "hora"
+   },
+   "usado": 3,
+   "pct": 0.003,
+   "semaforo": "verde",
+   "detalle": [],
+   "panel": "https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api",
+   "si_excede": "Se reinicia cada hora; si se repite, espaciar el vigía o el estado de procesos.",
+   "uso_por_visitas": false
+  },
+  {
+   "id": "cloudflare_workers",
+   "nombre": "Cloudflare Workers (Admin, planes, legal, apariencia, vuelos)",
+   "secreto": "CLOUDFLARE_API_TOKEN",
+   "limite": 100000,
+   "unidad": "peticiones",
+   "periodo": "día",
+   "verificado": true,
+   "estimado": 0.0,
+   "real": {
+    "usado": 4748,
+    "periodo": "día"
+   },
+   "usado": 4748,
+   "pct": 0.0475,
+   "semaforo": "verde",
+   "detalle": [],
+   "panel": "https://dash.cloudflare.com/?to=/:account/workers/plans",
+   "si_excede": "Plan Workers Paid (USD 5 al mes, 10 millones de peticiones) o limitar llamadas por usuario.",
+   "uso_por_visitas": false
+  },
+  {
+   "id": "cloudflare_d1",
+   "nombre": "Cloudflare D1 (planes y datos de Admin)",
+   "secreto": "—",
+   "limite": 5000000,
+   "unidad": "filas leídas",
+   "periodo": "día",
+   "verificado": true,
+   "estimado": 0.0,
+   "real": null,
+   "usado": null,
+   "pct": null,
+   "semaforo": "sin_medicion",
+   "detalle": [],
+   "panel": "https://dash.cloudflare.com/?to=/:account/workers/d1",
+   "si_excede": "Plan Workers Paid o caché de consultas en el Worker.",
+   "uso_por_visitas": false
+  },
+  {
+   "id": "cloudflare_r2",
+   "nombre": "Cloudflare R2 (archivos grandes del mapa)",
+   "secreto": "CLOUDFLARE_API_TOKEN",
+   "limite": 10000000,
+   "unidad": "operaciones clase B",
+   "periodo": "mes",
+   "verificado": true,
+   "estimado": 0.0,
+   "real": null,
+   "usado": null,
+   "pct": null,
+   "semaforo": "sin_medicion",
+   "detalle": [],
+   "panel": "https://dash.cloudflare.com/?to=/:account/r2/overview",
+   "si_excede": "Se cobra por uso adicional (USD 0.36 por millón de operaciones clase B).",
+   "uso_por_visitas": false
+  },
+  {
+   "id": "firms",
+   "nombre": "NASA FIRMS (incendios)",
+   "secreto": "FIRMS_MAP_KEY",
+   "limite": 5000,
+   "unidad": "transacciones",
+   "periodo": "10 minutos",
+   "verificado": true,
+   "estimado": 1.5,
+   "real": null,
+   "usado": 1.5,
+   "pct": 0.0003,
+   "semaforo": "verde",
+   "detalle": [
+    {
+     "workflow": "vivos.yml",
+     "corridas_dia": 72,
+     "llamadas_dia": 216,
+     "nota": ""
+    }
+   ],
+   "panel": "https://firms.modaps.eosdis.nasa.gov/api/map_key/",
+   "si_excede": "Pedir a FIRMS una llave con más transacciones.",
+   "uso_por_visitas": false
+  },
+  {
+   "id": "banxico",
+   "nombre": "Banxico SIE (tipo de cambio, tasas)",
+   "secreto": "BANXICO_API_KEY",
+   "limite": null,
+   "unidad": "consultas",
+   "periodo": "día",
+   "verificado": false,
+   "estimado": 157.0,
+   "real": null,
+   "usado": 157.0,
+   "pct": null,
+   "semaforo": "sin_limite",
+   "detalle": [
+    {
+     "workflow": "vivos.yml",
+     "corridas_dia": 72,
+     "llamadas_dia": 144,
+     "nota": ""
+    },
+    {
+     "workflow": "economia.yml",
+     "corridas_dia": 1,
+     "llamadas_dia": 10,
+     "nota": ""
+    },
+    {
+     "workflow": "noticiero-video.yml",
+     "corridas_dia": 1,
+     "llamadas_dia": 3,
+     "nota": ""
+    }
+   ],
+   "panel": "https://www.banxico.org.mx/SieAPIRest/service/v1/token",
+   "si_excede": "verificar el límite en la documentación del SIE.",
+   "uso_por_visitas": false
+  },
+  {
+   "id": "inegi",
+   "nombre": "INEGI (indicadores y DENUE)",
+   "secreto": "INEGI_TOKEN / INEGI_DENUE_API_KEY",
+   "limite": null,
+   "unidad": "consultas",
+   "periodo": "día",
+   "verificado": false,
+   "estimado": 136.3,
+   "real": null,
+   "usado": 136.3,
+   "pct": null,
+   "semaforo": "sin_limite",
+   "detalle": [
+    {
+     "workflow": "economia.yml",
+     "corridas_dia": 1,
+     "llamadas_dia": 15,
+     "nota": ""
+    },
+    {
+     "workflow": "capas.yml",
+     "corridas_dia": 6.07,
+     "llamadas_dia": 121.3,
+     "nota": ""
+    }
+   ],
+   "panel": "https://www.inegi.org.mx/servicios/api_indicadores.html",
+   "si_excede": "verificar el límite con INEGI.",
+   "uso_por_visitas": false
+  },
+  {
+   "id": "comtrade",
+   "nombre": "ONU Comtrade (comercio por país)",
+   "secreto": "COMTRADE_API_KEY",
+   "limite": 500,
+   "unidad": "llamadas",
+   "periodo": "día",
+   "verificado": false,
+   "estimado": 72.0,
+   "real": null,
+   "usado": 72.0,
+   "pct": 0.144,
+   "semaforo": "verde",
+   "detalle": [
+    {
+     "workflow": "vivos.yml",
+     "corridas_dia": 72,
+     "llamadas_dia": 72,
+     "nota": ""
+    }
+   ],
+   "panel": "https://comtradedeveloper.un.org/",
+   "si_excede": "Bajar la frecuencia (el comercio es mensual) o pasar a la suscripción premium.",
+   "uso_por_visitas": false
+  },
+  {
+   "id": "ads",
+   "nombre": "NASA ADS (publicaciones)",
+   "secreto": "ADS_API_KEY",
+   "limite": 5000,
+   "unidad": "consultas",
+   "periodo": "día",
+   "verificado": true,
+   "estimado": 72.0,
+   "real": null,
+   "usado": 72.0,
+   "pct": 0.0144,
+   "semaforo": "verde",
+   "detalle": [
+    {
+     "workflow": "vivos.yml",
+     "corridas_dia": 72,
+     "llamadas_dia": 72,
+     "nota": ""
+    }
+   ],
+   "panel": "https://ui.adsabs.harvard.edu/user/settings/token",
+   "si_excede": "Bajar la frecuencia.",
+   "uso_por_visitas": false
+  },
+  {
+   "id": "aisstream",
+   "nombre": "AISStream (barcos)",
+   "secreto": "AISSTREAM_API_KEY",
+   "limite": null,
+   "unidad": "conexiones",
+   "periodo": "día",
+   "verificado": false,
+   "estimado": 72.0,
+   "real": null,
+   "usado": 72.0,
+   "pct": null,
+   "semaforo": "sin_limite",
+   "detalle": [
+    {
+     "workflow": "vivos.yml",
+     "corridas_dia": 72,
+     "llamadas_dia": 72,
+     "nota": ""
+    }
+   ],
+   "panel": "https://aisstream.io/",
+   "si_excede": "verificar condiciones de uso.",
+   "uso_por_visitas": false
+  },
+  {
+   "id": "gfw",
+   "nombre": "Global Fishing Watch",
+   "secreto": "SAUL_PRIVATE_GLOBALFISHINGWATCH",
+   "limite": null,
+   "unidad": "peticiones",
+   "periodo": "día",
+   "verificado": false,
+   "estimado": 72.0,
+   "real": null,
+   "usado": 72.0,
+   "pct": null,
+   "semaforo": "sin_limite",
+   "detalle": [
+    {
+     "workflow": "vivos.yml",
+     "corridas_dia": 72,
+     "llamadas_dia": 72,
+     "nota": ""
+    }
+   ],
+   "panel": "https://globalfishingwatch.org/our-apis/",
+   "si_excede": "verificar condiciones de uso.",
+   "uso_por_visitas": false
+  },
+  {
+   "id": "windy",
+   "nombre": "Windy Webcams",
+   "secreto": "WINDY_WEBCAMS_KEY",
+   "limite": null,
+   "unidad": "peticiones",
+   "periodo": "día",
+   "verificado": false,
+   "estimado": 353.3,
+   "real": null,
+   "usado": 353.3,
+   "pct": null,
+   "semaforo": "sin_limite",
+   "detalle": [
+    {
+     "workflow": "camaras.yml",
+     "corridas_dia": 1,
+     "llamadas_dia": 50,
+     "nota": ""
+    },
+    {
+     "workflow": "capas.yml",
+     "corridas_dia": 6.07,
+     "llamadas_dia": 303.3,
+     "nota": ""
+    }
+   ],
+   "panel": "https://api.windy.com/keys",
+   "si_excede": "verificar el plan gratuito en el panel de Windy.",
+   "uso_por_visitas": false
+  },
+  {
+   "id": "esri",
+   "nombre": "Esri (imagen satelital nítida)",
+   "secreto": "ESRI_API_KEY",
+   "limite": 2000000,
+   "unidad": "mosaicos de mapa base",
+   "periodo": "mes",
+   "verificado": false,
+   "estimado": 0.0,
+   "real": null,
+   "usado": null,
+   "pct": null,
+   "semaforo": "sin_medicion",
+   "detalle": [],
+   "panel": "https://location.arcgis.com/",
+   "si_excede": "Depende de las visitas al mapa satelital: limitar la capa a planes de pago o pasar a pago por uso.",
+   "uso_por_visitas": true
+  },
+  {
+   "id": "opensky",
+   "nombre": "OpenSky (aviones)",
+   "secreto": "OPENSKY_CLIENT_ID",
+   "limite": 4000,
+   "unidad": "créditos",
+   "periodo": "día",
+   "verificado": false,
+   "estimado": 0.0,
+   "real": null,
+   "usado": 0.0,
+   "pct": 0.0,
+   "semaforo": "verde",
+   "detalle": [
+    {
+     "workflow": "proxy-vuelos.yml",
+     "corridas_dia": 0,
+     "llamadas_dia": 0,
+     "nota": ""
+    }
+   ],
+   "panel": "https://opensky-network.org/my-opensky",
+   "si_excede": "Bajar la frecuencia de la instantánea de vuelos.",
+   "uso_por_visitas": false
+  },
+  {
+   "id": "sam",
+   "nombre": "SAM.gov (contratos de EUA)",
+   "secreto": "SAM_API_KEY",
+   "limite": 10,
+   "unidad": "peticiones",
+   "periodo": "día",
+   "verificado": false,
+   "estimado": 2.0,
+   "real": null,
+   "usado": 2.0,
+   "pct": 0.2,
+   "semaforo": "verde",
+   "detalle": [
+    {
+     "workflow": "fase23-fuentes.yml",
+     "corridas_dia": 1,
+     "llamadas_dia": 2,
+     "nota": ""
+    }
+   ],
+   "panel": "https://sam.gov/profile/details",
+   "si_excede": "Pedir rol en SAM.gov para subir el límite.",
+   "uso_por_visitas": false
+  }
+ ],
+ "limites_por_usuario": {
+  "_nota": "Topes sugeridos para no agotar las cuotas compartidas cuando haya clientes. Se aplican en el Worker por cuenta y por día (pendiente de activar).",
+  "recon": {
+   "busquedas_huella": 5,
+   "exportaciones": 10
+  },
+  "analyst": {
+   "busquedas_huella": 25,
+   "exportaciones": 50
+  },
+  "command": {
+   "busquedas_huella": 100,
+   "exportaciones": 200
+  }
+ }
+}
