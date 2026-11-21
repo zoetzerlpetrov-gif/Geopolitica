@@ -1,5 +1,5 @@
 {
- "generado_utc": "2026-11-21T10:09:19Z",
+ "generado_utc": "2026-11-21T20:43:04Z",
  "agregadas_hoy": 0,
  "resumen": {
   "en_curso": 12,
@@ -141,7 +141,7 @@
   {
    "id": "AG:576602014692",
    "detectado": "2026-11-19",
-   "actualizado": "2026-11-19",
+   "actualizado": "2026-11-21",
    "fuente": "Monitor de noticias (titular)",
    "ambito": "federal",
    "etapa": "aprobada_camara",
@@ -172,6 +172,12 @@
      "u": "https://rancherita.com.mx/noticias/detalles/200683/congreso-aprueba-nueva-ley-de-proteccion-animal-en-mexico-contempla-multas-de-hasta-234-mil-pesos-por-maltrato.html",
      "m": "rancherita.com.mx",
      "f": "2026-11-19"
+    },
+    {
+     "t": "Aprueban nueva ley de protección animal - Noticias Quadratín Chihuahua",
+     "u": "https://chihuahua.quadratin.com.mx/principal/aprueban-nueva-ley-de-proteccion-animal/",
+     "m": "quadratin.com.mx",
+     "f": "2026-11-21"
     }
    ],
    "temas": [
