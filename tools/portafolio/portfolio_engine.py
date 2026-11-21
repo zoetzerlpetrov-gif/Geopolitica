@@ -43,6 +43,49 @@ WATCHLIST = [
     "VT",             # Acciones de todo el mundo — USD
     "SCHD",           # Dividendos EE.UU. (calidad) — USD
     "NAFTRACISHRS.MX",# IPC México (BMV) — MXN
+    "IVVPESOISHRS.MX",# S&P 500 con cobertura al peso (BMV) — MXN
+    "IVV",            # iShares S&P 500 — USD
+    "SPY",            # SPDR S&P 500 — USD
+    "QQQM",           # Nasdaq-100 (versión de menor costo) — USD
+    "VUG",            # Crecimiento EE.UU. — USD
+    "VTV",            # Valor EE.UU. — USD
+    "ACWI",           # Acciones de todo el mundo (MSCI ACWI) — USD
+
+    # ===== ETFs de DIVIDENDOS =====
+    "VIG",            # Dividendos crecientes EE.UU. — USD
+    "VYM",            # Alto dividendo EE.UU. — USD
+
+    # ===== ETFs de SECTORES =====
+    "XLK",            # Tecnología EE.UU. — USD
+    "SMH",            # Semiconductores (VanEck) — USD
+    "SOXX",           # Semiconductores (iShares) — USD
+    "XLF",            # Financiero EE.UU. — USD
+    "XLE",            # Energía EE.UU. — USD
+    "XLV",            # Salud EE.UU. — USD
+    "XLU",            # Servicios públicos EE.UU. — USD
+
+    # ===== ETFs de BONOS (renta fija) =====
+    "SHV",            # Bonos del Tesoro 0-1 año — USD
+    "BIL",            # Cetes de EE.UU. 1-3 meses — USD
+    "IEF",            # Bonos del Tesoro 7-10 años — USD
+    "TLT",            # Bonos del Tesoro 20+ años — USD
+    "BND",            # Bonos EE.UU. total (Vanguard) — USD
+    "AGG",            # Bonos EE.UU. total (iShares) — USD
+
+    # ===== ETFs de ORO, PLATA y BIENES RAÍCES =====
+    "GLD",            # Oro (SPDR) — USD
+    "IAU",            # Oro (iShares, menor costo) — USD
+    "SLV",            # Plata — USD
+    "VNQ",            # Bienes raíces EE.UU. (REITs) — USD
+
+    # ===== ETFs INTERNACIONALES y por país =====
+    "EFA",            # Desarrollados ex-EE.UU. (MSCI EAFE) — USD
+    "EEM",            # Mercados emergentes (iShares) — USD
+    "EWW",            # México (MSCI Mexico, en dólares) — USD
+    "EWJ",            # Japón — USD
+    "MCHI",           # China — USD
+    "INDA",           # India — USD
+    "EWZ",            # Brasil — USD
 
     # ===== FIBRAS (bienes raíces México) =====
     "FUNO11.MX",      # Fibra Uno (diversificada) — MXN
@@ -371,11 +414,44 @@ META = {
     "VTI": ("Vanguard Total US Market", "ETFs / Índices"),
     "DIA": ("Dow Jones 30", "ETFs / Índices"),
     "IWM": ("Russell 2000 (small caps)", "ETFs / Índices"),
-    "VEA": ("Desarrollados ex-EE.UU.", "ETFs / Índices"),
-    "VWO": ("Mercados emergentes", "ETFs / Índices"),
-    "VT": ("Acciones mundiales", "ETFs / Índices"),
-    "SCHD": ("Dividendos EE.UU.", "ETFs / Índices"),
+    "VEA": ("Desarrollados ex-EE.UU.", "ETFs / Internacionales"),
+    "VWO": ("Mercados emergentes", "ETFs / Internacionales"),
+    "VT": ("Acciones mundiales", "ETFs / Internacionales"),
+    "SCHD": ("Dividendos EE.UU.", "ETFs / Dividendos"),
     "NAFTRACISHRS.MX": ("IPC México", "ETFs / Índices"),
+    "IVVPESOISHRS.MX": ("S&P 500 con cobertura al peso (BMV)", "ETFs / Índices"),
+    "IVV": ("iShares S&P 500", "ETFs / Índices"),
+    "SPY": ("SPDR S&P 500", "ETFs / Índices"),
+    "QQQM": ("Nasdaq-100 (bajo costo)", "ETFs / Índices"),
+    "VUG": ("Crecimiento EE.UU.", "ETFs / Índices"),
+    "VTV": ("Valor EE.UU.", "ETFs / Índices"),
+    "ACWI": ("Acciones mundiales (MSCI ACWI)", "ETFs / Internacionales"),
+    "VIG": ("Dividendos crecientes EE.UU.", "ETFs / Dividendos"),
+    "VYM": ("Alto dividendo EE.UU.", "ETFs / Dividendos"),
+    "XLK": ("Tecnología EE.UU.", "ETFs / Sectores"),
+    "SMH": ("Semiconductores (VanEck)", "ETFs / Sectores"),
+    "SOXX": ("Semiconductores (iShares)", "ETFs / Sectores"),
+    "XLF": ("Financiero EE.UU.", "ETFs / Sectores"),
+    "XLE": ("Energía EE.UU.", "ETFs / Sectores"),
+    "XLV": ("Salud EE.UU.", "ETFs / Sectores"),
+    "XLU": ("Servicios públicos EE.UU.", "ETFs / Sectores"),
+    "SHV": ("Bonos del Tesoro 0-1 año", "ETFs / Bonos"),
+    "BIL": ("Cetes de EE.UU. 1-3 meses", "ETFs / Bonos"),
+    "IEF": ("Bonos del Tesoro 7-10 años", "ETFs / Bonos"),
+    "TLT": ("Bonos del Tesoro 20+ años", "ETFs / Bonos"),
+    "BND": ("Bonos EE.UU. total (Vanguard)", "ETFs / Bonos"),
+    "AGG": ("Bonos EE.UU. total (iShares)", "ETFs / Bonos"),
+    "GLD": ("Oro (SPDR)", "ETFs / Oro y plata"),
+    "IAU": ("Oro (iShares)", "ETFs / Oro y plata"),
+    "SLV": ("Plata", "ETFs / Oro y plata"),
+    "VNQ": ("Bienes raíces EE.UU. (REITs)", "ETFs / Bienes raíces"),
+    "EFA": ("Desarrollados ex-EE.UU. (EAFE)", "ETFs / Internacionales"),
+    "EEM": ("Mercados emergentes (iShares)", "ETFs / Internacionales"),
+    "EWW": ("México (MSCI, en dólares)", "ETFs / Internacionales"),
+    "EWJ": ("Japón", "ETFs / Internacionales"),
+    "MCHI": ("China", "ETFs / Internacionales"),
+    "INDA": ("India", "ETFs / Internacionales"),
+    "EWZ": ("Brasil", "ETFs / Internacionales"),
     # FIBRAs
     "FUNO11.MX": ("Fibra Uno", "FIBRAs (bienes raíces)"),
     "FIBRAPL14.MX": ("Fibra Prologis", "FIBRAs (bienes raíces)"),
