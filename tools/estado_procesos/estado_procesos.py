@@ -218,12 +218,20 @@ def revisar(cfg, repo, sitio, token=None, ahora=None, get=_get):
                  "max_horas": p["max_horas"], "estado": "sin_datos", "detalle": f"No se pudo consultar GitHub: {type(e).__name__}"}
         workflows.append(w)
     datos = []
+    protegidos = None  # data/estado_protegidos.json: fechas y errores de los archivos que ya solo ve cada plan (sin contenido)
     for regla in cfg["datos"]:
         try:
             base = regla["archivo"] if regla["archivo"].startswith("http") else sitio.rstrip("/") + "/" + regla["archivo"]
             contenido = get(base + f"?r={int(ahora.timestamp())}")
         except Exception:  # noqa: BLE001
             contenido = None
+        if contenido is None and not regla["archivo"].startswith("http"):
+            if protegidos is None:
+                try:
+                    protegidos = get(sitio.rstrip("/") + f"/data/estado_protegidos.json?r={int(ahora.timestamp())}") or {}
+                except Exception:  # noqa: BLE001
+                    protegidos = {}
+            contenido = protegidos.get(regla["archivo"]) if isinstance(protegidos, dict) else None
         datos.append(evaluar_dato(regla, contenido, ahora))
     return {"fecha_utc": iso(ahora), "repositorio": repo, "sitio": sitio,
             "estado_global": global_de(workflows + datos), "workflows": workflows, "datos": datos}

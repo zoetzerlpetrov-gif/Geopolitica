@@ -54,6 +54,20 @@ jobs:
           /tmp/pw/node_modules/.bin/playwright install --with-deps chromium
       # El sitio público siempre muestra Demo (o el plan de la cuenta) y no acepta ?plan=; para probar cada plan se usa una
       # copia local del sitio (donde sí se simula el plan) con los datos reales de dominusosint.com (tools/e2e/servidor_local.py).
+      # Datos por plan (config/datos_por_plan.json activo): ya no están en el sitio público; la copia local los toma del
+      # bucket privado para que cada plan vea sus capas como en producción (no se publican: quedan en el runner).
+      - name: Datos por plan desde el bucket privado (solo para la copia local)
+        shell: bash
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then echo "::warning::Sin token de Cloudflare: las capas protegidas se verán vacías."; exit 0; fi
+          python3 -c "import json;c=json.load(open('config/datos_por_plan.json'));print('\n'.join(k for k in c['archivos'] if c.get('activo') and not k.endswith('/')))" > /tmp/protegidos.txt
+          n=0
+          while read -r f; do
+            [[ "$f" =~ ^data/[A-Za-z0-9_./-]+$ ]] || continue
+            mkdir -p "$(dirname "$f")"
+            npx --yes wrangler@4.158.0 r2 object get "dominus-datos-plan/$f" --remote --file "$f" >/dev/null 2>&1 && n=$((n+1)) || echo "No está en el bucket: $f"
+          done < /tmp/protegidos.txt
+          echo "Datos por plan descargados para la prueba: $n"
       - name: Copia local del sitio con los datos publicados
         run: |
           python3 tools/e2e/servidor_local.py 8000 &
