@@ -1,0 +1,107 @@
+{
+ "nivel": "alerta",
+ "racha_integridad": 9,
+ "ultima_senal_cf": null,
+ "generado_utc": "2026-11-21T19:44:48Z",
+ "proteccion": false,
+ "nivel_zona_previo": null,
+ "motivos": [
+  "Posible alteración: el index.html publicado no coincide con el del repositorio (dominusosint.com)."
+ ],
+ "detalle": {
+  "hora": "2026-11-21T19:44:48Z",
+  "sitios": [
+   {
+    "sitio": "Cloudflare Pages",
+    "url": "https://dominus-osint.pages.dev/",
+    "estado": 200,
+    "ms": 131,
+    "ok": true,
+    "integro": true
+   },
+   {
+    "sitio": "dominusosint.com",
+    "url": "https://dominusosint.com/",
+    "estado": 200,
+    "ms": 178,
+    "ok": true,
+    "integro": false
+   },
+   {
+    "sitio": "Worker admin",
+    "url": "https://admin.dominusosint.com/legal/datos.json",
+    "estado": 200,
+    "ms": 304,
+    "ok": true
+   }
+  ],
+  "cloudflare": null,
+  "github": {
+   "commits_extranos": [],
+   "alertas": {
+    "code_scanning": 29,
+    "secret_scanning": null,
+    "dependabot": null
+   }
+  },
+  "avisos": [
+   "Cloudflare: GraphQL 200: [{'message': \"Actor 'com.cloudflare.api.token.f0f693febd93a3cee595ade88ec22413' does not have permission 'com.cloudflare.api.account.zone.analytics.read' for zone 604bc03e9737"
+  ]
+ },
+ "historial": [
+  {
+   "hora": "2026-11-19T10:43:51Z",
+   "nivel": "normal",
+   "solicitudes": null,
+   "firewall": null
+  },
+  {
+   "hora": "2026-11-19T19:11:12Z",
+   "nivel": "normal",
+   "solicitudes": null,
+   "firewall": null
+  },
+  {
+   "hora": "2026-11-20T01:19:02Z",
+   "nivel": "alerta",
+   "solicitudes": null,
+   "firewall": null
+  },
+  {
+   "hora": "2026-11-20T08:40:40Z",
+   "nivel": "alerta",
+   "solicitudes": null,
+   "firewall": null
+  },
+  {
+   "hora": "2026-11-20T17:21:03Z",
+   "nivel": "alerta",
+   "solicitudes": null,
+   "firewall": null
+  },
+  {
+   "hora": "2026-11-20T23:15:18Z",
+   "nivel": "alerta",
+   "solicitudes": null,
+   "firewall": null
+  },
+  {
+   "hora": "2026-11-21T04:00:24Z",
+   "nivel": "alerta",
+   "solicitudes": null,
+   "firewall": null
+  },
+  {
+   "hora": "2026-11-21T12:32:08Z",
+   "nivel": "alerta",
+   "solicitudes": null,
+   "firewall": null
+  },
+  {
+   "hora": "2026-11-21T19:44:48Z",
+   "nivel": "alerta",
+   "solicitudes": null,
+   "firewall": null
+  }
+ ]
+}
