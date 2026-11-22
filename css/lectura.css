@@ -1,6 +1,11 @@
 /* Capa común de lectura. Sólo presentación; no cambia permisos, selección, datos ni acciones. */
 :root{--fondo:var(--bg);--panel:var(--surface);--panel2:var(--surface-2);--texto:var(--text);--texto2:var(--text-2);--muted:var(--text-2);--linea:var(--line);--acento:var(--accent);--rojo:var(--danger);--ok:var(--success);--warn:var(--warning);--barra:var(--surface);--caja:var(--surface-2)}
 body{background-color:var(--bg)!important;color:var(--text)!important;font-family:var(--font)!important}
+/* Fondos opacos: el texto no cambia de contraste por el mapa o una tabla que pase por detrás. */
+body .topbar,body .panel{background-color:var(--surface)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+body .topbar,body[data-fases-ui]>header{border-bottom-color:var(--accent)}
+body .topbar::after,body[data-fases-ui]>header::after{content:none}
+body .topbar h1>span,body .marca span{background:none!important;color:var(--text)!important;-webkit-text-fill-color:var(--text);filter:none}
 body :is(h1,h2,h3,h4){font-family:var(--font-titulos,var(--font))!important}
 body :is(.tarjeta,.card,.kpi,.caja,fieldset){background-color:var(--surface);color:var(--text);border-color:var(--line);border-radius:var(--radius)}
 body :is(input:not([type=color]):not([type=checkbox]):not([type=radio]),select,textarea,option){background-color:var(--surface);color:var(--text);border-color:var(--line);font-family:var(--font)}
