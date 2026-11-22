@@ -23,7 +23,7 @@ export function validarCorrida(e) {
     paginas: num(r.paginas), paginas_mal: num(r.paginas_mal), js: num(r.js), solo_admin_visible: num(r.solo_admin_visible), parpadeo: num(r.parpadeo),
     grave: num(r.grave),
     comprobaciones: (Array.isArray(r.comprobaciones) ? r.comprobaciones : []).slice(0, 40).map((c) => ({ nombre: texto(c?.nombre, 120), ok: c?.ok === true, detalle: texto(c?.detalle, 200) })).filter((c) => c.nombre),
-    problemas: lista_(r.problemas, 60, 240),
+    problemas: lista_(r.problemas, 60, 240), avisos: lista_(r.avisos, 60, 300),
   }));
   const u = e.unitarias && typeof e.unitarias === "object" ? e.unitarias : {};
   const unitarias = Object.fromEntries(["python", "js"].map((k) => [k, { pasan: num(u[k]?.pasan), fallan: num(u[k]?.fallan) }]));

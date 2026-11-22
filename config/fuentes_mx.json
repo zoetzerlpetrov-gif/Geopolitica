@@ -140,6 +140,26 @@
       "id": "adondevan",
       "nombre": "A dónde van los desaparecidos",
       "url": "https://adondevanlosdesaparecidos.org/feed/"
+    },
+    {
+      "id": "mvs",
+      "nombre": "MVS Noticias",
+      "url": "https://mvsnoticias.com/sitemaps/news.xml",
+      "idioma": "es",
+      "tipo": "noticia",
+      "formato": "sitemap_noticias",
+      "max_items": 80,
+      "pais_defecto": "MEX"
+    },
+    {
+      "id": "latinus",
+      "nombre": "Latinus",
+      "url": "https://latinus.us/sitemaps/news.xml",
+      "idioma": "es",
+      "tipo": "noticia",
+      "formato": "sitemap_noticias",
+      "max_items": 80,
+      "pais_defecto": "MEX"
     }
   ],
   "descartadas": [

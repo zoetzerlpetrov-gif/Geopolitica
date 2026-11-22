@@ -1,6 +1,8 @@
 // Apariencia del sitio: aplica a cualquier página los colores, tipografía, esquinas e íconos guardados en
 // Admin → Apariencia (Worker /apariencia/datos.json). Usa una copia en este navegador para pintar al instante y la
 // actualiza en segundo plano. Sin datos guardados, el sitio se ve como siempre (css/tema.css).
+import { tokensLectura } from './contraste.js';
+import { iniciarLectura } from './lectura-contraste.js';
 export const ENDPOINT = "https://admin.dominusosint.com/apariencia/datos.json";
 const CLAVE = "gp_apariencia";
 export const FUENTES = {
@@ -20,9 +22,10 @@ const EMOJI = /^[\p{Extended_Pictographic}\p{Regional_Indicator}️‍⃣\s]+/u;
 export function css(c) {
   if (!c || !c.claro || !c.oscuro) return "";
   const hex = (v) => (/^#[0-9a-f]{6}$/i.test(v || "") ? v : null);
-  const bloque = (m) => VARS.map((k) => (hex(c[m][k]) ? `--${k}:${c[m][k]};` : "")).join("");
+  const bloque = (m) => VARS.map((k) => (hex(c[m][k]) ? `--${k}:${c[m][k]};` : "")).join("")
+    + (VARS.every(k=>hex(c[m][k])) ? Object.entries(tokensLectura(c[m])).map(([k,v])=>`--${k}:${v};`).join('') : '');
   const f = FUENTES[c.fuente] || FUENTES.sistema, r = Math.max(0, Math.min(16, Number(c.radio) || 0));
-  const raiz = `--font:${f.cuerpo};--mono:${f.mono};--radius:${r}px;`;
+  const raiz = `--font:${f.cuerpo};--font-titulos:${f.titulos || f.cuerpo};--mono:${f.mono};--radius:${r}px;`;
   const titulos = f.titulos ? `h1,h2,h3,.grupo-tit,.ventana-tit,.marca span{font-family:${f.titulos};letter-spacing:.06em;font-weight:700}` : "";
   const mayus = c.titulos_mayusculas ? "h1,.grupo-tit{text-transform:uppercase}" : "";
   return `:root{${raiz}${bloque("claro")}}:root[data-theme="dark"]{${bloque("oscuro")}}@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){${bloque("oscuro")}}}body{font-family:var(--font)}${titulos}${mayus}`;
@@ -46,9 +49,14 @@ function ocultarIconos(raiz) {
 
 let observador = null;
 export function aplicar(c, doc = document) {
+  if(!doc.getElementById('apariencia-lectura')){
+    const l=doc.createElement('link');l.id='apariencia-lectura';l.rel='stylesheet';l.href=new URL('../css/lectura.css',import.meta.url).href;
+    l.onload=()=>iniciarLectura(doc)?.revisar();doc.head.append(l);
+  }
   let st = doc.getElementById("apariencia-css");
   if (!st) { st = doc.createElement("style"); st.id = "apariencia-css"; doc.head.append(st); }
   st.textContent = css(c);
+  if(doc.body)iniciarLectura(doc);else doc.addEventListener('DOMContentLoaded',()=>iniciarLectura(doc),{once:true});
   if (c && FUENTES[c.fuente] && c.fuente !== "sistema" && !doc.getElementById("apariencia-fuentes")) {
     const l = doc.createElement("link"); l.id = "apariencia-fuentes"; l.rel = "stylesheet";
     l.href = new URL("../vendor/fonts/fuentes.css", import.meta.url).href;

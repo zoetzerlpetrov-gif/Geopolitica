@@ -1,0 +1,25 @@
+/* Capa común de lectura. Sólo presentación; no cambia permisos, selección, datos ni acciones. */
+:root{--fondo:var(--bg);--panel:var(--surface);--panel2:var(--surface-2);--texto:var(--text);--texto2:var(--text-2);--muted:var(--text-2);--linea:var(--line);--acento:var(--accent);--rojo:var(--danger);--ok:var(--success);--warn:var(--warning);--barra:var(--surface);--caja:var(--surface-2)}
+body{background-color:var(--bg)!important;color:var(--text)!important;font-family:var(--font)!important}
+body :is(h1,h2,h3,h4){font-family:var(--font-titulos,var(--font))!important}
+body :is(.tarjeta,.card,.kpi,.caja,fieldset){background-color:var(--surface);color:var(--text);border-color:var(--line);border-radius:var(--radius)}
+body :is(input:not([type=color]):not([type=checkbox]):not([type=radio]),select,textarea,option){background-color:var(--surface);color:var(--text);border-color:var(--line);font-family:var(--font)}
+body button{font-family:var(--font)}
+body :is(button,input,select,textarea):disabled{opacity:1;color:var(--text-2);cursor:not-allowed}
+body :is(input,textarea)::placeholder{color:var(--text-2);opacity:1}
+body :is(.meta,.ayuda,.muted,.text-muted){color:var(--text-2);opacity:1}
+body .hecho{opacity:1}
+body :is(.sev-alta,.sev-high,.estado-error,.cf-aviso){color:var(--danger)}
+body :is(.sev-media,.sev-medium,.estado-pend){color:var(--warning)}
+body :is(.sev-baja,.sev-low,.estado-ok){color:var(--success)}
+body :is(.sev-info,.sev-informativa){color:var(--text-2)}
+body :is(.sev-critica,.sev-critical){background:#8b0000;color:#fff}
+body :is(.aviso,.pendiente){background-color:var(--warn-bg);color:var(--warn-text)}
+body :is(button[aria-selected=true],button[aria-pressed=true],.btn-primary,.barra button.si){background-color:var(--accent);color:var(--on-accent)}
+body :is(a,button,input,select,textarea,summary):focus-visible{outline-color:var(--focus-safe)!important}
+body a{color:var(--link)}
+body .maplibregl-ctrl-icon{filter:var(--icon-filter)}
+/* El corrector sólo se activa si el color autoral falla contra su fondo real. */
+[data-lectura-color]{color:var(--lectura-color)!important}
+svg text[data-lectura-color]{fill:var(--lectura-color)!important}
+@media print{body{background:#fff!important;color:#000!important}[data-lectura-color]{color:#000!important}}

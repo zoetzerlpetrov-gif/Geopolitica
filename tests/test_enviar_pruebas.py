@@ -13,6 +13,15 @@ def test_cuenta_pytest_y_node():
     assert E.contar_pytest("") == (0, 0)
 
 
+def test_cero_coincidencias_no_oculta_fallo_de_carga():
+    cero = {'nombre': 'Asaltos', 'resultado': '0'}
+    fallo = {'nombre': 'Casetas', 'resultado': 'sin respuesta en 30 s'}
+    assert E.estado_capa(cero) == 'sin_coincidencias'
+    assert E.estado_capa(fallo) == 'error'
+    assert not E.problemas({'capas': [cero]}) and E.avisos_capas({'capas': [cero]})
+    assert E.problemas({'capas': [fallo]}) and not E.avisos_capas({'capas': [fallo]})
+
+
 def test_resumen_por_rol_cuenta_graves_y_lista_problemas():
     informe = {"resultados": [{
         "rol": "demo", "arranque_s": 12, "errores": [{"tipo": "js", "msg": "x is undefined"}, {"tipo": "datos", "msg": "HTTP 404"}],
@@ -25,5 +34,5 @@ def test_resumen_por_rol_cuenta_graves_y_lista_problemas():
     r = c["roles"][0]
     assert (r["js"], r["pegadas"], r["paginas_mal"], r["vacias"]) == (1, 1, 1, 1)
     assert r["grave"] == 1 + 1 + 1 + 1 + 1  # JS, imagen, página, comprobación y parpadeo
-    assert any("Mejorar plan" in p for p in r["problemas"]) and any("aviso" in p for p in r["problemas"])
+    assert any("Mejorar plan" in p for p in r["problemas"]) and r["avisos"] and not any("Capa vacía" in p for p in r["problemas"])
     assert c["unitarias"] == {"python": {"pasan": 912, "fallan": 0}, "js": {"pasan": 784, "fallan": 0}}

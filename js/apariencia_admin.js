@@ -3,6 +3,8 @@
 // sesión de administración) y todas las páginas lo aplican en menos de un minuto.
 import { aplicar, FUENTES, DEFECTO } from "./apariencia.js";
 import { enAdmin } from "./admin_origen.js";
+import { contraste, revisarPaleta } from './contraste.js';
+export { contraste };
 
 export const PRESETS = {
   actual: { nombre: "DOMINUS actual", fuente: "sistema", radio: 8, iconos: "mostrar", titulos_mayusculas: false,
@@ -19,23 +21,8 @@ export const PRESETS = {
 export const NOMBRES = { bg: "Fondo", surface: "Paneles", "surface-2": "Campos y botones", text: "Texto", "text-2": "Texto secundario", line: "Líneas", accent: "Acento (enlaces, selección)", focus: "Foco del teclado" };
 
 /** Contraste WCAG entre dos colores #RRGGBB. */
-export function contraste(a, b) {
-  const lum = (h) => { const c = [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16) / 255).map((v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4)); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; };
-  const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m);
-  return Math.round(((x + 0.05) / (y + 0.05)) * 10) / 10;
-}
-
 /** Avisos de accesibilidad (WCAG 2.2 AA: 4.5 para texto, 3 para elementos grandes o de interfaz). */
-export function revisar(c) {
-  const out = [];
-  for (const m of ["claro", "oscuro"]) {
-    const t = c[m];
-    if (contraste(t.text, t.surface) < 4.5) out.push(`${m}: el texto sobre los paneles tiene contraste ${contraste(t.text, t.surface)} (mínimo 4.5).`);
-    if (contraste(t["text-2"], t.surface) < 4.5) out.push(`${m}: el texto secundario tiene contraste ${contraste(t["text-2"], t.surface)} (mínimo 4.5).`);
-    if (contraste(t.accent, t.surface) < 3) out.push(`${m}: el acento tiene contraste ${contraste(t.accent, t.surface)} con los paneles (mínimo 3).`);
-  }
-  return out;
-}
+export const revisar = revisarPaleta;
 
 export async function iniciar(doc = document) {
   const $ = (id) => doc.getElementById(id);
@@ -55,7 +42,7 @@ export async function iniciar(doc = document) {
     aplicar(c);
     const f = $("ap-mapa"); try { f.contentWindow?.postMessage({ tipo: "apariencia-vista", datos: c }, location.origin); } catch { /* */ }
     const av = revisar(c);
-    $("ap-revision").innerHTML = av.length ? `<ul>${av.map((x) => `<li>⚠️ ${x}</li>`).join("")}</ul>` : "<p>✅ Cumple el contraste mínimo de WCAG 2.2 AA en ambos temas.</p>";
+    $("ap-revision").innerHTML = av.length ? `<ul>${av.map((x) => `<li>⚠️ ${x}</li>`).join("")}</ul>` : "<p>Paleta verificada: texto y enlaces ≥ 4.5:1 sobre fondo, paneles y campos; foco ≥ 3:1 en ambos temas. La revisión de componentes y contenido se realiza además en las pruebas del sitio.</p>";
   };
   $("ap-presets").addEventListener("click", (e) => { const b = e.target.closest("[data-preset]"); if (!b) return; c = { ...structuredClone(PRESETS[b.dataset.preset]), preset: b.dataset.preset }; poner(); vista(); });
   doc.addEventListener("input", (e) => {
@@ -70,6 +57,7 @@ export async function iniciar(doc = document) {
   });
   $("ap-tema").addEventListener("click", () => { const h = doc.documentElement, osc = h.dataset.theme !== "dark"; h.dataset.theme = osc ? "dark" : "light"; });
   $("ap-guardar").addEventListener("click", async () => {
+    const problemas=revisar(c);if(problemas.length){$("ap-estado").textContent='No se publica una paleta con contraste insuficiente: '+problemas[0];return;}
     if (!enWorker) { $("ap-estado").textContent = "Para publicar, abre esta página desde 🔐 Acceso administrativo."; return; }
     $("ap-estado").textContent = "Guardando…";
     try {

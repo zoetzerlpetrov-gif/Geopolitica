@@ -6,11 +6,16 @@ import css from "./assets/huella.css";
 import client from "./assets/huella.js.txt";
 import paginasAdmin from "./paginas-admin.js";  // páginas de administración empaquetadas (sin pasar por /ops/)
 import { serve } from "./service.js";
+import lectura from '../../css/lectura.css';
+import { css as cssApariencia, DEFECTO } from '../../js/apariencia.js';
+import { leer as leerApariencia } from '../apariencia/service.js';
+import { TEMA_JS } from '../apariencia/tema-publico.js';
 
 const assets = new Map([
   ["", [page, "text/html; charset=utf-8"]],
   ["ingreso", [login, "text/html; charset=utf-8"]],
   ["huella.css", [css, "text/css; charset=utf-8"]],
+  ["tema.js", [TEMA_JS, "text/javascript; charset=utf-8"]],
   ["huella.js", [client, "text/javascript; charset=utf-8"]]
 ]);
 
@@ -26,6 +31,12 @@ export function endurecer(respuesta) {
 
 export default {
   async fetch(request, env) {
-    return endurecer(await serve(request, env, assets, paginasAdmin));
+    let respuesta = await serve(request, env, assets, paginasAdmin);
+    const path = new URL(request.url).pathname;
+    if(respuesta.ok && (path === '/admin/huella/huella.css' || path === '/cuenta/cuenta.css')) {
+      const c = await leerApariencia(env.OSINT_PLANS_DB).catch(()=>null);
+      respuesta = new Response('@import url("https://dominusosint.com/vendor/fonts/fuentes.css");\n'+await respuesta.text()+'\n'+lectura+'\n'+cssApariencia(c?.claro?c:DEFECTO), respuesta);
+    }
+    return endurecer(respuesta);
   }
 };
