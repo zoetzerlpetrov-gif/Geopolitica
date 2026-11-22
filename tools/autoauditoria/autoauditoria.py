@@ -10,6 +10,7 @@ Puntaje: cumple = 1, parcial = 0.5, no cumple = 0; «no aplica» y «sin evaluar
 Uso: python3 tools/autoauditoria/autoauditoria.py <carpeta de salida>   → ultimo.json e historial.json
      (sin carpeta, solo imprime el resumen). Con --sin-pruebas no corre pytest ni node (más rápido).
 """
+import ast
 import json
 import os
 import re
@@ -80,15 +81,39 @@ def codigo_seguro(cfg):
     return r("cumple", f"Sin eval; {n} inserciones de HTML sin esc() revisadas a mano (solo números o texto propio).")
 
 
+def patrones_inyeccion(texto):
+    """Indicios estáticos en llamadas Python reales, no en regex, comentarios o fixtures de prueba."""
+    sql, shell = False, False
+    for n in ast.walk(ast.parse(texto)):
+        if not isinstance(n, ast.Call):
+            continue
+        nombre = n.func.attr if isinstance(n.func, ast.Attribute) else n.func.id if isinstance(n.func, ast.Name) else ''
+        if nombre in ('execute', 'text') and n.args:
+            a = n.args[0]
+            sql |= isinstance(a, ast.JoinedStr) or (isinstance(a, ast.BinOp) and isinstance(a.op, (ast.Mod, ast.Add))) or (isinstance(a, ast.Call) and isinstance(a.func, ast.Attribute) and a.func.attr == 'format')
+        shell |= any(k.arg == 'shell' and isinstance(k.value, ast.Constant) and k.value.value is True for k in n.keywords)
+        shell |= isinstance(n.func, ast.Attribute) and isinstance(n.func.value, ast.Name) and n.func.value.id == 'os' and n.func.attr == 'system'
+    return sql, shell
+
+
 def inyeccion(cfg):
-    sql = [f for f in archivos(".py") if re.search(r"execute\(\s*f[\"']|execute\([^)\n]*%\s|execute\([^)\n]*\.format\(|\btext\(\s*f[\"']", leer(f))]
-    shell = [f for f in archivos(".py") if re.search(r"shell\s*=\s*True|os\.system\(", leer(f))]
+    sql, shell, sin_analizar = [], [], []
+    for f in archivos('.py'):
+        try:
+            q, s = patrones_inyeccion(leer(f))
+        except SyntaxError:
+            sin_analizar.append(f)
+            continue
+        if q: sql.append(f)
+        if s: shell.append(f)
     cod = codigo_seguro(cfg)
     if sql or shell:
         return r("no_cumple", f"SQL o comandos armados con texto en: {', '.join((sql + shell)[:6])}")
+    if sin_analizar:
+        return r('parcial', 'Requiere revisión: Python no analizable en ' + ', '.join(sin_analizar[:6]))
     if cod["estado"] != "cumple":
         return r("parcial", "SQL parametrizado; " + cod["detalle"])
-    return r("cumple", "SQL solo con consultas parametrizadas (SQLAlchemy), comandos sin shell y HTML externo escapado.")
+    return r("cumple", "Sin indicios estáticos de SQL interpolado o shell=True en llamadas Python; no sustituye revisión de flujos de datos y escape de salidas.")
 
 
 def actions_inyeccion(cfg):

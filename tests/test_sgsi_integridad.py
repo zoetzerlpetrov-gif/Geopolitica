@@ -49,6 +49,17 @@ def test_scripts_o_atributos_no_autorizados_nunca_se_ocultan():
     assert V.huella_index(texto) != V.huella_index(BASE)
     texto, nombres = V.normalizar_publicacion(publicado(beacon()), 'https://otro.example/')
     assert not nombres and V.huella_index(texto) != V.huella_index(BASE)
+    texto, _ = V.normalizar_publicacion(BASE.encode().replace(b'DOMINUS', b'DOMINUS\xff'), 'https://dominusosint.com/')
+    assert V.huella_index(texto) != V.huella_index(BASE)
+
+
+def test_detector_distingue_llamadas_reales_de_textos_y_no_oculta_inyeccion():
+    assert A.patrones_inyeccion('ejemplo = \'cursor.execute(f"{usuario}") y shell=True\'') == (False, False)
+    assert A.patrones_inyeccion('cursor.execute(f"SELECT {usuario}")') == (True, False)
+    assert A.patrones_inyeccion('cursor.execute("SELECT ?", (usuario,))') == (False, False)
+    assert A.patrones_inyeccion('cursor.execute("SELECT " + usuario)') == (True, False)
+    assert A.patrones_inyeccion('subprocess.run(comando, shell=True)') == (False, True)
+    assert A.patrones_inyeccion('os.system(comando)') == (False, True)
 
 
 def test_evidencia_manual_no_se_inventa_aprobacion_ni_operacion(monkeypatch):

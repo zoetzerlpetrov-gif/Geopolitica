@@ -80,7 +80,7 @@ def normalizar_publicacion(contenido, url, reglas=None):
     Atributos adicionales, duplicados, código inline o cambios de token/SRI/versiones
     no se reconocen. El resto del documento se compara completo contra el repositorio.
     """
-    t = contenido.decode("utf-8", "strict") if isinstance(contenido, bytes) else str(contenido)
+    t = contenido.decode("utf-8", "replace") if isinstance(contenido, bytes) else str(contenido)
     if reglas is None:
         with open(os.path.join(ROOT, "config", "integridad_publicacion.json"), encoding="utf-8") as f:
             reglas = json.load(f)["transformaciones"]
