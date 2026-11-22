@@ -1,5 +1,5 @@
 // Página «Mi cuenta DOMINUS» (admin.dominusosint.com/cuenta/): mismo lenguaje visual del sitio (paleta táctica, acento
-// dorado, cruz templaria, tipografías Barlow Condensed e IBM Plex del propio sitio). Sin JavaScript. Todo el texto variable
+// dorado, cruz templaria, tipografías Barlow Condensed e IBM Plex del propio sitio). Sólo el script local de tema. Todo el texto variable
 // pasa por esc(). El CSS se sirve aparte en /cuenta/cuenta.css para que la CSP no permita estilos en línea.
 import config from "../../config/planes.json" with { type: "json" };
 
@@ -55,7 +55,7 @@ export function paginaCuenta({ plan = null, fallo = false, google = true } = {})
       <div class="acciones">${google ? `<a class="btn google" href="google">${G} Continuar con Google</a>` : ""}
         <a class="btn" href="${SITIO}/planes.html">Ver planes y precios</a><a class="btn" href="${SITIO}/">Ver el mapa sin cuenta</a>
         <p class="nota">¿Tu plan está ligado a GitHub? <a href="ingreso">Entrar con GitHub</a></p></div></div>`;
-  return `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="color-scheme" content="dark light"><title>Mi cuenta · DOMINUS OSINT</title><link rel="stylesheet" href="cuenta.css"></head>
+  return `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="color-scheme" content="dark light"><title>Mi cuenta · DOMINUS OSINT</title><link rel="stylesheet" href="cuenta.css"><script src="tema.js" defer></script></head>
 <body><header class="barra"><a class="marca" href="${SITIO}/">${CRUZ} DOMINUS OSINT</a><a class="volver" href="${SITIO}/">← Regresar al Mapa</a></header>
 <main><section class="tarjeta">${cuerpo}</section></main><footer>Cuenta protegida: inicio de sesión con Google, sin contraseñas guardadas en DOMINUS.</footer></body></html>`;
 }

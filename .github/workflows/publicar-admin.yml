@@ -1,0 +1,32 @@
+name: Publicar administración (Cloudflare Worker)
+on:
+  push:
+    branches: [main]
+    paths: ['cloudflare/**', '*.html', 'config/paginas_admin.json', 'css/lectura.css', 'js/apariencia.js', 'js/contraste.js', '.github/workflows/publicar-admin.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: dominus-publicar-admin
+  cancel-in-progress: false
+jobs:
+  pruebas:
+    uses: ./.github/workflows/ci.yml
+  publicar:
+    needs: pruebas
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Comprobar y publicar Worker existente (sin migrar bases)
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || vars.CLOUDFLARE_ACCOUNT_ID }}
+          WRANGLER_SEND_METRICS: 'false'
+        run: |
+          python3 tools/pages/paginas_worker.py
+          npx --yes wrangler@4.158.0 deploy --dry-run --config cloudflare/huella/wrangler.toml
+          npx --yes wrangler@4.158.0 deploy --config cloudflare/huella/wrangler.toml --keep-vars

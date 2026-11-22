@@ -28,7 +28,10 @@ TIPOS = [
      r"|\bcargo theft|\btruck hijack|\bhijacked (truck|trailer|cargo)|\btrain robbery"),
     ("robo_publico", "Asalto en transporte público", r"\basalt\w* (en |a |al )?(el |un |una |los |las )?(transporte publico|combis?|microbus(es)?|autobus(es)?|camion(es)? (de pasajeros|urbanos?|de ruta)|metrobus|mexibus|unidad(es)? (de transporte|del transporte publico)|pasajeros|colectivos?|vagoneta)\b"
      r"|\brob(o|os|an|aron) (en|a) (el |un |una |los |las )?(transporte publico|pasajeros|combis?|microbus(es)?|autobus(es)?|camion(es)? (de pasajeros|urbanos?)|colectivos?)\b"
-     r"|\batraco (en|a) (un |una |el )?(combi|autobus|microbus|colectivo|transporte publico)\b|\bbus robbery"),
+     r"|\batraco (en|a) (un |una |el )?(combi|autobus|microbus|colectivo|transporte publico)\b|\bbus robbery"
+     r"|\b(asaltad[oa]s?|robados?|asaltan|roban) (a )?(los |las |un[oa]s? )?(usuarios?|viajeros?) (de |del |en )(el |la |un |una )?(transporte publico|combi|autobus|microbus|metrobus|colectivo)\b"
+     r"|\b(bus|coach) passengers? (robbed|mugged)\b"
+     r"|\b(usuarios?|pasajeros?) (de |del )(un |una |el |la )?(transporte publico|autobus|combi|microbus|colectivo)\b.{0,45}\b(asaltados?|robados?)\b"),
     # Incluye los asaltos carreteros a automovilistas («asalto múltiple en la Orizaba-Puebla»).
     ("robo_vehiculo", "Robo de vehículo", r"\basalt\w* (multiple |masivo |carretero )?(a automovilistas )?(en|sobre) la (carretera|autopista|federal|[a-z]+-[a-z]+)\b|\brobo (de|del) (su )?(auto|automovil|vehiculo|camioneta|moto|motocicleta|coche|carro)s?\b|\brobo de (autos|vehiculos|camionetas|motos)\b"
      r"|\broban (un |una |su )?(auto|vehiculo|camioneta|moto|coche|carro)\b|\bcarjack|\bcar theft|\bstolen (car|vehicle)s?\b|\bdespoja(n|ron)? de su (vehiculo|camioneta|auto|coche|carro)\b"),

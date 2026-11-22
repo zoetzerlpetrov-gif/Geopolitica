@@ -14,7 +14,7 @@ import { ingesta as ingestaPruebas, consulta as consultaPruebas } from "../prueb
 const ROOT = "/admin/huella/";
 const HEADERS = {
   "Cache-Control": "private, no-store",
-  "Content-Security-Policy": `default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src ${avatarOrigins.join(" ")}; base-uri 'none'; frame-ancestors 'none'; form-action 'none'`,
+  "Content-Security-Policy": `default-src 'none'; script-src 'self'; style-src 'self' https://dominusosint.com; font-src https://dominusosint.com; connect-src 'self'; img-src ${avatarOrigins.join(" ")}; base-uri 'none'; frame-ancestors 'none'; form-action 'none'`,
   "Referrer-Policy": "no-referrer",
   "X-Content-Type-Options": "nosniff"
 };
@@ -301,7 +301,7 @@ export async function serve(request, env, assets, paginasAdmin = {}) {
   if (request.method === "GET") {
     if (route === "oauth/inicio") return begin(url, env, ROOT);
     if (route === "oauth/callback") return complete(request, url, env, ROOT, (id) => activePlan(env.OSINT_PLANS_DB, id));
-    if (route === "ingreso" || route === "huella.css") {
+    if (route === "ingreso" || route === "huella.css" || route === "tema.js") {
       const [body, type] = assets.get(route);
       const reason = route === "ingreso" && LOGIN_MESSAGES.get(url.searchParams.get("estado"));
       const message = reason ? `<p role="alert">${reason}</p>` : "";

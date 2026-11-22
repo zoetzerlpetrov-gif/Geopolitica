@@ -1,0 +1,36 @@
+name: Contraste claro y oscuro
+on:
+  pull_request:
+  push:
+    branches: [main]
+    paths: ['css/**', 'js/apariencia*.js', 'js/contraste.js', 'js/lectura-contraste.js', '*.html', 'tools/pruebas/contraste.mjs', 'cloudflare/apariencia/**', 'cloudflare/huella/assets/*.html', 'cloudflare/planes/cuenta-ui.js', '.github/workflows/contraste.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  lectura:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Chromium y motor independiente de contraste
+        run: |
+          npm install --prefix /tmp/pw --no-save --no-audit --no-fund playwright@1.62.1 axe-core@4.14.1
+          /tmp/pw/node_modules/.bin/playwright install --with-deps chromium
+      - name: Recorrer páginas en ambos temas (sin cuentas ni datos privados)
+        env:
+          PW_ROOT: /tmp/pw
+        run: |
+          python3 tools/pages/fuentes_pagina.py fuentes.html
+          python3 -m http.server 8765 --bind 127.0.0.1 > /tmp/contraste-http.log 2>&1 &
+          node tools/pruebas/contraste.mjs
+      - name: Evidencia de contraste y capturas de fallos
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: contraste-claro-oscuro
+          path: e2e/contraste/
+          retention-days: 7

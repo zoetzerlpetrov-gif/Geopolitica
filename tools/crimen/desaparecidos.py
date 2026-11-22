@@ -25,7 +25,7 @@ TIPOS = [
      r"\b(madres|colectivos?|familias|brigadas?) (de )?buscador(as|es)\b|\bcolectivos? de (busqueda|familias)\b|\bbrigada (nacional )?de busqueda\b"
      r"|\bcomision (nacional|estatal|local) de busqueda\b|\bjornada de busqueda\b|\bbusqueda en vida\b|\bsearch(ing)? mothers\b"),
     ("identificacion", "Identificación de restos y registros",
-     r"\bidentifica(n|ron|cion)? (de )?(restos|cuerpos|osamentas)\b|\bbanco (nacional )?de datos forenses\b|\bcentro (regional )?de identificacion humana\b"
+     r"\bidentific(?:acion|a(?:n|ron)?|o|ados?|adas?) (de )?(los |las |unos? |unas? )?((?:\d+|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez|varios) )?(restos|cuerpos|osamentas)\b|\bbanco (nacional )?de datos forenses\b|\bcentro (regional )?de identificacion humana\b"
      r"|\bcrisis forense\b|\bcuerpos sin identificar\b|\bregistro nacional de personas desaparecidas\b|\brnpdno\b|\bunidentified (bodies|remains)\b"),
     ("desaparicion", "Desaparición de personas",
      r"\bdesaparicion(es)? (forzada|de personas|de (un|una|dos|tres|\d+) )|\bpersonas? desaparecidas?\b|\bdesaparecid[oa]s\b|\bno localizad[oa]s?\b"

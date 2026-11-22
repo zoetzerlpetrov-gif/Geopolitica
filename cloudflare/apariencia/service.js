@@ -1,6 +1,7 @@
 // Apariencia del sitio (apariencia.html, solo admin): colores, tipografías, esquinas e íconos. Se guarda en la D1 del
 // Worker y todas las páginas la leen de /apariencia/datos.json (js/apariencia.js). Solo valores de una lista cerrada o
 // colores hexadecimales: no se acepta CSS libre.
+import { revisarPaleta } from '../../js/contraste.js';
 export const COLORES = ["bg", "surface", "surface-2", "text", "text-2", "line", "accent", "focus"];
 export const FUENTES = ["sistema", "plex", "plex-barlow"];
 export const ICONOS = ["mostrar", "ocultar"];
@@ -21,6 +22,7 @@ export function validar(e) {
   const radio = Number(e.radio);
   if (!Number.isInteger(radio) || radio < 0 || radio > 16) return { error: "Las esquinas van de 0 a 16 px." };
   Object.assign(d, { fuente: e.fuente, iconos: e.iconos, radio, titulos_mayusculas: Boolean(e.titulos_mayusculas) });
+  const problemas=revisarPaleta(d);if(problemas.length)return {error:'Contraste insuficiente: '+problemas[0]};
   return { datos: d };
 }
 

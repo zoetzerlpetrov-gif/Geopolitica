@@ -251,7 +251,7 @@ let fuenteVial = null; // una sola descarga compartida por las 6 capas durante 1
 let oficialVial = null;  // cifras oficiales del SESNSP (vivos/sesnsp_robos.json, tools/crimen/sesnsp.py)
 async function datosVial() {
   if (fuenteVial && Date.now() - fuenteVial.t < 600e3) return fuenteVial.fc;
-  const [fc, of] = await Promise.all([getJSON("data/vivos/vial.geojson", { bust: true }).catch(() => ({ type: "FeatureCollection", features: [] })),
+  const [fc, of] = await Promise.all([getJSON("data/vivos/vial.geojson", { bust: true }),
     getJSON("data/vivos/sesnsp_robos.json", { bust: true }).catch(() => null)]);
   fuenteVial = { t: Date.now(), fc };
   oficialVial = of;
@@ -317,7 +317,7 @@ export const TIPOS_DESAP = [
 let fuenteDesap = null;
 async function datosDesap() {
   if (fuenteDesap && Date.now() - fuenteDesap.t < 600e3) return fuenteDesap.fc;
-  const fc = await getJSON("data/vivos/desaparecidos.geojson", { bust: true }).catch(() => ({ type: "FeatureCollection", features: [] }));
+  const fc = await getJSON("data/vivos/desaparecidos.geojson", { bust: true });
   fuenteDesap = { t: Date.now(), fc };
   return fc;
 }

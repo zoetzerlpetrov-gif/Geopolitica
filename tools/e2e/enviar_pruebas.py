@@ -33,6 +33,20 @@ def contar_node(texto):
     return (int(p[-1]) if p else 0, int(f[-1]) if f else 0)
 
 
+def estado_capa(c):
+    texto = str(c.get('resultado', '')).strip().lower()
+    if re.search(r'error|sin respuesta|no se pudo|fall[oó]', texto) or c.get('errores'):
+        return 'error'
+    if re.match(r'^0\b|sin datos', texto):
+        return 'sin_coincidencias'
+    return 'lista'
+
+
+def avisos_capas(r):
+    return [f"Sin coincidencias en la ventana consultada: {c.get('nombre', c.get('id'))}. No demuestra ausencia de hechos; revisar cobertura de fuentes."
+            for c in r.get('capas', []) if estado_capa(c) == 'sin_coincidencias']
+
+
 def problemas(r):
     """Lista corta y legible de lo que falló en un rol."""
     out = []
@@ -51,8 +65,8 @@ def problemas(r):
         if not c.get("ok"):
             out.append(f"Falló «{c.get('nombre')}»: {c.get('detalle', '')}")
     for c in r.get("capas", []):
-        if re.match(r"^0\b|sin datos|sin respuesta", str(c.get("resultado", ""))):
-            out.append(f"Capa vacía o sin datos (aviso): {c.get('nombre', c.get('id'))}")
+        if estado_capa(c) == 'error':
+            out.append(f"Capa con error de carga: {c.get('nombre', c.get('id'))} · {c.get('resultado', '')}")
     return [x[:240] for x in out][:60]
 
 
@@ -63,11 +77,11 @@ def resumen_rol(r):
     fallidas = [c for c in r.get("comprobaciones", []) if not c.get("ok")]
     parp = 1 if (r.get("parpadeo_candados") or 0) > 0 else 0
     return {"rol": r.get("rol"), "arranque_s": r.get("arranque_s") or 0, "capas": len(r.get("capas", [])),
-            "vacias": sum(1 for c in r.get("capas", []) if re.match(r"^0\b|sin datos|sin respuesta", str(c.get("resultado", "")))),
+            "vacias": sum(1 for c in r.get("capas", []) if estado_capa(c) == "sin_coincidencias"),
             "pegadas": len(peg), "sin_imagen": sum(1 for i in r.get("imagenes", []) if i.get("aparece") is False),
             "paginas": len(r.get("paginas", [])), "paginas_mal": len(pm), "js": len(js), "solo_admin_visible": len(r.get("solo_admin_visible", [])),
             "parpadeo": r.get("parpadeo_candados") or 0, "grave": len(pm) + len(js) + len(peg) + len(r.get("solo_admin_visible", [])) + len(fallidas) + parp,
-            "comprobaciones": r.get("comprobaciones", []), "problemas": problemas(r)}
+            "comprobaciones": r.get("comprobaciones", []), "problemas": problemas(r), "avisos": avisos_capas(r)}
 
 
 def construir(informe, pytest_txt="", node_txt="", ahora=None):

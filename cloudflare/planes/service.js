@@ -2,6 +2,7 @@ import config from "../../config/planes.json" with { type: "json" };
 import { authorized, begin, configured, sessionId, signOut } from "../huella/auth.js";
 import { servirDatos } from "./datos.js";
 import { CSS as CSS_CUENTA, paginaCuenta } from "./cuenta-ui.js";
+import { TEMA_JS } from '../apariencia/tema-publico.js';
 import { avisoMercadoPago } from "./mercadopago.js";
 import { completarGoogle, correoSesion, googleConfigurado, iniciarGoogle, planPorCorreo, registrado, salirGoogle, TABLA_EMAIL } from "./google.js";
 
@@ -37,8 +38,8 @@ export async function activePlan(db, id) {
   return ORDER.indexOf(row?.plan) > 0 ? row.plan : null;
 }
 
-// Página de la cuenta: CSS aparte (cuenta.css) y fuentes del propio sitio; sin scripts.
-const CSP_CUENTA = "default-src 'none'; style-src 'self' https://dominusosint.com; font-src https://dominusosint.com; img-src 'self' data:; form-action 'self'; base-uri 'none'; frame-ancestors 'none'";
+// Página de la cuenta: CSS y script de preferencia aparte, sin estilos ni scripts en línea.
+const CSP_CUENTA = "default-src 'none'; script-src 'self'; style-src 'self' https://dominusosint.com; font-src https://dominusosint.com; img-src 'self' data:; form-action 'self'; base-uri 'none'; frame-ancestors 'none'";
 function page(plan, failed, google = false) {
   return new Response(paginaCuenta({ plan, fallo: failed, google }),
     { headers: { ...headers, "Content-Security-Policy": CSP_CUENTA, "Content-Type": "text/html; charset=utf-8" } });
@@ -47,6 +48,7 @@ function page(plan, failed, google = false) {
 export async function servePlans(request, url, env, authRoot) {
   if (!configured(url, env) || !env.OSINT_PLANS_DB) return Response.json({ error: "Acceso a planes sin configurar." }, { status: 503, headers });
   const route = url.pathname.slice("/cuenta/".length);
+  if (route === 'tema.js' && request.method === 'GET') return new Response(TEMA_JS,{headers:{...headers,'Content-Type':'text/javascript; charset=utf-8'}});
   // Avisos de Mercado Pago (alta y baja automáticas): firma verificada dentro de avisoMercadoPago.
   if (route === "mercadopago/aviso" && request.method === "POST") return avisoMercadoPago(request, url, env, TABLA_EMAIL);
   if (route === "cuenta.css" && request.method === "GET") return new Response(CSS_CUENTA, { headers: { ...headers, "Content-Type": "text/css; charset=utf-8", "Cache-Control": "public, max-age=3600" } });

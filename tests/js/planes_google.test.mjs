@@ -59,6 +59,9 @@ test("Mi cuenta: página con estilo propio, escapada y sin estilos en línea", a
   assert.ok(sin.includes("Continuar con Google") && sin.includes("Ver el mapa sin cuenta"), "registrarse no es obligatorio para ver el mapa");
   assert.ok(con.includes("RECON") === false && con.includes("Recon") && con.includes("USD 4.99 / mes") && con.includes("Cerrar sesión"));
   assert.ok(fallo.includes('role="alert"'));
-  assert.ok(!/style=|<script/i.test(sin + con), "sin estilos ni scripts en línea (CSP)");
+  assert.ok(!/style=/i.test(sin + con), "sin estilos en línea (CSP)");
+  const scripts=[...(sin+con).matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)];
+  assert.equal(scripts.length,2);
+  assert.ok(scripts.every(m=>/src="tema\.js"/.test(m[1])&&m[2].trim()===''), 'sólo script externo del tema; ningún script en línea');
   assert.ok(CSS.includes("Barlow Condensed") && CSS.includes("prefers-color-scheme:light"));
 });

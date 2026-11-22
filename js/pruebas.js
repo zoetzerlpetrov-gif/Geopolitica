@@ -31,6 +31,13 @@ export function svgHistorial(corridas) {
 
 const marca = (ok) => (ok ? '<span class="ok">✔</span>' : '<span class="mal">✘</span>');
 
+/** Compatibilidad con informes anteriores: no reescribe la bitácora ni esconde fallos de carga. */
+export function separarAnotaciones(r) {
+  const historicos=(r.problemas||[]).filter(p=>/^Capa vacía o sin datos \(aviso\):/.test(p));
+  return {problemas:(r.problemas||[]).filter(p=>!historicos.includes(p)),
+    avisos:[...(r.avisos||[]),...historicos.map(p=>p.replace(/^Capa vacía o sin datos \(aviso\):/, 'Sin coincidencias en el periodo:')+' · Revisar cobertura de fuentes; no implica ausencia de hechos.')]};
+}
+
 async function iniciar() {
   let corridas = [];
   try {
@@ -56,8 +63,9 @@ async function iniciar() {
   const mat = matrizComprobaciones(c);
   $("pr-comprobaciones").innerHTML = mat.length ? `<table><tr><th>Comprobación</th>${ROLES.map((r) => `<th>${NOMBRE[r]}</th>`).join("")}</tr>${
     mat.map(([n, cols]) => `<tr><td>${esc(n)}</td>${cols.map((x) => `<td title="${esc(x?.detalle || "")}">${x ? marca(x.ok) : '<span class="meta">—</span>'}</td>`).join("")}</tr>`).join("")}</table>` : '<p class="meta">Sin comprobaciones en esta corrida.</p>';
-  $("pr-problemas").innerHTML = (c.roles || []).map((r) => `<details${r.grave ? " open" : ""}><summary>${esc(NOMBRE[r.rol] || r.rol)} · ${(r.problemas || []).length} anotaciones</summary>${
-    (r.problemas || []).length ? `<ul>${r.problemas.map((p) => `<li class="${/aviso/.test(p) ? "aviso-t" : ""}">${esc(p)}</li>`).join("")}</ul>` : '<p class="meta">Sin problemas.</p>'}</details>`).join("");
+  $("pr-problemas").innerHTML = (c.roles || []).map((r) => { const a=separarAnotaciones(r);return `<details${r.grave ? " open" : ""}><summary>${esc(NOMBRE[r.rol] || r.rol)} · ${a.problemas.length} problemas · ${a.avisos.length} avisos de datos</summary>${
+    a.problemas.length ? `<ul>${a.problemas.map((p) => `<li>${esc(p)}</li>`).join("")}</ul>` : '<p class="meta">Sin problemas de ejecución registrados.</p>'}
+    ${a.avisos.length?`<h3>Cobertura y coincidencias</h3><ul>${a.avisos.map(p=>`<li class="meta">${esc(p)}</li>`).join('')}</ul>`:''}</details>`;}).join("");
   $("pr-hist").innerHTML = svgHistorial(corridas);
   const dp = Object.entries(c.datos_plan || {});
   $("pr-datos").innerHTML = dp.length ? `<p class="meta">${dp.length} archivos o carpetas de data/ que solo piden planes superiores a Demo (base para proteger los datos por plan en el Worker).</p>
