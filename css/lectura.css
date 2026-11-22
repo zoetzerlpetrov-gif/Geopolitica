@@ -15,10 +15,12 @@ body :is(.sev-baja,.sev-low,.estado-ok){color:var(--success)}
 body :is(.sev-info,.sev-informativa){color:var(--text-2)}
 body :is(.sev-critica,.sev-critical){background:#8b0000;color:#fff}
 body :is(.aviso,.pendiente){background-color:var(--warn-bg);color:var(--warn-text)}
-body :is(button[aria-selected=true],button[aria-pressed=true],.btn-primary,.barra button.si){background-color:var(--accent);color:var(--on-accent)}
+body :is(button[aria-selected=true],button[aria-pressed=true],.btn-primary,.btn.primario,.barra button.si){background-color:var(--accent);color:var(--on-accent)}
 body :is(a,button,input,select,textarea,summary):focus-visible{outline-color:var(--focus-safe)!important}
 body a{color:var(--link)}
 body .maplibregl-ctrl-icon{filter:var(--icon-filter)}
+body .maplibregl-ctrl-group,body .maplibregl-ctrl-group button,body .maplibregl-ctrl-attrib{background-color:var(--surface)!important;color:var(--text)!important}
+body .maplibregl-ctrl-attrib a{color:var(--link)!important}
 /* El corrector sólo se activa si el color autoral falla contra su fondo real. */
 [data-lectura-color]{color:var(--lectura-color)!important}
 svg text[data-lectura-color]{fill:var(--lectura-color)!important}

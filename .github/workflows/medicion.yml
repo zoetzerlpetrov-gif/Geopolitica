@@ -20,7 +20,7 @@ concurrency:
 
 jobs:
   medir:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04  # compatible con el Playwright fijado en tools/medicion/package-lock.json
     timeout-minutes: 40
     env:
       SITIO: https://dominusosint.com/
