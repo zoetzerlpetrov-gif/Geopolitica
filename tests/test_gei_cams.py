@@ -77,3 +77,13 @@ def test_vigente_exige_todas_las_variables(tmp_path):
     assert G.vigente(str(out), str(flujo), ahora)
     assert not G.vigente(str(out), str(flujo), datetime(2026, 11, 20, 12, tzinfo=timezone.utc))
     assert not G.vigente(str(tmp_path / "no.json"), str(flujo), ahora)
+
+
+def test_reintento_espera_tras_un_intento(tmp_path):
+    from datetime import datetime, timedelta, timezone
+    ruta = str(tmp_path / "intento.json")
+    ahora = datetime(2026, 11, 22, 12, 0, tzinfo=timezone.utc)
+    assert not G.reintento_pronto(ruta, ahora)              # sin marca: se intenta
+    G.marcar_intento(ruta, ahora)
+    assert G.reintento_pronto(ruta, ahora + timedelta(hours=1))
+    assert not G.reintento_pronto(ruta, ahora + timedelta(hours=G.REINTENTO_H, minutes=1))

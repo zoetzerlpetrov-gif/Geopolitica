@@ -30,6 +30,10 @@ from aire import seleccionar  # noqa: E402
 
 OUT = os.path.join(ROOT, "vivos", "gei_cams.geojson")
 OUT_FLUJO = os.path.join(ROOT, "vivos", "flujo_co2.geojson")
+# Marca del último intento: si la cola del ADS no entrega a tiempo, el paso se corta por tiempo y no se escribe nada;
+# sin esta marca se reintentaba en CADA corrida (15 min cada una) y «Datos en movimiento» pasaba de 45 min (22-nov-2026).
+INTENTO = os.path.join(ROOT, "vivos", "gei_cams_intento.json")
+REINTENTO_H = 4
 MALLA_FLUJO = 2.0  # grados
 ADS_URL = "https://ads.atmosphere.copernicus.eu/api"
 CONJUNTO = "cams-global-greenhouse-gas-forecasts"
@@ -190,6 +194,21 @@ def vigente(ruta, ruta_flujo, ahora):
     return completo and ahora - gen < timedelta(hours=CADA_H)
 
 
+def reintento_pronto(ruta, ahora, horas=REINTENTO_H):
+    """True si hubo un intento hace menos de `horas` horas (y no dejó datos vigentes): se espera antes de volver."""
+    try:
+        d = json.load(open(ruta, encoding="utf-8"))
+        t = datetime.strptime(d.get("intento_utc", ""), "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
+    except (OSError, ValueError):
+        return False
+    return ahora - t < timedelta(hours=horas)
+
+
+def marcar_intento(ruta, ahora):
+    os.makedirs(os.path.dirname(ruta), exist_ok=True)
+    json.dump({"intento_utc": ahora.strftime("%Y-%m-%dT%H:%M:%SZ"), "reintento_horas": REINTENTO_H}, open(ruta, "w", encoding="utf-8"))
+
+
 def main():
     llave = os.environ.get("ADS_API_KEY", "").strip()
     if not llave:
@@ -198,6 +217,10 @@ def main():
     if vigente(OUT, OUT_FLUJO, datetime.now(timezone.utc)):
             print("GEI CAMS: datos recientes; se conservan")
             return 0
+    if reintento_pronto(INTENTO, datetime.now(timezone.utc)):
+        print(f"GEI CAMS: hubo un intento hace menos de {REINTENTO_H} h; se conservan los datos anteriores")
+        return 0
+    marcar_intento(INTENTO, datetime.now(timezone.utc))
     import cdsapi
 
     lugares = seleccionar(json.load(open(os.path.join(ROOT, "config", "ciudades.json"), encoding="utf-8"))["ciudades"])
