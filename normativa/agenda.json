@@ -1,14 +1,14 @@
 {
- "generado_utc": "2026-11-21T20:43:04Z",
- "agregadas_hoy": 0,
+ "generado_utc": "2026-11-22T10:15:42Z",
+ "agregadas_hoy": 1,
  "resumen": {
-  "en_curso": 12,
-  "federal": 12,
+  "en_curso": 13,
+  "federal": 13,
   "estatal": 0,
   "publicadas": 1,
   "alta_probabilidad": 9,
   "por_sector": {
-   "sin sector": 5,
+   "sin sector": 6,
    "energia_electrica": 5,
    "manufactura_immex": 2,
    "logistica": 1,
@@ -20,6 +20,8 @@
    "energia": 6,
    "animales": 3,
    "transporte": 2,
+   "impuestos_dinero": 1,
+   "bancos_pagos": 1,
    "educacion": 1,
    "medio_ambiente": 1,
    "otros": 1,
@@ -141,7 +143,7 @@
   {
    "id": "AG:576602014692",
    "detectado": "2026-11-19",
-   "actualizado": "2026-11-21",
+   "actualizado": "2026-11-22",
    "fuente": "Monitor de noticias (titular)",
    "ambito": "federal",
    "etapa": "aprobada_camara",
@@ -178,10 +180,23 @@
      "u": "https://chihuahua.quadratin.com.mx/principal/aprueban-nueva-ley-de-proteccion-animal/",
      "m": "quadratin.com.mx",
      "f": "2026-11-21"
+    },
+    {
+     "t": "Delicias se suma a batalla legal de más de 200 municipios contra nueva ley federal de impuestos",
+     "u": "https://chihuahua.quadratin.com.mx/municipios/delicias-se-suma-a-batalla-legal-de-mas-de-200-municipios-contra-nueva-ley-federal-de-impuestos/",
+     "m": "quadratin.com.mx",
+     "f": "2026-11-22"
+    },
+    {
+     "t": "Avanza protección animal en México con nueva Ley General de Bienestar",
+     "u": "https://www.excelsior.com.mx/politica/avanza-proteccion-animal-mexico-con-nueva-ley-general-bienestar",
+     "m": "excelsior.com.mx",
+     "f": "2026-11-22"
     }
    ],
    "temas": [
-    "animales"
+    "animales",
+    "impuestos_dinero"
    ],
    "confirmacion": "varios medios",
    "ventana": [
@@ -189,6 +204,40 @@
     "2027-02"
    ],
    "leyes_ids": []
+  },
+  {
+   "id": "AG:54e65082bb4e",
+   "detectado": "2026-11-21",
+   "actualizado": "2026-11-21",
+   "fuente": "Monitor de noticias (titular)",
+   "ambito": "federal",
+   "etapa": "anunciada",
+   "etapa_nombre": "Ley o reforma nueva en discusión pública",
+   "probabilidad": 0.45,
+   "horizonte_meses": "1–9",
+   "titulo": "Chihuahua busca frenar restricciones al uso de efectivo ante nueva Ley de Economía Digital",
+   "url": "https://www.imagenzac.com.mx/pais/chihuahua-busca-frenar-restricciones-al-uso-de-efectivo-ante-nueva-ley-de-economia-digital",
+   "medio": "imagenzac.com.mx",
+   "leyes": [],
+   "leyes_ids": [],
+   "sectores": [],
+   "temas": [
+    "bancos_pagos"
+   ],
+   "estado": "en curso",
+   "notas": [
+    {
+     "t": "Chihuahua busca frenar restricciones al uso de efectivo ante nueva Ley de Economía Digital",
+     "u": "https://www.imagenzac.com.mx/pais/chihuahua-busca-frenar-restricciones-al-uso-de-efectivo-ante-nueva-ley-de-economia-digital",
+     "m": "imagenzac.com.mx",
+     "f": "2026-11-21"
+    }
+   ],
+   "confirmacion": "un solo medio (sin confirmar)",
+   "ventana": [
+    "2026-12",
+    "2027-08"
+   ]
   },
   {
    "id": "AG:570c1741dbd9",
