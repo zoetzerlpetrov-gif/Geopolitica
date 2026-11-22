@@ -19,7 +19,7 @@ from zoneinfo import ZoneInfo
 from actualidad import actualizar_cifras, actualizar_clima, sincronizar_economia
 
 sys.path.insert(0, os.path.dirname(__file__))
-from guion import INGLES_A, INGLES_B, candidatos_seccion, con_agenda, con_dof, guion, mercados, notas_agenda, notas_dof, consulta_mx, sin_marcas  # noqa: E402
+from guion import INGLES_A, INGLES_B, ampersands_voz, candidatos_seccion, con_agenda, con_dof, guion, mercados, notas_agenda, notas_dof, consulta_mx, sin_marcas  # noqa: E402
 from redactar import elegir_y_redactar, frases_titulares, redactar_dof  # noqa: E402
 from video_historial import titulares_anteriores
 from fecha_edicion import edicion, validar_edicion
@@ -181,6 +181,7 @@ def voz_kokoro(texto, wav, voz_id):
 
 def voz(texto, wav, modelo):
     """VOZ_MOTOR=kokoro:<voz> (la de Brújula Diaria: kokoro:ef_dora) o Piper con el modelo .onnx. Si Kokoro falla, Piper."""
+    texto = ampersands_voz(texto)  # incluye locuciones de patrocinios que no pasan por para_voz
     motor = os.environ.get("VOZ_MOTOR", "")
     if motor.startswith("kokoro:"):
         try:

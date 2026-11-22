@@ -14,6 +14,8 @@ Funciones puras: reciben los JSON ya leídos y devuelven escenas, título y desc
 import re
 import os
 import sys
+from html import unescape
+from urllib.parse import urlsplit
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "red"))
 from estafas_prevencion import perfil_estafa, FUENTES as GUIAS_ESTAFAS
 from datetime import date, datetime
@@ -112,7 +114,21 @@ def nombre_para_voz(nombre):
 
 def sin_marcas(texto):
     """Quita ⟪ ⟫ (motores sin voz en inglés): el nombre se lee con la pronunciación en español del diccionario."""
+    texto = ampersands_voz(texto)
     return pronunciar(texto.replace(INGLES_A, "").replace(INGLES_B, ""))
+
+
+def ampersands_voz(texto):
+    """El signo & se dice «and» en inglés, sin alterar la escritura en pantalla.
+
+    Conserva los tramos ingleses existentes; nunca anida marcas. También normaliza
+    entidades HTML que algunos titulares conservan (p. ej. &amp;).
+    """
+    partes = re.split("(" + _TRAMO_INGLES.pattern + ")", unescape(texto))
+    for i, parte in enumerate(partes):
+        reemplazo = " and " if parte.startswith(INGLES_A) else f" {INGLES_A}and{INGLES_B} "
+        partes[i] = re.sub(r"\s*&\s*", reemplazo, parte)
+    return "".join(partes)
 
 
 def medio_para_voz(medio):
@@ -178,7 +194,7 @@ def para_voz(texto, legal=False):
     t = re.sub(r"\b(\d{1,3})((?:,\d{3})+)(\.\d+)", lambda m: m.group(1) + m.group(2).replace(",", "") + m.group(3), t)
     t = re.sub(r"(\d)\.(\d)", r"\1 punto \2", t)
     t = t.replace("%", " por ciento").replace("‑", "-").replace(" · ", ", ").replace("·", ", ")  # el «·» no se pronuncia
-    return pronunciar(re.sub(r"\s+", " ", t).strip())
+    return ampersands_voz(pronunciar(re.sub(r"\s+", " ", t).strip()))
 
 
 def cierre_frase(t):
@@ -347,11 +363,41 @@ AVISO_CIUDADANO = re.compile(r"vincula|l[ií]neas? (m[oó]vil|celular|telef)|cel
                              r"a partir del (1|primero|lunes|pr[oó]ximo)|fecha l[ií]mite|[uú]ltimo d[ií]a para|obligatori[oa]", re.I)
 
 
+def _medio_video(medio, url, dominios, nombre):
+    """Identifica RSS por su nombre y GDELT por host exacto/subdominio, sin coincidencias por ruta."""
+    m = (medio or "").strip().casefold()
+    if re.fullmatch(nombre, m):
+        return True
+    for valor in (url, medio):
+        try:
+            host = (urlsplit(valor if "://" in (valor or "") else "//" + (valor or "")).hostname or "").lower().rstrip(".")
+        except ValueError:
+            continue
+        if any(host == d or host.endswith("." + d) for d in dominios):
+            return True
+    return False
+
+
+def fuente_video_permitida(medio, url, seccion):
+    """Regla exclusiva del video: La Jornada únicamente en Cultura."""
+    return seccion == "cultura" or not _medio_video(
+        medio, url, ("jornada.com.mx", "jornada.unam.mx", "lajornada.com.mx"), r"(?:la\s+)?jornada(?:\s*[·(–—-].*)?")
+
+
+def _preferida_politica(nota, seccion):
+    return seccion in {"politica_mx", "politica_mx_critica", "oficial_mx", "geopolitica"} and _medio_video(
+        nota.get("m"), nota.get("u"), ("mvsnoticias.com", "latinus.us", "latinus.com.mx"),
+        r"(?:mvs(?:\s+noticias)?|latinus)")
+
+
 def candidatos_seccion(noti, ahora_iso=None, horas=36, maximo=6, usadas=frozenset(), titulares_usados=frozenset()):
     """{sección: [notas]} en ORDEN: por sección, las que más medios repiten en las últimas `horas` (desempate: la más
     reciente). Cada nota: titulo, medio, url, fecha, eco (cuántos medios cuentan lo mismo) y sus claves.
     `usadas`: enlaces ya contados en los videos anteriores (no se repiten). La mañanera sin señalamientos queda fuera."""
     notas = (noti or {}).get("notas") or []
+    # Antes de calcular eco/deduplicar: una nota excluida no desplaza a su alternativa.
+    notas = [{**n, "s": [s for s in (n.get("s") or []) if fuente_video_permitida(n.get("m"), n.get("u"), s)]} for n in notas]
+    notas = [n for n in notas if n["s"]]
     corte = ahora_iso or (noti or {}).get("generado_utc") or ""
     if corte:
         from datetime import datetime, timedelta
@@ -368,7 +414,7 @@ def candidatos_seccion(noti, ahora_iso=None, horas=36, maximo=6, usadas=frozense
     for sec in ORDEN:
         if sec == "politica_mx_critica":
             def es(n):
-                return GOBIERNO_MX.search(n["t"]) and CRITICA.search(n["t"])  # del gobierno o sus funcionarios, no nota roja
+                return fuente_video_permitida(n.get("m"), n.get("u"), "politica_mx_critica") and GOBIERNO_MX.search(n["t"]) and CRITICA.search(n["t"])  # del gobierno o sus funcionarios, no nota roja
         elif sec == "ciberseguridad":
             def es(n):
                 return "ciberseguridad" in (n.get("s") or []) and bool(perfil_estafa(n["t"]))
@@ -382,7 +428,7 @@ def candidatos_seccion(noti, ahora_iso=None, horas=36, maximo=6, usadas=frozense
             def es(n, sec=sec):
                 return sec in (n.get("s") or []) and not ("ciberseguridad" in (n.get("s") or []) and perfil_estafa(n["t"]))
         aviso = (lambda i: bool(AVISO_CIUDADANO.search(notas[i]["t"]))) if sec == "oficial_mx" else (lambda i: False)
-        idx = sorted((i for i, n in enumerate(notas) if es(n)), key=lambda i: (aviso(i), eco[i], notas[i].get("f") or ""), reverse=True)
+        idx = sorted((i for i, n in enumerate(notas) if es(n)), key=lambda i: (aviso(i), _preferida_politica(notas[i], sec), eco[i], notas[i].get("f") or ""), reverse=True)
         lista, vistos = [], set()
         for i in idx:
             if notas[i].get("u") in vistos or any(_parecidas(cl[i], x["_c"], pr[i], x["_p"]) for x in lista):
@@ -428,6 +474,8 @@ def con_resumen(notas, resumenes=None, datos=None):
     para ahorrar tiempo. Cada cifra se dice una sola vez en todo el noticiero (el bitcoin no se repite en tres secciones)."""
     out, usados = [], set()
     for n in notas:
+        if not fuente_video_permitida(n.get("medio"), n.get("url"), n.get("seccion")):
+            continue
         n = {k: v for k, v in n.items() if not k.startswith("_")}  # las claves internas (conjuntos) no van al guion
         sec = n.get("seccion")
         r = (resumenes or {}).get(n["url"])
@@ -616,7 +664,7 @@ def mercados(portafolio_data, ahora_iso=None, maximo=6, horas=24, usadas=frozens
     for x in portafolio_data or []:
         if not x.get("ok") or not x.get("news") or x.get("current_price") is None:
             continue
-        nuevas = [z for z in x["news"] if (z.get("date") or "") >= lim and not ya_publicada(z.get("link"), z.get("title"), urls_usadas, titulares_usados)]
+        nuevas = [z for z in x["news"] if (z.get("date") or "") >= lim and fuente_video_permitida(z.get("publisher"), z.get("link"), "mercados") and not ya_publicada(z.get("link"), z.get("title"), urls_usadas, titulares_usados)]
         if not nuevas:
             continue
         n = max(nuevas, key=lambda z: z.get("date") or "")
