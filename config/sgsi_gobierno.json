@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "revisado": "2026-11-22",
+  "politica": {
+    "documento": "SGSI-02",
+    "version": 2,
+    "estado": "pendiente",
+    "aprobado_por": null,
+    "fecha": null,
+    "evidencia": null,
+    "comunicada": false
+  },
+  "arco": {
+    "correo": "contacto@dominusosint.com",
+    "canal_confirmado": true,
+    "confirmado_el": "2026-11-22",
+    "evidencia_canal": "Confirmación explícita del titular en esta sesión; no prueba técnica de envío.",
+    "ensayo_documentado": false
+  },
+  "nota": "No completar aprobación, firma, comunicación o ensayo automáticamente. Soportes y solicitudes se conservan privados."
+}

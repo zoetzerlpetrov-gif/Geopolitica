@@ -1,13 +1,14 @@
 // Continuidad familiar (continuidad-familiar.html, solo admin). La plantilla genérica viene de
 // data/continuidad/plantilla.json; todo lo que captura la familia se guarda SOLO en este navegador (localStorage) y se
-// respalda cifrado. Sin analítica, sin envíos a servidores, sin llamadas externas con datos de la familia: lo único
-// que se pide a la red son la plantilla y los indicadores públicos del propio sitio (data/vivos), de solo lectura.
+// respalda cifrado. El mapa Local usa datos del sitio; las bases en línea se consultan sólo al elegirlas,
+// sin enviar integrantes, contactos, notas o fechas. El proveedor sí recibe IP y zonas de teselas consultadas.
 import {
   NIVELES, nivelActual, validarCambio, estancia, avance, completarFase, informeMarkdown, exportarCifrado, importarCifrado,
   validarDestino, destinosVigentes,
 } from "./continuidad-logica.js";
 import { descargar } from "./web-cripto.js";
 import { svgTraslado, LEYENDA, ROLES, desproyectar } from "./continuidad-mapa.js";
+import { crearMapaTraslado } from './continuidad-mapa-interactivo.js';
 
 const CLAVE = "dominus_continuidad_v1";
 const $ = (id) => document.getElementById(id);
@@ -37,6 +38,7 @@ function pestana(id, enfocar = false) {
     if (a && enfocar) b.focus();
   }
   history.replaceState(null, "", `#${id}`);
+  requestAnimationFrame(() => Object.values(mapasTraslado).forEach(x => x.control?.resize()));
 }
 
 // ---------------------------------------------------------------- tablero
@@ -57,6 +59,8 @@ function pintarTablero() {
 
 // ---------------------------------------------------------------- mapa del traslado
 let geo = null;
+const mapasTraslado = {};
+let datosMapa = null;
 async function pintarMapa() {
   const cont = $("cf-mapa");
   if (!cont) return;
@@ -72,11 +76,26 @@ async function pintarMapa() {
   }
   const n = nivelActual(E.bitacora);
   const fases = P.fases.map((f, i) => `<li class="${f.id === E.faseActual ? "actual" : ""}"><b>${esc(i)}</b><span>${esc(f.nombre.replace(/^Fase \d+\s*·\s*/, ""))}</span><small>${esc(avance(f.checklist, E.hechos, `${f.id}.`).pct)} %</small></li>`).join("");
-  const svg = svgTraslado({ ...P, destinos: DEST() }, geo, { llegadas, nivel: NOMBRE[n], dias });
-  if ($("cf-fd-mapa")) $("cf-fd-mapa").innerHTML = svg;
-  cont.innerHTML = svg
-    + `<p class="cm-leyenda">${LEYENDA.map(([c, t]) => `<span><i style="background:${esc(c)}"></i>${esc(t)}</span>`).join("")}</p>`
-    + `<ol class="cm-fases" aria-label="Fases del plan">${fases}</ol>`;
+  datosMapa = { p: { ...P, destinos: DEST() }, estado: { llegadas, nivel: NOMBRE[n], dias } };
+  if (!$("cf-mapa-lienzo")) cont.innerHTML = '<div id="cf-mapa-lienzo"></div><p id="cf-mapa-leyenda" class="cm-leyenda"></p><ol id="cf-mapa-fases" class="cm-fases" aria-label="Fases del plan"></ol>';
+  $("cf-mapa-leyenda").innerHTML = LEYENDA.map(([c, t]) => `<span><i style="background:${esc(c)}"></i>${esc(t)}</span>`).join("");
+  $("cf-mapa-fases").innerHTML = fases;
+  for (const id of ['cf-mapa-lienzo', 'cf-fd-mapa']) {
+    const host = $(id); if (!host) continue;
+    if (!mapasTraslado[id]) {
+      const slot = mapasTraslado[id] = {};
+      slot.promesa = crearMapaTraslado(host, { elegirPunto: id === 'cf-fd-mapa' ? ([lon, lat]) => {
+        $("cf-fd-lon").value = lon; $("cf-fd-lat").value = lat;
+        $("cf-fd-estado").textContent = `📍 Punto elegido: ${lat}, ${lon}. Guarda el destino para verlo en el mapa.`;
+      } : null }).then(control => {
+        slot.control = control; control.actualizar(datosMapa.p, geo, datosMapa.estado);
+      }).catch(() => {
+        slot.fallo = true;
+        host.innerHTML = svgTraslado(datosMapa.p, geo, datosMapa.estado) + '<p class="meta">Mapa interactivo no disponible (WebGL). Se conserva el diagrama local y la captura por coordenadas.</p>';
+      });
+    } else if (mapasTraslado[id].control) mapasTraslado[id].control.actualizar(datosMapa.p, geo, datosMapa.estado);
+    else if (mapasTraslado[id].fallo) host.innerHTML = svgTraslado(datosMapa.p, geo, datosMapa.estado);
+  }
 }
 
 // ---------------------------------------------------------------- niveles

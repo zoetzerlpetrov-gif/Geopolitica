@@ -1,0 +1,27 @@
+name: Verificar mapa de continuidad
+on:
+  push:
+    branches: [main]
+    paths: ['js/continuidad*.js', 'continuidad-familiar.html', 'tools/pruebas/continuidad-mapa.mjs', '.github/workflows/continuidad-mapa-pruebas.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  navegador:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Preparar navegador de prueba
+        run: |
+          npm install --prefix /tmp/pw --no-save --no-audit --no-fund playwright@1.62.1
+          /tmp/pw/node_modules/.bin/playwright install --with-deps chromium
+      - name: Probar zoom, vistas, actualización y selector de coordenadas
+        env:
+          PW_ROOT: /tmp/pw
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 > /tmp/continuidad-http.log 2>&1 &
+          node tools/pruebas/continuidad-mapa.mjs

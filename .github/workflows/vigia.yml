@@ -5,6 +5,9 @@ name: Vigía de seguridad
 # calma. Avisa con un issue «🛡️ Vigía» (etiqueta seguridad) y publica el estado en la rama datos-vigia.
 # Secretos opcionales: CLOUDFLARE_VIGIA_TOKEN (Zone · Analytics · Read y Zone · Zone Settings · Edit) y CLOUDFLARE_ZONE_ID.
 on:
+  push:
+    branches: [main]
+    paths: ['tools/seguridad/vigia.py', 'config/integridad_publicacion.json', '.github/workflows/vigia.yml']
   schedule:
     - cron: "*/10 * * * *"
   workflow_dispatch:

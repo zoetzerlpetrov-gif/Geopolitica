@@ -4,6 +4,9 @@ name: Autoauditoría semanal
 # (config/autoauditoria.json). Publica el resultado en la rama huérfana «datos-auditoria» con su historial;
 # Pages lo copia a data/autoauditoria/ (DOMINUS OPS → Autoauditoría, solo admin).
 on:
+  push:
+    branches: [main]
+    paths: ['config/autoauditoria.json', 'config/sgsi_gobierno.json', 'docs/sgsi/**', 'docs/SGSI.md', 'tools/autoauditoria/**', '.github/workflows/autoauditoria.yml']
   workflow_dispatch:
   schedule:
     - cron: "23 14 * * 1"  # lunes 08:23 en Ciudad de México

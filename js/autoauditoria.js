@@ -1,6 +1,7 @@
 // DOMINUS OPS → Autoauditoría (solo admin): muestra el resultado semanal de tools/autoauditoria/autoauditoria.py
 // (data/autoauditoria/ultimo.json e historial.json, publicados por el workflow «Autoauditoría semanal»).
 import { esc, getJSON } from "./util.js";
+import { documentosHTML } from './sgsi-documentos.js';
 
 const $ = (id) => document.getElementById(id);
 const ETIQ = { cumple: "✅ Cumple", parcial: "🟡 Parcial", no_cumple: "❌ No cumple", sin_evaluar: "⚪ Sin evaluar", no_aplica: "— No aplica" };
@@ -19,6 +20,11 @@ export function tendencia(historial, clave) {
 }
 
 async function iniciar() {
+  const documentos = document.createElement('section');
+  documentos.id = 'aa-documentos';
+  $("aa-resumen").after(documentos);
+  getJSON('config/sgsi_documentos.json', { bust: true }).then(d => { documentos.innerHTML = documentosHTML(d); })
+    .catch(() => { documentos.textContent = 'No se pudieron cargar los documentos del SGSI. Intenta de nuevo más tarde.'; });
   let res, hist = [];
   try {
     res = await getJSON("data/autoauditoria/ultimo.json", { bust: true });
@@ -27,8 +33,14 @@ async function iniciar() {
     $("aa-estado").textContent = "Aún no hay resultados: el workflow «Autoauditoría semanal» corre cada lunes (o a mano desde Actions).";
     return;
   }
-  $("aa-estado").innerHTML = `Última evaluación: ${esc(res.fecha_utc.replace("T", " ").slice(0, 16))} UTC · ${hist.length} semana(s) en el historial.`;
+  const antiguedad = Date.now() - Date.parse(res.fecha_utc);
+  $("aa-estado").innerHTML = `Última evaluación: ${esc(res.fecha_utc.replace("T", " ").slice(0, 16))} UTC · ${hist.length} evaluación(es) en el historial.
+    ${res.commit ? `Commit evaluado: <code>${esc(res.commit.slice(0, 10))}</code>.` : 'Informe anterior sin commit identificado.'}
+    ${res.config_revisado ? `Revisión de controles: ${esc(res.config_revisado)}.` : ''}
+    ${antiguedad > 8 * 86400000 ? '<b>El informe tiene más de 8 días; revisar la ejecución de Autoauditoría.</b>' : ''}`;
   $("aa-resumen").innerHTML = `<p style="font-size:1.2em">Puntaje global: ${barra(res.puntaje_global)} <span class="meta">${esc(tendencia(hist, "global"))}</span></p>
+    <p class="meta">Cumple suma 1; parcial, 0.5; no cumple, 0. Sin evaluar y no aplica no entran en el denominador. Es avance de esta lista, no un porcentaje de certificación ni de protección garantizada.
+    ${res.cobertura ? `${esc(res.cobertura.evaluados)} controles evaluados de ${esc(res.cobertura.total)}; ${esc(res.cobertura.sin_evaluar)} sin evaluar; ${esc(res.cobertura.no_aplica)} no aplicables.` : ''}</p>
     <div class="desliza"><table class="t"><tr><th>Marco</th><th>Puntaje</th><th>Cambio</th><th>Cumple</th><th>Parcial</th><th>No cumple</th><th>Sin evaluar</th></tr>
     ${res.marcos.map((m) => `<tr><td>${esc(m.nombre)}</td><td>${barra(m.puntaje)}</td><td>${esc(tendencia(hist, m.id))}</td><td>${m.cumple}</td><td>${m.parcial}</td><td>${m.no_cumple}</td><td>${m.sin_evaluar}</td></tr>`).join("")}</table></div>`;
   const nombres = Object.fromEntries(res.marcos.map((m) => [m.id, m.nombre]));

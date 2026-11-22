@@ -1,6 +1,6 @@
 {
  "_nota": "Autoauditoría semanal de DOMINUS (solo admin). Controles «auto»: los evalúa tools/autoauditoria/autoauditoria.py cada semana. Controles «manual»: cambia «estado» (cumple, parcial, no_cumple, no_aplica, sin_evaluar) y «evidencia» cuando avances. «sin_evaluar» no suma ni resta: aparece como pendiente.",
- "revisado": "2026-10-29",
+ "revisado": "2026-11-22",
  "linea_base_html_sin_escape": 80,
  "marcos": {
   "iso27001": "ISO/IEC 27001:2022 (SGSI y Anexo A)",
@@ -24,9 +24,12 @@
    "titulo": "Alcance del SGSI definido por escrito",
    "tipo": "manual",
    "estado": "cumple",
-   "evidencia": "Alcance escrito en docs/sgsi/ALCANCE.md (2026-11-19): componentes, información, exclusiones y partes interesadas.",
-   "mejora": "Escribir en una página qué cubre el SGSI: sitio público, versión comercial en Cloudflare, backend, repositorios, proveedores y personas.",
-   "prioridad": "alta"
+   "evidencia": "Alcance SGSI-01 v2 fechado 2026-11-22: sitio público/comercial, administración, backend, repo/CI, proveedores, personas y dispositivos.",
+   "mejora": "Revisar alcance tras cambios de arquitectura y mantener inventario privado de responsables.",
+   "prioridad": "alta",
+   "evidencias_archivos": [
+    "docs/sgsi/ALCANCE.md"
+   ]
   },
   {
    "id": "iso_5_2",
@@ -35,9 +38,12 @@
    "titulo": "Política de seguridad de la información aprobada",
    "tipo": "manual",
    "estado": "parcial",
-   "evidencia": "Política redactada en docs/sgsi/POLITICA_SEGURIDAD.md (2026-11-19); falta la firma y la fecha de aprobación del titular.",
-   "mejora": "Redactar la política (objetivos, responsabilidades, revisión anual) y aprobarla con fecha y firma.",
-   "prioridad": "alta"
+   "evidencia": "SGSI-02 v2 redactada con objetivos, roles y revisión anual; aprobación y comunicación pendientes en config/sgsi_gobierno.json.",
+   "mejora": "Aprobar la política SGSI-02 v2 con fecha, autoridad y evidencia verificable; comunicarla y registrar destinatarios.",
+   "prioridad": "alta",
+   "evidencias_archivos": [
+    "docs/sgsi/POLITICA_SEGURIDAD.md"
+   ]
   },
   {
    "id": "iso_6_1_2",
@@ -46,9 +52,12 @@
    "titulo": "Evaluación de riesgos de seguridad con método definido",
    "tipo": "manual",
    "estado": "cumple",
-   "evidencia": "Matriz de riesgos del propio proyecto con método P×I en docs/sgsi/RIESGOS_PROYECTO.md (12 riesgos, dueño y tratamiento).",
-   "mejora": "Usar la matriz 5×5 de DOMINUS OPS sobre nuestros activos y guardar el resultado con fecha.",
-   "prioridad": "alta"
+   "evidencia": "Evaluación inicial SGSI-03 del 2026-11-22: 14 riesgos del proyecto, escalas 5×5 definidas, dueño y tratamiento; riesgo residual/aceptación pendientes.",
+   "mejora": "Validar estimaciones y eficacia de tratamientos; registrar decisión sobre riesgo residual.",
+   "prioridad": "alta",
+   "evidencias_archivos": [
+    "docs/sgsi/RIESGOS_PROYECTO.md"
+   ]
   },
   {
    "id": "iso_6_1_3",
@@ -381,9 +390,12 @@
    "titulo": "Estrategia, roles y política de ciberseguridad",
    "tipo": "manual",
    "estado": "parcial",
-   "evidencia": "Política y roles redactados (docs/sgsi/POLITICA_SEGURIDAD.md); pendiente la aprobación del titular.",
-   "mejora": "Ver ISO 27001 cláusulas 5.2 y 5.3.",
-   "prioridad": "alta"
+   "evidencia": "Estrategia, objetivos y roles escritos en SGSI-02 v2; falta aprobación, designación nominal privada y comunicación.",
+   "mejora": "Aprobar SGSI-02 v2 y registrar designación y comunicación de responsabilidades.",
+   "prioridad": "alta",
+   "evidencias_archivos": [
+    "docs/sgsi/POLITICA_SEGURIDAD.md"
+   ]
   },
   {
    "id": "nist_id",
@@ -554,7 +566,7 @@
    "titulo": "Proceso de riesgos: identificar, analizar, evaluar y tratar",
    "tipo": "manual",
    "estado": "cumple",
-   "evidencia": "El método de riesgos se aplica al propio proyecto: docs/sgsi/RIESGOS_PROYECTO.md.",
+   "evidencia": "Método aplicado en SGSI-03 y registro fechado del 2026-11-22; evaluación residual y aceptación pendientes.",
    "mejora": "Aplicarlo cada trimestre al proyecto.",
    "prioridad": "media"
   },
@@ -574,10 +586,13 @@
    "ref": "Derechos ARCO",
    "titulo": "Procedimiento para atender acceso, rectificación, cancelación y oposición",
    "tipo": "manual",
-   "estado": "cumple",
-   "evidencia": "Procedimiento ARCO con correo (contacto@dominusosint.com), requisitos, plazos y registro en docs/sgsi/ARCO.md.",
-   "mejora": "Definir correo y plazo de respuesta.",
-   "prioridad": "alta"
+   "estado": "parcial",
+   "evidencia": "Procedimiento SGSI-04 v2 con plazos 20/15 días hábiles (LFPDPPP art.31). Titular confirma contacto@dominusosint.com el 2026-11-22; ensayo y consistencia del aviso público por verificar.",
+   "mejora": "Confirmar el mismo correo en Datos legales y aviso de privacidad; registrar un ensayo con datos ficticios y evidencia privada de recepción, respuesta y cierre.",
+   "prioridad": "alta",
+   "evidencias_archivos": [
+    "docs/sgsi/ARCO.md"
+   ]
   },
   {
    "id": "lf_seguridad",

@@ -378,6 +378,29 @@ def puntaje(items):
     return round(100 * sum(cuentan) / len(cuentan)) if cuentan else None
 
 
+def evidencia_manual(control):
+    """La declaración manual no reemplaza documentos ni aprobación humana verificable."""
+    res = r(control.get("estado", "sin_evaluar"), control.get("evidencia", ""))
+    faltan = [p for p in control.get("evidencias_archivos", []) if not leer(p).strip()]
+    if faltan:
+        return r("no_cumple", "No se encontró la evidencia: " + ", ".join(faltan))
+    if control["id"] in ("iso_5_2", "nist_gv", "lf_arco"):
+        try:
+            gobierno = json.loads(leer("config/sgsi_gobierno.json"))
+        except ValueError:
+            gobierno = {}
+        if control["id"] in ("iso_5_2", "nist_gv"):
+            p = gobierno.get("politica", {})
+            aprobada = p.get("estado") == "aprobada" and p.get("version") == 2 and all(p.get(k) for k in ("aprobado_por", "fecha", "evidencia")) and p.get("comunicada") is True
+            if not aprobada and res["estado"] == "cumple":
+                return r("parcial", "Documento disponible, pero aprobación de versión y comunicación no acreditadas.")
+        else:
+            a = gobierno.get("arco", {})
+            if not (a.get("canal_confirmado") and a.get("correo") and a.get("ensayo_documentado")) and res["estado"] == "cumple":
+                return r("parcial", "Procedimiento preparado; confirmar canal y acreditar ensayo antes de declarar operación completa.")
+    return res
+
+
 def evaluar(cfg, correr_pruebas=True, ahora=None):
     cache, resultados = {}, []
     for c in cfg["controles"]:
@@ -387,7 +410,7 @@ def evaluar(cfg, correr_pruebas=True, ahora=None):
                 cache[c["check"]] = fn(cfg, correr_pruebas) if fn is pruebas else fn(cfg)
             res = cache[c["check"]]
         else:
-            res = r(c.get("estado", "sin_evaluar"), c.get("evidencia", ""))
+            res = evidencia_manual(c)
         resultados.append({k: c.get(k) for k in ("id", "marco", "ref", "titulo", "tipo", "prioridad", "mejora")} | res)
     marcos = []
     for mid, nombre in cfg["marcos"].items():
@@ -401,7 +424,15 @@ def evaluar(cfg, correr_pruebas=True, ahora=None):
     for x in mejoras:
         if x["mejora"] not in vistas:
             vistas.add(x["mejora"]); unicas.append({**x, "marcos": sorted({y["marco"] for y in mejoras if y["mejora"] == x["mejora"]})})
+    try:
+        commit = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True, text=True, check=True).stdout.strip()
+    except (OSError, subprocess.CalledProcessError):
+        commit = None
+    cobertura = {k: sum(1 for x in resultados if x["estado"] == k) for k in ("cumple", "parcial", "no_cumple", "sin_evaluar", "no_aplica")}
+    cobertura["evaluados"] = sum(cobertura[k] for k in VALOR)
+    cobertura["total"] = len(resultados)
     return {"fecha_utc": (ahora or datetime.now(timezone.utc)).strftime("%Y-%m-%dT%H:%M:%SZ"), "puntaje_global": puntaje(resultados),
+            "commit": commit, "config_revisado": cfg.get("revisado"), "cobertura": cobertura,
             "marcos": marcos, "controles": resultados, "mejoras": unicas}
 
 

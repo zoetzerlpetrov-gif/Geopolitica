@@ -17,10 +17,13 @@ reglas, en totales.
 import hashlib
 import json
 import os
+import re
 import sys
 import time
 import urllib.error
 import urllib.request
+from html.parser import HTMLParser
+from urllib.parse import urlsplit
 from datetime import datetime, timedelta, timezone
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
@@ -55,7 +58,10 @@ def revisar_sitios(pedir=http, local_index=None):
             st, cuerpo, ms = pedir(url)
             item = {"sitio": nombre, "url": url, "estado": st, "ms": ms, "ok": 200 <= st < 400}
             if url.endswith("/") and local_index is not None and st == 200:
-                item["integro"] = huella_index(cuerpo) == huella_index(local_index)
+                normalizado, transformaciones = normalizar_publicacion(cuerpo, url)
+                item.update(integro=huella_index(normalizado) == huella_index(local_index),
+                            transformaciones=transformaciones, hash_publicado=huella_index(cuerpo),
+                            hash_comparable=huella_index(normalizado), hash_repositorio=huella_index(local_index))
             out.append(item)
         except Exception as e:  # noqa: BLE001
             out.append({"sitio": nombre, "url": url, "estado": 0, "ms": None, "ok": False, "error": str(e)[:120]})
@@ -66,6 +72,49 @@ def huella_index(contenido):
     """Huella del index.html sin espacios al final de línea (la publicación no cambia el contenido)."""
     t = contenido.decode("utf-8", "ignore") if isinstance(contenido, bytes) else str(contenido)
     return hashlib.sha256("\n".join(l.rstrip() for l in t.strip().splitlines()).encode()).hexdigest()
+
+
+def normalizar_publicacion(contenido, url, reglas=None):
+    """Retira sólo un beacon exacto registrado para ese host. No ignora scripts por dominio.
+
+    Atributos adicionales, duplicados, código inline o cambios de token/SRI/versiones
+    no se reconocen. El resto del documento se compara completo contra el repositorio.
+    """
+    t = contenido.decode("utf-8", "strict") if isinstance(contenido, bytes) else str(contenido)
+    if reglas is None:
+        with open(os.path.join(ROOT, "config", "integridad_publicacion.json"), encoding="utf-8") as f:
+            reglas = json.load(f)["transformaciones"]
+    reconocidas = []
+    class Script(HTMLParser):
+        def __init__(self):
+            super().__init__(convert_charrefs=True)
+            self.atributos = None
+        def handle_starttag(self, tag, attrs):
+            if tag == "script" and len(attrs) == len(dict(attrs)):
+                self.atributos = dict(attrs)
+    patron = r'(?m)^[ \t]*<script\b[^>]*>[^<]*</script>[ \t]*(?:\r?\n)?'
+    for regla in reglas:
+        if urlsplit(url).hostname != regla["host"]:
+            continue
+        coincidencias = []
+        for m in re.finditer(patron, t):
+            if re.fullmatch(r'[ \t]*<script\b[^>]*>\s*</script>[ \t]*(?:\r?\n)?', m.group()) is None:
+                continue
+            p = Script(); p.feed(m.group())
+            attrs = p.atributos
+            if not attrs:
+                continue
+            try:
+                attrs['data-cf-beacon'] = json.loads(attrs.get('data-cf-beacon', ''))
+            except (ValueError, TypeError):
+                continue
+            if attrs == regla['atributos']:
+                coincidencias.append(m)
+        if len(coincidencias) == 1:
+            m = coincidencias[0]
+            t = t[:m.start()] + t[m.end():]
+            reconocidas.append(regla['nombre'])
+    return t, reconocidas
 
 
 # ------------------------------------------------------------------ 2. Cloudflare

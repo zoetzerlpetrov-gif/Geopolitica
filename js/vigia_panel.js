@@ -6,7 +6,7 @@ export function htmlVigia(d) {
   if (!d) return `<p class="meta">Aún no hay revisiones (el flujo «Vigía de seguridad» corre cada 10 minutos).</p>`;
   const [ic, nombre] = NIVEL[d.nivel] || ["⚪", d.nivel];
   const det = d.detalle || {}, cf = det.cloudflare, gh = det.github;
-  const sitios = (det.sitios || []).map((s) => `<tr><td>${esc(s.sitio)}</td><td>${s.ok ? "✅" : "❌"} ${esc(s.estado)}</td><td>${s.ms == null ? "—" : `${s.ms} ms`}</td><td>${s.integro === false ? "⚠️ distinto al repositorio" : s.integro ? "✅ íntegro" : "—"}</td></tr>`).join("");
+  const sitios = (det.sitios || []).map((s) => `<tr><td>${esc(s.sitio)}</td><td>${s.ok ? "✅" : "❌"} ${esc(s.estado)}</td><td>${s.ms == null ? "—" : `${s.ms} ms`}</td><td>${s.integro === false ? "⚠️ distinto al repositorio" : s.integro ? "✅ íntegro" : "—"}${s.transformaciones?.length ? `<br><small>${s.transformaciones.map(esc).join(" · ")}</small>` : ""}</td></tr>`).join("");
   const barras = (d.historial || []).slice(-72).map((h) => `<i class="vg-${esc(h.nivel)}" title="${esc(h.hora)} · ${esc(h.nivel)}${h.solicitudes != null ? ` · ${h.solicitudes} solicitudes` : ""}"></i>`).join("");
   return `<p><b>${ic} ${nombre}</b>${d.proteccion ? " · 🛡️ <b>modo de protección ACTIVO</b> (Cloudflare desafía cada visita)" : ""} <span class="meta">· revisión ${esc(String(d.generado_utc || "").replace("T", " ").slice(0, 16))} UTC</span></p>
     ${(d.motivos || []).length ? `<ul>${d.motivos.map((m) => `<li>${esc(m)}</li>`).join("")}</ul>` : ""}

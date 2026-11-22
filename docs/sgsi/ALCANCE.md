@@ -1,20 +1,23 @@
-# Alcance del SGSI de DOMINUS OSINT (ISO/IEC 27001, cláusula 4.3)
+# Alcance del SGSI de DOMINUS OSINT
 
-Versión 1 · 2026-11-19 · Revisión: anual o cuando cambie la arquitectura.
+SGSI-01 · Versión 2 · Fecha: 2026-11-22. Dueño: titular del proyecto. Próxima revisión: 2027-11-22 o por cambio relevante. Referencia: ISO/IEC 27001:2022, 4.3.
 
-## Qué cubre
-| Componente | Dónde vive | Información que maneja |
+Cubre el diseño, desarrollo, publicación, operación y mantenimiento del servicio web: sitio público, versión comercial, herramientas administrativas, backend, procesos automáticos y manejo de información bajo control del proyecto. Se aplica a quien administra, desarrolla, atiende soporte o accede a información del servicio.
+
+| Activo o servicio | Límites y datos | Dueño y criticidad inicial |
 |---|---|---|
-| Sitio público y mapa (`dominusosint.com`) | Cloudflare Pages | Datos de fuentes abiertas (título, enlace, medio, fecha); sin datos personales de visitantes |
-| Páginas de administración (`/ops/`) | Cloudflare Pages, protegidas con Cloudflare Access | Configuración y análisis internos |
-| Worker de administración (`admin.dominusosint.com`) | Cloudflare Workers + D1 | Sesiones firmadas, planes de clientes (ID de GitHub o correo), datos legales, apariencia, contador agregado de visitas |
-| Repositorio y tareas automáticas | GitHub (repositorio público + GitHub Actions) | Código, configuración, datos publicados; secretos solo en GitHub Secrets |
-| Cartera de proyectos | Supabase (cuenta de cada usuario) | Planes de proyecto de clientes, con acceso por usuario |
-| Continuidad familiar | Navegador (localStorage) y respaldo cifrado | Datos familiares; nunca salen del navegador sin cifrar |
+| dominusosint.com y dominus-osint.pages.dev | Sitio público/comercial, noticias, mapas, preferencias en navegador, mediciones y registros técnicos de nube | Operación, Tier 1 |
+| /ops/ y admin.dominusosint.com | Administración, decisiones y configuración; acceso bajo controles de servidor y nube | Titular, Tier 1 |
+| Workers, D1 y R2 | Autenticación, sesiones, cuentas, planes, configuración legal y datos por rol | Administración técnica, Tier 1 |
+| zoetzerlpetrov-gif/Geopolitica y GitHub Actions | Código, dependencias, CI/CD, ingesta, ramas de datos, alertas y secretos de ejecución | Administración técnica, Tier 1 |
+| Supabase opcional y navegador | Carteras, expedientes y respaldos según configuración del usuario | Usuario y operación según responsabilidad, Tier 1 si hay datos de clientes |
+| Fuentes, cámaras y YouTube | Licencias, títulos, enlaces, guiones y publicaciones | Operación, Tier 2 |
+| Dispositivos y cuentas administrativas | Correo, accesos a proveedores, recuperación, tokens y copias | Titular, Tier 1 |
 
-## Qué no cubre
-- Los equipos personales de quien administra (se rigen por la política, sección «Dispositivos»).
-- Los servicios de terceros en sí mismos (GitHub, Cloudflare, Google, Supabase, Mercado Pago): se controlan con sus configuraciones y con la evaluación de proveedores.
+Tier 1: impacto alto; requiere control de cambios, pruebas, evidencia y recuperación. Tier 2: impacto medio recuperable; requiere controles proporcionales y regresión focalizada. Es clasificación preliminar, no declaración de controles verificados.
 
-## Partes interesadas
-Visitantes del sitio, clientes de planes de pago, quien administra el proyecto, proveedores de nube, autoridades de protección de datos (LFPDPPP) y titulares de las fuentes abiertas (licencias).
+Proveedores relevantes: GitHub, Cloudflare, Google/YouTube, Mercado Pago, Supabase cuando se use y proveedores de noticias, mapas y APIs. Se cubren su selección, contratos/licencias, configuración, accesos y supervisión. No se administra ni audita la infraestructura interna de esos proveedores ni las redes u operaciones propias de clientes fuera del servicio contratado. Los dispositivos personales usados para administrar sí se incluyen como dependencia.
+
+Partes interesadas: titular, colaboradores autorizados, visitantes, clientes, titulares de datos personales, proveedores, propietarios de contenidos y autoridades competentes. Obligaciones a evaluar: LFPDPPP, contratos, licencias, términos de servicio y continuidad. Un sitio público también tiene registros técnicos de proveedores; no se presume ausencia de datos personales.
+
+Evidencia: workflows, código cloudflare/, config/paginas_admin.json, config/datos_por_plan.json y aviso de privacidad. Las cuentas, nombres de responsables, contratos privados y datos de clientes se conservan fuera del repositorio público. Aprobación de política y aceptación del riesgo residual se registran por separado.
