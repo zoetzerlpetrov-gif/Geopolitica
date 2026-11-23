@@ -23,6 +23,7 @@ from guion import INGLES_A, INGLES_B, ampersands_voz, candidatos_seccion, con_ag
 from redactar import elegir_y_redactar, frases_titulares, redactar_dof  # noqa: E402
 from video_historial import titulares_anteriores
 from fecha_edicion import edicion, validar_edicion
+from prioridades import con_prioridades
 import patrocinio  # noqa: E402
 
 from PIL import Image, ImageDraw, ImageFont  # noqa: E402
@@ -374,6 +375,7 @@ def main():
     cands = candidatos_seccion(leer_seguro(a.sitio, "data/vivos/noticiero.json"), usadas=usadas, titulares_usados=titulares)
     ia = os.environ.get("IA_LOCAL_URL", "").strip() or None
     elegidas = elegir_y_redactar(cands, ia)
+    elegidas = con_prioridades(elegidas, fecha, usadas, titulares)
     # Cambios recientes en el Diario Oficial de la Federación (bitácora normativa del sitio): qué se publicó y qué implica.
     elegidas = con_dof(elegidas, redactar_dof(notas_dof(leer_seguro(a.sitio, "data/normativa/bitacora.json"), fecha, usadas=usadas | {n["url"] for n in elegidas if n.get("url")}), ia))
     # «Lo que viene»: próximas reformas de la agenda regulatoria (proyectos, iniciativas, dictámenes), después del DOF.
