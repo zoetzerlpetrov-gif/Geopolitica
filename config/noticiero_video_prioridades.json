@@ -8,11 +8,23 @@
       "seccion": "emergencias",
       "seccion_nombre": "Emergencias y transporte",
       "titulo": "Conato de incendio en un restaurante del Aeropuerto de Guadalajara; operaciones normales",
-      "resumen": "El 22 de noviembre se registró un conato de incendio en un restaurante del Aeropuerto Internacional de Guadalajara. El humo motivó el desalojo preventivo de la zona próxima al establecimiento y labores de ventilación. Según lo informado por el Grupo Aeroportuario del Pacífico y Protección Civil de Jalisco, no hubo personas lesionadas, no se evacuó toda la terminal y las operaciones aéreas continuaron con normalidad.",
+      "resumen": "El 22 de noviembre, un conato de incendio en un restaurante del Aeropuerto de Guadalajara provocó humo y el desalojo preventivo del área cercana. Según GAP y Protección Civil de Jalisco, fue controlado y no hubo personas lesionadas. No se evacuó toda la terminal y los vuelos continuaron con normalidad.",
       "medio": "El Informador · reporte de GAP y Protección Civil de Jalisco",
       "url": "https://www.informador.mx/amp/jalisco/aeropuerto-de-guadalajara-reportan-conato-de-incendio-en-el-area-de-restaurantes-20261122-0091.html",
       "fecha": "2026-11-22T23:23:00Z",
-      "grupos_evento": [["aeropuerto"], ["guadalajara"], ["incendio", "humo", "fuego"]]
+      "grupos_evento": [
+        [
+          "aeropuerto"
+        ],
+        [
+          "guadalajara"
+        ],
+        [
+          "incendio",
+          "humo",
+          "fuego"
+        ]
+      ]
     }
   ]
 }
