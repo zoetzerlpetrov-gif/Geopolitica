@@ -1,14 +1,14 @@
 {
- "generado_utc": "2026-11-22T20:52:06Z",
- "agregadas_hoy": 0,
+ "generado_utc": "2026-11-23T11:13:53Z",
+ "agregadas_hoy": 1,
  "resumen": {
-  "en_curso": 13,
-  "federal": 13,
+  "en_curso": 14,
+  "federal": 14,
   "estatal": 0,
   "publicadas": 1,
   "alta_probabilidad": 9,
   "por_sector": {
-   "sin sector": 6,
+   "sin sector": 7,
    "energia_electrica": 5,
    "manufactura_immex": 2,
    "logistica": 1,
@@ -20,6 +20,7 @@
    "energia": 6,
    "animales": 3,
    "transporte": 2,
+   "migracion": 1,
    "impuestos_dinero": 1,
    "bancos_pagos": 1,
    "educacion": 1,
@@ -140,6 +141,40 @@
   "logistica": "Transporte y logística"
  },
  "senales": [
+  {
+   "id": "AG:9b2f236dd476",
+   "detectado": "2026-11-23",
+   "actualizado": "2026-11-23",
+   "fuente": "Monitor de noticias (titular)",
+   "ambito": "federal",
+   "etapa": "anunciada",
+   "etapa_nombre": "Ley o reforma nueva en discusión pública",
+   "probabilidad": 0.45,
+   "horizonte_meses": "1–9",
+   "titulo": "Nueva ley migratoria prohibirá detenciones por rasgos o acento",
+   "url": "https://www.jornada.com.mx/2026/11/23/politica/006n1pol?partner=rss",
+   "medio": "La Jornada (política)",
+   "leyes": [],
+   "leyes_ids": [],
+   "sectores": [],
+   "temas": [
+    "migracion"
+   ],
+   "estado": "en curso",
+   "notas": [
+    {
+     "t": "Nueva ley migratoria prohibirá detenciones por rasgos o acento",
+     "u": "https://www.jornada.com.mx/2026/11/23/politica/006n1pol?partner=rss",
+     "m": "La Jornada (política)",
+     "f": "2026-11-23"
+    }
+   ],
+   "confirmacion": "un solo medio (sin confirmar)",
+   "ventana": [
+    "2026-12",
+    "2027-08"
+   ]
+  },
   {
    "id": "AG:576602014692",
    "detectado": "2026-11-19",
