@@ -7,6 +7,10 @@ set -euo pipefail
 origen=${1:?carpeta del sitio}
 PROYECTO=${CF_PROYECTO:-dominus-osint}
 BUCKET=${CF_R2:-dominus-grandes}
+# Ambiente: «main» = producción (dominusosint.com). Otra rama (pruebas, uat) = copia de vista previa en
+# https://<rama>.dominus-osint.pages.dev: lee los buckets pero NUNCA los escribe (no pisa datos de producción).
+RAMA=${CF_RAMA:-main}
+[[ "$RAMA" =~ ^[a-z0-9-]+$ ]] || { echo "::error::Rama de Cloudflare no válida: $RAMA"; exit 1; }
 W="npx --yes wrangler@4.158.0"
 if [ -z "${CLOUDFLARE_API_TOKEN:-}" ] || [ -z "${CLOUDFLARE_ACCOUNT_ID:-}" ]; then
   echo "Sin CLOUDFLARE_API_TOKEN o CLOUDFLARE_ACCOUNT_ID: no se publica en Cloudflare (el sitio sigue en GitHub Pages)."
@@ -46,14 +50,14 @@ if [ ${#grandes[@]} -gt 0 ]; then
     case "$f" in data/capas/*) ;; *) echo "::warning::$f pasa de 25 MiB y no está en data/capas/: no se publica en Cloudflare"; rm -f "sitio/$f"; continue;; esac
     h="$(sha256sum "sitio/$f" | cut -d' ' -f1)  ${f#data/}"
     echo "$h" >> huellas.txt
-    if ! grep -qxF "$h" huellas_previas.txt; then
+    if [ "$RAMA" = main ] && ! grep -qxF "$h" huellas_previas.txt; then
       echo "Subiendo a R2: ${f#data/} ($(du -h "sitio/$f" | cut -f1))"
       $W r2 object put "$BUCKET/${f#data/}" --file "sitio/$f" --remote --content-type application/octet-stream
     fi
     rutas+=("/$f")
     rm -f "sitio/$f"
   done
-  $W r2 object put "$BUCKET/_huellas.txt" --file huellas.txt --remote --content-type text/plain >/dev/null
+  [ "$RAMA" = main ] && $W r2 object put "$BUCKET/_huellas.txt" --file huellas.txt --remote --content-type text/plain >/dev/null
 fi
 # 1b) Datos por plan (config/datos_por_plan.json con «activo»: true): los archivos que solo usan los planes de pago
 #     se suben al bucket privado dominus-datos-plan (solo los que cambiaron) y se quitan del sitio público.
@@ -83,10 +87,12 @@ if [ ${#protegidos[@]} -gt 0 ]; then
   for f in "${protegidos[@]}"; do
     h="$(sha256sum "sitio/$f" | cut -d' ' -f1)  $f"
     echo "$h" >> huellas_plan.txt
-    grep -qxF "$h" huellas_plan_previas.txt || $W r2 object put "$BPLAN/$f" --file "sitio/$f" --remote --content-type application/octet-stream >/dev/null
+    if [ "$RAMA" = main ] && ! grep -qxF "$h" huellas_plan_previas.txt; then
+      $W r2 object put "$BPLAN/$f" --file "sitio/$f" --remote --content-type application/octet-stream >/dev/null
+    fi
     rm -f "sitio/$f"
   done
-  $W r2 object put "$BPLAN/_huellas.txt" --file huellas_plan.txt --remote --content-type text/plain >/dev/null
+  [ "$RAMA" = main ] && $W r2 object put "$BPLAN/_huellas.txt" --file huellas_plan.txt --remote --content-type text/plain >/dev/null
   echo "Datos por plan: ${#protegidos[@]} archivos en R2 (privado) y fuera del sitio público."
 fi
 # 2) Las Functions solo se invocan en esas rutas (el resto es estático y no consume el cupo de Workers).
@@ -96,5 +102,15 @@ print(json.dumps({"version": 1, "include": sys.argv[1:] or ["/__sin_funciones__"
 PY
 # 3) Proyecto (se crea la primera vez) y publicación en producción.
 $W pages project create "$PROYECTO" --production-branch main >/dev/null 2>&1 || true
-$W pages deploy --project-name "$PROYECTO" --branch main --commit-dirty=true
-echo "Publicado en https://$PROYECTO.pages.dev (y en el dominio propio si ya está conectado)."
+$W pages deploy --project-name "$PROYECTO" --branch "$RAMA" --commit-dirty=true
+if [ "$RAMA" = main ]; then
+  echo "Publicado en https://$PROYECTO.pages.dev (y en el dominio propio si ya está conectado)."
+else
+  echo "Copia de «$RAMA» publicada en https://$RAMA.$PROYECTO.pages.dev (no toca producción)."
+fi
+# Respaldo: la misma copia ya limpia (sin datos por plan ni archivos de R2) para GitHub Pages y el archivo descargable.
+if [ -n "${RESPALDO_DIR:-}" ] && [ "$RAMA" = main ]; then
+  rm -rf "$RESPALDO_DIR" && mkdir -p "$RESPALDO_DIR" && cp -r sitio/. "$RESPALDO_DIR/"
+  rm -f "$RESPALDO_DIR/_routes.json"
+  echo "Copia de respaldo lista en $RESPALDO_DIR ($(du -sh "$RESPALDO_DIR" | cut -f1))."
+fi

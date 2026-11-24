@@ -2,6 +2,7 @@
 import { esc, safeUrl, getJSON } from "./util.js";
 import * as R from "./inmuebles-logica.js";
 import * as Z from "./inmuebles-zonas.js";
+import { urlBM } from "./analitica-logica.js";
 
 const $ = (id) => document.getElementById(id);
 const leer = (k, def) => { try { return JSON.parse(localStorage.getItem(k)) ?? def; } catch (e) { return def; } };
@@ -130,7 +131,7 @@ for (const [iso, r] of Object.entries(reglas)) {
 let volcanes = null;
 const json = async (u) => (await fetch(u)).json();
 async function indicadorBM(iso, ind) {
-  const d = await json(`https://api.worldbank.org/v2/country/${iso}/indicator/${ind}?format=json&mrnev=1`);
+  const d = await json(urlBM(iso, ind));
   const v = d?.[1]?.[0];
   return v && v.value != null ? { valor: Number(v.value), anio: v.date } : null;
 }

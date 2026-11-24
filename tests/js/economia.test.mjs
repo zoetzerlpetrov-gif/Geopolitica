@@ -29,3 +29,10 @@ test("tarjeta escapa textos de la fuente y muestra el error conservado", () => {
   assert.ok(linea(pts).startsWith("<svg"));
   assert.deepEqual(conteo([meta], { x: { puntos: pts } }), { verde: 1, rojo: 0, gris: 0 });
 });
+
+test("motivoFalla: 403 en Admin = sesión terminada; 404 = aún sin datos", async () => {
+  const { motivoFalla } = await import("../../js/economia.js");
+  assert.equal(motivoFalla(new Error("data/economia/precios_mx.json: HTTP 403"), "admin.dominusosint.com").sesion, true);
+  assert.equal(motivoFalla(new Error("HTTP 403"), "dominusosint.com").sesion, false);
+  assert.match(motivoFalla(new Error("x: HTTP 404"), "admin.dominusosint.com").texto, /Aún no hay datos/);
+});

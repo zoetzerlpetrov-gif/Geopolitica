@@ -3,7 +3,11 @@
 const STATE = "__Host-dominus-huella-oauth";
 const SESSION = "__Host-dominus-huella";
 const PLAN_SESSION = "__Host-dominus-planes";
+// Sesión: se cierra tras TTL segundos sin usarse (cada petición la renueva) y nunca dura más de MAX_SESION desde el
+// ingreso, aunque se siga usando. La cookie lleva id.vence.inicio.firma (HMAC de los tres primeros).
 const TTL = 3600;
+export const MAX_SESION = 12 * 3600;
+const RENOVAR_SI_QUEDAN = TTL - 300;  // renueva como mucho cada 5 min para no reenviar la cookie en cada petición
 const OAUTH_TTL = 600;
 const UTF8 = new TextEncoder();
 const headers = { "Cache-Control": "no-store", "Referrer-Policy": "no-referrer" };
@@ -27,15 +31,39 @@ export function configured(url, env) {
       env.OSINT_SESSION_SECRET?.length >= 32 && admins(env).length);
 }
 
-export async function sessionId(request, env, mode = "admin") {
+/** Lee y verifica la cookie de sesión; devuelve { id, vence, inicio } o null. */
+async function leerSesion(request, env, mode = "admin") {
   const value = read(request, mode === "planes" ? PLAN_SESSION : SESSION);
-  if (!value || !/^[1-9][0-9]{0,19}\.[0-9]{1,12}\.[A-Za-z0-9_-]{43}$/.test(value)) return null;
-  const [id, expires, signature] = value.split(".");
+  if (!value || !/^[1-9][0-9]{0,19}\.[0-9]{1,12}\.[0-9]{1,12}\.[A-Za-z0-9_-]{43}$/.test(value)) return null;
+  const [id, vence, inicio, signature] = value.split(".");
   const current = now();
-  if (+expires <= current || +expires > current + TTL) return null;
+  if (+vence <= current || +vence > current + TTL || +inicio > current || +vence > +inicio + MAX_SESION) return null;
   const bytes = Uint8Array.from(atob(signature.replaceAll("-", "+").replaceAll("_", "/") + "="), char => char.charCodeAt(0));
-  const payload = mode === "planes" ? `planes.${id}.${expires}` : `${id}.${expires}`;
-  return await crypto.subtle.verify("HMAC", await key(env), bytes, UTF8.encode(payload)) ? id : null;
+  const payload = (mode === "planes" ? "planes." : "") + `${id}.${vence}.${inicio}`;
+  return await crypto.subtle.verify("HMAC", await key(env), bytes, UTF8.encode(payload)) ? { id, vence: +vence, inicio: +inicio } : null;
+}
+
+/** Cookie de sesión firmada para `id`, con vencimiento por inactividad y el tope desde `inicio`. */
+async function cookieSesion(env, id, inicio, mode = "admin") {
+  const vence = Math.min(now() + TTL, inicio + MAX_SESION);
+  const payload = `${id}.${vence}.${inicio}`;
+  const signature = await crypto.subtle.sign("HMAC", await key(env), UTF8.encode((mode === "planes" ? "planes." : "") + payload));
+  return cookie(mode === "planes" ? PLAN_SESSION : SESSION, `${payload}.${b64url(signature)}`, vence - now());
+}
+
+export async function sessionId(request, env, mode = "admin") {
+  return (await leerSesion(request, env, mode))?.id ?? null;
+}
+
+/** Set-Cookie que extiende una sesión válida (ventana de inactividad de TTL, sin pasar del tope), o null si no toca. */
+export async function renovar(request, env, mode = "admin") {
+  try {
+    const s = await leerSesion(request, env, mode);
+    if (!s || s.vence - now() > RENOVAR_SI_QUEDAN || s.vence >= s.inicio + MAX_SESION) return null;
+    return await cookieSesion(env, s.id, s.inicio, mode);
+  } catch {
+    return null;
+  }
 }
 
 export async function authorized(request, env) {
@@ -117,9 +145,7 @@ export async function complete(request, url, env, root, activePlan) {
   try {
     const allowed = mode === "planes" ? await activePlan?.(String(id)) : admins(env).includes(String(id));
     if (!allowed) return deny("sin-acceso");
-    const payload = `${id}.${now() + TTL}`;
-    const signature = await crypto.subtle.sign("HMAC", await key(env), UTF8.encode(mode === "planes" ? "planes." + payload : payload));
-    return redirect(destination, [cleared, cookie(mode === "planes" ? PLAN_SESSION : SESSION, `${payload}.${b64url(signature)}`, TTL)]);
+    return redirect(destination, [cleared, await cookieSesion(env, String(id), now(), mode)]);
   } catch {
     return deny("sesion-no-disponible");
   }
@@ -127,4 +153,19 @@ export async function complete(request, url, env, root, activePlan) {
 
 export function signOut(mode = "admin") {
   return new Response(null, { status: 204, headers: { ...headers, "Set-Cookie": cookie(mode === "planes" ? PLAN_SESSION : SESSION, "", 0) } });
+}
+
+/** Mientras se usa, la sesión (Admin o plan) se extiende: se cierra tras 1 h sin uso y a las 12 h del ingreso. */
+export async function conSesionRenovada(request, env, respuesta) {
+  const puestas = respuesta.headers.getSetCookie?.() || [];
+  const nuevas = [];
+  for (const [modo, nombre] of [["admin", "__Host-dominus-huella="], ["planes", "__Host-dominus-planes="]]) {
+    if (puestas.some((c) => c.startsWith(nombre))) continue;  // ingreso o salida: ya trae su propia cookie
+    const c = await renovar(request, env, modo);
+    if (c) nuevas.push(c);
+  }
+  if (!nuevas.length) return respuesta;
+  const r = new Response(respuesta.body, respuesta);
+  for (const c of nuevas) r.headers.append("Set-Cookie", c);
+  return r;
 }

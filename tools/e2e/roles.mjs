@@ -106,6 +106,24 @@ async function probarRol(navegador, rol) {
       paso();
     }));
     r.solo_admin_visible = await page.evaluate(() => [...document.querySelectorAll("[data-solo-admin]")].map((e) => (e.textContent || e.id).trim().slice(0, 80)));
+    // Ningún enlace ni texto visible debe llevar a una sección de solo administración (p. ej. «Caja del analista»).
+    const soloAdmin = (planes.solo_admin || []).map((x) => [x.href || x.id, x.nombre]).filter(([h]) => h);
+    r.solo_admin_visible.push(...await page.evaluate((lista) => {
+      const abiertos = [...document.querySelectorAll("details:not([open])")];
+      for (const d of abiertos) d.open = true;
+      const hrefs = new Set(lista.map(([h]) => h)), nombres = lista.map(([, n]) => n).filter((n) => n && n.length > 8);
+      const out = [];
+      for (const a of document.querySelectorAll("a[href]")) {
+        const h = (a.getAttribute("href") || "").split(/[?#]/)[0].split("/").pop();
+        if (hrefs.has(h) && a.checkVisibility()) out.push(`enlace a ${h}: ${a.textContent.trim().slice(0, 60)}`);
+      }
+      const w = document.createTreeWalker(document.querySelector("#panel") || document.body, NodeFilter.SHOW_TEXT);
+      for (let n; (n = w.nextNode());) for (const nom of nombres) {
+        if (n.textContent.includes(nom) && n.parentElement?.checkVisibility()) out.push(`texto «${nom}»: ${n.textContent.trim().slice(0, 60)}`);
+      }
+      for (const d of abiertos) d.open = false;
+      return [...new Set(out)];
+    }, soloAdmin));
     r.grupos_vacios = await page.evaluate(() => [...document.querySelectorAll("details.subgrupo-d")]
       .filter((d) => !d.querySelector("input[type=checkbox]")).map((d) => d.querySelector("summary")?.textContent.trim().slice(0, 80)));
   }

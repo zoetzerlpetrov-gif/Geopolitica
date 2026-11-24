@@ -59,6 +59,14 @@ export const INDICADORES_BM = [
   ["VC.IHR.PSRC.P5", "Homicidios por 100 mil", "", 1],
   ["SP.POP.TOTL", "Población", "", 0],
 ];
+/**
+ * URL de la API del Banco Mundial para un indicador. Los de gobernanza (PV.EST, CC.EST…) se retiraron de la fuente 2
+ * (WDI) en 2026 y ahora viven en la fuente 3 (WGI) con el prefijo «GOV_WGI_»; sin esto la API responde «not found».
+ */
+export function urlBM(iso, cod) {
+  const wgi = /^(PV|CC|GE|RQ|RL|VA)\.EST$/.test(cod);
+  return `https://api.worldbank.org/v2/country/${encodeURIComponent(iso)}/indicator/${wgi ? `GOV_WGI_${cod}` : cod}?format=json&mrnev=1${wgi ? "&source=3" : ""}`;
+}
 export const leerBM = (d) => { const v = d?.[1]?.[0]; return v && v.value != null ? { valor: Number(v.value), anio: v.date } : null; };
 
 /**

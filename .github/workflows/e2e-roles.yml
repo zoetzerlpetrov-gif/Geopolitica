@@ -17,6 +17,12 @@ on:
         description: "Roles separados por espacio (vacío = todos)"
         required: false
         default: ""
+  workflow_call:   # Ambientes, pruebas y UAT; corre sobre la copia de la rama antes de pasar a producción
+    inputs:
+      roles:
+        type: string
+        required: false
+        default: ""
 
 permissions:
   contents: read
@@ -78,10 +84,18 @@ jobs:
         env:
           BASE: http://127.0.0.1:8000
           PLAYWRIGHT_MODULE: /tmp/pw/node_modules/playwright
-          ROLES: ${{ github.event.inputs.roles }}
+          ROLES: ${{ inputs.roles || github.event.inputs.roles }}
         run: |
           [[ "$ROLES" =~ ^[a-z\ ]*$ ]] || { echo "Roles inválidos"; exit 1; }
           node tools/e2e/roles.mjs $ROLES
+      - name: Contraste de textos en tema claro y oscuro (informativo)
+        if: always()
+        continue-on-error: true
+        timeout-minutes: 40
+        env:
+          BASE: http://127.0.0.1:8000
+          PLAYWRIGHT_MODULE: /tmp/pw/node_modules/playwright
+        run: node tools/e2e/contraste.mjs
       - name: Token del tablero de pruebas (secreto del Worker de esta corrida)
         id: token
         if: always() && github.ref == 'refs/heads/main'
@@ -103,7 +117,7 @@ jobs:
         run: python3 tools/e2e/enviar_pruebas.py e2e/informe.json /tmp/pytest.txt /tmp/node.txt || echo "::warning::No se pudo enviar al tablero de pruebas"
       - name: Resumen en la corrida
         if: always()
-        run: cat e2e/informe.md >> "$GITHUB_STEP_SUMMARY" || true
+        run: cat e2e/informe.md >> "$GITHUB_STEP_SUMMARY" || true; cat e2e/contraste.md >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || true
       - name: Guardar el informe
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

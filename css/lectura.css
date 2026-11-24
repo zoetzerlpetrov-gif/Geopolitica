@@ -11,6 +11,8 @@ body :is(.tarjeta,.card,.kpi,.caja,fieldset){background-color:var(--surface);col
 body :is(input:not([type=color]):not([type=checkbox]):not([type=radio]),select,textarea,option){background-color:var(--surface);color:var(--text);border-color:var(--line);font-family:var(--font)}
 body button{font-family:var(--font)}
 body :is(button,input,select,textarea):disabled{opacity:1;color:var(--text-2);cursor:not-allowed}
+/* Botón deshabilitado: fondo neutro (no el color de acento) para que su texto gris se lea en claro y oscuro. */
+body button:disabled{background-color:var(--surface-2)!important;border-color:var(--line)!important;background-image:none!important}
 body :is(input,textarea)::placeholder{color:var(--text-2);opacity:1}
 body :is(.meta,.ayuda,.muted,.text-muted){color:var(--text-2);opacity:1}
 body .hecho{opacity:1}

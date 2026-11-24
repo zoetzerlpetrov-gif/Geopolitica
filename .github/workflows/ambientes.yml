@@ -1,0 +1,40 @@
+name: Ambientes (pruebas y UAT)
+
+# Ciclo de cambios: desarrollo (ramas de trabajo y PR) → PRUEBAS → UAT → PRODUCCIÓN.
+#   · pruebas: subir a la rama «pruebas» publica https://pruebas.dominus-osint.pages.dev y corre las pruebas
+#     integrales por rol (capas, menús, páginas, datos, solo-admin, tema claro/oscuro y contraste).
+#   · uat: subir a la rama «uat» publica https://uat.dominus-osint.pages.dev para la revisión de la persona
+#     (aceptación) con el mismo informe.
+#   · producción: solo se publica desde main (dominusosint.com), con el PR que pasa «pruebas» y CodeQL.
+# Las copias de pruebas y UAT leen los datos de producción pero nunca escriben en R2 ni en las bases del Worker.
+on:
+  push:
+    branches: [pruebas, uat]
+  workflow_dispatch:
+    inputs:
+      ambiente:
+        description: "Copia a publicar y probar"
+        type: choice
+        options: [pruebas, uat]
+        default: pruebas
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: ambiente-${{ inputs.ambiente || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  publicar:
+    uses: ./.github/workflows/pages.yml
+    with:
+      ambiente: ${{ inputs.ambiente || github.ref_name }}
+    secrets: inherit
+
+  pruebas-integrales:
+    needs: publicar
+    uses: ./.github/workflows/e2e-roles.yml
+    secrets: inherit
