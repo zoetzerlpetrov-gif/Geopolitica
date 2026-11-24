@@ -71,7 +71,7 @@ $("c-btn").onclick = async () => {
   if (!isos.length) { $("c-res").innerHTML = `<p class="meta">No reconocí ningún país. Escribe el nombre (México) o el código ISO de 3 letras (MEX).</p>`; return; }
   $("c-res").innerHTML = `<p class="meta">Consultando al Banco Mundial…</p>`;
   const bm = await Promise.all(isos.map((iso) => Promise.all(A.INDICADORES_BM.map(([cod]) =>
-    fetch(`https://api.worldbank.org/v2/country/${iso}/indicator/${cod}?format=json&mrnev=1`).then((r) => r.json()).then(A.leerBM).catch(() => null)))));
+    fetch(A.urlBM(iso, cod)).then((r) => r.json()).then(A.leerBM).catch(() => null)))));
   const fmt = (x, dec) => (x == null ? "—" : `${x.valor.toLocaleString("es-MX", { maximumFractionDigits: dec, minimumFractionDigits: dec })} <span class="meta">(${x.anio})</span>`);
   const perf = isos.map((iso) => A.perfilPais(eventos, iso));
   const areas = [...new Set(perf.flatMap((p) => Object.keys(p.areas)))].sort((a, b) => perf.reduce((s, p) => s + (p.areas[b] || 0), 0) - perf.reduce((s, p) => s + (p.areas[a] || 0), 0)).slice(0, 8);

@@ -6,7 +6,18 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      ambiente:
+        description: "Dónde publicar: produccion (dominusosint.com), pruebas o uat (copias de vista previa)"
+        type: choice
+        options: [produccion, pruebas, uat]
+        default: produccion
   workflow_call:   # la ingesta horaria (Fase 2) lo llamará después de actualizar data/
+    inputs:
+      ambiente:
+        type: string
+        required: false
+        default: produccion
 
 permissions:
   contents: read
@@ -14,7 +25,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: pages-${{ inputs.ambiente || 'produccion' }}
   cancel-in-progress: false
 
 jobs:
@@ -25,6 +36,8 @@ jobs:
     needs: pruebas
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    outputs:
+      respaldo_pages: ${{ steps.toca.outputs.pages }}
     steps:
       - name: Clonar repositorio
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -192,4 +205,56 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CF_PROYECTO: dominus-osint
           CF_R2: dominus-grandes
+          # produccion → rama main (dominusosint.com); pruebas/uat → <rama>.dominus-osint.pages.dev sin escribir en R2.
+          CF_RAMA: ${{ (inputs.ambiente == 'pruebas' || inputs.ambiente == 'uat') && inputs.ambiente || 'main' }}
+          RESPALDO_DIR: ${{ github.workspace }}/_respaldo
         run: bash tools/cloudflare/publicar_pages.sh _site
+
+      # El sitio se republica muchas veces al día (datos en vivo cada 20 min): el respaldo en GitHub Pages se renueva
+      # con cada cambio de código (push o manual) y cada 6 h; el archivo descargable, con cada cambio de código y a las 00 h UTC.
+      - name: ¿Toca respaldo?
+        id: toca
+        if: ${{ inputs.ambiente != 'pruebas' && inputs.ambiente != 'uat' }}
+        run: |
+          h=$((10#$(date -u +%H))); m=$((10#$(date -u +%M)))
+          ev="${{ github.event_name }}"
+          pages=0; archivo=0
+          if [ "$ev" = push ] || [ "$ev" = workflow_dispatch ]; then pages=1; archivo=1; fi
+          if [ $((h % 6)) -eq 0 ] && [ "$m" -lt 25 ]; then pages=1; fi
+          if [ "$h" -eq 0 ] && [ "$m" -lt 25 ]; then archivo=1; fi
+          [ -f _respaldo/index.html ] || { pages=0; archivo=0; }
+          echo "pages=$pages" >> "$GITHUB_OUTPUT"; echo "archivo=$archivo" >> "$GITHUB_OUTPUT"
+          echo "Respaldo: GitHub Pages=$pages, archivo=$archivo"
+
+
+      # Respaldo de producción (fuera de Cloudflare): la misma copia pública y limpia queda (1) como archivo descargable
+      # 14 días en la corrida y (2) publicada en GitHub Pages (zoetzerlpetrov-gif.github.io/Geopolitica), por si
+      # Cloudflare falla. Un error aquí nunca detiene la publicación principal.
+      - name: Respaldo descargable de producción
+        if: ${{ steps.toca.outputs.archivo == '1' }}
+        continue-on-error: true
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: respaldo-produccion-${{ github.run_number }}
+          path: _respaldo
+          retention-days: 14
+      - name: Empaquetar el respaldo para GitHub Pages
+        if: ${{ steps.toca.outputs.pages == '1' }}
+        continue-on-error: true
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
+        with:
+          path: _respaldo
+
+  respaldo:
+    needs: publicar
+    if: ${{ needs.publicar.outputs.respaldo_pages == '1' }}
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    timeout-minutes: 15
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: Publicar el respaldo en GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4

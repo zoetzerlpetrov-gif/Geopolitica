@@ -117,11 +117,24 @@ export function tarjetaPrecio(s) {
     <p class="meta">Fuente: <a href="${esc(s.enlace)}" target="_blank" rel="noopener noreferrer">${esc(s.fuente)}</a> · ${esc(s.frecuencia)}</p></article>`;
 }
 
+/** Mensaje claro cuando un dato no carga: en Admin, un 403 significa que la sesión terminó (1 h sin uso o 12 h). */
+export function motivoFalla(e, host = globalThis.location?.hostname || "") {
+  const m = String(e?.message || e || "");
+  if (/\b403\b/.test(m) && /^admin\./.test(host)) return { sesion: true, texto: "Tu sesión de administración terminó (1 hora sin uso o 12 horas desde el ingreso). Vuelve a ingresar y recarga la página." };
+  if (/\b404\b/.test(m)) return { sesion: false, texto: "Aún no hay datos publicados." };
+  return { sesion: false, texto: e?.name === "AbortError" ? "La fuente no respondió a tiempo." : `No se pudo cargar (${m.replace(/^.*?: /, "")}).` };
+}
+const avisoSesion = (f) => (f.sesion ? ` <a href="/admin/huella/ingreso">Ingresar de nuevo</a>` : "");
+
 async function precios() {
   const cont = $("pm-lista");
   let d;
   try { d = await getJSON("data/economia/precios_mx.json", { bust: true }); }
-  catch { cont.innerHTML = `<p class="meta">Aún no hay precios publicados: se generan una vez al día con el workflow «Economía».</p>`; return; }
+  catch (e) {
+    const f = motivoFalla(e);
+    cont.innerHTML = `<p class="aviso">${esc(f.sesion ? f.texto : `${f.texto} Los precios se generan una vez al día con el workflow «Economía».`)}${avisoSesion(f)}</p>`;
+    return;
+  }
   const pintar = () => {
     const q = $("pm-buscar").value.trim().toLowerCase();
     const series = d.series.filter((x) => !q || `${x.nombre} ${x.grupo}`.toLowerCase().includes(q));
@@ -149,7 +162,8 @@ async function portafolio() {
       <div class="rejilla"><div class="ind"><h3>Señal «comprar»</h3><ul>${lista("comprar")}</ul></div><div class="ind"><h3>Señal «rebote»</h3><ul>${lista("rebote")}</ul></div>
       <div class="ind"><h3>«Precaución»</h3><ul>${lista("precaucion")}</ul></div></div>`;
   } catch (e) {
-    cont.querySelector(".pf-datos").innerHTML = `<p class="aviso">El Portafolio no está disponible en este momento (${esc(e.name === "AbortError" ? "no respondió" : e.message)}). El resto de esta página no depende de él.</p>`;
+    const f = motivoFalla(e);
+    cont.querySelector(".pf-datos").innerHTML = `<p class="aviso">${esc(f.sesion ? f.texto : `El Portafolio no está disponible en este momento: ${f.texto} El resto de esta página no depende de él.`)}${avisoSesion(f)}</p>`;
   }
 }
 

@@ -20,7 +20,9 @@ export function htmlImagenMedio(src, fuente, url) {
 
 // Datos por plan (config/datos_por_plan.json, fase 2): en el sitio público, los archivos de data/ que solo usan los
 // planes de pago no se publican; se piden al Worker con la sesión de la cuenta. Con «activo»: false no cambia nada.
-const SITIO_PUBLICO = /^(www\.)?dominusosint\.com$|^dominus-osint\.pages\.dev$/;
+// También las copias de pruebas y UAT (<rama>.dominus-osint.pages.dev) y el respaldo en GitHub Pages: en ninguna se
+// publican esos archivos.
+const SITIO_PUBLICO = /^(www\.)?dominusosint\.com$|^([a-z0-9-]+\.)?dominus-osint\.pages\.dev$|^zoetzerlpetrov-gif\.github\.io$/;
 const ORIGEN_DATOS = "https://admin.dominusosint.com/cuenta/datos/";
 let cfgDatos = null;
 function listaDatosPlan() {

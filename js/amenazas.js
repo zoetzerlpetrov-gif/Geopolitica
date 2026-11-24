@@ -322,8 +322,9 @@ export function hoyNoCircula(fecha = new Date()) {
   return { aplica: false, texto: "Domingo: no aplica." };
 }
 
-/** Colores de los engomados (para dibujarlos); `claro` = texto oscuro encima. */
-export const COLOR_ENGOMADO = { Amarillo: ["#F2C200", true], Rosa: ["#E8609E", false], Rojo: ["#D23B3B", false], Verde: ["#2E9E6E", false], Azul: ["#2471A3", false] };
+/** Colores de los engomados (para dibujarlos); `claro` = texto oscuro encima (el que da ≥ 4.5:1 de contraste: con blanco,
+ *  rosa y verde quedan en 3.3:1). */
+export const COLOR_ENGOMADO = { Amarillo: ["#F2C200", true], Rosa: ["#E8609E", true], Rojo: ["#D23B3B", false], Verde: ["#2E9E6E", true], Azul: ["#2471A3", false] };
 
 /** Semana del programa (lunes a viernes) con el día de hoy marcado. */
 export function semanaHNC(fecha = new Date()) {

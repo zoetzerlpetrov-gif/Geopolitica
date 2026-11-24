@@ -342,7 +342,7 @@ button.mini { font-size: 11px; padding: 1px 6px; border-radius: 10px; border: 1p
 .vdm { border: 1px solid var(--line); border-radius: 8px; padding: 8px; margin: 8px 0; background: var(--surface); }
 .vdm h4 { margin: 0 0 6px; font-size: 12px; }
 .hnc-semana { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
-.hnc-dia { border-radius: 6px; padding: 4px 2px; text-align: center; font-size: 10px; line-height: 1.25; color: #fff; background: var(--c); opacity: .55; }
+.hnc-dia { border-radius: 6px; padding: 4px 2px; text-align: center; font-size: 10px; line-height: 1.25; color: #fff; background: var(--c); }
 .hnc-dia b { display: block; font-size: 13px; }
 .hnc-dia.claro { color: #1a1a1a; }
 .hnc-dia.hoy { opacity: 1; outline: 2px solid var(--text); outline-offset: 1px; font-weight: 700; }
