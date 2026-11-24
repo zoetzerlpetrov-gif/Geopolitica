@@ -1,5 +1,5 @@
 {
- "generado_utc": "2026-11-24T12:53:01Z",
+ "generado_utc": "2026-11-24T23:37:54Z",
  "fuentes": {
   "MEX": {
    "fuente": "Diario Oficial de la Federación y Cámara de Diputados",
@@ -86,9 +86,9 @@
  "desactualizadas": [],
  "por_pais": {
   "RUS": {
-   "total": 29,
+   "total": 31,
    "alto": 4,
-   "ultimos_30d": 29
+   "ultimos_30d": 31
   },
   "MEX": {
    "total": 558,
@@ -111,5 +111,5 @@
    "ultimos_30d": 1
   }
  },
- "agregadas_hoy": 6
+ "agregadas_hoy": 2
 }

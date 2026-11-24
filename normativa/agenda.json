@@ -1,14 +1,14 @@
 {
- "generado_utc": "2026-11-24T12:54:17Z",
+ "generado_utc": "2026-11-24T23:44:42Z",
  "agregadas_hoy": 1,
  "resumen": {
-  "en_curso": 16,
-  "federal": 16,
+  "en_curso": 17,
+  "federal": 17,
   "estatal": 0,
   "publicadas": 1,
   "alta_probabilidad": 9,
   "por_sector": {
-   "sin sector": 9,
+   "sin sector": 10,
    "energia_electrica": 5,
    "manufactura_immex": 2,
    "logistica": 1,
@@ -22,6 +22,7 @@
    "transporte": 3,
    "impuestos_dinero": 2,
    "mujeres_igualdad": 1,
+   "cultura_deporte": 1,
    "migracion": 1,
    "seguridad_justicia": 1,
    "bancos_pagos": 1,
@@ -168,6 +169,40 @@
      "t": "Palabra de Antígona / Venció el plazo para aprobar la nueva ley sobre feminicidio",
      "u": "https://oem.com.mx/elsoldemexico/analisis/palabra-de-antigona-vencio-el-plazo-para-aprobar-la-nueva-ley-sobre-feminicidio-33275728",
      "m": "El Sol de México",
+     "f": "2026-11-24"
+    }
+   ],
+   "confirmacion": "un solo medio (sin confirmar)",
+   "ventana": [
+    "2026-12",
+    "2027-08"
+   ]
+  },
+  {
+   "id": "AG:55ece294bd22",
+   "detectado": "2026-11-24",
+   "actualizado": "2026-11-24",
+   "fuente": "Monitor de noticias (titular)",
+   "ambito": "federal",
+   "etapa": "anunciada",
+   "etapa_nombre": "Ley o reforma nueva en discusión pública",
+   "probabilidad": 0.45,
+   "horizonte_meses": "1–9",
+   "titulo": "Sheinbaum alista nueva ley de casinos para regular apuestas digitales",
+   "url": "https://www.proceso.com.mx/nacional/2026/11/24/sheinbaum-alista-nueva-ley-de-casinos-para-regular-apuestas-digitales-384264.html",
+   "medio": "proceso.com.mx",
+   "leyes": [],
+   "leyes_ids": [],
+   "sectores": [],
+   "temas": [
+    "cultura_deporte"
+   ],
+   "estado": "en curso",
+   "notas": [
+    {
+     "t": "Sheinbaum alista nueva ley de casinos para regular apuestas digitales",
+     "u": "https://www.proceso.com.mx/nacional/2026/11/24/sheinbaum-alista-nueva-ley-de-casinos-para-regular-apuestas-digitales-384264.html",
+     "m": "proceso.com.mx",
      "f": "2026-11-24"
     }
    ],
