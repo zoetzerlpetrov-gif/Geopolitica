@@ -7,7 +7,7 @@
      "afecta": "Lanza «Datos en movimiento» y la ingesta cuando el cron de GitHub no se dispara"},
     {"id": "ingesta", "nombre": "Ingesta de eventos", "workflow": "ingest.yml", "cada": "1 h", "max_horas": 3,
      "afecta": "Eventos y noticias del mapa, historial de 90 días y reportes diarios"},
-    {"id": "capas", "nombre": "Construir capas (PMTiles)", "workflow": "capas.yml", "cada": "4 h", "max_horas": 9,
+    {"id": "capas", "nombre": "Construir capas (PMTiles)", "workflow": "capas.yml", "cada": "4 h (GitHub la lanza cada 10-14 h)", "max_horas": 16,
      "afecta": "Capas fijas: infraestructura, cables, organizaciones, historia por país"},
     {"id": "economia", "nombre": "Economía", "workflow": "economia.yml", "cada": "1 día", "max_horas": 30,
      "afecta": "Sección Economía (indicadores de México, EUA y UE, índices curiosos)"},

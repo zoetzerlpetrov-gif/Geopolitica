@@ -2405,12 +2405,12 @@
     },
     {
      "id": "nom005_028_stps",
-     "nombre": "NOM-005-STPS-1998 (manejo, transporte y almacenamiento de sustancias peligrosas), NOM-010-STPS-2014 (agentes químicos contaminantes del ambiente laboral) y NOM-028-STPS-2012 (seguridad en procesos y equipos críticos con sustancias químicas)",
+     "nombre": "NOM-005-STPS-2025 (manejo de sustancias químicas peligrosas o sus mezclas en los centros de trabajo; publicada en el DOF el 2026-11-24, sustituiría a la NOM-005-STPS-1998: verificar), NOM-010-STPS-2014 (agentes químicos contaminantes del ambiente laboral) y NOM-028-STPS-2012 (seguridad en procesos y equipos críticos con sustancias químicas)",
      "sigla": "NOM-005/010/028-STPS",
      "tipo": "NOM",
      "autoridad": "STPS",
      "url": "https://www.sinec.gob.mx/SINEC/",
-     "ultima_reforma": "verificar",
+     "ultima_reforma": "NOM-005-STPS-2025 publicada en el DOF el 2026-11-24 (verificar entrada en vigor, plazos de adecuación y cancelación de la NOM-005-STPS-1998)",
      "aplica": "Plantas químicas y petroquímicas.",
      "obligaciones": [
       "Estudio de riesgo y procedimientos seguros para manejo de sustancias.",
@@ -2426,7 +2426,8 @@
      ],
      "preguntas": [
       "¿Existen análisis de riesgos de proceso actualizados para equipos críticos?",
-      "¿La exposición a agentes químicos se evalúa con laboratorio acreditado?"
+      "¿La exposición a agentes químicos se evalúa con laboratorio acreditado?",
+      "¿Se revisaron las condiciones y procedimientos de la nueva NOM-005-STPS-2025 (DOF 24-11-2026) frente a los vigentes y su plazo de entrada en vigor?"
      ]
     },
     {
