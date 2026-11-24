@@ -1,14 +1,14 @@
 {
- "generado_utc": "2026-11-24T01:54:18Z",
+ "generado_utc": "2026-11-24T12:54:17Z",
  "agregadas_hoy": 1,
  "resumen": {
-  "en_curso": 15,
-  "federal": 15,
+  "en_curso": 16,
+  "federal": 16,
   "estatal": 0,
   "publicadas": 1,
   "alta_probabilidad": 9,
   "por_sector": {
-   "sin sector": 8,
+   "sin sector": 9,
    "energia_electrica": 5,
    "manufactura_immex": 2,
    "logistica": 1,
@@ -21,6 +21,7 @@
    "animales": 3,
    "transporte": 3,
    "impuestos_dinero": 2,
+   "mujeres_igualdad": 1,
    "migracion": 1,
    "seguridad_justicia": 1,
    "bancos_pagos": 1,
@@ -142,6 +143,40 @@
   "logistica": "Transporte y logística"
  },
  "senales": [
+  {
+   "id": "AG:4aa09858a3d2",
+   "detectado": "2026-11-24",
+   "actualizado": "2026-11-24",
+   "fuente": "Monitor de noticias (titular)",
+   "ambito": "federal",
+   "etapa": "anunciada",
+   "etapa_nombre": "Ley o reforma nueva en discusión pública",
+   "probabilidad": 0.45,
+   "horizonte_meses": "1–9",
+   "titulo": "Palabra de Antígona / Venció el plazo para aprobar la nueva ley sobre feminicidio",
+   "url": "https://oem.com.mx/elsoldemexico/analisis/palabra-de-antigona-vencio-el-plazo-para-aprobar-la-nueva-ley-sobre-feminicidio-33275728",
+   "medio": "El Sol de México",
+   "leyes": [],
+   "leyes_ids": [],
+   "sectores": [],
+   "temas": [
+    "mujeres_igualdad"
+   ],
+   "estado": "en curso",
+   "notas": [
+    {
+     "t": "Palabra de Antígona / Venció el plazo para aprobar la nueva ley sobre feminicidio",
+     "u": "https://oem.com.mx/elsoldemexico/analisis/palabra-de-antigona-vencio-el-plazo-para-aprobar-la-nueva-ley-sobre-feminicidio-33275728",
+     "m": "El Sol de México",
+     "f": "2026-11-24"
+    }
+   ],
+   "confirmacion": "un solo medio (sin confirmar)",
+   "ventana": [
+    "2026-12",
+    "2027-08"
+   ]
+  },
   {
    "id": "AG:576602014692",
    "detectado": "2026-11-19",

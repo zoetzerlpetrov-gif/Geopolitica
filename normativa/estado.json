@@ -1,13 +1,13 @@
 {
- "generado_utc": "2026-11-24T01:52:49Z",
+ "generado_utc": "2026-11-24T12:53:01Z",
  "fuentes": {
   "MEX": {
    "fuente": "Diario Oficial de la Federación y Cámara de Diputados",
    "ok": true,
    "estado": "ok",
-   "nuevas": 0,
+   "nuevas": 3,
    "error": "",
-   "hasta": "2026-11-23"
+   "hasta": "2026-11-24"
   },
   "USA": {
    "fuente": "Federal Register (API oficial)",
@@ -29,7 +29,7 @@
    "fuente": "Oficina de Publicaciones de la UE (Cellar)",
    "ok": true,
    "estado": "ok",
-   "nuevas": 0,
+   "nuevas": 1,
    "error": "",
    "hasta": "2026-11-24"
   },
@@ -45,7 +45,7 @@
    "fuente": "Portal oficial de publicación de actos jurídicos",
    "ok": true,
    "estado": "ok",
-   "nuevas": 2,
+   "nuevas": 4,
    "error": "",
    "hasta": "2026-11-24"
   },
@@ -80,30 +80,30 @@
   "EUR": "2026-11-24",
   "JPN": "2026-11-24",
   "RUS": "2026-11-24",
-  "MEX": "2026-11-23",
+  "MEX": "2026-11-24",
   "ARG": "2026-11-24"
  },
  "desactualizadas": [],
  "por_pais": {
   "RUS": {
-   "total": 27,
+   "total": 29,
    "alto": 4,
-   "ultimos_30d": 27
+   "ultimos_30d": 29
+  },
+  "MEX": {
+   "total": 558,
+   "alto": 51,
+   "ultimos_30d": 38
+  },
+  "EUR": {
+   "total": 59,
+   "alto": 8,
+   "ultimos_30d": 23
   },
   "USA": {
    "total": 37,
    "alto": 0,
    "ultimos_30d": 30
-  },
-  "MEX": {
-   "total": 555,
-   "alto": 51,
-   "ultimos_30d": 35
-  },
-  "EUR": {
-   "total": 58,
-   "alto": 8,
-   "ultimos_30d": 22
   },
   "JPN": {
    "total": 1,
@@ -111,5 +111,5 @@
    "ultimos_30d": 1
   }
  },
- "agregadas_hoy": 2
+ "agregadas_hoy": 6
 }
