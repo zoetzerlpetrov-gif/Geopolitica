@@ -1,14 +1,14 @@
 {
- "generado_utc": "2026-11-23T11:13:53Z",
+ "generado_utc": "2026-11-24T01:54:18Z",
  "agregadas_hoy": 1,
  "resumen": {
-  "en_curso": 14,
-  "federal": 14,
+  "en_curso": 15,
+  "federal": 15,
   "estatal": 0,
   "publicadas": 1,
   "alta_probabilidad": 9,
   "por_sector": {
-   "sin sector": 7,
+   "sin sector": 8,
    "energia_electrica": 5,
    "manufactura_immex": 2,
    "logistica": 1,
@@ -19,9 +19,10 @@
   "por_tema": {
    "energia": 6,
    "animales": 3,
-   "transporte": 2,
+   "transporte": 3,
+   "impuestos_dinero": 2,
    "migracion": 1,
-   "impuestos_dinero": 1,
+   "seguridad_justicia": 1,
    "bancos_pagos": 1,
    "educacion": 1,
    "medio_ambiente": 1,
@@ -142,43 +143,9 @@
  },
  "senales": [
   {
-   "id": "AG:9b2f236dd476",
-   "detectado": "2026-11-23",
-   "actualizado": "2026-11-23",
-   "fuente": "Monitor de noticias (titular)",
-   "ambito": "federal",
-   "etapa": "anunciada",
-   "etapa_nombre": "Ley o reforma nueva en discusión pública",
-   "probabilidad": 0.45,
-   "horizonte_meses": "1–9",
-   "titulo": "Nueva ley migratoria prohibirá detenciones por rasgos o acento",
-   "url": "https://www.jornada.com.mx/2026/11/23/politica/006n1pol?partner=rss",
-   "medio": "La Jornada (política)",
-   "leyes": [],
-   "leyes_ids": [],
-   "sectores": [],
-   "temas": [
-    "migracion"
-   ],
-   "estado": "en curso",
-   "notas": [
-    {
-     "t": "Nueva ley migratoria prohibirá detenciones por rasgos o acento",
-     "u": "https://www.jornada.com.mx/2026/11/23/politica/006n1pol?partner=rss",
-     "m": "La Jornada (política)",
-     "f": "2026-11-23"
-    }
-   ],
-   "confirmacion": "un solo medio (sin confirmar)",
-   "ventana": [
-    "2026-12",
-    "2027-08"
-   ]
-  },
-  {
    "id": "AG:576602014692",
    "detectado": "2026-11-19",
-   "actualizado": "2026-11-22",
+   "actualizado": "2026-11-23",
    "fuente": "Monitor de noticias (titular)",
    "ambito": "federal",
    "etapa": "aprobada_camara",
@@ -227,11 +194,18 @@
      "u": "https://www.excelsior.com.mx/politica/avanza-proteccion-animal-mexico-con-nueva-ley-general-bienestar",
      "m": "excelsior.com.mx",
      "f": "2026-11-22"
+    },
+    {
+     "t": "Destaca Gudiño aprobación de nueva Ley de Movilidad - Quadratin Querétaro",
+     "u": "https://queretaro.quadratin.com.mx/destaca-gudino-aprobacion-de-nueva-ley-de-movilidad/",
+     "m": "quadratin.com.mx",
+     "f": "2026-11-23"
     }
    ],
    "temas": [
     "animales",
-    "impuestos_dinero"
+    "impuestos_dinero",
+    "transporte"
    ],
    "confirmacion": "varios medios",
    "ventana": [
@@ -239,6 +213,75 @@
     "2027-02"
    ],
    "leyes_ids": []
+  },
+  {
+   "id": "AG:9b2f236dd476",
+   "detectado": "2026-11-23",
+   "actualizado": "2026-11-23",
+   "fuente": "Monitor de noticias (titular)",
+   "ambito": "federal",
+   "etapa": "anunciada",
+   "etapa_nombre": "Ley o reforma nueva en discusión pública",
+   "probabilidad": 0.45,
+   "horizonte_meses": "1–9",
+   "titulo": "Nueva ley migratoria prohibirá detenciones por rasgos o acento",
+   "url": "https://www.jornada.com.mx/2026/11/23/politica/006n1pol?partner=rss",
+   "medio": "La Jornada (política)",
+   "leyes": [],
+   "leyes_ids": [],
+   "sectores": [],
+   "temas": [
+    "migracion"
+   ],
+   "estado": "en curso",
+   "notas": [
+    {
+     "t": "Nueva ley migratoria prohibirá detenciones por rasgos o acento",
+     "u": "https://www.jornada.com.mx/2026/11/23/politica/006n1pol?partner=rss",
+     "m": "La Jornada (política)",
+     "f": "2026-11-23"
+    }
+   ],
+   "confirmacion": "un solo medio (sin confirmar)",
+   "ventana": [
+    "2026-12",
+    "2027-08"
+   ]
+  },
+  {
+   "id": "AG:cc81ec503044",
+   "detectado": "2026-11-23",
+   "actualizado": "2026-11-23",
+   "fuente": "Monitor de noticias (titular)",
+   "ambito": "federal",
+   "etapa": "anunciada",
+   "etapa_nombre": "Ley o reforma nueva en discusión pública",
+   "probabilidad": 0.45,
+   "horizonte_meses": "1–9",
+   "titulo": "Con buenos ojos nueva Ley Orgánica de la Fiscalía Anticorrupción, habrá mesa técnica: Alfredo Chávez",
+   "url": "https://www.omnia.com.mx/noticia/450536/con-buenos-ojos-nueva-ley-organica-de-la-fiscalia-anticorrupcion-habra-mesa-tecn",
+   "medio": "omnia.com.mx",
+   "leyes": [],
+   "leyes_ids": [],
+   "sectores": [],
+   "temas": [
+    "impuestos_dinero",
+    "seguridad_justicia"
+   ],
+   "estado": "en curso",
+   "notas": [
+    {
+     "t": "Con buenos ojos nueva Ley Orgánica de la Fiscalía Anticorrupción, habrá mesa técnica: Alfredo Chávez",
+     "u": "https://www.omnia.com.mx/noticia/450536/con-buenos-ojos-nueva-ley-organica-de-la-fiscalia-anticorrupcion-habra-mesa-tecn",
+     "m": "omnia.com.mx",
+     "f": "2026-11-23"
+    }
+   ],
+   "confirmacion": "un solo medio (sin confirmar)",
+   "ventana": [
+    "2026-12",
+    "2027-08"
+   ]
   },
   {
    "id": "AG:54e65082bb4e",
