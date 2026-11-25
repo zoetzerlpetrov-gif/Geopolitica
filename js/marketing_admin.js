@@ -84,7 +84,13 @@ export function htmlTablero(m, plan, est, borradores) {
 
 export function htmlVideos(m) {
   const v = m?.videos || [];
-  if (!v.length) return "";
+  if (!v.length) return `<div class="aviso"><p><b>Aún no hay métricas del canal.</b> YouTube rechaza la consulta (HTTP 403): el permiso guardado
+    en <code>YT_REFRESH_TOKEN</code> solo permite subir videos, no leer el canal ni los comentarios.</p>
+    <ol><li>En tu computadora, dentro de la carpeta del proyecto, corre <code>python3 tools/noticiero_video/autorizar.py</code>.</li>
+    <li>En la pantalla de Google elige la cuenta del canal y <b>marca todas las casillas</b> (subir videos y «Ver, editar y eliminar
+      de forma permanente tus videos, calificaciones, comentarios y subtítulos»). Si alguna queda sin marcar, el script avisa qué falta.</li>
+    <li>Copia el valor nuevo que imprime y reemplaza el secreto en GitHub → Settings → Secrets and variables → Actions → <code>YT_REFRESH_TOKEN</code> → Update.</li>
+    <li>En Actions corre «Comentarios de YouTube» (Run workflow). En unos minutos aparecen aquí los videos con vistas, me gusta y comentarios.</li></ol></div>`;
   return `<table class="tabla-ficha"><tr><th>Fecha</th><th>Video</th><th>Estado</th><th>Vistas</th><th>Me gusta</th><th>Comentarios</th></tr>
     ${v.slice(0, 15).map((x) => `<tr><td>${esc(x.fecha)}</td><td><a href="https://www.youtube.com/watch?v=${encodeURIComponent(x.id)}" target="_blank" rel="noopener noreferrer">${esc(x.titulo)}</a></td>
       <td>${x.privacidad === "public" ? "🌐 público" : x.privacidad === "private" ? "🔒 privado" : esc(x.privacidad)}</td><td>${n0(x.vistas)}</td><td>${n0(x.me_gusta)}</td><td>${n0(x.comentarios)}</td></tr>`).join("")}</table>`;

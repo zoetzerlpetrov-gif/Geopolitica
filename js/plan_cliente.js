@@ -92,15 +92,25 @@ const CSS_CANDADOS = `:is(${SIN_ACCESO_CSS})>:not(summary){opacity:.45;filter:gr
   + `:is(${SIN_ACCESO_CSS}) :is(label,.fila)::after{content:none!important}:is(${SIN_ACCESO_CSS}) :is(label,.fila){opacity:1;filter:none}`;
 
 const ESTILO = `.plan-flotante{position:fixed;left:14px;bottom:14px;z-index:900;font:600 14px/1 var(--font,system-ui);padding:10px 14px;border-radius:999px;border:1px solid var(--accent,#c9a227);background:var(--surface,#101826);color:var(--text,#e3e7ee);box-shadow:0 4px 14px rgba(0,0,0,.35);cursor:pointer}
-.plan-flotante:hover{background:var(--accent,#c9a227);color:#111}
+.plan-flotante:hover{background:var(--accent,#c9a227);color:var(--on-accent,#fff)}
+.plan-mejorar-zona{flex:1 0 auto;display:flex;justify-content:center;align-items:center;padding:0 8px}
+.plan-barra{font:700 14px/1 var(--font,system-ui);padding:10px 20px;border-radius:999px;border:2px solid transparent;cursor:pointer;white-space:nowrap;
+  background:#c2410c;color:#fff;box-shadow:0 2px 10px rgba(194,65,12,.35);letter-spacing:.2px}
+.plan-barra:hover,.plan-barra:focus-visible{background:#9a3412;outline:2px solid var(--focus,#1f4e8c);outline-offset:2px}
+:root[data-theme="dark"] .plan-barra{background:#fb923c;color:#111;box-shadow:0 2px 10px rgba(251,146,60,.35)}
+:root[data-theme="dark"] .plan-barra:hover{background:#fdba74}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .plan-barra{background:#fb923c;color:#111}:root:not([data-theme="light"]) .plan-barra:hover{background:#fdba74}}
+@media (prefers-reduced-motion:no-preference){.plan-barra{animation:plan-latido 2.4s ease-in-out 3}}
+@keyframes plan-latido{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+.topbar:has(.plan-mejorar-zona) .estado{flex:0 1 auto}
 .plan-ventana{max-width:min(1040px,96vw);max-height:92vh;overflow:auto;border:1px solid var(--line,#243248);border-radius:10px;background:var(--surface,#101826);color:var(--text,#e3e7ee);padding:18px 20px;font:15px/1.5 var(--font,system-ui)}
 .plan-ventana::backdrop{background:rgba(0,0,0,.6)}.plan-ventana h2{margin:0 0 8px}.plan-ventana h3{margin:0 0 4px;font-size:16px}
 .plan-opciones{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}.plan-opciones section{display:flex;flex-direction:column}.plan-acciones-tarjeta{margin:auto 0 0;padding-top:10px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}.plan-acciones-tarjeta .plan-btn{min-width:80%;text-align:center}.plan-opciones section.plan-actual{border:2px solid var(--accent,#c9a227)}.plan-precio{font-size:18px;font-weight:700;margin:0 0 4px}.plan-btn-actual{background:transparent;border:1px solid var(--accent,#c9a227);color:var(--text,#eee)!important}.plan-tabla{overflow-x:auto}.plan-tabla table{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}.plan-tabla th,.plan-tabla td{border-bottom:1px solid var(--line,#243248);padding:4px 6px;text-align:center}.plan-tabla td:first-child,.plan-tabla th:first-child{text-align:left}.plan-tabla .plan-actual{background:rgba(201,162,39,.14)}.plan-comparar{margin:12px 0}.plan-comparar summary{cursor:pointer;font-weight:700}.plan-opciones section{border:1px solid var(--line,#243248);border-radius:8px;padding:10px}
 .plan-opciones ul{margin:4px 0;padding-left:18px;font-size:13px}.plan-cerrar{float:right;background:none;border:0;color:inherit;font-size:20px;cursor:pointer}
-.plan-btn{display:inline-block;padding:6px 12px;border-radius:6px;background:var(--accent,#c9a227);color:#111 !important;text-decoration:none;font-weight:700}
+.plan-btn{display:inline-block;padding:6px 12px;border-radius:6px;background:var(--accent,#c9a227);color:var(--on-accent,#fff) !important;text-decoration:none;font-weight:700}
 .plan-btn-off{opacity:.55;cursor:not-allowed;background:var(--line,#555);color:var(--text,#eee)!important}
 .plan-acceso{display:inline-flex;gap:6px;align-items:center;margin-left:8px}.plan-cuenta{font:600 13px/1 var(--font,system-ui);padding:7px 10px;border-radius:6px;border:1px solid var(--line,#243248);color:var(--text,#e3e7ee);text-decoration:none;white-space:nowrap;background:var(--surface,transparent)}
-.plan-cuenta-alta{background:var(--accent,#c9a227);color:#111;border-color:var(--accent,#c9a227)}
+.plan-cuenta-alta{background:var(--accent,#c9a227);color:var(--on-accent,#fff);border-color:var(--accent,#c9a227)}
 .plan-acceso-flotante{position:fixed;right:14px;bottom:14px;z-index:900}
 @media (max-width:700px){.plan-acceso:not(.plan-acceso-flotante){display:none}.plan-acceso-flotante{bottom:62px;left:14px;right:auto}}
 ${CSS_CANDADOS}
@@ -182,11 +192,19 @@ export function iniciarPlanCliente(planes, plan, conVista, { compartida = false 
   const ids = planes.planes.map((p) => p.id);
   if (ids.indexOf(plan) < ids.length - 1 && !/planes(\.html)?$/.test(location.pathname)) {
     const b = document.createElement("button");
-    b.type = "button"; b.className = "plan-flotante"; b.id = "plan-mejorar";
+    b.type = "button"; b.id = "plan-mejorar";
     b.textContent = "⬆ Mejorar plan";
     b.title = "Ver planes y precios";
     b.addEventListener("click", () => ventana(htmlMejorar(planes, plan, conVista)));
-    document.body.append(b);
+    // En la barra superior, centrado entre la hora de actualización y «Todas las regiones» (más visible). En pantallas
+    // chicas o en páginas sin esa barra, flotante abajo a la izquierda.
+    const estado = document.querySelector(".topbar #estado");
+    if (estado && !matchMedia?.("(max-width:900px)").matches) {
+      const zona = document.createElement("div"); zona.className = "plan-mejorar-zona";
+      b.className = "plan-barra"; zona.append(b); estado.after(zona);
+    } else {
+      b.className = "plan-flotante"; document.body.append(b);
+    }
   }
   // Acceso a la cuenta (solo en el sitio público): en la barra superior si existe; si no, flotante.
   if (!esSitioAdmin()) {
