@@ -1,14 +1,14 @@
 {
- "generado_utc": "2026-11-25T11:43:21Z",
- "agregadas_hoy": 1,
+ "generado_utc": "2026-11-25T23:18:50Z",
+ "agregadas_hoy": 3,
  "resumen": {
-  "en_curso": 18,
-  "federal": 18,
+  "en_curso": 21,
+  "federal": 21,
   "estatal": 0,
   "publicadas": 1,
   "alta_probabilidad": 9,
   "por_sector": {
-   "sin sector": 11,
+   "sin sector": 14,
    "energia_electrica": 5,
    "manufactura_immex": 2,
    "logistica": 1,
@@ -20,16 +20,17 @@
    "energia": 6,
    "animales": 3,
    "transporte": 3,
+   "mujeres_igualdad": 2,
+   "otros": 2,
    "impuestos_dinero": 2,
    "salud": 1,
-   "mujeres_igualdad": 1,
+   "telecom_internet": 1,
    "cultura_deporte": 1,
    "migracion": 1,
    "seguridad_justicia": 1,
    "bancos_pagos": 1,
    "educacion": 1,
    "medio_ambiente": 1,
-   "otros": 1,
    "agua": 1
   },
   "desmentidas": 0
@@ -146,6 +147,112 @@
  },
  "senales": [
   {
+   "id": "AG:541a719d8cb1",
+   "detectado": "2026-11-19",
+   "actualizado": "2026-11-25",
+   "fuente": "Monitor de noticias (titular)",
+   "ambito": "federal",
+   "etapa": "anunciada",
+   "etapa_nombre": "Ley o reforma nueva en discusión pública",
+   "probabilidad": 0.45,
+   "horizonte_meses": "1–9",
+   "titulo": "Nueva Ley de Bienestar Animal: estos son los cambios tras el reconocimiento de toda la fauna como seres sintientes",
+   "url": "https://oem.com.mx/elsoldemexico/mexico/nueva-ley-de-bienestar-animal-estos-son-los-cambios-tras-el-reconocimiento-de-toda-la-fauna-como-seres-sintientes-33218729",
+   "medio": "El Sol de México",
+   "leyes": [],
+   "sectores": [],
+   "estado": "en curso",
+   "notas": [
+    {
+     "t": "Nueva Ley de Bienestar Animal: estos son los cambios tras el reconocimiento de toda la fauna como seres sintientes",
+     "u": "https://oem.com.mx/elsoldemexico/mexico/nueva-ley-de-bienestar-animal-estos-son-los-cambios-tras-el-reconocimiento-de-toda-la-fauna-como-seres-sintientes-33218729",
+     "m": "El Sol de México",
+     "f": "2026-11-19"
+    },
+    {
+     "t": "Buscan armonizar la nueva ley de bienestar animal",
+     "u": "https://www.cuartopoder.mx/chiapas/buscan-armonizar-la-nueva-ley-de-bienestar-animal/599275",
+     "m": "cuartopoder.mx",
+     "f": "2026-11-25"
+    }
+   ],
+   "temas": [
+    "animales"
+   ],
+   "confirmacion": "varios medios",
+   "ventana": [
+    "2026-12",
+    "2027-08"
+   ],
+   "leyes_ids": []
+  },
+  {
+   "id": "AG:9f1f02ebae39",
+   "detectado": "2026-11-25",
+   "actualizado": "2026-11-25",
+   "fuente": "Monitor de noticias (titular)",
+   "ambito": "federal",
+   "etapa": "anunciada",
+   "etapa_nombre": "Ley o reforma nueva en discusión pública",
+   "probabilidad": 0.45,
+   "horizonte_meses": "1–9",
+   "titulo": "Sin excluir a ninguna mujer: Amnistía Internacional exige que nueva ley de feminicidio proteja todas las identidades de género",
+   "url": "https://www.infobae.com/mexico/2026/11/25/sin-excluir-a-ninguna-mujer-amnistia-internacional-exige-que-nueva-ley-de-feminicidio-proteja-todas-las-identidades-de-genero/",
+   "medio": "Infobae México",
+   "leyes": [],
+   "leyes_ids": [],
+   "sectores": [],
+   "temas": [
+    "mujeres_igualdad"
+   ],
+   "estado": "en curso",
+   "notas": [
+    {
+     "t": "Sin excluir a ninguna mujer: Amnistía Internacional exige que nueva ley de feminicidio proteja todas las identidades de género",
+     "u": "https://www.infobae.com/mexico/2026/11/25/sin-excluir-a-ninguna-mujer-amnistia-internacional-exige-que-nueva-ley-de-feminicidio-proteja-todas-las-identidades-de-genero/",
+     "m": "Infobae México",
+     "f": "2026-11-25"
+    }
+   ],
+   "confirmacion": "un solo medio (sin confirmar)",
+   "ventana": [
+    "2026-12",
+    "2027-08"
+   ]
+  },
+  {
+   "id": "AG:a70bb1df4e6d",
+   "detectado": "2026-11-25",
+   "actualizado": "2026-11-25",
+   "fuente": "Monitor de noticias (titular)",
+   "ambito": "federal",
+   "etapa": "anunciada",
+   "etapa_nombre": "Ley o reforma nueva en discusión pública",
+   "probabilidad": 0.45,
+   "horizonte_meses": "1–9",
+   "titulo": "Cuestiona Cuauhtémoc Estrada nueva Ley Orgánica de la FACH en crecimiento burocrático y eliminación al fondo de bienes recuperados",
+   "url": "https://www.omnia.com.mx/noticia/450813/cuestiona-cuauhtemoc-estrada-nueva-ley-organica-de-la-fach-en-crecimiento-burocr",
+   "medio": "omnia.com.mx",
+   "leyes": [],
+   "leyes_ids": [],
+   "sectores": [],
+   "temas": [],
+   "estado": "en curso",
+   "notas": [
+    {
+     "t": "Cuestiona Cuauhtémoc Estrada nueva Ley Orgánica de la FACH en crecimiento burocrático y eliminación al fondo de bienes recuperados",
+     "u": "https://www.omnia.com.mx/noticia/450813/cuestiona-cuauhtemoc-estrada-nueva-ley-organica-de-la-fach-en-crecimiento-burocr",
+     "m": "omnia.com.mx",
+     "f": "2026-11-25"
+    }
+   ],
+   "confirmacion": "un solo medio (sin confirmar)",
+   "ventana": [
+    "2026-12",
+    "2027-08"
+   ]
+  },
+  {
    "id": "AG:de1e15075cc3",
    "detectado": "2026-11-25",
    "actualizado": "2026-11-25",
@@ -170,6 +277,40 @@
      "t": "Iniciativa Ley Sofía busca garantizar atención médica integral y gratuita para personas con endometriosis en CDMX - Almomento",
      "u": "https://almomento.mx/iniciativa-ley-sofia-busca-garantizar-atencion-medica-integral-y-gratuita-para-personas-con-endometriosis-en-cdmx/",
      "m": "almomento.mx",
+     "f": "2026-11-25"
+    }
+   ],
+   "confirmacion": "un solo medio (sin confirmar)",
+   "ventana": [
+    "2027-02",
+    "2028-05"
+   ]
+  },
+  {
+   "id": "AG:42cfb66d74e2",
+   "detectado": "2026-11-25",
+   "actualizado": "2026-11-25",
+   "fuente": "Monitor de noticias (titular)",
+   "ambito": "federal",
+   "etapa": "iniciativa",
+   "etapa_nombre": "Iniciativa presentada",
+   "probabilidad": 0.15,
+   "horizonte_meses": "3–18",
+   "titulo": "Cisco y OpenAI lanzan iniciativa de código abierto para blindarse ante ciberataques con IA",
+   "url": "https://www.eleconomista.com.mx/tecnologia/cisco-openai-lanzan-iniciativa-codigo-abierto-blindarse-ciberataques-ia-20261125-845781.html",
+   "medio": "El Economista",
+   "leyes": [],
+   "leyes_ids": [],
+   "sectores": [],
+   "temas": [
+    "telecom_internet"
+   ],
+   "estado": "en curso",
+   "notas": [
+    {
+     "t": "Cisco y OpenAI lanzan iniciativa de código abierto para blindarse ante ciberataques con IA",
+     "u": "https://www.eleconomista.com.mx/tecnologia/cisco-openai-lanzan-iniciativa-codigo-abierto-blindarse-ciberataques-ia-20261125-845781.html",
+     "m": "El Economista",
      "f": "2026-11-25"
     }
    ],
@@ -494,40 +635,6 @@
     "MEX:lie",
     "MEX:zona_restringida"
    ]
-  },
-  {
-   "id": "AG:541a719d8cb1",
-   "detectado": "2026-11-19",
-   "actualizado": "2026-11-19",
-   "fuente": "Monitor de noticias (titular)",
-   "ambito": "federal",
-   "etapa": "anunciada",
-   "etapa_nombre": "Ley o reforma nueva en discusión pública",
-   "probabilidad": 0.45,
-   "horizonte_meses": "1–9",
-   "titulo": "Nueva Ley de Bienestar Animal: estos son los cambios tras el reconocimiento de toda la fauna como seres sintientes",
-   "url": "https://oem.com.mx/elsoldemexico/mexico/nueva-ley-de-bienestar-animal-estos-son-los-cambios-tras-el-reconocimiento-de-toda-la-fauna-como-seres-sintientes-33218729",
-   "medio": "El Sol de México",
-   "leyes": [],
-   "sectores": [],
-   "estado": "en curso",
-   "notas": [
-    {
-     "t": "Nueva Ley de Bienestar Animal: estos son los cambios tras el reconocimiento de toda la fauna como seres sintientes",
-     "u": "https://oem.com.mx/elsoldemexico/mexico/nueva-ley-de-bienestar-animal-estos-son-los-cambios-tras-el-reconocimiento-de-toda-la-fauna-como-seres-sintientes-33218729",
-     "m": "El Sol de México",
-     "f": "2026-11-19"
-    }
-   ],
-   "temas": [
-    "animales"
-   ],
-   "confirmacion": "un solo medio (sin confirmar)",
-   "ventana": [
-    "2026-12",
-    "2027-08"
-   ],
-   "leyes_ids": []
   },
   {
    "id": "AG:9dcfee958c1f",
