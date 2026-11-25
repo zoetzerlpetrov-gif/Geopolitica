@@ -1,5 +1,6 @@
 // Análisis financiero de empresas (finanzas.html, solo admin). Lee data/finanzas/indice.json y data/finanzas/<TICKER>.json
 // (workflow «Estados financieros»: SEC EDGAR, reglas fijas en tools/finanzas/edgar.py). Nada es asesoría de inversión.
+import { motivoFalla } from "./util.js";
 
 export const RENGLONES = {
   resultados: [["ingresos", "Ingresos"], ["costo_ventas", "Costo de ventas"], ["utilidad_bruta", "Utilidad bruta"],
@@ -224,7 +225,11 @@ async function iniciar() {
       $("fi-estado").textContent = "";
       const q = new URLSearchParams(location.search); q.set("t", ticker);
       history.replaceState(null, "", `?${q}`);
-    } catch (e) { $("fi-estado").textContent = "No se pudo cargar: " + e.message; }
+    } catch (e) {
+      const f = motivoFalla(e);
+      $("fi-estado").textContent = f.sesion ? f.texto : "No se pudo cargar: " + e.message;
+      if (f.sesion) $("fi-estado").append(" ", el("a", { href: "/admin/huella/ingreso" }, "Ingresar de nuevo"));
+    }
   };
   $("fi-buscar").addEventListener("change", () => abrir(tickerDe($("fi-buscar").value, indice)));
 
