@@ -17,7 +17,7 @@ test("adaptar: respeta el límite de cada red sin cortar palabras y con las etiq
   }
   const x = L.adaptar(d, "x");
   assert.match(x, /^Tres errores al ahorrar/);
-  assert.ok(x.split("\n").includes("https://ejemplo.com/a"), "el enlace va en su propia línea");
+  assert.equal(x.split("\n\n").at(-2), "https://ejemplo.com/a", "el enlace va en su propio bloque, antes de las etiquetas");
   assert.match(x, /#finanzas #ahorro$/);
   assert.ok(!/palabr…|pal…/.test(x));
   assert.equal(L.adaptar(d, "youtube_titulo"), "Tres errores al ahorrar");
