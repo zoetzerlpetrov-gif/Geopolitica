@@ -1,7 +1,8 @@
 // Economía (economia.html, solo admin): indicadores de México, EUA y la UE e índices «curiosos». Lee config/economia.json
 // (qué es cada indicador) y data/economia/indicadores.json (datos del workflow «Economía», una vez al día). No depende de
 // Pulso Ciudadano ni del Portafolio: si el Portafolio no responde, solo su pestaña dice «no disponible».
-import { esc, getJSON } from "./util.js";
+import { esc, getJSON, motivoFalla } from "./util.js";
+export { motivoFalla };
 
 const $ = (id) => document.getElementById(id);
 const PORTAFOLIO = "data/portafolio/daily_report.json";
@@ -117,13 +118,6 @@ export function tarjetaPrecio(s) {
     <p class="meta">Fuente: <a href="${esc(s.enlace)}" target="_blank" rel="noopener noreferrer">${esc(s.fuente)}</a> · ${esc(s.frecuencia)}</p></article>`;
 }
 
-/** Mensaje claro cuando un dato no carga: en Admin, un 403 significa que la sesión terminó (1 h sin uso o 12 h). */
-export function motivoFalla(e, host = globalThis.location?.hostname || "") {
-  const m = String(e?.message || e || "");
-  if (/\b403\b/.test(m) && /^admin\./.test(host)) return { sesion: true, texto: "Tu sesión de administración terminó (1 hora sin uso o 12 horas desde el ingreso). Vuelve a ingresar y recarga la página." };
-  if (/\b404\b/.test(m)) return { sesion: false, texto: "Aún no hay datos publicados." };
-  return { sesion: false, texto: e?.name === "AbortError" ? "La fuente no respondió a tiempo." : `No se pudo cargar (${m.replace(/^.*?: /, "")}).` };
-}
 const avisoSesion = (f) => (f.sesion ? ` <a href="/admin/huella/ingreso">Ingresar de nuevo</a>` : "");
 
 async function precios() {

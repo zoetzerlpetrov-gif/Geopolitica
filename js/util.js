@@ -233,3 +233,11 @@ export function difCF(c, dec = 1) {
   const v = Number(c), signo = (x) => (x > 0 ? "+" : "");
   return `${signo(v)}${v.toFixed(dec)} °C (${signo(v)}${(v * 1.8).toFixed(dec)} °F)`;
 }
+
+/** Mensaje claro cuando un dato no carga: en Admin, un 403 significa que la sesión terminó (1 h sin uso o 12 h). */
+export function motivoFalla(e, host = globalThis.location?.hostname || "") {
+  const m = String(e?.message || e || "");
+  if (/\b403\b/.test(m) && /^admin\./.test(host)) return { sesion: true, texto: "Tu sesión de administración terminó (1 hora sin uso o 12 horas desde el ingreso). Vuelve a ingresar y recarga la página." };
+  if (/\b404\b/.test(m)) return { sesion: false, texto: "Aún no hay datos publicados." };
+  return { sesion: false, texto: e?.name === "AbortError" ? "La fuente no respondió a tiempo." : `No se pudo cargar (${m.replace(/^.*?: /, "")}).` };
+}
