@@ -116,6 +116,10 @@ jobs:
             mkdir -p _site/data/marketing
             git show FETCH_HEAD:marketing/metricas.json > /tmp/metricas.json 2>/dev/null && mv /tmp/metricas.json _site/data/marketing/ || true
           fi
+          # Piezas visuales de la campaña (marketing.html, solo admin): rama "datos-marketing-piezas".
+          if git fetch --depth 1 origin datos-marketing-piezas 2>/dev/null; then
+            mkdir -p _site/data/marketing && git archive FETCH_HEAD marketing/piezas | tar -x -C _site/data || true
+          fi
           # Vulnerabilidades en apps y plataformas (vulns-mundo.html, solo admin): rama "datos-vulns-mundo".
           mkdir -p _site/data/seguridad
           if git fetch --depth 1 origin datos-vulns-mundo 2>/dev/null; then

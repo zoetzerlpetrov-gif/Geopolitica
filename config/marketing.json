@@ -671,5 +671,124 @@
       }
     ],
     "skill_aplicada": "Pulido con la guía de contenido para LinkedIn: gancho en la primera línea, párrafos cortos, menos de 1,300 caracteres, un dato con fuente y una sola pregunta de cierre."
-  }
+  },
+ "lanzamiento": {
+  "_nota": "Guía de la campaña de lanzamiento (marketing.html → 0). Los horarios son un punto de partida razonable para México (hora del centro), no una medición propia: a las 4 semanas se ajustan con las métricas de cada red.",
+  "redes": [
+   {
+    "id": "linkedin",
+    "nombre": "LinkedIn (página de empresa + tu perfil)",
+    "prioridad": 1,
+    "para_quien": "Empresas, directivos, compliance, seguridad corporativa, gerentes de proyecto",
+    "por_que": "Es donde está quien paga: el plan Command y los servicios para empresas. Tu perfil personal suele llegar a más gente que la página de la empresa.",
+    "formatos": "Publicación con imagen (1080×1350), carrusel PDF, video corto",
+    "frecuencia": "3 a la semana en la página + 2 en tu perfil",
+    "horarios": "Martes a jueves, 08:00–10:00 y 12:30–13:30"
+   },
+   {
+    "id": "youtube",
+    "nombre": "YouTube (Brújula Diaria + Shorts)",
+    "prioridad": 2,
+    "para_quien": "Público general, periodistas, analistas, estudiantes",
+    "por_que": "Los videos se encuentran por búsqueda durante meses y el canal ya existe. Los Shorts dan alcance a cuentas nuevas.",
+    "formatos": "Video diario (Brújula Diaria), Short vertical de 15 s",
+    "frecuencia": "1 video al día (automático) + 3 Shorts a la semana",
+    "horarios": "Shorts: 12:00–14:00 o 19:00–21:00"
+   },
+   {
+    "id": "instagram",
+    "nombre": "Instagram (Reels, carrusel e historias)",
+    "prioridad": 3,
+    "para_quien": "Público general de 20 a 45 años, periodistas, creadores",
+    "por_que": "Los Reels muestran contenido a gente que no te sigue; la imagen del dato funciona como carrusel.",
+    "formatos": "Reel (el mismo Short), publicación 1080×1350, historia 1080×1920",
+    "frecuencia": "4 Reels + 3 publicaciones a la semana; historias a diario",
+    "horarios": "12:00–14:00 y 19:00–21:00"
+   },
+   {
+    "id": "tiktok",
+    "nombre": "TikTok",
+    "prioridad": 4,
+    "para_quien": "Público general y jóvenes interesados en noticias y datos",
+    "por_que": "Es la red con más alcance orgánico para cuentas nuevas con video vertical.",
+    "formatos": "El mismo Short con música de la biblioteca de TikTok",
+    "frecuencia": "4 a la semana",
+    "horarios": "19:00–22:00"
+   },
+   {
+    "id": "x",
+    "nombre": "X (Twitter)",
+    "prioridad": 5,
+    "para_quien": "Periodistas, analistas, academia",
+    "por_que": "Es donde circulan primero las cifras y las fuentes; útil para que te citen.",
+    "formatos": "Texto corto con cifra, fuente e imagen",
+    "frecuencia": "1 a 2 al día",
+    "horarios": "07:00–09:00 y 18:00–20:00"
+   }
+  ],
+  "despues": "Cuando las 5 anteriores lleven 2 meses con constancia: Facebook (público de 35+ años), Threads, Bluesky y un canal de WhatsApp o Telegram con el resumen diario. Abrirlas todas desde el inicio reparte el tiempo y ninguna crece.",
+  "segmentos": [
+   {
+    "nombre": "Empresas",
+    "quien": "Directores de riesgo, compliance, seguridad corporativa y gerentes de proyecto en México",
+    "mensaje": "Sepa qué cambia en la ley y qué pasa cerca de sus instalaciones antes de que le afecte.",
+    "oferta": "Plan Command y servicios para empresas"
+   },
+   {
+    "nombre": "Periodistas y analistas",
+    "quien": "Redacciones, consultores, investigadores",
+    "mensaje": "Cifras oficiales con su fuente, en el mapa, para verificar en minutos.",
+    "oferta": "Plan Analyst"
+   },
+   {
+    "nombre": "Público general",
+    "quien": "Personas interesadas en México, seguridad, economía y el mundo",
+    "mensaje": "Lo importante del día explicado con datos, sin alarmismo.",
+    "oferta": "Demo gratis y plan Recon"
+   }
+  ],
+  "pasos": [
+   {
+    "cuando": "Semana 0 · Preparación (2 a 3 horas)",
+    "tareas": [
+     "Crea un correo solo para el proyecto (por ejemplo, redes@dominusosint.com en Cloudflare Email Routing) y úsalo en todas las redes.",
+     "Abre las 5 redes prioritarias con el mismo nombre: @dominusosint (si está ocupado, @dominus.osint). Activa la verificación en dos pasos en cada una.",
+     "Usa la misma foto (el logotipo) y la misma portada en todas.",
+     "Biografía (máx. 150 caracteres): «Datos abiertos verificados para entender riesgos en México y el mundo, en el mapa y con su fuente.» + enlace con UTM (ver sección 4 · Plan).",
+     "En LinkedIn crea la página de empresa y conéctala a tu perfil como administrador.",
+     "Anota cada red abierta en la sección 4 · Plan → fase 1 (casilla «Perfiles»)."
+    ]
+   },
+   {
+    "cuando": "Semana 1 · Arranque",
+    "tareas": [
+     "Lunes: publica una presentación (qué es DOMINUS, para quién es y un ejemplo) en LinkedIn, Instagram y X con la pieza del día.",
+     "Cada día: toma la pieza de la sección «Piezas listas», descárgala y publícala en la red del día con el texto de «2 · Contenido listo».",
+     "3 Shorts en la semana: sube el mismo video a YouTube Shorts, Instagram Reels y TikTok (agrega música desde la biblioteca de cada red).",
+     "Responde todos los comentarios el mismo día."
+    ]
+   },
+   {
+    "cuando": "Semanas 2 a 4 · Constancia",
+    "tareas": [
+     "Mantén el ritmo de la tabla de redes; no hace falta publicar más.",
+     "Cada viernes revisa el tablero (sección 1): qué pieza tuvo más visitas al sitio (UTM) y repite ese tipo de tema.",
+     "Escribe en la bitácora (sección 5) qué funcionó y qué no."
+    ]
+   },
+   {
+    "cuando": "Mes 2 · Ajuste y primeras ventas",
+    "tareas": [
+     "Ajusta horarios con las métricas de cada red (la hora en que tu público está conectado aparece en sus estadísticas).",
+     "Ofrece a 10 empresas de tu red de LinkedIn una demostración de 20 minutos con la página «Demo para compañías».",
+     "Opcional: anuncio pequeño (5 a 10 USD al día) solo en la pieza que mejor funcionó orgánicamente."
+    ]
+   }
+  ],
+  "reglas": [
+   "Cada pieza lleva cifra y fuente oficial; no se publica nada que no venga de un dato verificable.",
+   "No se publican datos personales ni imágenes de terceros sin permiso.",
+   "La música de los Shorts se agrega dentro de cada red (biblioteca con licencia), no se descarga de internet."
+  ]
+ }
 }
