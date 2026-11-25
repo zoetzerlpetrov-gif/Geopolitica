@@ -75,6 +75,12 @@ jobs:
             n=$(gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/noticiero-video.yml/runs?branch=main&created=%3E${desde}&per_page=1" --jq '.total_count' || echo 1)
             if [ "$n" = "0" ]; then echo "Lanzando noticiero-video.yml (Brújula Diaria)"; gh workflow run noticiero-video.yml --ref main; fi
           fi
+          # Piezas de marketing (07:47 CDMX = 13:47 UTC): de 13:50 a 17:59 UTC, si hoy no han corrido en main desde las 13:00 UTC.
+          if { [ "$hora" = "13" ] && [ "$minuto" -ge 50 ]; } || { [ "$hora" -ge 14 ] && [ "$hora" -le 17 ]; }; then
+            desde=$(date -u +%Y-%m-%dT13:00:00Z)
+            n=$(gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/marketing-piezas.yml/runs?branch=main&created=%3E${desde}&per_page=1" --jq '.total_count' || echo 1)
+            if [ "$n" = "0" ]; then echo "Lanzando marketing-piezas.yml"; gh workflow run marketing-piezas.yml --ref main; fi
+          fi
 
       - name: Programar el siguiente tic, con reintentos (un error pasajero de la API no debe cortar la cadena)
         if: always() && steps.vivo.outputs.sigue != '1'

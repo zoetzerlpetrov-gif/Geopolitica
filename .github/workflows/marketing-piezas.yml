@@ -1,0 +1,60 @@
+name: Piezas de marketing
+
+# Cada mañana arma las piezas visuales de la campaña con los borradores del día (vivos/marketing_borradores.json):
+# publicación 1080×1350, historia 1080×1920 y shorts verticales de 15 s (tools/marketing/piezas.mjs).
+# Se guardan en la rama datos-marketing-piezas (un solo commit, se reescribe) y el sitio las sirve solo a Admin
+# (data/marketing/piezas/, datos por plan «admin»). Nada se publica en redes desde aquí.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "47 13 * * *"  # 07:47 en Ciudad de México
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: marketing-piezas
+  cancel-in-progress: false
+
+jobs:
+  piezas:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: ffmpeg y fuentes
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-dejavu-core fonts-inter || sudo apt-get install -y -qq ffmpeg fonts-dejavu-core
+      - name: Navegador (Playwright con Chromium)
+        run: |
+          npm install --prefix /tmp/pw --no-save --no-audit --no-fund playwright@1.48.2
+          /tmp/pw/node_modules/.bin/playwright install --with-deps chromium
+      - name: Borradores del día (rama datos-vivos)
+        run: |
+          git fetch --depth 1 origin datos-vivos
+          mkdir -p /tmp/vivos && git show FETCH_HEAD:vivos/marketing_borradores.json > /tmp/vivos/marketing_borradores.json
+      - name: Armar las piezas
+        env:
+          PLAYWRIGHT_MODULE: /tmp/pw/node_modules/playwright
+        run: node tools/marketing/piezas.mjs /tmp/vivos/marketing_borradores.json piezas/marketing/piezas
+      - name: Copia descargable (14 días)
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: piezas-marketing-${{ github.run_number }}
+          path: piezas/marketing/piezas
+          retention-days: 14
+      - name: Guardar en la rama datos-marketing-piezas
+        if: github.ref == 'refs/heads/main'
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd piezas && rm -rf .git && git init -q && git checkout -q -b datos-marketing-piezas
+          git config user.name "geopolitica-bot" && git config user.email "actions@users.noreply.github.com"
+          git add -A && git commit -q -m "piezas $(date -u +'%Y-%m-%d %H:%M')"
+          git push -q --force "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:datos-marketing-piezas
+  publicar:
+    needs: piezas
+    if: github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/pages.yml
+    secrets: inherit

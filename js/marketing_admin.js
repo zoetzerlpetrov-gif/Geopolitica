@@ -190,13 +190,49 @@ export function htmlLinkedin(lp) {
       <div class="barra"><button class="mk-copiar" data-t="${esc(s.texto || borradorSerie(s))}">📋 ${s.texto ? "Copiar publicación" : "Copiar borrador"}</button></div></details>`).join("")}`;
 }
 
+/** Guía de lanzamiento (config/marketing.json → lanzamiento): redes por prioridad, segmentos y pasos con casillas. */
+export function htmlLanzamiento(l, est = { tareas: {} }) {
+  if (!l) return `<p class="meta">Falta «lanzamiento» en config/marketing.json.</p>`;
+  const redes = (l.redes || []).slice().sort((a, b) => a.prioridad - b.prioridad);
+  return `<div class="tarjeta"><h4>¿Qué redes abrir y por qué?</h4>
+    <div class="desliza"><table class="tabla-ficha"><tr><th>#</th><th>Red</th><th>Para quién</th><th>Qué publicar</th><th>Cada cuánto</th><th>Horario (CDMX)</th></tr>
+    ${redes.map((r) => `<tr><td>${esc(r.prioridad)}</td><td><b>${esc(r.nombre)}</b><div class="meta">${esc(r.por_que)}</div></td><td>${esc(r.para_quien)}</td>
+      <td>${esc(r.formatos)}</td><td>${esc(r.frecuencia)}</td><td>${esc(r.horarios)}</td></tr>`).join("")}</table></div>
+    <p class="meta">${esc(l.despues || "")}</p><p class="meta">${esc(l._nota || "")}</p></div>
+    <div class="tarjeta"><h4>¿A quién le hablamos?</h4><div class="dos">${(l.segmentos || []).map((g) => `<div><b>${esc(g.nombre)}</b>
+      <div class="meta">${esc(g.quien)}</div><p>«${esc(g.mensaje)}»</p><div class="meta">Qué se le ofrece: ${esc(g.oferta)}</div></div>`).join("")}</div></div>
+    ${(l.pasos || []).map((p, i) => `<div class="tarjeta"><h4>${esc(p.cuando)}</h4>${(p.tareas || []).map((t, j) => {
+      const k = `lanz-${i}-${j}`;
+      return `<label class="tarea"><input type="checkbox" data-tarea="${k}" ${est.tareas?.[k] ? "checked" : ""}> ${esc(t)}${est.tareas?.[k] ? ` <span class="meta">(${esc(est.tareas[k])})</span>` : ""}</label>`;
+    }).join("")}</div>`).join("")}
+    <div class="tarjeta"><h4>Reglas</h4><ul>${(l.reglas || []).map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>`;
+}
+
+/** Piezas visuales del día (tools/marketing/piezas.mjs → data/marketing/piezas/indice.json). */
+export function htmlPiezas(ind, base = "data/marketing/piezas/") {
+  const ps = ind?.piezas || [];
+  if (!ps.length) return `<p class="meta">Aún no hay piezas. Se generan cada mañana con el flujo «Piezas de marketing» (también se puede correr a mano en Actions).</p>`;
+  const url = (f) => base + encodeURIComponent(f);
+  return `<p class="meta">Piezas del ${esc(ind.fecha)} · generadas ${esc(String(ind.generado_utc || "").replace("T", " ").slice(0, 16))} UTC.
+    Descarga la que toque hoy, súbela a la red y pega el texto de «2 · Contenido listo» (mismo tema).</p>
+    <div class="piezas">${ps.map((p) => `<div class="tarjeta pieza"><span class="chip">${esc(p.pilar)}</span>
+      <p><b>${esc(p.titular)}</b></p><div class="pieza-medios">
+      ${p.archivos?.post ? `<a href="${url(p.archivos.post)}" target="_blank" rel="noopener"><img src="${url(p.archivos.post)}" alt="Publicación: ${esc(p.titular)}" loading="lazy"></a>` : ""}
+      ${p.archivos?.short ? `<video src="${url(p.archivos.short)}" controls muted playsinline preload="none" poster="${p.archivos.historia ? url(p.archivos.historia) : ""}" aria-label="Short: ${esc(p.titular)}"></video>` : ""}</div>
+      <div class="barra">${p.archivos?.post ? `<a class="boton" href="${url(p.archivos.post)}" download>⬇️ Publicación 1080×1350</a>` : ""}
+        ${p.archivos?.historia ? `<a class="boton" href="${url(p.archivos.historia)}" download>⬇️ Historia 1080×1920</a>` : ""}
+        ${p.archivos?.short ? `<a class="boton" href="${url(p.archivos.short)}" download>⬇️ Short / Reel / TikTok (15 s)</a>` : ""}</div>
+      <p class="meta">Fuente: ${p.fuente_url ? `<a href="${esc(p.fuente_url)}" target="_blank" rel="noopener noreferrer">${esc(p.fuente)}</a>` : esc(p.fuente || "")}</p></div>`).join("")}</div>`;
+}
+
 export const urlEditarPlan = () => `https://github.com/${REPO}/edit/main/config/marketing.json`;
 
 export async function iniciar(doc = document) {
   const $ = (id) => doc.getElementById(id);
   // «await» dentro del try: un archivo vacío o dañado se trata como «sin datos» en lugar de romper la página.
   const pedir = async (u) => { try { const r = await fetch(u, { cache: "no-store" }); return r.ok ? await r.json() : null; } catch { return null; } };
-  const [plan, bor, met] = await Promise.all([pedir("config/marketing.json"), pedir("data/vivos/marketing_borradores.json"), pedir("data/marketing/metricas.json")]);
+  const [plan, bor, met, piezas] = await Promise.all([pedir("config/marketing.json"), pedir("data/vivos/marketing_borradores.json"), pedir("data/marketing/metricas.json"),
+    pedir("data/marketing/piezas/indice.json")]);
   const est = leerEstado(globalThis.localStorage);
   const borradores = bor?.borradores || [];
   const guardar = () => guardarEstado(globalThis.localStorage, est);
@@ -226,6 +262,11 @@ export async function iniciar(doc = document) {
 
   $("mk-semana").innerHTML = `<table class="tabla-ficha"><tr><th>Día</th><th>Tema sugerido</th><th>Canales</th></tr>${semana(plan).map((f) => `<tr><td>${f.dia}</td><td>${esc(f.tema)}</td><td>${esc(f.items.join(", "))}</td></tr>`).join("")}</table>`;
   $("mk-plan").innerHTML = htmlPlan(plan, est);
+  if ($("mk-lanzamiento")) {
+    $("mk-lanzamiento").innerHTML = htmlLanzamiento(plan?.lanzamiento, est);
+    $("mk-lanzamiento").addEventListener("change", (e) => { const k = e.target.dataset?.tarea; if (!k) return; if (e.target.checked) est.tareas[k] = new Date().toISOString().slice(0, 10); else delete est.tareas[k]; guardar(); });
+  }
+  if ($("mk-piezas")) $("mk-piezas").innerHTML = htmlPiezas(piezas);
   $("mk-plan").addEventListener("change", (e) => { const k = e.target.dataset?.tarea; if (!k) return; if (e.target.checked) est.tareas[k] = new Date().toISOString().slice(0, 10); else delete est.tareas[k]; guardar(); pintarTablero(); });
 
   const rev = proximaRevision(), pr = plan?.revision || {};

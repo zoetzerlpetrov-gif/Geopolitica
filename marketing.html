@@ -34,6 +34,11 @@
     nav.indice { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
     nav.indice a { font-size: 13px; padding: 3px 10px; border: 1px solid var(--line); border-radius: 999px; text-decoration: none; color: var(--text); }
     details summary { cursor: pointer; font-weight: 700; }
+    .piezas { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 12px; }
+    .pieza-medios { display: flex; gap: 8px; align-items: flex-start; }
+    .pieza-medios img { width: 58%; height: auto; border-radius: 6px; border: 1px solid var(--line); }
+    .pieza-medios video { width: 40%; aspect-ratio: 9 / 16; border-radius: 6px; background: #000; }
+    .desliza { overflow-x: auto; }
   </style>
 <script type="module" src="js/apariencia.js"></script>
 </head>
@@ -45,7 +50,14 @@
   <main class="ops">
     <p class="meta">Promoción del propio proyecto. Los anuncios de terceros dentro de los videos están en <a href="patrocinios.html">📣 Patrocinios</a>.
       Presupuesto actual: orgánico. Nada se publica solo: cada botón abre la red con el texto listo para revisarlo.</p>
-    <nav class="indice"><a href="#t-tablero">1 Tablero</a><a href="#t-contenido">2 Contenido listo</a><a href="#t-semana">3 Semana tipo</a><a href="#t-plan">4 Plan</a><a href="#t-revision">5 Revisión</a><a href="#t-legal">6 Reglas</a><a href="#t-linkedin">7 LinkedIn personal</a></nav>
+    <nav class="indice"><a href="#t-lanzamiento">0 Lanzamiento paso a paso</a><a href="#t-piezas">Piezas listas</a><a href="#t-tablero">1 Tablero</a><a href="#t-contenido">2 Contenido listo</a><a href="#t-semana">3 Semana tipo</a><a href="#t-plan">4 Plan</a><a href="#t-revision">5 Revisión</a><a href="#t-legal">6 Reglas</a><a href="#t-linkedin">7 LinkedIn personal</a></nav>
+
+    <h2 id="t-lanzamiento">0 · Lanzamiento paso a paso</h2>
+    <p class="meta">Para empezar desde cero: qué redes abrir, a quién hablarle, qué publicar, cuándo y en qué orden. Marca cada tarea al terminarla (se guarda en este navegador).</p>
+    <div id="mk-lanzamiento"><p class="meta">Cargando…</p></div>
+
+    <h2 id="t-piezas">🎨 Piezas listas (imágenes y shorts del día)</h2>
+    <div id="mk-piezas"><p class="meta">Cargando…</p></div>
 
     <h2 id="t-tablero">1 · Tablero</h2>
     <div id="mk-tablero"><p class="meta">Cargando…</p></div>

@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Piezas de DOMINUS OSINT</title>
+<style>
+  /* Plantilla de piezas para redes (tools/marketing/piezas.mjs): publicación 1080×1350, historia y short 1080×1920.
+     Colores de la marca (tema táctico oscuro) con contraste AA: texto #e3e7ee sobre #0a0f17 (16:1), oro #c9a227 (7.8:1). */
+  :root { --bg: #0a0f17; --bg2: #13314f; --texto: #e3e7ee; --texto2: #b7c2d3; --oro: #c9a227; --rojo: #d23b3b; }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { width: 100%; height: 100%; background: var(--bg); }
+  body { font-family: "Inter", "IBM Plex Sans", "DejaVu Sans", system-ui, sans-serif; color: var(--texto); overflow: hidden; }
+  .lienzo { position: absolute; inset: 0; padding: 84px 80px; display: flex; flex-direction: column;
+    background: radial-gradient(120% 70% at 85% 0%, #1b3f63 0%, transparent 60%), linear-gradient(160deg, var(--bg) 0%, var(--bg2) 100%); }
+  .rejilla { position: absolute; inset: 0; opacity: .12; pointer-events: none;
+    background-image: linear-gradient(#5a7aa0 1px, transparent 1px), linear-gradient(90deg, #5a7aa0 1px, transparent 1px); background-size: 60px 60px; }
+  .marca { display: flex; align-items: center; gap: 18px; font-weight: 800; letter-spacing: .14em; font-size: 34px; position: relative; }
+  .marca .cruz { width: 44px; height: 44px; color: var(--rojo); }
+  .marca span { color: var(--oro); }
+  .chip { display: inline-block; margin-top: 46px; padding: 10px 22px; border: 2px solid var(--oro); color: var(--oro); border-radius: 999px;
+    font-weight: 700; font-size: 28px; letter-spacing: .06em; text-transform: uppercase; align-self: flex-start; position: relative; }
+  .titular { margin-top: 40px; font-size: 74px; line-height: 1.08; font-weight: 800; position: relative; }
+  .corto { margin-top: 34px; font-size: 40px; line-height: 1.35; color: var(--texto2); position: relative; }
+  .pie { margin-top: auto; display: flex; justify-content: space-between; align-items: flex-end; gap: 30px; position: relative; }
+  .fuente { font-size: 28px; color: var(--texto2); max-width: 62%; }
+  .fuente b { color: var(--texto); }
+  .cta { background: var(--oro); color: #111; font-weight: 800; font-size: 34px; padding: 18px 30px; border-radius: 14px; white-space: nowrap; }
+  .barra { position: absolute; left: 0; bottom: 0; height: 10px; background: var(--oro); width: 0; }
+  body.vertical .titular { font-size: 88px; margin-top: 120px; }
+  body.vertical .corto { font-size: 46px; }
+  body.vertical .pie { flex-direction: column; align-items: flex-start; }
+  body.vertical .fuente { max-width: 100%; }
+  .final { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 40px;
+    background: linear-gradient(160deg, var(--bg) 0%, var(--bg2) 100%); opacity: 0; text-align: center; padding: 80px; }
+  .final .grande { font-size: 96px; font-weight: 800; letter-spacing: .08em; }
+  .final .grande span { color: var(--oro); }
+  .final .lema { font-size: 46px; color: var(--texto2); line-height: 1.3; }
+  .final .url { font-size: 58px; font-weight: 800; color: #111; background: var(--oro); padding: 20px 40px; border-radius: 18px; }
+</style>
+</head>
+<body>
+<div class="lienzo">
+  <div class="rejilla"></div>
+  <div class="marca"><svg class="cruz" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9 1h6v8h8v6h-8v8H9v-8H1V9h8z"/></svg>DOMINUS <span>OSINT</span></div>
+  <div class="chip" id="chip"></div>
+  <h1 class="titular" id="titular"></h1>
+  <p class="corto" id="corto"></p>
+  <div class="pie"><p class="fuente" id="pfuente">Fuente: <b id="fuente"></b></p><div class="cta">dominusosint.com</div></div>
+  <div class="barra" id="barra"></div>
+</div>
+<div class="final" id="final">
+  <div class="grande">DOMINUS <span>OSINT</span></div>
+  <p class="lema" id="lema"></p>
+  <div class="url">dominusosint.com</div>
+</div>
+<script>
+  const PILARES = { contraste: "Dato en contexto", alerta: "Alerta", herramienta: "Herramienta", tendencia: "Tendencia", explicador: "Explicador" };
+  let pieza = null, durTotal = 15;
+  const $ = (id) => document.getElementById(id);
+  /** Llena la plantilla con un borrador de marketing_borradores.json. formato: "post" | "vertical". */
+  window.pieza = (b, formato, lema, dur) => {
+    pieza = b; durTotal = dur || 15;
+    document.body.classList.toggle("vertical", formato === "vertical");
+    $("chip").textContent = PILARES[b.pilar] || b.pilar || "Dato del día";
+    $("titular").textContent = b.titular;
+    $("corto").textContent = b.corto || "";
+    $("fuente").textContent = b.fuente || b.fuente_corta || "";
+    $("lema").textContent = lema || "";
+    // Ajuste del tamaño del titular para que quepa (máx. 5 líneas).
+    const t = $("titular"); let tam = parseFloat(getComputedStyle(t).fontSize);
+    while (t.scrollHeight > tam * 1.1 * 5 && tam > 40) { tam -= 4; t.style.fontSize = tam + "px"; }
+    window.aTiempo(dur ? 0 : 999);
+  };
+  const suave = (x) => (x <= 0 ? 0 : x >= 1 ? 1 : 1 - Math.pow(1 - x, 3));
+  const tramo = (t, a, b) => suave((t - a) / (b - a));
+  /** Estado de la animación en el segundo t (el short se graba cuadro por cuadro; la imagen usa t grande = todo visible). */
+  window.aTiempo = (t) => {
+    const ver = (id, a, b, dy = 40) => { const k = tramo(t, a, b); const el = $(id); el.style.opacity = k; el.style.transform = `translateY(${(1 - k) * dy}px)`; };
+    ver("chip", 0.2, 0.8); ver("titular", 0.6, 1.6, 60); ver("corto", 3.0, 4.0); ver("pfuente", 6.0, 7.0, 20);
+    $("barra").style.width = `${Math.min(100, (t / durTotal) * 100)}%`;
+    const f = tramo(t, durTotal - 3.5, durTotal - 2.8);
+    $("final").style.opacity = t >= 900 ? 0 : f;
+  };
+</script>
+</body>
+</html>

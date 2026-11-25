@@ -6,7 +6,7 @@ import mapa from "../../config/datos_por_plan.json" with { type: "json" };
 
 export const ORDEN_DATOS = ["demo", "recon", "analyst", "command", "admin"];
 const RUTA = /^data\/[A-Za-z0-9_\-./]{1,200}$/;
-const TIPOS = { json: "application/json", geojson: "application/geo+json", csv: "text/csv; charset=utf-8", txt: "text/plain; charset=utf-8", pbf: "application/x-protobuf", png: "image/png", webp: "image/webp" };
+const TIPOS = { json: "application/json", geojson: "application/geo+json", csv: "text/csv; charset=utf-8", txt: "text/plain; charset=utf-8", pbf: "application/x-protobuf", png: "image/png", webp: "image/webp", mp4: "video/mp4" };
 
 /** Plan mínimo de una ruta de data/ (exacta o dentro de una carpeta protegida); null si es pública. */
 export function planRequerido(ruta, m = mapa) {
