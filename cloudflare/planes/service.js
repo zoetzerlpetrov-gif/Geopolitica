@@ -4,6 +4,7 @@ import { servirDatos } from "./datos.js";
 import { CSS as CSS_CUENTA, paginaCuenta } from "./cuenta-ui.js";
 import { TEMA_JS } from '../apariencia/tema-publico.js';
 import { avisoMercadoPago } from "./mercadopago.js";
+import { serveEmpresas } from "./empresas.js";
 import { completarGoogle, correoSesion, googleConfigurado, iniciarGoogle, planPorCorreo, registrado, salirGoogle, TABLA_EMAIL } from "./google.js";
 
 const ORDER = ["demo", "recon", "analyst", "command"];
@@ -60,6 +61,12 @@ export async function servePlans(request, url, env, authRoot) {
     logout.headers.set("Location", "/cuenta/");
     logout.headers.append("Set-Cookie", salirGoogle());
     return new Response(null, { status: 303, headers: logout.headers });
+  }
+  // Espacios de empresa (organizaciones, miembros, invitaciones y cumplimiento): API JSON con la sesión de Google.
+  if (route === "empresa" || route.startsWith("empresa/")) {
+    const correo = await correoSesion(request, env).catch(() => null);
+    const esAdmin = await authorized(request, env).catch(() => false);
+    return serveEmpresas(request, url, env, { correo, esAdmin, origenes: ORIGENES_MAPA, base: { "Cache-Control": "private, no-store", "X-Content-Type-Options": "nosniff", "Referrer-Policy": "no-referrer" } });
   }
   if (request.method !== "GET") return Response.json({ error: "Método inválido." }, { status: 405, headers });
   try {

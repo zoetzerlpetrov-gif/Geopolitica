@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Herramientas gratis para creadores · DOMINUS</title>
+  <meta name="description" content="Herramientas gratuitas para creadores de contenido: adapta tu texto a cada red con su límite, crea imágenes y miniaturas con tu marca, encuentra temas del día y consulta horarios para publicar.">
+  <meta name="color-scheme" content="light dark">
+  <script>try { const t = localStorage.getItem("gp_theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23C8102E' d='M44 44 30 4h40L56 44 96 30v40L56 56l14 40H30l14-40L4 70V30z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/app.css">
+  <style>
+    body { display: block; height: auto; overflow: auto; }
+    .ops { max-width: 1150px; margin: 0 auto; padding: 16px; }
+    .ops h2 { font-size: 19px; text-transform: none; letter-spacing: 0; color: var(--text); margin: 26px 0 6px; }
+    .tarjeta { border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; margin: 10px 0; background: var(--surface); }
+    .meta { color: var(--text-2); font-size: 13px; }
+    .dos { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 14px; }
+    .ops label { display: block; margin: 6px 0; }
+    .ops input, .ops select, .ops textarea { font: inherit; padding: 6px 8px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); width: 100%; box-sizing: border-box; }
+    .ops input[type=color] { width: 56px; height: 36px; padding: 2px; }
+    .ops textarea { min-height: 90px; }
+    .ops button, .ops a.boton { font: inherit; min-height: 36px; padding: 4px 12px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+    .ops button.si { background: var(--accent); color: var(--on-accent, #fff); border-color: transparent; font-weight: 700; }
+    .salida { white-space: pre-wrap; font-size: 14px; background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--radius); padding: 8px; min-height: 40px; }
+    .cuenta.pasa { color: var(--danger, #b3261e); font-weight: 700; }
+    .colores { display: flex; gap: 12px; flex-wrap: wrap; align-items: end; }
+    .colores label { width: auto; }
+    canvas { width: 100%; height: auto; border: 1px solid var(--line); border-radius: var(--radius); background: #000; }
+    .temas li { margin: 4px 0; }
+    .hero { border: 1px solid var(--line); border-left: 6px solid var(--accent); padding: 14px 16px; border-radius: var(--radius); background: var(--surface); }
+    table.t { width: 100%; border-collapse: collapse; } table.t td, table.t th { border-bottom: 1px solid var(--line); padding: 6px; text-align: left; }
+  </style>
+  <script type="module" src="js/apariencia.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="link-btn" href="./">← Regresar al Mapa</a>
+    <h1>🎬 Herramientas para creadores</h1>
+  </header>
+  <main class="ops">
+    <div class="hero"><p><b>Gratis y sin cuenta.</b> Prepara una publicación para todas tus redes en minutos: el texto con el límite de cada una, la imagen o miniatura con tus colores y temas del día para inspirarte.
+      Todo se hace en tu navegador: no guardamos tus textos ni tus imágenes.</p>
+      <p class="meta">Próximamente, plan para creadores: video automático con voz, calendario, estadísticas de tus redes y respuestas a comentarios.</p></div>
+
+    <h2>1 · Un texto, todas tus redes</h2>
+    <div class="dos">
+      <div class="tarjeta">
+        <label>Título o gancho (la primera línea es la que se lee) <input id="tx-titulo" maxlength="200" placeholder="Ej.: 3 errores al ahorrar que casi nadie nota"></label>
+        <label>Cuerpo <textarea id="tx-cuerpo" maxlength="5000" placeholder="Lo que quieres contar, con un dato concreto si lo tienes."></textarea></label>
+        <label>Llamado a la acción <input id="tx-cta" maxlength="200" placeholder="Ej.: ¿Cuál cometes tú? Te leo en comentarios."></label>
+        <label>Enlace (opcional) <input id="tx-enlace" type="url" placeholder="https://"></label>
+        <label>Etiquetas (separadas por coma o espacio) <input id="tx-etiquetas" placeholder="finanzas, ahorro, méxico"></label>
+      </div>
+      <div class="tarjeta"><label>Red <select id="tx-red"></select></label>
+        <div id="tx-salida" class="salida" aria-live="polite"></div>
+        <p><span id="tx-cuenta" class="cuenta"></span></p>
+        <p><button type="button" class="si" id="tx-copiar">📋 Copiar</button> <button type="button" id="tx-todas">📋 Copiar para todas las redes</button></p>
+        <p class="meta">Si el texto no cabe, se recorta el cuerpo en una palabra completa. En X cada enlace cuenta como 23 caracteres.</p></div>
+    </div>
+
+    <h2>2 · Imagen o miniatura con tu marca</h2>
+    <div class="dos">
+      <div class="tarjeta">
+        <label>Formato <select id="im-formato"></select></label>
+        <label>Texto grande <input id="im-titulo" maxlength="120" value="Tu idea en una frase"></label>
+        <label>Texto pequeño <input id="im-sub" maxlength="160" value="Un dato o una promesa concreta"></label>
+        <label>Tu nombre o @usuario <input id="im-marca" maxlength="40" value="@tucanal"></label>
+        <div class="colores"><label>Fondo <input type="color" id="im-fondo" value="#0a0f17"></label><label>Texto <input type="color" id="im-texto" value="#f2f4f8"></label>
+          <label>Acento <input type="color" id="im-acento" value="#f9a825"></label></div>
+        <label>Tu logo o foto (opcional; no se sube a ningún servidor) <input type="file" id="im-logo" accept="image/*"></label>
+        <p id="im-contraste" class="meta" role="status"></p>
+        <p><button type="button" class="si" id="im-descargar">⬇️ Descargar PNG</button></p>
+      </div>
+      <div class="tarjeta"><canvas id="im-canvas" width="1080" height="1350" aria-label="Vista previa de la imagen"></canvas></div>
+    </div>
+
+    <h2>3 · Temas del día</h2>
+    <div class="tarjeta"><label>Tema <select id="te-seccion"></select></label>
+      <p class="meta">Titulares recientes del Noticiero de DOMINUS (más de 30 secciones, cientos de medios). Úsalos para saber de qué se está hablando; da crédito a la fuente y verifica antes de publicar.</p>
+      <ul id="te-lista" class="temas"><li class="meta">Cargando…</li></ul></div>
+
+    <h2>4 · ¿A qué hora publicar?</h2>
+    <div class="tarjeta" id="ho-tabla"></div>
+  </main>
+  <script type="module" src="js/creadores.js"></script>
+</body>
+</html>

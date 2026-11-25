@@ -46,6 +46,7 @@ export function paginaCuenta({ plan = null, fallo = false, google = true } = {})
       <div class="acciones"><a class="btn primario" href="${SITIO}/?revisar=1">Volver al mapa con mi plan</a>
         ${superiores.length ? `<a class="btn" href="${SITIO}/planes.html">⬆ Mejorar a ${esc(superiores.map((x) => x.nombre).join(", "))}</a>` : ""}
         <a class="btn" href="${SITIO}/tutorial.html">Tutorial</a>
+        <a class="btn" href="${SITIO}/empresa.html">🏢 Mi empresa (cumplimiento y equipo)</a>
         <form method="post" action="salir"><button class="btn" type="submit">Cerrar sesión</button></form>
         <p class="nota">Al pagar o renovar en Mercado Pago, usa este mismo correo para que tu plan se active solo.</p></div></div>`
     : `<div class="kicker">DOMINUS OSINT</div><h1>Mi cuenta</h1><p class="sub">Entra o regístrate gratis. El mapa se puede ver sin cuenta; la necesitas para comprar un plan y para que el sitio te reconozca.</p>
