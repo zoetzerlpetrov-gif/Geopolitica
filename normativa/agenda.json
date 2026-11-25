@@ -1,14 +1,14 @@
 {
- "generado_utc": "2026-11-24T23:44:42Z",
+ "generado_utc": "2026-11-25T11:43:21Z",
  "agregadas_hoy": 1,
  "resumen": {
-  "en_curso": 17,
-  "federal": 17,
+  "en_curso": 18,
+  "federal": 18,
   "estatal": 0,
   "publicadas": 1,
   "alta_probabilidad": 9,
   "por_sector": {
-   "sin sector": 10,
+   "sin sector": 11,
    "energia_electrica": 5,
    "manufactura_immex": 2,
    "logistica": 1,
@@ -21,6 +21,7 @@
    "animales": 3,
    "transporte": 3,
    "impuestos_dinero": 2,
+   "salud": 1,
    "mujeres_igualdad": 1,
    "cultura_deporte": 1,
    "migracion": 1,
@@ -144,6 +145,40 @@
   "logistica": "Transporte y logística"
  },
  "senales": [
+  {
+   "id": "AG:de1e15075cc3",
+   "detectado": "2026-11-25",
+   "actualizado": "2026-11-25",
+   "fuente": "Monitor de noticias (titular)",
+   "ambito": "federal",
+   "etapa": "iniciativa",
+   "etapa_nombre": "Iniciativa presentada",
+   "probabilidad": 0.15,
+   "horizonte_meses": "3–18",
+   "titulo": "Iniciativa Ley Sofía busca garantizar atención médica integral y gratuita para personas con endometriosis en CDMX - Almomento",
+   "url": "https://almomento.mx/iniciativa-ley-sofia-busca-garantizar-atencion-medica-integral-y-gratuita-para-personas-con-endometriosis-en-cdmx/",
+   "medio": "almomento.mx",
+   "leyes": [],
+   "leyes_ids": [],
+   "sectores": [],
+   "temas": [
+    "salud"
+   ],
+   "estado": "en curso",
+   "notas": [
+    {
+     "t": "Iniciativa Ley Sofía busca garantizar atención médica integral y gratuita para personas con endometriosis en CDMX - Almomento",
+     "u": "https://almomento.mx/iniciativa-ley-sofia-busca-garantizar-atencion-medica-integral-y-gratuita-para-personas-con-endometriosis-en-cdmx/",
+     "m": "almomento.mx",
+     "f": "2026-11-25"
+    }
+   ],
+   "confirmacion": "un solo medio (sin confirmar)",
+   "ventana": [
+    "2027-02",
+    "2028-05"
+   ]
+  },
   {
    "id": "AG:4aa09858a3d2",
    "detectado": "2026-11-24",

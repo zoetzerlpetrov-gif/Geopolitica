@@ -1,5 +1,5 @@
 {
- "generado_utc": "2026-11-24T23:37:54Z",
+ "generado_utc": "2026-11-25T11:39:38Z",
  "fuentes": {
   "MEX": {
    "fuente": "Diario Oficial de la Federación y Cámara de Diputados",
@@ -13,9 +13,9 @@
    "fuente": "Federal Register (API oficial)",
    "ok": true,
    "estado": "ok",
-   "nuevas": 0,
+   "nuevas": 1,
    "error": "",
-   "hasta": "2026-11-24"
+   "hasta": "2026-11-25"
   },
   "CAN": {
    "fuente": "Canada Gazette, Parte II",
@@ -23,15 +23,15 @@
    "estado": "ok",
    "nuevas": 0,
    "error": "",
-   "hasta": "2026-11-24"
+   "hasta": "2026-11-25"
   },
   "EUR": {
    "fuente": "Oficina de Publicaciones de la UE (Cellar)",
    "ok": true,
    "estado": "ok",
-   "nuevas": 1,
+   "nuevas": 2,
    "error": "",
-   "hasta": "2026-11-24"
+   "hasta": "2026-11-25"
   },
   "JPN": {
    "fuente": "e-Gov, API de leyes v2",
@@ -39,7 +39,7 @@
    "estado": "ok",
    "nuevas": 0,
    "error": "",
-   "hasta": "2026-11-24"
+   "hasta": "2026-11-25"
   },
   "RUS": {
    "fuente": "Portal oficial de publicación de actos jurídicos",
@@ -47,7 +47,7 @@
    "estado": "ok",
    "nuevas": 4,
    "error": "",
-   "hasta": "2026-11-24"
+   "hasta": "2026-11-25"
   },
   "ARG": {
    "fuente": "Boletín Oficial, primera sección",
@@ -55,7 +55,7 @@
    "estado": "ok",
    "nuevas": 0,
    "error": "",
-   "hasta": "2026-11-24"
+   "hasta": "2026-11-25"
   }
  },
  "sin_fuente": {
@@ -75,16 +75,26 @@
   "MDO": "Sanciones: revisión semanal manual en OFAC, el mapa de sanciones de la UE y la ONU."
  },
  "ultima_fecha": {
-  "USA": "2026-11-24",
-  "CAN": "2026-11-24",
-  "EUR": "2026-11-24",
-  "JPN": "2026-11-24",
-  "RUS": "2026-11-24",
+  "USA": "2026-11-25",
+  "CAN": "2026-11-25",
+  "EUR": "2026-11-25",
+  "JPN": "2026-11-25",
+  "RUS": "2026-11-25",
   "MEX": "2026-11-24",
-  "ARG": "2026-11-24"
+  "ARG": "2026-11-25"
  },
  "desactualizadas": [],
  "por_pais": {
+  "USA": {
+   "total": 38,
+   "alto": 0,
+   "ultimos_30d": 31
+  },
+  "EUR": {
+   "total": 60,
+   "alto": 8,
+   "ultimos_30d": 24
+  },
   "RUS": {
    "total": 31,
    "alto": 4,
@@ -94,16 +104,6 @@
    "total": 558,
    "alto": 51,
    "ultimos_30d": 38
-  },
-  "EUR": {
-   "total": 59,
-   "alto": 8,
-   "ultimos_30d": 23
-  },
-  "USA": {
-   "total": 37,
-   "alto": 0,
-   "ultimos_30d": 30
   },
   "JPN": {
    "total": 1,
