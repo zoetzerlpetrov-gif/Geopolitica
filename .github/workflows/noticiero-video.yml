@@ -15,13 +15,43 @@ on:
 
 permissions:
   contents: write  # solo para guardar el guion del video en la rama datos-comentarios (respuestas a comentarios)
+  actions: read    # para ver si ya hubo un video hoy
 
 concurrency:
   group: datos-comentarios
   cancel-in-progress: false
 
 jobs:
+  # Un solo video por día. Lo lanzan dos relojes: el «Reloj» (respaldo, 07:21 CDMX) y el horario propio de GitHub, que
+  # desde el 20-nov-2026 se dispara con horas de retraso (14:00-19:00 CDMX); así salían dos videos el mismo día.
+  # Si ya hay una corrida exitosa desde las 00:00 de hoy en Ciudad de México, esta termina sin hacer otro.
+  # Con «fecha» escrita a mano siempre se genera (para rehacer un día a propósito).
+  revisar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      ya: ${{ steps.hoy.outputs.ya }}
+    steps:
+      - name: ¿Ya hay Brújula Diaria de hoy?
+        id: hoy
+        env:
+          GH_TOKEN: ${{ github.token }}
+          FECHA: ${{ inputs.fecha }}
+        run: |
+          if [ -n "$FECHA" ]; then echo "Fecha indicada a mano ($FECHA): se genera."; echo "ya=0" >> "$GITHUB_OUTPUT"; exit 0; fi
+          desde="$(TZ=America/Mexico_City date +%F)T06:00:00Z"  # 00:00 en Ciudad de México (UTC-6, sin horario de verano)
+          n=$(gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/noticiero-video.yml/runs?branch=main&created=%3E%3D${desde}&per_page=20" \
+            --jq "[.workflow_runs[] | select(.id != ${GITHUB_RUN_ID} and .conclusion == \"success\")] | length" || echo 0)
+          if [ "${n:-0}" -gt 0 ]; then
+            echo "::notice::Ya hay un video de Brújula Diaria de hoy ($n corrida(s) exitosa(s) desde $desde): no se genera otro."
+            echo "ya=1" >> "$GITHUB_OUTPUT"
+          else
+            echo "ya=0" >> "$GITHUB_OUTPUT"
+          fi
+
   video:
+    needs: revisar
+    if: ${{ needs.revisar.outputs.ya != '1' }}
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
