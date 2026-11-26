@@ -594,13 +594,17 @@ test("el formulario distingue correo exacto, dominio y catálogo por alias", asy
   input();
   assert.equal(node("catalogo-ampliado").disabled, true);
   assert.equal(node("catalogo-categoria").disabled, true);
-  assert.match(node("alcance-consulta").textContent, /6 comprobaciones por correo exacto/);
+  assert.match(node("alcance-consulta").textContent, /6 comprobaciones del correo/);
+  assert.match(node("alcance-consulta").textContent, /escribe también un alias público/);
   await submit();
   assert.deepEqual(browserRequests.splice(0), [{
     path: "consulta", query: { username: "", domain: "example.org", email, searchEmail: true }
   }]);
-  assert.match(node("resultados").children[0].textContent, /0 de 6 comprobaciones/);
-  assert.match(node("resultados").children[1].textContent, /escribe un alias público/);
+  // Informe ordenado: tarjeta de resumen y tabla del correo (6 fuentes), sin sección de redes si no hay alias
+  assert.equal(node("resumen").children[0].children[1].textContent, "0 de 6");
+  assert.equal(node("res-correo").children[0].textContent, "1. Correo " + email);
+  assert.equal(node("res-correo").children[1].children[1].children.length, 6);
+  assert.equal(node("redes-principales").children.length, 0);
   assert.ok(sent.some(url => url.hostname === "keys.openpgp.org"));
 
   node("modo-correo").value = "dominio";
@@ -642,16 +646,14 @@ test("el formulario distingue correo exacto, dominio y catálogo por alias", asy
   const sentUrls = new Set(sent.map(url => url.href));
   for (const [, , target] of catalog) assert.ok(sentUrls.has(new URL(target.replace("{account}", "elonmusk")).href));
   assert.ok(!sent.some(url => url.hostname === "www.instagram.com"));
-  const instagram = node("redes-manuales").children[0];
-  assert.equal(instagram.children[0].textContent, "Instagram · revisión manual");
-  assert.equal(instagram.children[2].href, "https://www.instagram.com/elonmusk/");
-  const table = node("resultados-catalogo").children[0];
-  const rows = table.children[2].children;
-  assert.equal(rows.length, catalogInfo.sections.length);
-  for (const [index, section] of catalogInfo.sections.entries()) {
-    assert.equal(rows[index].children[0].textContent, section.label);
-    assert.equal(rows[index].children[1].textContent, `${section.total} de ${section.total}`);
-  }
+  // Redes principales: solo «¿aparece?», sin enlaces; Instagram no se consulta (requiere sesión) y lo dice
+  const tabla = node("redes-principales").children[2];
+  const filas = tabla.children[1].children;
+  assert.equal(filas.length, 18);
+  const instagram = filas.find(fila => fila.children[0].textContent === "Instagram");
+  assert.match(instagram.children[1].textContent, /sin iniciar sesión/);
+  assert.ok(filas.every(fila => fila.children.length === 3 && fila.children.every(celda => celda.href === undefined)));
+  assert.match(node("estado").textContent, new RegExp(`${catalogInfo.total} de ${catalogInfo.total}`));
 });
 
 test("YouTube confirma el canal por alias y mantiene la clave en la petición al proveedor", async (t) => {

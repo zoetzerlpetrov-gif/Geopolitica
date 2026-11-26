@@ -1,40 +1,31 @@
 const $ = (id) => document.getElementById(id);
 const form = $("consulta");
 const status = $("estado");
-const results = $("resultados");
-const catalogResults = $("resultados-catalogo");
-const manualResults = $("redes-manuales");
-const manualNetworks = [
-  ["Facebook", "https://www.facebook.com/{}"],
-  ["LinkedIn", "https://www.linkedin.com/in/{}/"],
-  ["X", "https://x.com/{}"],
-  ["Reddit", "https://www.reddit.com/user/{}/"],
-  ["Threads", "https://www.threads.com/@{}"],
-  ["YouTube · identificador @", "https://www.youtube.com/@{}"],
-  ["Pinterest", "https://www.pinterest.com/{}/"],
-  ["Telegram", "https://t.me/{}"],
-  ["Snapchat", "https://www.snapchat.com/add/{}"],
-  ["Substack", "https://substack.com/@{}"],
-  ["Medium", "https://medium.com/@{}"],
-  ["Tumblr", "https://www.tumblr.com/{}"],
-  ["Vimeo", "https://vimeo.com/{}"],
-  ["VK", "https://vk.com/{}"],
-  ["Weibo", "https://weibo.com/n/{}"],
-  ["Spotify · ID público", "https://open.spotify.com/user/{}"],
-  ["Twitch", "https://www.twitch.tv/{}"],
-  ["Linktree", "https://linktr.ee/{}"],
-  ["Patreon", "https://www.patreon.com/{}"]
-];
 const search = $("buscar");
-const labels = {
-  verificado: "Verificado en la fuente",
-  encontrado: "Registrado en el catálogo",
-  indicio: "Indicio de perfil",
-  sin_resultado: "Sin resultado",
-  indeterminado: "No concluyente",
-  limitado: "No concluyente · límite del proveedor"
-};
 let pending;
+let ultima = null; // { query, direct, catalog, catalogInfo, category, catalogDone }
+
+// Resultado de una fuente → respuesta simple «¿aparece?».
+const APARECE = {
+  verificado: ["si", "✅ Sí aparece"],
+  encontrado: ["si", "✅ Sí aparece"],
+  indicio: ["probable", "🟡 Probablemente sí"],
+  sin_resultado: ["no", "❌ No aparece"],
+  indeterminado: ["duda", "❔ No se pudo confirmar"],
+  limitado: ["duda", "❔ No se pudo confirmar"]
+};
+const PESO = { si: 4, probable: 3, no: 2, duda: 1, sin_revisar: 0, sesion: 0 };
+const aparece = (estado) => APARECE[estado] || APARECE.indeterminado;
+
+// Redes principales: siempre aparecen en la tabla, en este orden. «alias» son los nombres con que llegan de las fuentes.
+// «sesion»: la red no permite comprobarlo sin iniciar sesión (se respeta su política; no se raspa).
+const REDES = [
+  ["Facebook", ["facebook"], true], ["Instagram", ["instagram"], true], ["X (Twitter)", ["x", "twitter"]],
+  ["TikTok", ["tiktok"]], ["YouTube", ["youtube"]], ["LinkedIn", ["linkedin"], true], ["Threads", ["threads"], true],
+  ["Snapchat", ["snapchat"]], ["Telegram", ["telegram"]], ["Pinterest", ["pinterest"]], ["Reddit", ["reddit"], true],
+  ["Tumblr", ["tumblr"]], ["Twitch", ["twitch"]], ["Bluesky", ["bluesky"]], ["Mastodon", ["mastodon"]],
+  ["Flickr", ["flickr"]], ["SoundCloud", ["soundcloud"]], ["GitHub", ["github"]]
+];
 
 function element(parent, tag, text, className) {
   const node = document.createElement(tag);
@@ -44,164 +35,211 @@ function element(parent, tag, text, className) {
   return node;
 }
 
-function render(group, result) {
-  const card = element(group, "article", "", "panel");
-  element(card, "h3", result.source);
-  element(card, "p", labels[result.status], "state " + result.status);
-  if (result.detail) element(card, "p", result.detail);
-  if (result.correlation) element(card, "p", "Cruce de fuentes · " + result.correlation, "state verificado");
-  if (result.name) element(card, "p", result.name);
-  if (result.avatar) {
-    const show = element(card, "button", "Mostrar avatar público", "secondary");
-    show.type = "button";
-    show.addEventListener("click", () => {
-      const avatar = document.createElement("img");
-      avatar.className = "avatar-publico";
-      avatar.alt = "Avatar público publicado por " + result.source;
-      avatar.referrerPolicy = "no-referrer";
-      avatar.addEventListener("error", () => {
-        avatar.replaceWith(document.createTextNode("La fuente no pudo cargar el avatar."));
-      }, { once: true });
-      avatar.src = result.avatar;
-      show.replaceWith(avatar);
-    }, { once: true });
+const nombreRed = (source) => String(source || "").split(" · ")[0].trim();
+const clave = (texto) => texto.toLowerCase().replace(/\s*\(.*\)$/, "").replace(/[^a-z0-9]/g, "");
+
+/** Tabla de redes principales: una fila por red con Sí / No / No se pudo confirmar, sin enlaces. */
+function filasRedes(direct, catalog, catalogoRevisado) {
+  const porClave = new Map();
+  const anotar = (k, fila) => {
+    const previa = porClave.get(k);
+    if (!previa || PESO[fila.tipo] > PESO[previa.tipo]) porClave.set(k, fila);
+  };
+  for (const r of [...direct.filter(x => x.kind === "alias"), ...catalog]) {
+    const [tipo, texto] = aparece(r.status);
+    anotar(clave(nombreRed(r.source)), { tipo, texto, fuente: r.kind === "catalogo" ? "catálogo público" : nombreRed(r.source) === "Wikidata" ? "Wikidata" : "consulta directa" });
+    for (const ref of r.socialReferences || []) anotar(clave(ref.platform), { tipo: "si", texto: "✅ Sí aparece", fuente: "referencia pública en Wikidata" });
   }
-  if (result.since && !Number.isNaN(Date.parse(result.since))) {
-    element(card, "p", "Cuenta creada el " + new Date(result.since).toLocaleDateString("es-MX"));
-  }
-  if (result.records?.length) {
-    const list = element(card, "ul", "", "records");
-    for (const record of result.records) element(list, "li", record);
-  }
-  if (result.incidents?.length) {
-    const list = element(card, "ul", "", "records");
-    for (const incident of result.incidents) {
-      const state = incident.verified ? "verificado por HIBP" : "sin verificar por HIBP";
-      const entry = element(list, "li", [incident.title, incident.date, state].filter(Boolean).join(" · "));
-      if (incident.classes.length) element(entry, "small", incident.classes.join(", "));
-    }
-    if (result.count > result.incidents.length) element(card, "p", `Mostrando ${result.incidents.length} de ${result.count} incidentes.`);
-  }
-  if (result.declaredProfiles?.length) {
-    element(card, "p", "Enlaces visibles publicados en Gravatar");
-    const list = element(card, "ul", "", "records");
-    for (const url of result.declaredProfiles) {
-      const link = element(element(list, "li", ""), "a", url);
-      link.href = url;
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
-    }
-  }
-  if (result.socialReferences?.length) {
-    const list = element(card, "ul", "", "records");
-    for (const entry of result.socialReferences) {
-      const row = element(list, "li", "");
-      for (const [url, label] of [[entry.url, entry.platform], [entry.reference, " · ficha en Wikidata"]]) {
-        const link = element(row, "a", label);
-        link.href = url;
-        link.target = "_blank";
-        link.rel = "noopener noreferrer";
-      }
-    }
-  }
-  if (result.profileLinks?.length) {
-    const list = element(card, "ul", "", "records");
-    for (const url of result.profileLinks) {
-      const link = element(element(list, "li", ""), "a", "Abrir perfil coincidente");
-      link.href = url;
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
-    }
-  }
-  if (result.evidence?.length) {
-    const list = element(card, "ul", "", "records");
-    for (const url of result.evidence) {
-      const link = element(element(list, "li", ""), "a", "Abrir commit público");
-      link.href = url;
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
-    }
-  }
-  if (result.url) {
-    const link = element(card, "a", result.kind === "catalogo" ? "Revisar página en la fuente" : "Abrir perfil público");
-    link.href = result.url;
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
-  }
+  const ORDEN = { si: 0, probable: 1, no: 2, duda: 3, sesion: 4, sin_revisar: 5 }; // primero donde sí aparece
+  return REDES.map(([nombre, alias, soloSesion]) => {
+    const hallada = alias.map(a => porClave.get(clave(a))).filter(Boolean).sort((a, b) => PESO[b.tipo] - PESO[a.tipo])[0];
+    if (hallada && (hallada.tipo !== "duda" || !soloSesion)) return { nombre, ...hallada };
+    if (soloSesion) return { nombre, tipo: "sesion", texto: "🔒 No se puede saber sin iniciar sesión", fuente: "la red no publica perfiles sin sesión" };
+    return hallada ? { nombre, ...hallada } : { nombre, tipo: "sin_revisar", texto: "➖ No revisada", fuente: catalogoRevisado ? "fuera de la categoría elegida" : "activa el catálogo ampliado" };
+  }).sort((a, b) => ORDEN[a.tipo] - ORDEN[b.tipo]);
 }
 
-function renderManualNetworks(username) {
-  const alias = username.replace(/^@/, "");
-  if (!alias) return;
-  if (/^[a-z0-9_.]{1,30}$/i.test(alias)) {
-    const card = element(manualResults, "section", "", "panel");
-    element(card, "h3", "Instagram · revisión manual");
-    element(card, "p", "El enlace abre el perfil en Instagram. Las referencias públicas, si existen, aparecen en la tarjeta de Wikidata.");
-    const link = element(card, "a", `Abrir @${alias} en Instagram`);
-    link.href = `https://www.instagram.com/${encodeURIComponent(alias)}/`;
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
+/** Otros sitios agrupados por categoría: solo los nombres donde aparece; los demás se cuentan. */
+function gruposOtros(direct, catalog, info) {
+  const principales = new Set([...REDES.flatMap(([, alias]) => alias), "wikidata"]); // Wikidata solo aporta referencias
+  const grupos = new Map();
+  const meter = (titulo, r) => {
+    if (principales.has(clave(nombreRed(r.source)))) return;
+    if (!grupos.has(titulo)) grupos.set(titulo, { si: [], probable: [], no: 0, duda: [] });
+    const g = grupos.get(titulo);
+    const [tipo] = aparece(r.status);
+    if (tipo === "no") g.no += 1; else g[tipo].push(nombreRed(r.source));
+  };
+  for (const r of direct.filter(x => x.kind === "alias")) meter("Consultas directas (desarrollo, juegos, comunidades)", r);
+  for (const r of catalog) {
+    const s = (info?.sections || []).find(x => x.categories.includes(r.category));
+    meter(s ? s.label : "Otros sitios públicos", r);
   }
-  const details = element(manualResults, "details", "");
-  element(details, "summary", `Redes y sitios populares · ${manualNetworks.length} enlaces para revisar`);
-  element(details, "p", "Enlaces sugeridos a partir del alias. Huella no visitó estas direcciones en esta sección. Algunos sitios requieren iniciar sesión o usan otro identificador.");
-  const list = element(details, "ul", "", "redes-lista");
-  for (const [name, template] of manualNetworks) {
-    const link = element(element(list, "li", ""), "a", name);
-    link.href = template.replace("{}", encodeURIComponent(alias));
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
-  }
+  return [...grupos.entries()].map(([titulo, g]) => ({ titulo, ...g, si: [...new Set(g.si)].sort(), probable: [...new Set(g.probable)].sort(), duda: [...new Set(g.duda)].sort() }));
 }
 
-function renderGroup(parent, title, entries) {
-  if (!entries.length) return;
-  const matched = entries.filter(result => ["verificado", "encontrado", "indicio"].includes(result.status));
-  const other = entries.filter(result => !matched.includes(result));
-  const section = element(parent, "section", "");
-  element(section, "h3", `${title} · ${matched.length} de ${entries.length} con resultado`);
-  if (matched.length) {
-    const group = element(section, "div", "", "grid");
-    for (const result of matched) render(group, result);
+function tabla(parent, columnas, filas, clase = "tabla-huella") {
+  const t = element(parent, "table", "", clase);
+  const cab = element(element(t, "thead", ""), "tr", "");
+  for (const c of columnas) element(cab, "th", c).scope = "col";
+  const cuerpo = element(t, "tbody", "");
+  for (const fila of filas) {
+    const tr = element(cuerpo, "tr", "", fila.clase || "");
+    fila.celdas.forEach((c, i) => {
+      const td = element(tr, i === 0 ? "th" : "td", typeof c === "string" ? c : "");
+      if (i === 0) td.scope = "row";
+      if (typeof c === "function") c(td);
+    });
   }
-  if (other.length) {
-    const details = element(section, "details", "");
-    const unresolved = other.filter(result => result.status === "indeterminado" || result.status === "limitado").length;
-    element(details, "summary", `Ver las otras ${other.length} comprobaciones` +
-      (unresolved ? ` · ${unresolved} sin respuesta concluyente` : ""));
-    const group = element(details, "div", "", "grid");
-    for (const result of other) render(group, result);
-  }
+  return t;
 }
 
-function renderCoverage(parent, sections, entries) {
-  if (!sections.length) return;
-  const table = element(parent, "table", "", "cobertura-catalogo");
-  element(table, "caption", "Cobertura del catálogo por categoría");
-  const heading = element(element(table, "thead", ""), "tr", "");
-  for (const text of ["Categoría", "Procesadas", "Con indicio", "No concluyentes"]) {
-    element(heading, "th", text).scope = "col";
+function detalleCorreo(r) {
+  const partes = [];
+  if (r.detail) partes.push(r.detail);
+  if (r.name) partes.push("Nombre visible: " + r.name);
+  if (r.since && !Number.isNaN(Date.parse(r.since))) partes.push("Cuenta creada el " + new Date(r.since).toLocaleDateString("es-MX"));
+  if (r.evidence?.length) partes.push(`${r.evidence.length} commit(s) público(s) con este correo`);
+  if (r.profileLinks?.length) partes.push(`${r.profileLinks.length} perfil(es) de GitHub publican este correo`);
+  if (r.declaredProfiles?.length) {
+    const sitios = [...new Set(r.declaredProfiles.map(u => { try { return new URL(u).hostname.replace(/^www\./, ""); } catch { return ""; } }).filter(Boolean))];
+    partes.push("Gravatar enlaza a: " + sitios.join(", "));
   }
-  const rows = element(table, "tbody", "");
-  for (const section of sections) {
-    const matches = entries.filter(result => section.categories.includes(result.category));
-    const row = element(rows, "tr", "");
-    element(row, "th", section.label).scope = "row";
-    element(row, "td", `${matches.length} de ${section.total}`);
-    element(row, "td", String(matches.filter(result => result.status === "indicio").length));
-    element(row, "td", String(matches.filter(result => ["indeterminado", "limitado"].includes(result.status)).length));
-  }
+  if (r.correlation) partes.push("Cruce de fuentes: " + r.correlation);
+  return partes.join(" · ");
 }
 
-async function runCatalog(username, info, category, signal, directResults) {
+function detalleDominio(r) {
+  const partes = [];
+  if (r.detail) partes.push(r.detail);
+  if (r.records?.length) partes.push(r.records.join(" | "));
+  if (r.incidents?.length) {
+    partes.push(r.incidents.map(i => [i.title, i.date, i.verified ? "verificado" : "sin verificar"].filter(Boolean).join(" ")).join("; "));
+    if (r.count > r.incidents.length) partes.push(`(${r.incidents.length} de ${r.count} incidentes)`);
+  }
+  return partes.join(" · ") || "—";
+}
+
+function resultadoDominio(r) {
+  const incidentes = /pwned|incidente/i.test(r.source);
+  if (r.status === "sin_resultado") return incidentes ? "✅ Sin incidentes conocidos del sitio" : "❌ No configurado";
+  if (r.status === "encontrado") return "⚠️ Hay incidentes publicados";
+  if (r.status === "verificado") return "✅ Configurado";
+  return "❔ No se pudo confirmar";
+}
+
+function botonAvatar(celda, r) {
+  if (!r.avatar) return;
+  const show = element(celda, "button", "Mostrar avatar", "secondary mini");
+  show.type = "button";
+  show.addEventListener("click", () => {
+    const avatar = document.createElement("img");
+    avatar.className = "avatar-publico";
+    avatar.alt = "Avatar público publicado por " + r.source;
+    avatar.referrerPolicy = "no-referrer";
+    avatar.addEventListener("error", () => avatar.replaceWith(document.createTextNode("La fuente no pudo cargar el avatar.")), { once: true });
+    avatar.src = r.avatar;
+    show.replaceWith(avatar);
+  }, { once: true });
+}
+
+function tarjetaResumen(parent, titulo, valor, nota, tipo) {
+  const t = element(parent, "div", "", "resumen-tarjeta " + (tipo || ""));
+  element(t, "span", titulo, "resumen-titulo");
+  element(t, "b", valor);
+  if (nota) element(t, "small", nota);
+}
+
+/** Dibuja todo el informe ordenado: resumen, redes principales, otros sitios, correo y dominio. */
+function renderTodo() {
+  if (!ultima) return;
+  const { query, direct, catalog, catalogInfo, category, catalogDone } = ultima;
+  const resumen = $("resumen"), redes = $("redes-principales"), otros = $("otros-sitios"), correo = $("res-correo"), dominio = $("res-dominio");
+  for (const n of [resumen, redes, otros, correo, dominio]) n.replaceChildren();
+  const correoRes = direct.filter(r => r.kind === "correo");
+  const dominioRes = direct.filter(r => r.kind === "dominio");
+  const filas = query.username ? filasRedes(direct, catalog, catalogDone) : [];
+  const grupos = query.username ? gruposOtros(direct, catalog, catalogInfo) : [];
+
+  // 1. Resumen
+  const enRedes = filas.filter(f => f.tipo === "si" || f.tipo === "probable");
+  const enOtros = grupos.reduce((n, g) => n + g.si.length + g.probable.length, 0);
+  const correoSi = correoRes.filter(r => ["si"].includes(aparece(r.status)[0]));
+  if (query.username) {
+    tarjetaResumen(resumen, "Redes sociales principales", `${enRedes.length} de ${filas.length}`,
+      enRedes.length ? enRedes.map(f => f.nombre).join(", ") : "No aparece en las que se pudieron revisar", enRedes.length ? "si" : "no");
+    tarjetaResumen(resumen, "Otros sitios", String(enOtros), catalogDone ? "con perfil del alias" : catalog.length ? "catálogo en curso…" : "sin catálogo ampliado", enOtros ? "si" : "");
+  }
+  if (query.email) tarjetaResumen(resumen, "Correo", `${correoSi.length} de ${correoRes.length}`, "fuentes con coincidencia pública", correoSi.length ? "si" : "no");
+  if (dominioRes.length) {
+    const mx = dominioRes.find(r => r.source === "MX");
+    tarjetaResumen(resumen, "Dominio " + query.domain, mx && aparece(mx.status)[0] === "si" ? "Recibe correo" : "Sin correo (MX)", "", "");
+  }
+
+  // 2. Redes principales
+  let n = 0;
+  if (query.username) {
+    element(redes, "h3", `${++n}. Redes sociales principales · @${query.username}`);
+    element(redes, "p", "Solo indica si el alias aparece. Un alias igual puede pertenecer a otra persona: confírmalo antes de atribuirlo.", "nota");
+    tabla(redes, ["Red social", "¿Aparece?", "Cómo se supo"], filas.map(f => ({ clase: "fila-" + f.tipo, celdas: [f.nombre, f.texto, f.fuente] })));
+  }
+
+  // 3. Otros sitios por categoría
+  if (grupos.length) {
+    element(otros, "h3", `${++n}. Otros sitios por categoría`);
+    tabla(otros, ["Categoría", "✅ Aparece", "🟡 Probable", "❌ No aparece", "❔ Sin confirmar"], grupos.map(g => ({ celdas: [
+      g.titulo, g.si.join(", ") || "—", g.probable.join(", ") || "—", String(g.no),
+      (td) => {
+        if (!g.duda.length) { td.textContent = "0"; return; }
+        const d = element(td, "details", "");
+        element(d, "summary", String(g.duda.length));
+        element(d, "p", g.duda.join(", "));
+      }] })));
+  }
+
+  // 4. Correo
+  if (correoRes.length) {
+    element(correo, "h3", `${++n}. Correo ${query.email}`);
+    tabla(correo, ["Fuente", "Resultado", "Detalle"], correoRes.map(r => ({ clase: "fila-" + aparece(r.status)[0], celdas: [
+      r.source, aparece(r.status)[1].replace("aparece", "hay coincidencia"), (td) => { td.textContent = detalleCorreo(r) || "—"; botonAvatar(td, r); }] })));
+    if (!query.username) renderEmailPivots(direct, correo);
+  }
+
+  // 5. Dominio
+  if (dominioRes.length) {
+    element(dominio, "h3", `${++n}. Dominio ${query.domain}`);
+    tabla(dominio, ["Comprobación", "Resultado", "Detalle"], dominioRes.map(r => ({ clase: "fila-" + aparece(r.status)[0], celdas: [
+      r.source, resultadoDominio(r), detalleDominio(r)] })));
+  }
+  $("exportar").hidden = false;
+}
+
+/** CSV de todo el informe (sin enlaces): Sección, Fuente, Resultado, Detalle. */
+function csvInforme() {
+  const { query, direct, catalog, catalogInfo, catalogDone } = ultima;
+  const filas = [["Sección", "Fuente", "Resultado", "Detalle"]];
+  if (query.username) {
+    for (const f of filasRedes(direct, catalog, catalogDone)) filas.push(["Redes principales", f.nombre, f.texto.replace(/^\S+\s/, ""), f.fuente]);
+    for (const g of gruposOtros(direct, catalog, catalogInfo)) {
+      for (const n of g.si) filas.push([g.titulo, n, "Sí aparece", ""]);
+      for (const n of g.probable) filas.push([g.titulo, n, "Probablemente sí", ""]);
+    }
+  }
+  for (const r of direct.filter(x => x.kind === "correo")) filas.push(["Correo", r.source, aparece(r.status)[1].replace(/^\S+\s/, ""), detalleCorreo(r)]);
+  for (const r of direct.filter(x => x.kind === "dominio")) filas.push(["Dominio", r.source, resultadoDominio(r).replace(/^\S+\s/, ""), detalleDominio(r)]);
+  const celda = (v) => { let s = String(v ?? ""); if (/^[=+\-@]/.test(s)) s = "'" + s; return /[",\n;]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s; };
+  return "﻿" + filas.map(f => f.map(celda).join(",")).join("\r\n");
+}
+
+async function runCatalog(username, info, category, signal) {
   const section = info.sections?.find(entry => entry.id === category);
   const total = section?.total ?? info.total;
   const batchSize = info.batchSize;
   const resultsByOffset = new Map();
-  const profileLinks = new Set(directResults.flatMap(result => result.declaredProfiles || []));
   let nextOffset = 0;
   let completed = 0;
   let expired = false;
+  let ultimoDibujo = 0;
   const run = async () => {
     while (!signal.aborted && !expired && nextOffset < total) {
       const offset = nextOffset;
@@ -226,22 +264,22 @@ async function runCatalog(username, info, category, signal, directResults) {
       } catch {
         // Continúa con los demás lotes si la conexión de uno falla.
       }
-      if (!signal.aborted) status.textContent = `Catálogo ampliado · ${completed} de ${total} fuentes procesadas.`;
+      if (signal.aborted) return;
+      status.textContent = `Catálogo ampliado · ${completed} de ${total} fuentes revisadas…`;
+      if (Date.now() - ultimoDibujo > 4000) { // el informe se va llenando mientras avanza
+        ultimoDibujo = Date.now();
+        ultima.catalog = [...resultsByOffset.keys()].sort((a, b) => a - b).flatMap(o => resultsByOffset.get(o));
+        renderTodo();
+      }
     }
   };
   await Promise.all([run(), run()]);
   if (signal.aborted) return;
-  const entries = [...resultsByOffset.keys()].sort((a, b) => a - b).flatMap(offset => resultsByOffset.get(offset));
-  for (const result of entries) {
-    if (result.status === "indicio" && profileLinks.has(result.url.replace(/\/$/, ""))) {
-      result.correlation = "Gravatar publica un enlace visible a esta misma página.";
-    }
-  }
-  renderCoverage(catalogResults, section ? [section] : (info.sections || []), entries);
-  renderGroup(catalogResults, section ? `Catálogo ampliado · ${section.label}` : "Catálogo ampliado", entries);
+  ultima.catalog = [...resultsByOffset.keys()].sort((a, b) => a - b).flatMap(o => resultsByOffset.get(o));
+  ultima.catalogDone = true;
+  renderTodo();
   status.textContent = expired ? "La sesión venció durante el catálogo. Los resultados completados siguen visibles." :
-    `Catálogo ampliado · ${completed} de ${total} fuentes procesadas.` +
-    (completed < total ? ` Quedaron ${total - completed} sin procesar.` : "");
+    `Listo · ${completed} de ${total} fuentes del catálogo revisadas.` + (completed < total ? ` Quedaron ${total - completed} sin revisar.` : "");
 }
 
 const PIVOT_SITES = {
@@ -258,7 +296,8 @@ const PIVOT_SITES = {
   "t.me": ["Telegram", /^\/([a-z0-9_]+)$/i]
 };
 
-function renderEmailPivots(entries) {
+/** Alias que el propio correo publica (Gravatar, GitHub): botones para buscarlos en redes con un clic. */
+function renderEmailPivots(entries, parent) {
   const links = entries.flatMap(result => {
     if (result.kind !== "correo" || result.status !== "verificado") return [];
     if (result.source === "GitHub · correo del perfil público") return result.profileLinks || [];
@@ -266,7 +305,8 @@ function renderEmailPivots(entries) {
   });
   const pivots = new Map();
   for (const link of links) {
-    const url = new URL(link);
+    let url;
+    try { url = new URL(link); } catch { continue; }
     if (!Object.hasOwn(PIVOT_SITES, url.hostname)) continue;
     const [platform, pattern] = PIVOT_SITES[url.hostname];
     const handle = pattern.exec(url.pathname.replace(/\/$/, ""))?.[1];
@@ -275,10 +315,10 @@ function renderEmailPivots(entries) {
     }
   }
   if (!pivots.size) return;
-  element(manualResults, "p", "Alias publicados que puedes consultar por separado:");
-  const actions = element(manualResults, "div", "", "actions");
+  element(parent, "p", "Siguiente paso: el correo publica estos alias. Elige uno para ver en qué redes aparece:");
+  const actions = element(parent, "div", "", "actions");
   for (const { platform, handle } of pivots.values()) {
-    const button = element(actions, "button", `Usar @${handle} · ${platform}`, "secondary");
+    const button = element(actions, "button", `Buscar @${handle} (${platform})`, "secondary");
     button.type = "button";
     button.addEventListener("click", () => {
       $("alias").value = handle;
@@ -297,27 +337,21 @@ function updateScope() {
   catalog.disabled = !hasAlias;
   $("catalogo-categoria").disabled = !hasAlias || !catalog.checked;
   const scope = [];
-  if (hasEmail && $("modo-correo").value === "exacto") scope.push("Se harán 6 comprobaciones por correo exacto y 4 de dominio.");
+  if (hasEmail && $("modo-correo").value === "exacto") scope.push("Se harán 6 comprobaciones del correo y 4 del dominio.");
   else if (input) scope.push("Se harán 4 comprobaciones del dominio.");
   const selection = $("catalogo-categoria");
   if (hasAlias) scope.push(catalog.checked
-    ? `Se consultarán las fuentes directas por alias y el catálogo: ${selection.selectedOptions?.[0]?.textContent?.trim() || "categoría seleccionada"}.`
-    : "Se consultarán las fuentes directas por alias.");
-  else if (input) scope.push("El catálogo de redes, comunidades y blogs requiere un alias público.");
+    ? `Se revisarán las redes principales y el catálogo: ${selection.selectedOptions?.[0]?.textContent?.trim() || "categoría seleccionada"}.`
+    : "Se revisarán solo las fuentes directas por alias.");
+  else if (input) scope.push("Para saber en qué redes aparece, escribe también un alias público.");
   $("alcance-consulta").textContent = scope.join(" ") || "Escribe un correo, un dominio o un alias público.";
 }
 
-function describeEmailScope(query, entries) {
-  if (query.email) {
-    const emailResults = entries.filter(result => result.kind === "correo");
-    const hits = emailResults.filter(result => result.status === "verificado" || result.status === "encontrado").length;
-    const unresolved = emailResults.filter(result => result.status === "indeterminado" || result.status === "limitado").length;
-    element(results, "p", `Correo exacto · ${hits} de ${emailResults.length} comprobaciones con coincidencia pública.` +
-      (unresolved ? ` ${unresolved} quedaron sin una respuesta concluyente.` : ""));
-  }
-  if (!query.username && query.domain) {
-    element(results, "p", "Para buscar en redes, comunidades y blogs, escribe un alias público, como el identificador que aparece después de @ en el perfil.");
-  }
+function limpiar() {
+  ultima = null;
+  for (const id of ["resumen", "redes-principales", "otros-sitios", "res-correo", "res-dominio"]) $(id).replaceChildren();
+  $("exportar").hidden = true;
+  $("hallazgos").hidden = true;
 }
 
 form.addEventListener("input", updateScope);
@@ -347,10 +381,7 @@ form.addEventListener("submit", async (event) => {
   const current = new AbortController();
   pending = current;
   search.disabled = true;
-  $("hallazgos").hidden = true;
-  results.replaceChildren();
-  catalogResults.replaceChildren();
-  manualResults.replaceChildren();
+  limpiar();
   status.textContent = "Consultando fuentes públicas…";
   try {
     const response = await fetch("consulta", {
@@ -367,18 +398,12 @@ form.addEventListener("submit", async (event) => {
     }
     const data = await response.json();
     if (current.signal.aborted) return;
-    describeEmailScope(query, data.results);
-    renderGroup(results, "Correo exacto", data.results.filter(result => result.kind === "correo"));
-    const aliasResults = data.results.filter(result => result.kind === "alias");
-    renderGroup(results, "Redes, comunidades y blogs · consulta directa", aliasResults.filter(result => result.category === "social"));
-    renderGroup(results, "Otras consultas directas por alias", aliasResults.filter(result => result.category !== "social"));
-    renderGroup(results, "Dominio", data.results.filter(result => result.kind === "dominio"));
-    renderManualNetworks(username);
-    if (!username && query.email) renderEmailPivots(data.results);
+    ultima = { query, direct: data.results, catalog: [], catalogInfo: data.catalog, category, catalogDone: !expand };
+    renderTodo();
     $("marca-tiempo").textContent = "Consulta del " + new Date(data.checkedAt).toLocaleString("es-MX");
     $("hallazgos").hidden = false;
-    status.textContent = `${data.results.length} comprobaciones directas terminadas.`;
-    if (expand && data.catalog) await runCatalog(username, data.catalog, category, current.signal, data.results);
+    status.textContent = expand && data.catalog ? "Fuentes directas listas. Revisando el catálogo ampliado…" : `Listo · ${data.results.length} comprobaciones.`;
+    if (expand && data.catalog) await runCatalog(username, data.catalog, category, current.signal);
   } catch {
     if (!current.signal.aborted) status.textContent = "No se pudo completar la consulta. Comprueba la conexión y tu sesión.";
   } finally {
@@ -389,14 +414,20 @@ form.addEventListener("submit", async (event) => {
   }
 });
 
+$("exportar").addEventListener("click", () => {
+  if (!ultima) return;
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([csvInforme()], { type: "text/csv;charset=utf-8" }));
+  a.download = `huella-${new Date().toISOString().slice(0, 10)}.csv`;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+});
+
 form.addEventListener("reset", () => {
   pending?.abort();
   pending = null;
   search.disabled = false;
-  $("hallazgos").hidden = true;
-  results.replaceChildren();
-  catalogResults.replaceChildren();
-  manualResults.replaceChildren();
+  limpiar();
   status.textContent = "Consulta y resultados borrados de la pantalla.";
   queueMicrotask(updateScope);
 });

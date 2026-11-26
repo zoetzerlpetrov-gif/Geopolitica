@@ -25,6 +25,8 @@ from video_historial import titulares_anteriores
 from fecha_edicion import edicion, validar_edicion
 from prioridades import con_prioridades
 import patrocinio  # noqa: E402
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "shorts"))
+from paletas import paleta_del_dia  # noqa: E402  colores que rotan cada día (miniaturas distintas)
 
 from PIL import Image, ImageDraw, ImageFont  # noqa: E402
 
@@ -221,7 +223,7 @@ def grabar_animado(g, escenas, tmp):
         return False
     datos = os.path.join(tmp, "escenas.json")
     with open(datos, "w", encoding="utf-8") as f:
-        json.dump({"meta": {"fecha": g["titulo"].split(" · ")[1] if " · " in g["titulo"] else g["fecha"], "titulares": titulares(g)},
+        json.dump({"meta": {"fecha": g["titulo"].split(" · ")[1] if " · " in g["titulo"] else g["fecha"], "titulares": titulares(g), "paleta": paleta_del_dia(g.get("fecha"))},
                    "escenas": escenas}, f, ensure_ascii=False)
     r = subprocess.run([node, script, datos, tmp])
     return r.returncode == 0 and all(os.path.exists(os.path.join(tmp, f"{i:02d}.video.mp4")) for i in range(1, len(escenas) + 1))

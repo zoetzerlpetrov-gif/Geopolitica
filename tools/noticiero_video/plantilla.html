@@ -152,6 +152,9 @@ function palabras(t, inicio = 0.8, paso = 0.07) {
 
 window.escena = (e, m) => {
   document.documentElement.style.setProperty("--dur", `${m.dur}s`);
+  // Paleta del día (tools/shorts/paletas.py): cambia los colores, no el logo ni la disposición.
+  if (m.paleta) for (const k of ["fondo", "fondo2", "tinta", "gris"]) if (/^#[0-9a-f]{6}$/i.test(m.paleta[k] || "")) document.documentElement.style.setProperty(`--${k}`, m.paleta[k]);
+  if (m.paleta && /^#[0-9a-f]{6}$/i.test(m.paleta.acento || "")) { document.documentElement.style.setProperty("--oro", m.paleta.acento); document.documentElement.style.setProperty("--acento", m.paleta.acento); }
   if (e.seccion && COLORES[e.seccion]) document.documentElement.style.setProperty("--acento", COLORES[e.seccion]);
   let h = "";
   if (e.tipo === "portada" || e.tipo === "cierre" || e.tipo === "seccion") {

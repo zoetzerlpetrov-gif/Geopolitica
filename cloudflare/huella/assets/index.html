@@ -62,19 +62,22 @@
       <p id="estado" role="status">Usa solo identificadores de una investigación autorizada.</p>
     </section>
     <section id="hallazgos" aria-labelledby="titulo-resultados" hidden>
-      <h2 id="titulo-resultados">Resultados por fuente</h2>
+      <div class="barra-informe"><h2 id="titulo-resultados">Informe de la consulta</h2>
+        <button type="button" id="exportar" class="secondary" hidden>⬇️ Descargar informe (CSV)</button></div>
       <p id="marca-tiempo"></p>
-      <div id="redes-manuales"></div>
-      <div id="resultados"></div>
-      <div id="resultados-catalogo"></div>
+      <div id="resumen" class="resumen" aria-label="Resumen"></div>
+      <div id="redes-principales" class="panel bloque"></div>
+      <div id="otros-sitios" class="panel bloque"></div>
+      <div id="res-correo" class="panel bloque"></div>
+      <div id="res-dominio" class="panel bloque"></div>
     </section>
     <section class="panel" aria-labelledby="limites">
       <h2 id="limites">Cómo interpretar los resultados</h2>
       <ul>
-        <li><b>Verificado</b> indica una coincidencia en la fuente indicada. Un perfil, una clave o un commit aportan señales distintas sobre la dirección. Un alias repetido puede pertenecer a personas distintas.</li>
-        <li><b>Cruce de fuentes</b> indica que dos resultados comparten un enlace público o que un perfil publica el mismo correo. Comprueba la evidencia antes de atribuir los perfiles a alguien.</li>
-        <li><b>Indicio de perfil</b> significa que la página pública devolvió la señal esperada por el catálogo. Abre el enlace y confirma que el perfil corresponde al alias.</li>
-        <li><b>Sin resultado</b> se refiere a esa consulta y fuente. <b>No concluyente</b> incluye errores, respuestas inesperadas y límites de servicio.</li>
+        <li><b>✅ Sí aparece</b>: la fuente confirmó una cuenta con ese alias o ese correo. <b>🟡 Probablemente sí</b>: la página pública respondió como un perfil existente, sin confirmación oficial.</li>
+        <li><b>❌ No aparece</b>: la fuente respondió que no existe. <b>❔ No se pudo confirmar</b>: error, respuesta inesperada o límite del servicio; repite más tarde.</li>
+        <li><b>🔒 No se puede saber sin iniciar sesión</b>: Facebook, Instagram, LinkedIn, Threads y Reddit no muestran perfiles a consultas automáticas; Huella respeta esa política. Solo se marca «Sí» si una fuente pública (por ejemplo, Wikidata) lo referencia. <b>➖ No revisada</b>: activa el catálogo ampliado con «Todas las categorías».</li>
+        <li>Un alias igual puede pertenecer a personas distintas. El informe dice dónde aparece, no de quién es: confírmalo antes de atribuirlo.</li>
         <li>MX describe el destino del correo del dominio. SPF y DMARC describen políticas de envío y validación publicadas en DNS. No validan la existencia de un buzón. DMARC muestra el registro del dominio ingresado, sin resolver herencia.</li>
         <li>Para verificar exposición de tu correo o de un dominio administrado, abre <a href="https://haveibeenpwned.com/" target="_blank" rel="noopener noreferrer">Have I Been Pwned</a>. La consulta automática de HIBP revisa incidentes del sitio por dominio. Para revisar si un correo concreto aparece en una filtración, usa el enlace a HIBP. Para ese paso se envía solo el dominio a HIBP.</li>
       </ul>

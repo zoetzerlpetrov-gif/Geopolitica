@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Short DOMINUS</title>
+<style>
+  /* Plantilla de los shorts temáticos (tools/shorts/grabar.mjs). La paleta cambia en cada short; el logo y la
+     disposición se conservan para que el canal se reconozca. */
+  :root { --fondo: #0b1220; --fondo2: #13233d; --tinta: #eef2f6; --gris: #9fb0c3; --acento: #d9a826; }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--fondo); }
+  body { font-family: "Inter", "IBM Plex Sans", "DejaVu Sans", system-ui, sans-serif; color: var(--tinta); }
+  .lienzo { position: absolute; inset: 0; padding: 110px 84px; display: flex; flex-direction: column;
+    background: radial-gradient(120% 60% at 90% 0%, var(--fondo2) 0%, transparent 65%), linear-gradient(170deg, var(--fondo) 0%, var(--fondo2) 100%); }
+  .formas { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+  .formas i { position: absolute; border-radius: 50%; border: 3px solid var(--acento); opacity: .18; }
+  .marca { display: flex; align-items: center; gap: 16px; font-weight: 800; letter-spacing: .14em; font-size: 38px; position: relative; }
+  .marca svg { width: 46px; height: 46px; color: #e2334a; }
+  .marca span { color: var(--acento); }
+  .tema { margin-top: 40px; align-self: flex-start; padding: 12px 26px; border-radius: 999px; background: var(--acento); color: var(--fondo); font-weight: 800; font-size: 34px; letter-spacing: .04em; position: relative; }
+  .numero { margin-top: 120px; font-size: 220px; font-weight: 900; line-height: 1; color: var(--acento); position: relative; }
+  .titulo { margin-top: 40px; font-size: 84px; line-height: 1.12; font-weight: 800; position: relative; }
+  .nota .titulo { font-size: 66px; margin-top: 30px; }
+  .medio { margin-top: 36px; font-size: 40px; color: var(--gris); position: relative; }
+  .medio b { color: var(--tinta); }
+  .pie { margin-top: auto; display: flex; justify-content: space-between; align-items: center; position: relative; }
+  .url { background: var(--acento); color: var(--fondo); font-weight: 800; font-size: 42px; padding: 18px 30px; border-radius: 16px; }
+  .icono { position: absolute; left: 50%; bottom: 260px; transform: translateX(-50%); font-size: 360px; line-height: 1; filter: drop-shadow(0 18px 40px rgba(0,0,0,.45)); }
+  .barra { position: absolute; left: 0; bottom: 0; height: 14px; background: var(--acento); }
+</style>
+</head>
+<body>
+<div class="lienzo" id="lienzo"></div>
+<script>
+  const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  const CRUZ = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9 1h6v8h8v6h-8v8H9v-8H1V9h8z"/></svg>';
+  let dur = 5, hecho = [];
+  /** Dibuja una escena: portada (gancho), nota (número, titular y medio) o cierre. */
+  window.escena = (e, m) => {
+    for (const [k, v] of Object.entries(m.paleta || {})) if (/^#[0-9a-f]{6}$/i.test(String(v))) document.documentElement.style.setProperty(`--${k}`, v);
+    dur = e.dur || 5;
+    const formas = Array.from({ length: 5 }, (_, i) => `<i style="width:${260 + i * 140}px;height:${260 + i * 140}px;right:${-120 - i * 60}px;top:${200 + i * 90}px"></i>`).join("");
+    let cuerpo = "";
+    if (e.tipo === "nota") cuerpo = `<div class="numero" data-a="1">${esc(e.numero)}</div><div class="titulo" data-a="2">${esc(e.titulo)}</div><div class="medio" data-a="3">Según <b>${esc(e.medio)}</b></div>`;
+    else cuerpo = `<div class="titulo" data-a="1" style="margin-top:${e.tipo === "portada" ? 260 : 320}px">${esc(e.titulo)}</div>${e.tipo === "cierre" ? '<div class="medio" data-a="2">Síguenos para no perdértelo</div>' : ""}`;
+    document.getElementById("lienzo").innerHTML = `<div class="formas">${formas}</div><div class="marca">${CRUZ} DOMINUS <span>OSINT</span></div>
+      <div class="tema">${esc(e.tema)}</div>${cuerpo}${e.icono ? `<div class="icono" data-a="4" aria-hidden="true">${esc(e.icono)}</div>` : ""}<div class="pie"><span></span><div class="url">dominusosint.com</div></div><div class="barra" id="barra"></div>`;
+    hecho = [...document.querySelectorAll("[data-a]")];
+    window.aTiempo(0);
+  };
+  const suave = (x) => (x <= 0 ? 0 : x >= 1 ? 1 : 1 - Math.pow(1 - x, 3));
+  /** Estado de la escena en el segundo t: entradas escalonadas, formas que giran y barra de avance. */
+  window.aTiempo = (t) => {
+    for (const el of hecho) {
+      const k = suave((t - 0.15 - (Number(el.dataset.a) - 1) * 0.35) / 0.5);
+      el.style.opacity = k; el.style.transform = `translateY(${(1 - k) * 60}px) scale(${0.96 + 0.04 * k})`;
+    }
+    document.querySelectorAll(".formas i").forEach((f, i) => { f.style.transform = `translate(${Math.sin(t * 0.6 + i) * 24}px, ${Math.cos(t * 0.5 + i) * 24}px)`; });
+    const b = document.getElementById("barra"); if (b) b.style.width = `${Math.min(100, (t / dur) * 100)}%`;
+  };
+</script>
+</body>
+</html>

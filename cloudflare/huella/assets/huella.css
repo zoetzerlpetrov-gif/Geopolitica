@@ -48,7 +48,22 @@ button.secondary { color: var(--text); background: var(--panel); }
 #hallazgos details { margin: .8rem 0 1.4rem; }
 #hallazgos summary { cursor: pointer; color: var(--accent); }
 
-.redes-lista { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: .35rem 1rem; }
+.barra-informe { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .5rem; }
+.resumen { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: .75rem; margin: .5rem 0 1rem; }
+.resumen-tarjeta { display: grid; gap: .15rem; padding: .8rem 1rem; border: 1px solid var(--line); border-left: 6px solid var(--line); border-radius: .6rem; background: var(--panel); }
+.resumen-tarjeta.si { border-left-color: var(--ok); } .resumen-tarjeta.no { border-left-color: var(--muted); }
+.resumen-titulo { color: var(--muted); font-size: .9rem; } .resumen-tarjeta b { font-size: 1.5rem; }
+.bloque:empty { display: none; }
+.nota { color: var(--muted); margin-top: 0; }
+.tabla-huella { width: 100%; border-collapse: collapse; }
+.tabla-huella th, .tabla-huella td { padding: .45rem .5rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.tabla-huella thead th { font-size: .9rem; color: var(--muted); }
+.tabla-huella tbody th { font-weight: 650; }
+.tabla-huella tr.fila-si td:nth-child(2) { color: var(--ok); font-weight: 650; }
+.tabla-huella tr.fila-probable td:nth-child(2), .tabla-huella tr.fila-duda td:nth-child(2) { color: var(--warn); font-weight: 650; }
+.tabla-huella tr.fila-no td:nth-child(2), .tabla-huella tr.fila-sesion td:nth-child(2), .tabla-huella tr.fila-sin_revisar td:nth-child(2) { color: var(--muted); }
+button.mini { padding: .15rem .5rem; font-size: .85rem; margin-left: .4rem; }
+@media (max-width: 600px) { .tabla-huella thead { display: none; } .tabla-huella tr { display: grid; padding: .4rem 0; border-bottom: 1px solid var(--line); } .tabla-huella th, .tabla-huella td { border: 0; padding: .1rem 0; } }
 
 .avatar-publico { display: block; width: 96px; height: 96px; object-fit: cover; border-radius: .5rem; margin: .5rem 0; }
 
