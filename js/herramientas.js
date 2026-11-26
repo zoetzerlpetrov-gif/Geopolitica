@@ -459,7 +459,9 @@ pintarNube();
     const recientes = H.filtrarBitacora(BIT.entradas, { pais: jur, impacto: "am", dias: 30 });
     $("nor-alertas").innerHTML = recientes.length ? `<div class="tarjeta"><p><b>🆕 ${recientes.length} cambios normativos en los últimos 30 días en esta jurisdicción</b>
       (${recientes.filter((e) => e.impacto === "alto").length} de impacto alto). Las leyes afectadas llevan la marca 🆕.</p>
-      <button type="button" data-bit-pais="${esc(jur)}">Ver la Bitácora normativa de esta jurisdicción</button></div>` : "";
+      <details class="bit-inline"><summary>📜 Ver u ocultar los cambios de esta jurisdicción (${recientes.length})</summary>
+        <ul>${recientes.slice(0, 40).map((e) => `<li>${chipImp(e.impacto)} ${esc(e.fecha)} · <a href="${esc(e.url)}" target="_blank" rel="noopener">${esc(String(e.titulo || "").slice(0, 160))}</a>${e.nota?.resumen ? `<div class="meta">${esc(e.nota.resumen)}</div>` : ""}</li>`).join("")}</ul>
+        <button type="button" class="b" data-bit-pais="${esc(jur)}">Abrir en la pestaña Bitácora (más filtros)</button></details></div>` : "";
     const r = resp();
     const lista = (xs) => (xs || []).length ? `<ul>${xs.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : "";
     let areaPrev = "";
@@ -468,7 +470,7 @@ pintarNube();
       const al = alertas[l.id] || [];
       return `${tit}<details class="tarjeta"><summary><b>${esc(l.sigla ? `${l.sigla} — ` : "")}${esc(l.nombre)}</b> <span class="meta">${esc(l.tipo || "")} · ${esc(l.autoridad || "")}</span>${al.length ? ` <span title="Cambios en la bitácora (90 días)">🆕 ${al.length}</span>` : ""}</summary>
         ${al.length ? `<div class="tarjeta"><b>Cambios recientes que la tocan (bitácora, 90 días)</b><ul>${al.slice(0, 5).map((e) => `<li>${chipImp(e.impacto)} ${esc(e.fecha)} · <a href="${esc(e.url)}" target="_blank" rel="noopener">${esc(e.titulo.slice(0, 150))}</a></li>`).join("")}</ul>
-          <button type="button" data-bit-ley="${esc(l.id)}" data-bit-pais="${esc(jur)}">Ver en la Bitácora normativa</button></div>` : ""}
+          <button type="button" class="b" data-bit-ley="${esc(l.id)}" data-bit-pais="${esc(jur)}">Abrir en la pestaña Bitácora (más filtros)</button></div>` : ""}
         <p><b>A quién aplica:</b> ${esc(l.aplica || "")}</p>
         <p class="meta">Última reforma: ${esc(l.ultima_reforma || "verificar")}${l.url ? ` · <a href="${esc(l.url)}" target="_blank" rel="noopener">texto oficial</a>` : ""}</p>
         <b>Obligaciones</b>${lista(l.obligaciones)}

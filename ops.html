@@ -34,6 +34,7 @@
     .radar text { font-size: 10px; fill: var(--text); } .radar .malla { fill: none; stroke: var(--line); } .radar .area { fill: rgba(200,16,46,.25); stroke: #C8102E; stroke-width: 2; }
     pre.sitrep { white-space: pre-wrap; background: var(--surface-2); padding: 10px; border-radius: var(--radius); font-size: 13px; }
   </style>
+<script type="module" src="js/sincronizar.js"></script>
 <script type="module" src="js/apariencia.js"></script>
 </head>
 <body>
@@ -44,7 +45,7 @@
   <main class="ops">
     <p class="meta">Framework de control estratégico y operativo: seis fases universales sobre dos pilares, <b>Gobernanza</b> (¿quién decide, quién responde y bajo qué control?)
       y <b>War Room C6ISTAR</b> (¿qué está pasando y qué hago ahora?). El mapa de DOMINUS OSINT funciona como la capa de inteligencia del War Room; esta sección
-      lleva el diagnóstico, las plantillas y el ritmo de mando. Lo que captures se guarda solo en este navegador; usa «Exportar» para respaldarlo.</p>
+      lleva el diagnóstico, las plantillas y el ritmo de mando. Lo que captures se guarda en el servidor (por empresa) y en este navegador; «Exportar» sigue disponible para respaldarlo.</p>
     <nav class="pestanas" role="tablist" aria-label="Secciones">
       <button role="tab" aria-selected="false" data-p="cliente">🏢 Cliente</button>
       <button role="tab" aria-selected="true" data-p="mapa">🧭 Mapa maestro y fases</button>
@@ -64,7 +65,7 @@
 
     <section class="panel" id="p-cliente" hidden>
       <h2>Cliente o empresa en análisis</h2>
-      <p class="meta">Estos datos alimentan la simulación de escenarios, el informe de las 6 fases y los tableros. Se guardan solo en este navegador; usa «Exportar todo lo capturado» (pestaña Doctrina) para respaldarlos o moverlos a otro equipo.</p>
+      <p class="meta">Estos datos alimentan la simulación de escenarios, el informe de las 6 fases y los tableros. Se guardan en el servidor (por empresa) y en este navegador; «Exportar todo lo capturado» (pestaña Doctrina) sigue disponible como respaldo.</p>
       <div class="tarjeta"><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px">
         <label>Nombre <input id="cl-nombre" maxlength="120"></label>
         <label>Sector <select id="cl-sector"></select></label>
@@ -92,7 +93,7 @@
       <p class="meta">Para cualquier empresa, de cualquier giro o sector. Cuestionario guiado de 31 preguntas en lenguaje sencillo, ligado a <b>NIST CSF 2.0</b>
         (Gobernar, Identificar, Proteger, Detectar, Responder, Recuperar), <b>CIS Controls v8</b> y el Anexo A de <b>ISO/IEC 27001:2022</b>. Da la madurez por
         función, la preparación frente a ransomware, robo de contraseñas y fuerza bruta, phishing, fallas sin actualizar, proveedores y fuga de datos, y un plan
-        de acción a 30, 90 y 180 días. Es una autoevaluación, no una auditoría. Las respuestas se guardan solo en este navegador.</p>
+        de acción a 30, 90 y 180 días. Es una autoevaluación, no una auditoría. Las respuestas se guardan en el servidor (por empresa).</p>
       <div class="cb-cab">
         <label>Diagnóstico guardado <select id="cb-cliente"></select></label>
         <label>Empresa <input id="cb-nombre" maxlength="80" placeholder="Nombre de la empresa" autocomplete="off"></label>
@@ -136,7 +137,7 @@
       <h2>Proyecto: seguimiento del plan importado</h2>
       <p class="meta">Importa el Excel (o JSON) de la plantilla de proyecto de la Caja del analista → Normativa por país. Verás avance, semáforo de vencimientos (vencido, 7, 30 y 60 días),
         Gantt por fase, lo que está en proceso, lo cumplido y los cambios normativos que tocan sus leyes. El plan activo también alimenta los widgets «Proyecto» de los Tableros.
-        Se guarda solo en este navegador.</p>
+        Se guarda en el servidor (por empresa).</p>
       <div id="ops-proy"></div>
     </section>
     <section class="panel" id="p-tableros" hidden>
