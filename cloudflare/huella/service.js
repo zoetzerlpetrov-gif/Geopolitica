@@ -146,13 +146,16 @@ export function dorks(tipo, valor) {
   ];
 }
 
+// Brave marca coincidencias con <strong>; se dejan solo letras: sin ningún «<» ni «>» (la página además usa textContent).
+const textoPlano = (v, n) => String(v || "").replace(/<[^>]*>/g, "").replace(/[<>]/g, "").slice(0, n);
+
 async function buscar(tipo, valor, clave) {
   const grupos = [];
   for (const [titulo, q] of dorks(tipo, valor)) {
     const { data, status } = await upstream("https://api.search.brave.com/res/v1/web/search?" + new URLSearchParams({ q, count: "10", safesearch: "moderate" }),
       "application/json", { headers: { "X-Subscription-Token": clave } });
     const resultados = status ? [] : (data?.web?.results || []).filter(r => /^https:\/\//.test(r?.url || "")).slice(0, 10)
-      .map(r => ({ titulo: String(r.title || "").replace(/<[^>]*>/g, "").slice(0, 200), url: r.url, extracto: String(r.description || "").replace(/<[^>]*>/g, "").slice(0, 300) }));
+      .map(r => ({ titulo: textoPlano(r.title, 200), url: r.url, extracto: textoPlano(r.description, 300) }));
     grupos.push({ titulo, consulta: q, estado: status || (resultados.length ? "verificado" : "sin_resultado"), resultados });
   }
   return { revisado: new Date().toISOString(), grupos };
