@@ -20,7 +20,7 @@ def _grupos():
 
 def test_admin_en_grupos_y_orden_alfabetico():
     grupos = _grupos()
-    assert [g for g, _ in grupos] == ["acceso", "analisis", "negocio", "sistema"]
+    assert [g for g, _ in grupos] == ["acceso", "ambientes", "analisis", "negocio", "sistema"]
     total = 0
     for nombre, cuerpo in grupos:
         lineas = [x for x in cuerpo.split("\n") if x.strip() and "<template" not in x]
@@ -38,3 +38,14 @@ def test_lo_que_guarda_en_el_servidor_va_en_acceso_administrativo():
     for pagina in ("apariencia.html", "legal.html", "marketing.html"):
         assert f'href="https://admin.dominusosint.com/{pagina}"' in acceso
     assert "huella-admin-menu" in acceso
+
+
+def test_ambientes_y_flujo_de_proyectos():
+    g = dict(_grupos())
+    for url in ("https://dominusosint.com/", "https://uat.dominus-osint.pages.dev/", "https://pruebas.dominus-osint.pages.dev/", 'href="empresa.html"', 'href="creadores.html"'):
+        assert url in g["ambientes"]
+    assert 'href="https://admin.dominusosint.com/proyectos.html"' in g["acceso"]
+    # Las páginas que ya viven dentro del flujo de proyectos no tienen enlace suelto en el menú
+    todo = "".join(c for _, c in g.items())
+    for pagina in ("ops.html", "cartera.html", "herramientas.html", "corporativo.html"):
+        assert f'href="{pagina}"' not in todo

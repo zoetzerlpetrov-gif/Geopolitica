@@ -76,12 +76,94 @@ export function montarProyectos(cont, { api, editar = true, alMensaje = () => {}
           <label>Estado del proyecto <select data-estado-proyecto>${["activo", "en_pausa", "cerrado"].map((s) => `<option value="${s}" ${s === p.estado ? "selected" : ""}>${ETIQ[s] || "🏁 Cerrado"}</option>`).join("")}</select></label>
           <button type="button" class="b" data-borrar-proyecto>🗑️ Eliminar proyecto</button></p>` : ""}</div>
         <div class="pr-kpis"><span><b>${p.avance} %</b> del plan</span><span><b>${p.hallazgos_abiertos}</b> hallazgos abiertos</span><span><b>${p.criticos}</b> altos o críticos</span><span><b>${p.notas}</b> notas de seguimiento</span></div>
+        <div class="pr-plantilla" id="pr-plantilla"><h4>🧩 Plantilla y normativa del proyecto (fases 3 y 4)</h4>
+          <p class="meta">Elige el sector y los países: DOMINUS arma el plan completo (trámites y entregables por fase), la normativa que aplica, la lista de auditoría y los riesgos. Desde aquí lo cargas al plan, lo descargas en Excel o importas el Excel que ya llenaste. No necesitas ir a otra página.</p>
+          <div class="pr-form"><label>Sector <select data-pl="sector"><option value="">Solo generales (toda empresa)</option></select></label>
+            <details class="pr-paises"><summary>Países: <b data-pl="resumen-paises">${esc(p.pais || "MEX")}</b></summary><div data-pl="paises"></div></details>
+            <label><input type="checkbox" data-pl="extranjera"> Empresa extranjera en México</label>
+            <button type="button" class="si" data-pl-generar>⚙️ Generar plantilla</button></div>
+          <div data-pl="resultado"></div>
+          ${editar ? `<p class="meta">¿Ya tienes el Excel o JSON lleno? <label class="b">📥 Importar Excel/JSON al plan<input type="file" accept=".xlsx,.json" data-pl-importar hidden></label></p>` : ""}
+        </div>
         <h4>🗓️ Plan de actividades (fase 3)</h4>${tabla("actividad", ["Actividad", "Responsable", "Fecha", "Estado"])}${formItem("actividad", "Nueva actividad, p. ej. «Visita a la planta»")}
         <h4>🔍 Hallazgos de auditoría (fase 4)</h4>${tabla("hallazgo", ["Hallazgo", "Responsable", "Fecha límite", "Gravedad", "Estado"])}${formItem("hallazgo", "Nuevo hallazgo, p. ej. «Sin control de acceso en el almacén»")}
         <h4>📈 Notas de seguimiento (fase 5)</h4>${tabla("seguimiento", ["Nota", "Fecha"])}${formItem("seguimiento", "Qué se revisó, acuerdos y riesgos nuevos")}`;
-      cont._proyecto = p;
+      cont._proyecto = p; generado = null;
+      prepararPlantilla(p).catch(() => {});
     } catch (e) { msg(e.message, true); }
   }
+
+  // ── Plantilla: generar, cargar al plan, descargar, importar; normativa, auditoría y riesgos en la misma vista ──
+  let generado = null;
+  const PS = () => import("./plan-servidor.js");
+  async function prepararPlantilla(p) {
+    const caja = cont.querySelector("#pr-plantilla"); if (!caja) return;
+    const S = await PS();
+    const sel = caja.querySelector('[data-pl="sector"]');
+    const lista = await S.sectores();
+    const guess = lista.find(([, n]) => p.sector && n.toLowerCase().includes(p.sector.toLowerCase()));
+    sel.insertAdjacentHTML("beforeend", lista.map(([k, n]) => `<option value="${esc(k)}" ${guess?.[0] === k ? "selected" : ""}>${esc(n)}</option>`).join(""));
+    const pais = /^[A-Z]{3}$/.test(p.pais || "") ? p.pais : "MEX";
+    caja.querySelector('[data-pl="paises"]').innerHTML = S.JURISDICCIONES.map(([i, n]) => `<label class="pr-pais"><input type="checkbox" value="${i}" ${i === pais ? "checked" : ""}> ${esc(n)}</label>`).join("");
+  }
+  const paisesElegidos = () => [...cont.querySelectorAll('[data-pl="paises"] input:checked')].map((x) => x.value);
+  function pintarGenerado() {
+    const r = cont.querySelector('[data-pl="resultado"]'); if (!r || !generado) return;
+    const g = generado, pl = g.plan;
+    const porLey = new Map(); for (const q of pl.auditoria) { if (!porLey.has(q.ley)) porLey.set(q.ley, []); porLey.get(q.ley).push(q); }
+    r.innerHTML = `<p><b>${esc(g.titulo)}</b><br><span class="meta">${pl.tareas.filter((t) => !String(t.id).startsWith("HITO-")).length} tareas en ${new Set(pl.tareas.map((t) => t.fase)).size} fases · ${pl.base.length} leyes y normas · ${pl.auditoria.length} preguntas de auditoría · ${pl.riesgos.length} riesgos · ${pl.recurrentes.length} obligaciones recurrentes</span></p>
+      <p>${editar ? `<button type="button" class="si" data-pl-cargar>➕ Cargar las actividades al plan del proyecto</button> <label><input type="checkbox" data-pl-reemplazar> reemplazar las actividades que ya hay</label> ` : ""}
+        <button type="button" class="b" data-pl-excel>⬇ Descargar Excel</button> <button type="button" class="b" data-pl-json>⬇ Descargar JSON</button></p>
+      <details><summary>⚖️ Normativa que aplica (${pl.base.length})</summary><table class="t"><tr><th>País</th><th>Ley o norma</th><th>Ámbito</th><th>Autoridad</th></tr>
+        ${pl.base.map((b) => `<tr><td>${esc(b.pais)}</td><td>${esc(b.sigla ? `${b.sigla} · ` : "")}${esc(b.nombre)}</td><td>${esc(b.ambito)}</td><td>${esc(b.autoridad)}</td></tr>`).join("")}</table></details>
+      <details><summary>🔍 Lista de auditoría (${pl.auditoria.length} preguntas)${editar ? " — marca lo que no cumple y se registra como hallazgo" : ""}</summary>
+        ${[...porLey.entries()].map(([ley, qs]) => `<details class="pr-ley"><summary>${esc(ley)} (${qs.length})</summary><ul>${qs.map((q) => `<li>${esc(q.pregunta)}${q.evidencia ? `<div class="meta">Evidencia: ${esc(q.evidencia)}</div>` : ""}
+          ${editar ? `<button type="button" class="b" data-pl-hallazgo="${esc(q.id)}">❌ No cumple → hallazgo</button>` : ""}</li>`).join("")}</ul></details>`).join("")}</details>
+      <details><summary>🎲 Riesgos de incumplimiento (${pl.riesgos.length})</summary><ul>${pl.riesgos.map((x) => `<li>${esc(x.riesgo)} <span class="meta">— ${esc(x.consecuencia || "")}</span>
+        ${editar ? `<button type="button" class="b" data-pl-riesgo="${esc(x.id)}">➕ Registrar como hallazgo</button>` : ""}</li>`).join("")}</ul></details>`;
+  }
+  const bajar = (bytes, nombre, tipo) => { const a = Object.assign(document.createElement("a"), { href: URL.createObjectURL(new Blob([bytes], { type: tipo })), download: nombre }); document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 3000); };
+  const nombreArchivo = (ext) => `plan-${(cont._proyecto?.nombre || "proyecto").replace(/[^\p{L}\p{N}]+/gu, "-").slice(0, 60)}.${ext}`;
+  cont.addEventListener("click", async (e) => {
+    const t = e.target, p = cont._proyecto;
+    if (!p || !t.closest("#pr-plantilla")) return;
+    try {
+      const S = await PS();
+      if (t.matches("[data-pl-generar]")) {
+        const paises = paisesElegidos(); if (!paises.length) return msg("Elige al menos un país.", true);
+        t.disabled = true; t.textContent = "Generando…";
+        generado = await S.generarPlan({ nombre: p.nombre, sector: cont.querySelector('[data-pl="sector"]').value, paises, extranjera: cont.querySelector('[data-pl="extranjera"]').checked, inicio: p.inicio });
+        t.disabled = false; t.textContent = "⚙️ Generar plantilla"; pintarGenerado(); return;
+      }
+      if (!generado) return;
+      if (t.matches("[data-pl-excel]")) return bajar(await S.excel(generado), nombreArchivo("xlsx"), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+      if (t.matches("[data-pl-json]")) return bajar(JSON.stringify(await S.json(generado), null, 1), nombreArchivo("json"), "application/json");
+      if (t.matches("[data-pl-cargar]")) {
+        const items = await S.actividadesDeGenerado(generado), reemplazar = cont.querySelector("[data-pl-reemplazar]")?.checked;
+        if (reemplazar && !window.confirm("Se borrarán las actividades actuales del proyecto y se cargarán las de la plantilla. ¿Continuar?")) return;
+        const r = await api(`${p.id}/items`, { items, reemplazar: Boolean(reemplazar) }); msg(`✔ ${r.agregadas} actividades cargadas al plan.`); const g = generado; await abrir(p.id); generado = g; pintarGenerado(); return;
+      }
+      const q = t.dataset.plHallazgo && generado.plan.auditoria.find((x) => x.id === t.dataset.plHallazgo);
+      const rg = t.dataset.plRiesgo && generado.plan.riesgos.find((x) => x.id === t.dataset.plRiesgo);
+      if (q || rg) {
+        await api(`${p.id}/item`, q ? { tipo: "hallazgo", texto: `No cumple: ${q.pregunta} (${q.ley}, ${q.pais})`, responsable: q.rol || "", severidad: "alta" }
+          : { tipo: "hallazgo", texto: `${rg.riesgo} — ${rg.consecuencia || ""}`.slice(0, 2000), responsable: rg.rol || "", severidad: rg.impacto >= 5 ? "critica" : "alta" });
+        t.textContent = "✔ Registrado"; t.disabled = true; msg("Hallazgo registrado en el proyecto.");
+      }
+    } catch (err) { msg(err.message, true); }
+  });
+  cont.addEventListener("input", async (e) => {
+    if (e.target.closest('[data-pl="paises"]')) { const r = cont.querySelector('[data-pl="resumen-paises"]'); if (r) r.textContent = paisesElegidos().join(", ") || "ninguno"; }
+    const p = cont._proyecto;
+    if (!e.target.matches("[data-pl-importar]") || !p || !e.target.files[0]) return;
+    try {
+      const S = await PS(), f = e.target.files[0];
+      const items = await S.actividadesDeArchivo(f.name, new Uint8Array(await f.arrayBuffer()));
+      if (!items.length) return msg("El archivo no trae actividades.", true);
+      if (!window.confirm(`Se cargarán ${items.length} actividades del archivo (con su estado y fechas) y reemplazarán las actuales. ¿Continuar?`)) return;
+      const r = await api(`${p.id}/items`, { items, reemplazar: true }); msg(`✔ ${r.agregadas} actividades importadas.`); await abrir(p.id);
+    } catch (err) { msg(`No se pudo importar: ${err.message}`, true); }
+  });
 
   cont.addEventListener("click", async (e) => {
     const t = e.target;
@@ -137,4 +219,7 @@ export const CSS_PROYECTOS = `
   .pr-form input, .pr-form select, .pr-ahora select, table.t select { width: auto !important; min-width: 0; }
   .pr-form input[data-i="texto"] { flex: 1 1 320px; } .pr-form input[data-i="responsable"] { flex: 0 1 180px; }
   .pr-ahora p { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; } .pr-ahora label { display: inline-flex; gap: 6px; align-items: center; }
-  .pr-guia { margin-bottom: 10px; }`;
+  .pr-guia { margin-bottom: 10px; }
+  .pr-plantilla { border: 1px solid var(--line); border-radius: var(--radius); padding: 8px 12px; margin: 12px 0; background: var(--surface); }
+  .pr-paises > div { display: flex; flex-wrap: wrap; gap: 4px 12px; max-width: 760px; padding: 6px 0; } .pr-pais { display: inline-flex; gap: 4px; align-items: center; }
+  .pr-plantilla details { margin: 6px 0; } .pr-plantilla li { margin: 4px 0; } .pr-ley { margin-left: 10px; }`;

@@ -16,6 +16,8 @@
     .ops h2 { font-size: 18px; text-transform: none; letter-spacing: 0; color: var(--text); margin: 20px 0 6px; }
     .tarjeta { border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; margin: 10px 0; background: var(--surface); }
     .meta { color: var(--text-2); font-size: 13px; }
+    .peligro { color: var(--danger, #b3261e) !important; } td.acciones, p.acciones { white-space: normal; } td.acciones .b, p.acciones .b { margin: 2px 0; }
+    .editar-org { margin-top: 8px; padding: 8px; border: 1px dashed var(--line); border-radius: var(--radius); }
     .pasos { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; border-bottom: 1px solid var(--line); }
     .pasos button { font: inherit; padding: 8px 14px; border: 1px solid var(--line); border-bottom: 0; border-radius: var(--radius) var(--radius) 0 0; background: var(--surface-2); color: var(--text); cursor: pointer; }
     .pasos button[aria-selected="true"] { background: var(--accent); color: var(--on-accent, #fff); font-weight: 700; }
@@ -104,11 +106,10 @@
       <p class="meta">Proyectos de cada cliente, en el servidor. El cliente ve y edita los mismos proyectos en «Mi empresa → 📋 Proyectos» (según su rol).</p>
       <div class="barra"><label>Empresa <select id="pr-org"><option value="">Elige una empresa…</option></select></label> <span id="pr-msg" class="meta" role="status"></span></div>
       <div id="pr-cont"></div>
-      <details><summary>Otras herramientas (siguen en sus páginas)</summary><ul><li><a href="ops.html">🎖️ DOMINUS OPS</a>: fases, diagnóstico, gobernanza y plantillas.</li>
-        <li><a href="cartera.html">☁️ Cartera de proyectos</a>: vista para directivos.</li><li><a href="herramientas.html">🧰 Caja del analista</a>: normativa por país y plantillas de auditoría.</li></ul>
-        <p class="meta">Siguiente en el servidor: autoauditoría y plantillas por sector dentro del proyecto; instalaciones con riesgo en vivo; tecnologías y vulnerabilidades; matriz de riesgo, escenarios y War Room.</p></details>
+      <p class="meta">Para trabajar un proyecto completo en orden (diagnóstico, plantilla y normativa, auditorías, riesgos, seguimiento y cierre) usa <a href="proyectos.html">🧭 Proyectos de principio a fin</a>.</p>
     </section>
   </main>
   <script type="module" src="js/clientes.js"></script>
+  <script type="module" src="js/embebido.js"></script>
 </body>
 </html>

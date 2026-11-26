@@ -737,7 +737,7 @@ test("Admin sirve sus páginas empaquetadas en el Worker (sin depender de /ops/ 
   assert.equal(r.status, 200);
   assert.equal(await r.text(), "<h1>Continuidad</h1>");
   assert.equal(r.headers.get("cache-control"), "private, no-store");
-  assert.equal(r.headers.get("x-frame-options"), "DENY");
+  assert.equal(r.headers.get("x-frame-options"), "SAMEORIGIN");
   assert.ok(paginaEmpaquetada("/legal", paginas));
   assert.equal(paginaEmpaquetada("/index.html", paginas), null, "el mapa sigue saliendo de Pages");
   assert.equal(paginaEmpaquetada("/js/app.js", paginas), null);

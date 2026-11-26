@@ -8,6 +8,7 @@
 //   POST "crear"                  → {nombre, objetivo?, sector?, pais?, sedes?, inicio?, fin?, responsable?}
 //   POST "<pid>/editar"           → mismos campos + fase + estado
 //   POST "<pid>/item"             → {id?, tipo, texto, responsable?, fecha?, estado?, severidad?}
+//   POST "<pid>/items"            → {items: [...], reemplazar?} actividades en lote (plantilla generada o importada)
 //   POST "<pid>/item/<iid>/borrar"
 //   POST "<pid>/borrar"
 import cfg from "../../config/proyectos.json" with { type: "json" };
@@ -16,6 +17,8 @@ export const FASES = cfg.fases.map((f) => f.id);
 export const TIPOS = cfg.tipos;
 export const ESTADOS_PROYECTO = ["activo", "en_pausa", "cerrado"];
 const ID = /^[0-9a-f]{16}$/;
+export const MAX_ITEMS = 2000;
+export const MAX_LOTE = 800;
 const FECHA = /^\d{4}-\d{2}-\d{2}$/;
 const listas = new WeakSet();
 const ahora = () => Math.floor(Date.now() / 1000);
@@ -121,12 +124,26 @@ export async function rutaProyectos(db, orgId, partes, metodo, cuerpo, { quien =
         if (!(r.meta?.changes > 0)) return [{ error: "El elemento no existe." }, 404];
       } else {
         const n = await db.prepare("SELECT count(*) AS n FROM dominus_proyecto_items WHERE proyecto_id = ?").bind(p.id).first();
-        if ((n?.n || 0) >= 1000) return [{ error: "Límite de 1,000 elementos por proyecto." }, 409];
+        if ((n?.n || 0) >= MAX_ITEMS) return [{ error: "Límite de 2,000 elementos por proyecto." }, 409];
         await db.prepare("INSERT INTO dominus_proyecto_items (id, proyecto_id, org_id, tipo, texto, responsable, fecha, estado, severidad, creado, actualizado, actualizado_por) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
           .bind(nuevoId(), p.id, orgId, i.tipo, i.texto, i.responsable, i.fecha, i.estado, i.severidad, t, t, quien).run();
       }
       await db.prepare("UPDATE dominus_proyectos SET actualizado = ?, actualizado_por = ? WHERE id = ?").bind(t, quien, p.id).run();
       return [{ ok: true }, 200];
+    }
+    if (partes[1] === "items" && partes.length === 2) {
+      const lista = Array.isArray(cuerpo.items) ? cuerpo.items : [];
+      if (!lista.length || lista.length > MAX_LOTE) return [{ error: `Envía entre 1 y ${MAX_LOTE} actividades.` }, 400];
+      const items = lista.map((x) => validarItem({ ...x, tipo: "actividad" }));
+      if (cuerpo.reemplazar) await db.prepare("DELETE FROM dominus_proyecto_items WHERE proyecto_id = ? AND tipo = 'actividad'").bind(p.id).run();
+      const n = await db.prepare("SELECT count(*) AS n FROM dominus_proyecto_items WHERE proyecto_id = ?").bind(p.id).first();
+      if ((n?.n || 0) + items.length > MAX_ITEMS) return [{ error: "Se pasaría del límite de 2,000 elementos por proyecto. Usa «reemplazar»." }, 409];
+      const ins = "INSERT INTO dominus_proyecto_items (id, proyecto_id, org_id, tipo, texto, responsable, fecha, estado, severidad, creado, actualizado, actualizado_por) VALUES (?, ?, ?, 'actividad', ?, ?, ?, ?, '', ?, ?, ?)";
+      for (let k = 0; k < items.length; k += 50) {
+        await db.batch(items.slice(k, k + 50).map((i) => db.prepare(ins).bind(nuevoId(), p.id, orgId, i.texto, i.responsable, i.fecha, i.estado, t, t, quien)));
+      }
+      await db.prepare("UPDATE dominus_proyectos SET actualizado = ?, actualizado_por = ? WHERE id = ?").bind(t, quien, p.id).run();
+      return [{ ok: true, agregadas: items.length }, 200];
     }
     if (partes[1] === "item" && partes[3] === "borrar" && partes.length === 4 && ID.test(partes[2])) {
       const r = await db.prepare("DELETE FROM dominus_proyecto_items WHERE id = ? AND proyecto_id = ?").bind(partes[2], p.id).run();
