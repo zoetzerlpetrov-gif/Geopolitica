@@ -28,8 +28,17 @@ function dnsUrl(name, type) {
   return `https://dns.google/resolve?${query}`;
 }
 
+// Credenciales de la OAuth App de GitHub (las mismas del ingreso de Admin). Desde la IP compartida de Cloudflare, la API de
+// GitHub sin autenticar responde 403 casi siempre; con el Client ID y Secret el límite es de la app. Se fijan por solicitud.
+let githubAuth = "";
+export function credencialesGitHub(env) {
+  const id = env?.OSINT_GITHUB_CLIENT_ID?.trim(), secreto = env?.OSINT_GITHUB_CLIENT_SECRET?.trim();
+  return id && secreto ? "Basic " + btoa(`${id}:${secreto}`) : "";
+}
+
 async function provider(url, accept, body, extraHeaders) {
   const headers = { Accept: accept, "User-Agent": "DOMINUS-Huella", ...extraHeaders };
+  if (githubAuth && url.startsWith("https://api.github.com/")) headers.Authorization = githubAuth;
   if (body) headers["Content-Type"] = "application/json";
   return fetch(url, {
     headers,
@@ -102,6 +111,63 @@ async function alias(source, id) {
     status: "verificado", url: `https://news.ycombinator.com/user?id=${safe}`,
     detail: "Cuenta pública", since: Number.isFinite(data.created) ? new Date(data.created * 1000).toISOString() : undefined
   };
+}
+
+/** Have I Been Pwned por correo exacto: requiere la clave HUELLA_HIBP_KEY (API de pago de HIBP). */
+async function filtracionesCorreo(email, clave) {
+  const { data, status } = await upstream(`https://haveibeenpwned.com/api/v3/breachedaccount/${encodeURIComponent(email)}?truncateResponse=false`,
+    "application/json", { headers: { "hibp-api-key": clave } });
+  if (status) return { status, detail: status === "sin_resultado" ? "El correo no aparece en las filtraciones públicas registradas por HIBP." : undefined };
+  if (!Array.isArray(data)) return { status: "indeterminado" };
+  const incidents = data.filter(item => typeof item?.Title === "string")
+    .sort((a, b) => String(b.BreachDate).localeCompare(String(a.BreachDate))).slice(0, 20)
+    .map(({ Title, BreachDate, DataClasses, IsVerified }) => ({ title: Title, date: BreachDate, verified: IsVerified === true,
+      classes: Array.isArray(DataClasses) ? DataClasses.filter(item => typeof item === "string").slice(0, 12) : [] }));
+  return { status: incidents.length ? "verificado" : "sin_resultado", incidents, count: data.length,
+    detail: "El correo aparece en estas filtraciones públicas registradas por Have I Been Pwned." };
+}
+
+// Búsqueda en buscadores (dorks) con la API de Brave Search (HUELLA_BRAVE_KEY). Solo consultas fijas armadas aquí;
+// el valor buscado va entre comillas. No se guarda nada: el resultado se muestra y se descarta.
+export function dorks(tipo, valor) {
+  const v = `"${valor}"`;
+  if (tipo === "email") return [
+    ["Menciones exactas del correo", v],
+    ["Redes sociales", `${v} (site:facebook.com OR site:instagram.com OR site:linkedin.com OR site:x.com OR site:tiktok.com OR site:reddit.com)`],
+    ["Documentos (PDF, Excel, Word)", `${v} (filetype:pdf OR filetype:xlsx OR filetype:xls OR filetype:docx OR filetype:csv)`],
+    ["Código y pegados públicos", `${v} (site:github.com OR site:gitlab.com OR site:pastebin.com)`],
+  ];
+  return [
+    ["Menciones exactas del alias", v],
+    ["Facebook, Instagram y Threads", `${v} (site:facebook.com OR site:instagram.com OR site:threads.com)`],
+    ["LinkedIn", `${v} site:linkedin.com`],
+    ["Reddit y Twitch", `${v} (site:reddit.com OR site:twitch.tv)`],
+    ["Foros, documentos y otros", `${v} (inurl:forum OR inurl:perfil OR inurl:profile OR filetype:pdf)`],
+  ];
+}
+
+// Brave marca coincidencias con <strong>; se dejan solo letras: sin ningún «<» ni «>» (la página además usa textContent).
+function textoPlano(v, n) {
+  let out = "", dentro = false;
+  for (const c of String(v || "")) {
+    if (c === "<") dentro = true;
+    else if (c === ">") dentro = false;
+    else if (!dentro) out += c;
+    if (out.length >= n) break;
+  }
+  return out;
+}
+
+async function buscar(tipo, valor, clave) {
+  const grupos = [];
+  for (const [titulo, q] of dorks(tipo, valor)) {
+    const { data, status } = await upstream("https://api.search.brave.com/res/v1/web/search?" + new URLSearchParams({ q, count: "10", safesearch: "moderate" }),
+      "application/json", { headers: { "X-Subscription-Token": clave } });
+    const resultados = status ? [] : (data?.web?.results || []).filter(r => /^https:\/\//.test(r?.url || "")).slice(0, 10)
+      .map(r => ({ titulo: textoPlano(r.title, 200), url: r.url, extracto: textoPlano(r.description, 300) }));
+    grupos.push({ titulo, consulta: q, estado: status || (resultados.length ? "verificado" : "sin_resultado"), resultados });
+  }
+  return { revisado: new Date().toISOString(), grupos };
 }
 
 async function incidentesDominio(domain) {
@@ -190,7 +256,7 @@ async function emailDns(label, type, email, domain) {
   return { status, detail: status === "verificado" ? "El DNS del dominio publica un registro para esta dirección." : detail };
 }
 
-async function inspect({ domain, username, email }, youtubeKey) {
+async function inspect({ domain, username, email }, youtubeKey, hibpKey) {
   const checks = [];
   if (domain) {
     checks.push(
@@ -208,7 +274,8 @@ async function inspect({ domain, username, email }, youtubeKey) {
     ["GitHub · commits públicos", () => publicCommits(email)],
     ["GitHub · correo del perfil público", () => publicGitHubEmail(email)],
     ["DNS · clave OPENPGPKEY", () => emailDns("_openpgpkey", 61, email, domain)],
-    ["DNS · certificado SMIMEA", () => emailDns("_smimecert", 53, email, domain)]
+    ["DNS · certificado SMIMEA", () => emailDns("_smimecert", 53, email, domain)],
+    ...(hibpKey ? [["Have I Been Pwned · filtraciones del correo", () => filtracionesCorreo(email, hibpKey)]] : [])
   );
   const aliasChecks = username ? [
     ["GitHub", () => alias("github", username)],
@@ -327,13 +394,23 @@ export async function serve(request, env, assets, paginasAdmin = {}) {
   if (route === "sesion" && request.method === "GET") {
     return new Response(null, { status: 204, headers: { ...HEADERS, "X-Dominus-Huella": "admin" } });
   }
-  if ((route === "consulta" || route === "consulta/catalogo") && request.method === "POST") {
+  if ((route === "consulta" || route === "consulta/catalogo" || route === "consulta/buscador") && request.method === "POST") {
     if (request.headers.get("Origin") !== url.origin ||
         request.headers.get("Content-Type")?.split(";")[0] !== "application/json") {
       return json({ error: "Origen o formato de solicitud inválido." }, 403);
     }
     const input = await readJson(request).catch(() => null);
     if (!input) return json({ error: "Solicitud inválida." }, 400);
+    githubAuth = credencialesGitHub(env);
+    if (route === "consulta/buscador") {
+      const clave = env.HUELLA_BRAVE_KEY?.trim();
+      if (!clave) return json({ error: "Búsqueda automática sin configurar (falta HUELLA_BRAVE_KEY)." }, 501);
+      const tipo = input.tipo === "email" ? "email" : input.tipo === "alias" ? "alias" : "";
+      const valor = tipo === "alias" ? readAlias(input.valor) : typeof input.valor === "string" ? input.valor.trim().toLowerCase() : "";
+      const valido = tipo === "alias" ? validAlias(valor) : tipo === "email" && valor.length <= 254 && /^[a-z0-9_%+-]+(?:\.[a-z0-9_%+-]+)*@[a-z0-9.-]+\.[a-z]{2,}$/.test(valor);
+      if (!valido || Object.keys(input).some(key => !["tipo", "valor"].includes(key))) return json({ error: "Indica un correo o alias válido." }, 400);
+      return json(await buscar(tipo, valor, clave));
+    }
     if (route === "consulta/catalogo") {
       const username = readAlias(input.username);
       if (!validAlias(username) || Object.keys(input).some(key => !["username", "offset", "category"].includes(key))) {
@@ -344,7 +421,8 @@ export async function serve(request, env, assets, paginasAdmin = {}) {
     }
     const query = readQuery(input);
     if (!query) return json({ error: "Indica un dominio, correo o alias válido." }, 400);
-    return json({ ...await inspect(query, env.HUELLA_YOUTUBE_API_KEY?.trim()), catalog: query.username ? catalogInfo : undefined });
+    return json({ ...await inspect(query, env.HUELLA_YOUTUBE_API_KEY?.trim(), env.HUELLA_HIBP_KEY?.trim()),
+      catalog: query.username ? catalogInfo : undefined, buscador: Boolean(env.HUELLA_BRAVE_KEY?.trim()) });
   }
   const asset = assets.get(route);
   if (asset && request.method === "GET") {

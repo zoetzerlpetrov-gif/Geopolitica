@@ -141,11 +141,12 @@ test("combina DNS, alias e incidentes del sitio sin enviar un correo a los prove
     ["Have I Been Pwned · incidentes del sitio", "encontrado"],
     ["GitHub", "verificado"], ["Hacker News", "sin_resultado"], ["DEV Community", "limitado"]
   ]);
-  assert.equal(results.filter(result => result.kind === "alias").length, 28);
+  assert.equal(results.filter(result => result.kind === "alias").length, 29);
   assert.match(results[0].detail, /no acepta correo/);
   assert.deepEqual(results[3].incidents, [{ title: "Ejemplo", date: "2024-01-01", classes: ["Email addresses"], verified: false }]);
   assert.equal(results[4].url, "https://github.com/github");
-  assert.ok(seen.every(url => !url.href.includes("@")));
+  // Ningún proveedor recibe un correo (la página pública de YouTube usa @alias, que no es un correo)
+  assert.ok(seen.every(url => !url.href.includes("@") || (url.hostname === "www.youtube.com" && url.pathname === "/@github")));
 });
 
 test("la consulta directa de Bluesky funciona con las opciones de fetch de Workers y descarta redirecciones", async (t) => {
@@ -430,7 +431,7 @@ test("separa coincidencias de alias y cruces respaldados por enlaces públicos",
   assert.equal(response.status, 200);
   const { results } = await response.json();
   const lookup = source => results.find(result => result.source === source);
-  assert.equal(results.filter(result => result.kind === "alias").length, 28);
+  assert.equal(results.filter(result => result.kind === "alias").length, 29);
   assert.deepEqual(lookup("Gravatar · perfil público").declaredProfiles,
     ["https://github.com/equipo", "https://www.linkedin.com/in/equipo"]);
   assert.match(lookup("GitHub").correlation, /Gravatar/);
@@ -622,7 +623,8 @@ test("el formulario distingue correo exacto, dominio y catálogo por alias", asy
   input();
   assert.equal(node("catalogo-categoria").disabled, false);
   await submit();
-  const [main, ...batches] = browserRequests;
+  const [main, principales, ...batches] = browserRequests;
+  assert.deepEqual(principales.query, { username: "github", offset: 0, category: "principales" });
   assert.deepEqual(main.query, { username: "github", domain: "example.org", email, searchEmail: true });
   const total = catalogInfo.sections.find(section => section.id === "social").total;
   assert.equal(batches.length, Math.ceil(total / catalogInfo.batchSize));
@@ -639,7 +641,7 @@ test("el formulario distingue correo exacto, dominio y catálogo por alias", asy
   sent.length = 0;
   input();
   await submit();
-  const [direct, ...allBatches] = browserRequests;
+  const [direct, , ...allBatches] = browserRequests;
   assert.equal(direct.query.username, "elonmusk");
   assert.equal(allBatches.length, Math.ceil(catalogInfo.total / catalogInfo.batchSize));
   assert.ok(allBatches.every(({ query }) => query.username === "elonmusk" && query.category === "all"));
@@ -741,4 +743,69 @@ test("Admin sirve sus páginas empaquetadas en el Worker (sin depender de /ops/ 
   assert.equal(paginaEmpaquetada("/js/app.js", paginas), null);
   assert.equal(paginaEmpaquetada("/demo.html", { demo: "x" }), null, "solo páginas de administración");
   assert.equal(ENCABEZADOS_ADMIN["X-Robots-Tag"], "noindex, nofollow");
+});
+
+test("GitHub usa las credenciales de la OAuth App y YouTube sin clave revisa la página pública del @", async (t) => {
+  const { cookie } = await signIn(t);
+  const vistos = [];
+  t.mock.method(globalThis, "fetch", async (input, options) => {
+    const url = new URL(input);
+    vistos.push([url, options.headers]);
+    if (url.hostname === "api.github.com") return Response.json({ login: "github", type: "User" });
+    if (url.hostname === "www.youtube.com") {
+      return url.pathname === "/@github" ? new Response("<html><title>GitHub - YouTube</title></html>", { headers: { "Content-Type": "text/html; charset=utf-8" } }) : new Response(null, { status: 404 });
+    }
+    return new Response(null, { status: 404 });
+  });
+  const { results } = await (await serve(post({ username: "github" }, cookie), env, assets)).json();
+  const github = vistos.find(([url]) => url.hostname === "api.github.com");
+  assert.equal(github[1].Authorization, "Basic " + Buffer.from("client-id:client-secret").toString("base64"));
+  assert.ok(vistos.filter(([url]) => url.hostname !== "api.github.com").every(([, h]) => !h?.Authorization));
+  const yt = results.find(r => r.source === "YouTube · página pública");
+  assert.equal(yt.status, "verificado");
+  assert.equal(yt.category, "social");
+});
+
+test("buscador: sin clave responde 501; con clave arma consultas fijas y devuelve solo resultados https", async (t) => {
+  const { cookie } = await signIn(t);
+  const pedir = (cuerpo, e = env) => serve(new Request(root + "consulta/buscador", {
+    method: "POST", headers: { Origin: origin, Cookie: cookie, "Content-Type": "application/json" }, body: JSON.stringify(cuerpo) }), e, assets);
+  assert.equal((await pedir({ tipo: "email", valor: "ana@example.org" })).status, 501);
+  const conClave = { ...env, HUELLA_BRAVE_KEY: "clave-brave-prueba" };
+  assert.equal((await pedir({ tipo: "email", valor: "no-es-correo" }, conClave)).status, 400);
+  assert.equal((await pedir({ tipo: "alias", valor: "ana", extra: 1 }, conClave)).status, 400);
+  const consultas = [];
+  t.mock.method(globalThis, "fetch", async (input, options) => {
+    const url = new URL(input);
+    assert.equal(url.hostname, "api.search.brave.com");
+    assert.equal(options.headers["X-Subscription-Token"], "clave-brave-prueba");
+    consultas.push(url.searchParams.get("q"));
+    return Response.json({ web: { results: [{ title: "<b>Ana</b> en un foro", url: "https://foro.example/ana", description: "perfil" }, { title: "x", url: "http://inseguro.example" }] } });
+  });
+  const d = await (await pedir({ tipo: "email", valor: "Ana@Example.org" }, conClave)).json();
+  assert.equal(d.grupos.length, 4);
+  assert.ok(consultas.every(q => q.startsWith('"ana@example.org"')));
+  assert.deepEqual(d.grupos[0].resultados, [{ titulo: "Ana en un foro", url: "https://foro.example/ana", extracto: "perfil" }]);
+});
+
+test("HIBP por correo solo con clave y el lote «principales» del catálogo", async (t) => {
+  const { cookie } = await signIn(t);
+  t.mock.method(globalThis, "fetch", async (input, options) => {
+    const url = new URL(input);
+    if (url.hostname === "haveibeenpwned.com" && url.pathname.startsWith("/api/v3/breachedaccount/")) {
+      assert.equal(options.headers["hibp-api-key"], "clave-hibp");
+      return Response.json([{ Title: "Filtración X", BreachDate: "2023-05-01", DataClasses: ["Email addresses"], IsVerified: true }]);
+    }
+    return new Response(null, { status: 404 });
+  });
+  const consulta = { domain: "example.org", email: "ana@example.org", searchEmail: true };
+  const sin = (await (await serve(post(consulta, cookie), env, assets)).json()).results;
+  assert.ok(!sin.some(r => r.source.startsWith("Have I Been Pwned · filtraciones")));
+  const con = (await (await serve(post(consulta, cookie), { ...env, HUELLA_HIBP_KEY: "clave-hibp" }, assets)).json()).results;
+  const hibp = con.find(r => r.source === "Have I Been Pwned · filtraciones del correo");
+  assert.equal(hibp.status, "verificado");
+  assert.equal(hibp.incidents[0].title, "Filtración X");
+  const lote = await (await serve(new Request(root + "consulta/catalogo", { method: "POST",
+    headers: { Origin: origin, Cookie: cookie, "Content-Type": "application/json" }, body: JSON.stringify({ username: "ana", offset: 0, category: "principales" }) }), env, assets)).json();
+  assert.deepEqual(lote.results.map(r => r.source).sort(), ["Flickr", "Pinterest", "Snapchat", "SoundCloud", "Telegram", "TikTok"]);
 });

@@ -14,6 +14,37 @@ const APARECE = {
   indeterminado: ["duda", "❔ No se pudo confirmar"],
   limitado: ["duda", "❔ No se pudo confirmar"]
 };
+// Sitio de cada red para la búsqueda asistida con buscadores (dorks).
+const SITIO_RED = { Facebook: "facebook.com", Instagram: "instagram.com", "X (Twitter)": "x.com", TikTok: "tiktok.com", YouTube: "youtube.com",
+  LinkedIn: "linkedin.com", Threads: "threads.com", Snapchat: "snapchat.com", Telegram: "t.me", Pinterest: "pinterest.com", Reddit: "reddit.com",
+  Tumblr: "tumblr.com", Twitch: "twitch.tv", Bluesky: "bsky.app", Mastodon: "mastodon.social", Flickr: "flickr.com", SoundCloud: "soundcloud.com", GitHub: "github.com" };
+const BUSCADORES = [["Google", "https://www.google.com/search?q="], ["Bing", "https://www.bing.com/search?q="],
+  ["DuckDuckGo", "https://duckduckgo.com/?q="], ["Yandex", "https://yandex.com/search/?text="], ["Brave", "https://search.brave.com/search?q="]];
+/** Las mismas consultas fijas que arma el servidor para la búsqueda automática (service.js → dorks). */
+function dorks(tipo, valor) {
+  const v = `"${valor}"`;
+  if (tipo === "email") return [
+    ["Menciones exactas del correo", v],
+    ["Redes sociales", `${v} (site:facebook.com OR site:instagram.com OR site:linkedin.com OR site:x.com OR site:tiktok.com OR site:reddit.com)`],
+    ["Documentos (PDF, Excel, Word)", `${v} (filetype:pdf OR filetype:xlsx OR filetype:xls OR filetype:docx OR filetype:csv)`],
+    ["Código y pegados públicos", `${v} (site:github.com OR site:gitlab.com OR site:pastebin.com)`]
+  ];
+  return [
+    ["Menciones exactas del alias", v],
+    ["Facebook, Instagram y Threads", `${v} (site:facebook.com OR site:instagram.com OR site:threads.com)`],
+    ["LinkedIn", `${v} site:linkedin.com`],
+    ["Reddit y Twitch", `${v} (site:reddit.com OR site:twitch.tv)`],
+    ["Foros, documentos y otros", `${v} (inurl:forum OR inurl:perfil OR inurl:profile OR filetype:pdf)`]
+  ];
+}
+function enlaceBusqueda(parent, texto, motor, q) {
+  const a = element(parent, "a", texto, "boton-busqueda");
+  a.href = motor + encodeURIComponent(q);
+  a.target = "_blank";
+  a.rel = "noopener noreferrer";
+  return a;
+}
+
 const PESO = { si: 4, probable: 3, no: 2, duda: 1, sin_revisar: 0, sesion: 0 };
 const aparece = (estado) => APARECE[estado] || APARECE.indeterminado;
 
@@ -153,9 +184,10 @@ function tarjetaResumen(parent, titulo, valor, nota, tipo) {
 /** Dibuja todo el informe ordenado: resumen, redes principales, otros sitios, correo y dominio. */
 function renderTodo() {
   if (!ultima) return;
-  const { query, direct, catalog, catalogInfo, category, catalogDone } = ultima;
+  const { query, direct, catalogInfo, category, catalogDone } = ultima;
+  const catalog = [...(ultima.principales || []), ...ultima.catalog];
   const resumen = $("resumen"), redes = $("redes-principales"), otros = $("otros-sitios"), correo = $("res-correo"), dominio = $("res-dominio");
-  for (const n of [resumen, redes, otros, correo, dominio]) n.replaceChildren();
+  for (const nodo of [resumen, redes, otros, correo, dominio]) nodo.replaceChildren();
   const correoRes = direct.filter(r => r.kind === "correo");
   const dominioRes = direct.filter(r => r.kind === "dominio");
   const filas = query.username ? filasRedes(direct, catalog, catalogDone) : [];
@@ -181,7 +213,14 @@ function renderTodo() {
   if (query.username) {
     element(redes, "h3", `${++n}. Redes sociales principales · @${query.username}`);
     element(redes, "p", "Solo indica si el alias aparece. Un alias igual puede pertenecer a otra persona: confírmalo antes de atribuirlo.", "nota");
-    tabla(redes, ["Red social", "¿Aparece?", "Cómo se supo"], filas.map(f => ({ clase: "fila-" + f.tipo, celdas: [f.nombre, f.texto, f.fuente] })));
+    tabla(redes, ["Red social", "¿Aparece?", "Cómo se supo"], filas.map(f => ({ clase: "fila-" + f.tipo, celdas: [f.nombre, f.texto, (td) => {
+      td.textContent = f.fuente;
+      // Donde la red no deja comprobar (o no respondió), búsqueda asistida: abre Google con site:red "alias" en otra pestaña.
+      if (["sesion", "duda", "sin_revisar"].includes(f.tipo) && SITIO_RED[f.nombre]) {
+        element(td, "br", "");
+        enlaceBusqueda(td, "🔎 Buscar en Google", BUSCADORES[0][1], `site:${SITIO_RED[f.nombre]} "${query.username}"`);
+      }
+    }] })));
   }
 
   // 3. Otros sitios por categoría
@@ -211,12 +250,60 @@ function renderTodo() {
     tabla(dominio, ["Comprobación", "Resultado", "Detalle"], dominioRes.map(r => ({ clase: "fila-" + aparece(r.status)[0], celdas: [
       r.source, resultadoDominio(r), detalleDominio(r)] })));
   }
+  renderBuscadores(n);
   $("exportar").hidden = false;
+}
+
+/** Búsqueda asistida en buscadores: enlaces por buscador y, si hay clave de Brave, resultados automáticos aquí mismo. */
+function renderBuscadores(n) {
+  const caja = $("res-buscadores");
+  caja.replaceChildren();
+  const { query } = ultima;
+  const objetivos = [query.email && ["email", query.email], query.username && ["alias", query.username]].filter(Boolean);
+  if (!objetivos.length) return;
+  element(caja, "h3", `${n + 1}. Búsqueda en buscadores (dorks)`);
+  element(caja, "p", "Cada botón abre la búsqueda en otra pestaña de tu navegador: tú ves los resultados directamente en Google, Bing, DuckDuckGo, Yandex o Brave. Así se revisan también Facebook, Instagram, LinkedIn, Threads y Reddit sin iniciar sesión ni copiar sus páginas.", "nota");
+  for (const [tipo, valor] of objetivos) {
+    element(caja, "h4", tipo === "email" ? `Correo ${valor}` : `Alias @${valor}`);
+    tabla(caja, ["Qué busca", "Consulta", "Abrir en"], dorks(tipo, valor).map(([titulo, q]) => ({ celdas: [titulo, q, (td) => {
+      for (const [nombre, motor] of BUSCADORES) enlaceBusqueda(td, nombre, motor, q);
+    }] })));
+    if (ultima.buscador) {
+      const boton = element(caja, "button", `🔎 Buscar automáticamente (${tipo === "email" ? "correo" : "alias"}) y mostrar resultados aquí`, "secondary");
+      boton.type = "button";
+      const destino = element(caja, "div", "", "resultados-buscador");
+      boton.addEventListener("click", async () => {
+        boton.disabled = true;
+        destino.textContent = "Buscando en Brave Search…";
+        try {
+          const r = await fetch("consulta/buscador", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ tipo, valor }), redirect: "error", cache: "no-store" });
+          const d = await r.json();
+          if (!r.ok) throw new Error(d.error || "HTTP " + r.status);
+          destino.replaceChildren();
+          for (const g of d.grupos) {
+            element(destino, "h5", `${g.titulo} · ${g.resultados.length ? g.resultados.length + " resultado(s)" : aparece(g.estado)[1].replace("aparece", "hay resultados")}`);
+            const ul = element(destino, "ul", "", "records");
+            for (const x of g.resultados) {
+              const li = element(ul, "li", "");
+              const a = element(li, "a", x.titulo || x.url);
+              a.href = x.url; a.target = "_blank"; a.rel = "noopener noreferrer";
+              element(li, "small", " · " + new URL(x.url).hostname + (x.extracto ? " — " + x.extracto : ""));
+            }
+          }
+        } catch (e) {
+          destino.textContent = "No se pudo buscar: " + e.message;
+        } finally { boton.disabled = false; }
+      });
+    } else {
+      element(caja, "p", "Para ver los resultados aquí sin abrir pestañas, configura la clave HUELLA_BRAVE_KEY (Brave Search API).", "nota");
+    }
+  }
 }
 
 /** CSV de todo el informe (sin enlaces): Sección, Fuente, Resultado, Detalle. */
 function csvInforme() {
-  const { query, direct, catalog, catalogInfo, catalogDone } = ultima;
+  const { query, direct, catalogInfo, catalogDone } = ultima;
+  const catalog = [...(ultima.principales || []), ...ultima.catalog];
   const filas = [["Sección", "Fuente", "Resultado", "Detalle"]];
   if (query.username) {
     for (const f of filasRedes(direct, catalog, catalogDone)) filas.push(["Redes principales", f.nombre, f.texto.replace(/^\S+\s/, ""), f.fuente]);
@@ -349,7 +436,7 @@ function updateScope() {
 
 function limpiar() {
   ultima = null;
-  for (const id of ["resumen", "redes-principales", "otros-sitios", "res-correo", "res-dominio"]) $(id).replaceChildren();
+  for (const id of ["resumen", "redes-principales", "otros-sitios", "res-correo", "res-dominio", "res-buscadores"]) $(id).replaceChildren();
   $("exportar").hidden = true;
   $("hallazgos").hidden = true;
 }
@@ -398,8 +485,18 @@ form.addEventListener("submit", async (event) => {
     }
     const data = await response.json();
     if (current.signal.aborted) return;
-    ultima = { query, direct: data.results, catalog: [], catalogInfo: data.catalog, category, catalogDone: !expand };
+    ultima = { query, direct: data.results, catalog: [], principales: [], catalogInfo: data.catalog, category, catalogDone: !expand, buscador: data.buscador === true };
     renderTodo();
+    if (username) { // TikTok, Snapchat, Telegram, Pinterest, Flickr y SoundCloud: siempre, aunque el catálogo esté apagado
+      status.textContent = "Revisando las redes principales…";
+      try {
+        const r = await fetch("consulta/catalogo", { method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, offset: 0, category: "principales" }), signal: current.signal, redirect: "error", cache: "no-store" });
+        if (r.ok) { const b = await r.json(); if (Array.isArray(b.results)) ultima.principales = b.results; }
+      } catch { /* sigue con lo demás */ }
+      if (current.signal.aborted) return;
+      renderTodo();
+    }
     $("marca-tiempo").textContent = "Consulta del " + new Date(data.checkedAt).toLocaleString("es-MX");
     $("hallazgos").hidden = false;
     status.textContent = expand && data.catalog ? "Fuentes directas listas. Revisando el catálogo ampliado…" : `Listo · ${data.results.length} comprobaciones.`;

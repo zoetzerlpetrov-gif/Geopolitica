@@ -1,0 +1,257 @@
+{
+ "_nota": "Documentos base de Organización DOMINUS (organizacion.html → Documentos). Son borradores en Markdown: se copian al servidor al usarlos y ahí se editan. Revisar con contador o abogado antes de firmar o publicar.",
+ "plantillas": [
+  {
+   "area": "gobierno",
+   "tarea": "objetivos",
+   "id": "plan_anual",
+   "titulo": "Plan anual: misión, visión y objetivos",
+   "contenido": "> Borrador de trabajo generado como punto de partida. Revísalo con tu contador o abogado antes de firmarlo o publicarlo; las leyes cambian y cada caso tiene particularidades.\n\n\n# Plan anual DOMINUS [AÑO]\n\n## 1. Misión (qué hacemos, para quién y cómo)\n[Ejemplo: Dar a directivos y equipos de seguridad información verificable de riesgos geopolíticos, operativos y digitales, en un solo mapa, para decidir viajes, inversiones y operaciones.]\n\n## 2. Visión (dónde queremos estar en 5 años)\n[Ejemplo: Ser la plataforma de inteligencia de riesgos de referencia para empresas medianas de América Latina.]\n\n## 3. Objetivos del año (3 a 5) con su indicador\n| # | Objetivo | Indicador | Meta | Responsable | Revisión |\n|---|---|---|---|---|---|\n| 1 | Conseguir clientes de pago | Suscripciones activas | [20] | [Nombre] | Mensual |\n| 2 | Ingresos recurrentes | MRR en USD | [2,000] | [Nombre] | Mensual |\n| 3 | Calidad del servicio | % de reportes entregados a tiempo | ≥ 95 % | [Nombre] | Mensual |\n| 4 | Seguridad | Hallazgos críticos abiertos | 0 | [Nombre] | Semanal |\n| 5 | Formalización | Tareas «Ahora» de Organización hechas | 100 % | [Nombre] | Trimestral |\n\n## 4. Proyectos que sostienen cada objetivo\n- Objetivo 1: [campaña, alianzas, demo para directivos]\n- Objetivo 2: [planes anuales, precios en USD]\n\n## 5. Riesgos del plan y respuesta\n| Riesgo | Probabilidad | Impacto | Respuesta |\n|---|---|---|---|\n| [Dependencia de una sola persona] | Alta | Alto | [Documentar procesos; respaldo] |\n\nAprobado por: [Nombre] · Fecha: [AAAA-MM-DD]\n"
+  },
+  {
+   "area": "gobierno",
+   "tarea": "juntas",
+   "id": "minuta",
+   "titulo": "Minuta de junta mensual de resultados",
+   "contenido": "> Borrador de trabajo generado como punto de partida. Revísalo con tu contador o abogado antes de firmarlo o publicarlo; las leyes cambian y cada caso tiene particularidades.\n\n\n# Minuta de junta mensual · [Mes AAAA]\n\n- Fecha y hora: [ ]\n- Asistentes: [ ]\n- Quien modera: [ ] · Quien toma notas: [ ]\n\n## 1. Revisión de acuerdos anteriores\n| Acuerdo | Responsable | Estado (hecho / en proceso / atrasado) |\n|---|---|---|\n| | | |\n\n## 2. Indicadores del mes\n| Indicador | Meta | Real | Semáforo | Comentario |\n|---|---|---|---|---|\n| Suscripciones activas | | | 🟢🟡🔴 | |\n| Ingresos (USD) | | | | |\n| Flujo de caja a 13 semanas | | | | |\n| Incidentes de seguridad | 0 | | | |\n\n## 3. Temas para decidir\n1. [Tema] — decisión: [ ] — quién decide: [ ]\n\n## 4. Acuerdos nuevos\n| # | Acuerdo | Responsable | Fecha compromiso |\n|---|---|---|---|\n| 1 | | | |\n\nPróxima junta: [fecha]\n"
+  },
+  {
+   "area": "gobierno",
+   "tarea": "delegacion",
+   "id": "matriz_delegacion",
+   "titulo": "Matriz de delegación de autoridad",
+   "contenido": "> Borrador de trabajo generado como punto de partida. Revísalo con tu contador o abogado antes de firmarlo o publicarlo; las leyes cambian y cada caso tiene particularidades.\n\n\n# Matriz de delegación de autoridad\n\nRegla: nadie aprueba su propio gasto. Si el monto supera el límite, sube al siguiente nivel.\n\n| Decisión | Hasta USD 500 | USD 500 a 5,000 | Más de USD 5,000 |\n|---|---|---|---|\n| Gastos y compras | Responsable de área | Dirección de finanzas | Dirección general |\n| Contratos con clientes | Ventas (con contrato modelo) | Dirección general | Dirección general + revisión legal |\n| Contratos con proveedores | Responsable de área | Finanzas | Dirección general + legal |\n| Contratación de personal | — | Dirección de área + RRHH | Dirección general |\n| Descuentos a clientes | Hasta 10 % Ventas | Hasta 25 % Dirección comercial | Más de 25 % Dirección general |\n| Viajes a destinos de riesgo alto | — | — | Dirección general (con evaluación de riesgo) |\n| Cambios en producción del sitio | Persona que desarrolla + revisión | — | — |\n\nVigencia: [fecha] · Revisión: cada año o cuando cambie la estructura.\n"
+  },
+  {
+   "area": "gobierno",
+   "tarea": "conflictos",
+   "id": "codigo_conducta",
+   "titulo": "Código de conducta y conflictos de interés",
+   "contenido": "> Borrador de trabajo generado como punto de partida. Revísalo con tu contador o abogado antes de firmarlo o publicarlo; las leyes cambian y cada caso tiene particularidades.\n\n\n# Código de conducta DOMINUS\n\n## 1. A quién aplica\nA socios, personal, practicantes y proveedores que trabajan en nombre de DOMINUS.\n\n## 2. Principios\n1. Legalidad: cumplimos la ley de cada país donde trabajamos.\n2. Fuentes lícitas: solo usamos información pública o autorizada; respetamos términos de servicio y robots.txt.\n3. Confidencialidad: la información de clientes no sale de los sistemas autorizados.\n4. Cero sobornos: no damos ni recibimos pagos, regalos o favores para obtener una ventaja (Ley General de Responsabilidades Administrativas; FCPA y UK Bribery Act si hay clientes de EE. UU. o Reino Unido).\n5. Respeto: cero acoso y cero discriminación (NOM-035, Ley Federal para Prevenir y Eliminar la Discriminación).\n\n## 3. Conflictos de interés\nHay conflicto cuando un interés personal (familiar, económico, de amistad) puede influir en una decisión de trabajo.\n- Decláralo por escrito antes de decidir.\n- No participes en la decisión.\n- Regalos: se pueden aceptar solo si valen menos de USD [50] y se registran.\n\n## 4. Cómo reportar\nCanal de denuncias: [correo o formulario]. No hay represalias por reportar de buena fe.\n\n## 5. Declaración\nLeí y acepto este código. Declaro los siguientes conflictos de interés: [ninguno / describir].\n\nNombre: ______ Firma: ______ Fecha: ______\n"
+  },
+  {
+   "area": "legal",
+   "tarea": "sociedad",
+   "id": "comparativo_sociedad",
+   "titulo": "Comparativo para decidir: S.A.P.I. vs. S. de R.L. de C.V.",
+   "contenido": "> Borrador de trabajo generado como punto de partida. Revísalo con tu contador o abogado antes de firmarlo o publicarlo; las leyes cambian y cada caso tiene particularidades.\n\n\n# Decidir la forma de la sociedad\n\nBase legal: Ley General de Sociedades Mercantiles (LGSM) y Ley del Mercado de Valores (LMV, arts. 13 a 16 para la S.A.P.I.).\n\n| Criterio | S. de R.L. de C.V. | S.A.P.I. de C.V. |\n|---|---|---|\n| Socios | 2 a 50 | Mínimo 2, sin máximo |\n| Capital | Partes sociales | Acciones |\n| Entrada de inversionistas | Requiere aprobación de socios; más rígida | Diseñada para inversión: acciones preferentes, derechos de arrastre y acompañamiento, opciones para empleados |\n| En EE. UU. (fiscal) | Puede elegir tratarse como transparente (check-the-box) | Se trata como corporación |\n| Costo y trámite | Similar ante notario o corredor público | Similar, con estatutos más largos |\n| Cuándo conviene | Negocio entre pocos socios sin planes de levantar capital | Si piensas buscar inversionistas o dar acciones al equipo |\n\n## Preguntas para el notario y el contador\n1. ¿Conviene aportar los activos actuales (marca, software, dominio) a la sociedad? ¿Con qué efecto fiscal?\n2. ¿Qué régimen fiscal tendrá la sociedad (general de ley o RESICO personas morales)?\n3. ¿Qué pasa con los contratos y facturas actuales como persona física?\n4. Pacto de socios: vesting, salida, no competencia y valuación.\n\n## Pasos\n1. Autorización de denominación (Secretaría de Economía).\n2. Firma de estatutos ante notario o corredor.\n3. Inscripción en el Registro Público de Comercio.\n4. RFC, e.firma y CSD de la sociedad; cuenta bancaria.\n5. Registro patronal IMSS cuando haya personal.\n6. Trasladar contratos, dominios y cuentas a la sociedad.\n"
+  },
+  {
+   "area": "legal",
+   "tarea": "marca",
+   "id": "registro_marca",
+   "titulo": "Lista para registrar la marca ante el IMPI",
+   "contenido": "> Borrador de trabajo generado como punto de partida. Revísalo con tu contador o abogado antes de firmarlo o publicarlo; las leyes cambian y cada caso tiene particularidades.\n\n\n# Registro de la marca DOMINUS ante el IMPI\n\nBase: Ley Federal de Protección a la Propiedad Industrial (LFPPI). Vigencia: 10 años renovables. Hay que declarar el uso a los 3 años del registro.\n\n## Antes de pagar\n- [ ] Búsqueda fonética y figurativa en MARCia (marcia.impi.gob.mx) para «DOMINUS» y variantes.\n- [ ] Decidir tipo: nominativa (solo palabra), mixta (palabra + logo) o ambas.\n- [ ] Elegir clases de Niza:\n  - Clase 42: software como servicio, investigación y análisis técnico.\n  - Clase 45: servicios de seguridad e investigación (revisa la redacción exacta del listado de Niza).\n  - Clase 35: inteligencia de negocios y estudios de mercado.\n  - Clase 41: si vendes cursos o contenidos.\n- [ ] Titular: persona física hoy; si después constituyes la sociedad, se puede ceder la marca.\n\n## Trámite en línea (Marca en línea del IMPI)\n1. Crear cuenta con e.firma.\n2. Pagar el derecho por clase (consulta la tarifa vigente del IMPI).\n3. Llenar solicitud, subir logo y describir productos y servicios.\n4. Dar seguimiento a requerimientos (plazo para contestar: 2 meses, prorrogable).\n\n## Otros países\nProtocolo de Madrid: una solicitud desde el IMPI para varios países (EE. UU., UE, etc.).\n"
+  },
+  {
+   "area": "legal",
+   "tarea": "contratos",
+   "id": "contrato_servicios",
+   "titulo": "Contrato de prestación de servicios (modelo)",
+   "contenido": "> Borrador de trabajo generado como punto de partida. Revísalo con tu contador o abogado antes de firmarlo o publicarlo; las leyes cambian y cada caso tiene particularidades.\n\n\n# Contrato de prestación de servicios profesionales\n\nCelebran: por una parte [NOMBRE DEL PRESTADOR], RFC [ ] («DOMINUS»), y por la otra [CLIENTE], RFC [ ], representada por [ ] («el Cliente»).\n\n## Declaraciones\nI. DOMINUS declara que cuenta con la capacidad técnica para prestar los servicios.\nII. El Cliente declara que su representante tiene facultades para obligarlo.\n\n## Cláusulas\n1. **Objeto.** DOMINUS prestará: [descripción, entregables y alcance; anexo A].\n2. **Vigencia.** Del [fecha] al [fecha]. Renovación: [automática / por escrito].\n3. **Precio y pago.** USD [ ] más IVA, pagaderos [mensual / por entregable] dentro de [15] días naturales siguientes a la factura (CFDI).\n4. **Niveles de servicio.** Tiempos de respuesta y entrega del anexo B.\n5. **Confidencialidad.** Ambas partes protegerán la información confidencial durante la vigencia y [3] años después.\n6. **Datos personales.** DOMINUS tratará datos personales solo para cumplir el contrato y como encargado del Cliente (anexo C).\n7. **Propiedad intelectual.** La plataforma, metodologías y software son de DOMINUS. Los reportes entregados quedan para uso interno del Cliente.\n8. **Fuentes y límites.** DOMINUS usa fuentes públicas y lícitas; los análisis son apoyo a la decisión y no garantizan resultados.\n9. **Responsabilidad.** La responsabilidad total de DOMINUS se limita al monto pagado en los últimos [12] meses, salvo dolo.\n10. **Terminación.** Cualquiera puede terminar con [30] días de aviso por escrito; por incumplimiento, si no se corrige en [15] días.\n11. **No relación laboral.** Cada parte responde de su personal.\n12. **Ley y jurisdicción.** Leyes de México; tribunales de [ciudad], renunciando a otro fuero.\n\nFirmas: ________ (DOMINUS)   ________ (Cliente)   Fecha: ______\n"
+  },
+  {
+   "area": "legal",
+   "tarea": "contratos",
+   "id": "nda",
+   "titulo": "Acuerdo de confidencialidad (NDA) mutuo",
+   "contenido": "> Borrador de trabajo generado como punto de partida. Revísalo con tu contador o abogado antes de firmarlo o publicarlo; las leyes cambian y cada caso tiene particularidades.\n\n\n# Convenio de confidencialidad mutuo\n\nPartes: [DOMINUS] y [CONTRAPARTE].\n\n1. **Información confidencial:** toda información técnica, comercial, financiera o de clientes que una parte entregue a la otra, marcada o no como confidencial, por cualquier medio.\n2. **Excepciones:** la que ya era pública, la que la parte ya tenía legítimamente, la que desarrolle de forma independiente o la que deba entregar por orden de autoridad (avisando antes, si la ley lo permite).\n3. **Obligaciones:** usarla solo para [propósito]; compartirla solo con personal que la necesite y esté obligado a confidencialidad; protegerla con al menos el cuidado que da a la propia.\n4. **Vigencia:** [2] años de relación y [3] años de confidencialidad después de terminar. Los secretos industriales se protegen mientras conserven ese carácter (LFPPI).\n5. **Devolución:** al terminar o a solicitud, devolver o destruir la información y confirmarlo por escrito.\n6. **Sin licencia:** este convenio no transfiere derechos de propiedad intelectual.\n7. **Incumplimiento:** la parte que incumpla pagará daños y perjuicios; además pueden aplicar las sanciones de la LFPPI y del Código Penal Federal (revelación de secretos).\n8. **Ley y jurisdicción:** México; tribunales de [ciudad].\n\nFirmas y fecha.\n"
+  },
+  {
+   "area": "legal",
+   "tarea": "poderes",
+   "id": "registro_poderes",
+   "titulo": "Registro de poderes y firmas autorizadas",
+   "contenido": "> Borrador de trabajo generado como punto de partida. Revísalo con tu contador o abogado antes de firmarlo o publicarlo; las leyes cambian y cada caso tiene particularidades.\n\n\n# Registro de poderes y firmas autorizadas\n\n| Persona | Tipo de poder (pleitos y cobranzas / actos de administración / dominio / títulos de crédito) | Límite | Escritura y notario | Vigencia | Bancos donde firma |\n|---|---|---|---|---|---|\n| [ ] | | | | | |\n\nReglas:\n1. Contratos de más de USD [5,000] requieren dos firmas.\n2. Revocar los poderes el mismo día en que alguien deja la empresa y avisar a los bancos.\n3. Revisar este registro cada año.\n"
+  },
+  {
+   "area": "fiscal",
+   "tarea": "declaraciones",
+   "id": "calendario_fiscal",
+   "titulo": "Calendario fiscal (persona física con actividad empresarial)",
+   "contenido": "> Borrador de trabajo generado como punto de partida. Revísalo con tu contador o abogado antes de firmarlo o publicarlo; las leyes cambian y cada caso tiene particularidades.\n\n\n# Calendario fiscal [AÑO]\n\nRégimen: [Actividades empresariales y profesionales / RESICO]. Confirma tu régimen en la constancia de situación fiscal.\n\n| Obligación | Cuándo | Quién la presenta | Evidencia |\n|---|---|---|---|\n| Pago provisional de ISR | A más tardar el día 17 del mes siguiente | [Contador] | Acuse y línea de captura pagada |\n| Declaración mensual de IVA | Día 17 del mes siguiente | [Contador] | Acuse |\n| DIOT (operaciones con proveedores) | Último día del mes siguiente (verificar fecha vigente) | [Contador] | Acuse |\n| Retenciones (si pagas honorarios o sueldos) | Día 17 del mes siguiente | [Contador] | Acuse |\n| Declaración anual de personas físicas | Abril del año siguiente | [Contador] | Acuse |\n| Opinión de cumplimiento 32-D | Revisar cada mes | [Tú] | PDF descargado |\n| Buzón tributario | Revisar cada semana | [Tú] | Captura |\n| Constancia de situación fiscal | Actualizar si cambias domicilio o actividad | [Tú] | PDF |\n\nNotas:\n- Si el día 17 cae en día inhábil, se recorre al siguiente hábil.\n- La facturación en USD lleva tipo de cambio del DOF del día anterior (Anexo 20 del CFDI).\n"
+  },
+  {
+   "area": "fiscal",
+   "tarea": "cfdi",
+   "id": "pac_cfdi",
+   "titulo": "Lista para elegir PAC y empezar a facturar",
+   "contenido": "> Borrador de trabajo generado como punto de partida. Revísalo con tu contador o abogado antes de firmarlo o publicarlo; las leyes cambian y cada caso tiene particularidades.\n\n\n# Puesta en marcha de la facturación (CFDI 4.0)\n\nEl SAT no ofrece una API pública para timbrar: se necesita un PAC (Proveedor Autorizado de Certificación).\n\n## Comparar proveedores\n| Criterio | Opción A [Facturapi] | Opción B [ ] | Opción C [ ] |\n|---|---|---|---|\n| API con documentación y modo de pruebas | | | |\n| Costo por timbre / paquete (USD) | | | |\n| Factura global a público en general | | | |\n| Complemento de pago (PPD) | | | |\n| Cancelación con motivo y sustitución | | | |\n| Facturación en USD | | | |\n\n## Pasos\n1. Tramitar el CSD (certificado de sello digital) en el portal del SAT con la e.firma (CertiSAT).\n2. Cargar CSD en el PAC elegido (modo pruebas).\n3. Probar: factura PUE, factura PPD + complemento de pago, factura global, cancelación.\n4. Conectar el cobro de Mercado Pago con la emisión automática.\n5. Guardar XML y PDF al menos 5 años (CFF art. 30).\n"
+  },
+  {
+   "area": "finanzas",
+   "tarea": "presupuesto",
+   "id": "presupuesto",
+   "titulo": "Presupuesto anual por mes",
+   "contenido": "> Borrador de trabajo generado como punto de partida. Revísalo con tu contador o abogado antes de firmarlo o publicarlo; las leyes cambian y cada caso tiene particularidades.\n\n\n# Presupuesto [AÑO] (USD)\n\n| Concepto | Ene | Feb | Mar | Abr | May | Jun | Jul | Ago | Sep | Oct | Nov | Dic | Total |\n|---|---|---|---|---|---|---|---|---|---|---|---|---|---|\n| **Ingresos** | | | | | | | | | | | | | |\n| Suscripciones Recon / Analyst / Command | | | | | | | | | | | | | |\n| Empresas (asientos) | | | | | | | | | | | | | |\n| Creadores | | | | | | | | | | | | | |\n| Patrocinios y servicios | | | | | | | | | | | | | |\n| **Gastos** | | | | | | | | | | | | | |\n| Nube (Cloudflare, dominios, correo) | | | | | | | | | | | | | |\n| Comisiones de cobro (Mercado Pago) | | | | | | | | | | | | | |\n| Contador y legal | | | | | | | | | | | | | |\n| Marketing | | | | | | | | | | | | | |\n| Equipo y licencias | | | | | | | | | | | | | |\n| Impuestos (provisión) | | | | | | | | | | | | | |\n| **Resultado** | | | | | | | | | | | | | |\n\nReglas: comparar real contra presupuesto cada mes y explicar diferencias mayores al 10 %.\n"
+  },
+  {
+   "area": "finanzas",
+   "tarea": "flujo",
+   "id": "flujo_13",
+   "titulo": "Flujo de caja a 13 semanas",
+   "contenido": "> Borrador de trabajo generado como punto de partida. Revísalo con tu contador o abogado antes de firmarlo o publicarlo; las leyes cambian y cada caso tiene particularidades.\n\n\n# Flujo de caja a 13 semanas (USD)\n\nSaldo inicial en bancos: [ ]\n\n| Semana | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 |\n|---|---|---|---|---|---|---|---|---|---|---|---|---|---|\n| Cobros esperados | | | | | | | | | | | | | |\n| Pagos a proveedores | | | | | | | | | | | | | |\n| Nómina / honorarios | | | | | | | | | | | | | |\n| Impuestos | | | | | | | | | | | | | |\n| Flujo neto | | | | | | | | | | | | | |\n| Saldo final | | | | | | | | | | | | | |\n\nAlerta: si algún saldo final queda debajo de [3] meses de gastos fijos, revisar cobranza y gastos esa misma semana.\n"
+  },
+  {
+   "area": "finanzas",
+   "tarea": "cobranza",
+   "id": "politica_cobranza",
+   "titulo": "Política de cobranza",
+   "contenido": "> Borrador de trabajo generado como punto de partida. Revísalo con tu contador o abogado antes de firmarlo o publicarlo; las leyes cambian y cada caso tiene particularidades.\n\n\n# Política de cobranza\n\n1. Facturar el mismo día del cobro o del entregable.\n2. Plazo de pago: [15] días naturales (empresas) o cargo automático (suscripciones).\n3. Recordatorios: día −3 (aviso amable), día +1 (vencido), día +7 (segundo aviso con copia a quien autorizó la compra).\n4. Día +15: suspensión del servicio con aviso por escrito; se reactiva al pagar.\n5. Día +30: llamada de dirección y propuesta de convenio.\n6. Día +60: evaluar cobranza externa o vía legal (pagaré o contrato firmado).\n7. Registrar cada gestión en el CRM.\n"
+  },
+  {
+   "area": "rrhh",
+   "tarea": "contratos",
+   "id": "contrato_trabajo",
+   "titulo": "Contrato individual de trabajo (por tiempo indeterminado)",
+   "contenido": "> Borrador de trabajo generado como punto de partida. Revísalo con tu contador o abogado antes de firmarlo o publicarlo; las leyes cambian y cada caso tiene particularidades.\n\n\n# Contrato individual de trabajo por tiempo indeterminado\n\nBase: Ley Federal del Trabajo (LFT), art. 25 y relativos.\n\nPatrón: [NOMBRE / RAZÓN SOCIAL], RFC [ ], registro patronal IMSS [ ], domicilio [ ].\nTrabajador(a): [NOMBRE], nacionalidad [ ], edad [ ], sexo [ ], estado civil [ ], CURP [ ], RFC [ ], domicilio [ ].\n\n1. **Puesto y funciones:** [puesto], según la descripción de puesto anexa.\n2. **Duración:** tiempo indeterminado; periodo de prueba de [30] días (art. 39-A LFT), si aplica.\n3. **Lugar de trabajo:** [domicilio] y/o teletrabajo conforme a la política de teletrabajo (NOM-037).\n4. **Jornada:** [diurna], de [hora] a [hora], [lunes a viernes]; [48] horas máximo a la semana, con media hora de descanso.\n5. **Salario:** MXN [ ] mensuales brutos, pagados [quincenalmente] por transferencia, con recibo CFDI de nómina.\n6. **Descansos:** [sábado y domingo]; días de descanso obligatorio del art. 74 LFT.\n7. **Vacaciones:** las del art. 76 LFT (12 días el primer año, aumentando conforme a la ley) y prima vacacional de 25 %.\n8. **Aguinaldo:** 15 días de salario antes del 20 de diciembre.\n9. **Capacitación:** conforme al plan anual de capacitación.\n10. **Confidencialidad y propiedad intelectual:** lo creado en el trabajo pertenece al patrón (Ley Federal del Derecho de Autor, art. 84; LFPPI).\n11. **Seguridad social:** alta en IMSS e INFONAVIT desde el primer día.\n\nFirmas, fecha y dos testigos.\n"
+  },
+  {
+   "area": "rrhh",
+   "tarea": "descripciones",
+   "id": "descripcion_puesto",
+   "titulo": "Descripción de puesto (formato)",
+   "contenido": "> Borrador de trabajo generado como punto de partida. Revísalo con tu contador o abogado antes de firmarlo o publicarlo; las leyes cambian y cada caso tiene particularidades.\n\n\n# Descripción de puesto\n\n- Puesto: [ ] · Área: [ ] · Reporta a: [ ] · Le reportan: [ ]\n- Propósito del puesto (1 frase): [ ]\n\n## Responsabilidades principales\n1. [ ]\n2. [ ]\n\n## Indicadores (cómo se mide)\n| Indicador | Meta | Frecuencia |\n|---|---|---|\n| | | |\n\n## Perfil\n- Escolaridad: [ ]\n- Experiencia: [ ]\n- Conocimientos técnicos: [ ]\n- Idiomas: [inglés B2]\n- Competencias: [análisis, redacción, confidencialidad]\n\n## Accesos que necesita\n[correo, repositorio, Admin de DOMINUS, banco (solo consulta)]\n"
+  },
+  {
+   "area": "rrhh",
+   "tarea": "nom035",
+   "id": "politica_nom035",
+   "titulo": "Política de prevención de riesgos psicosociales (NOM-035)",
+   "contenido": "> Borrador de trabajo generado como punto de partida. Revísalo con tu contador o abogado antes de firmarlo o publicarlo; las leyes cambian y cada caso tiene particularidades.\n\n\n# Política de prevención de factores de riesgo psicosocial y entorno organizacional favorable\n\nBase: NOM-035-STPS-2018.\n\nDOMINUS se compromete a:\n1. Prevenir los factores de riesgo psicosocial y la violencia laboral.\n2. Promover un entorno organizacional favorable: sentido de pertenencia, capacitación, definición clara de responsabilidades, participación y comunicación.\n3. Atender las quejas por prácticas opuestas a un entorno favorable y por actos de violencia laboral, por el canal [ ], de forma confidencial y sin represalias.\n\nObligaciones según tamaño del centro de trabajo:\n- Hasta 15 personas: política, identificar a quienes sufrieron acontecimientos traumáticos severos y difundir información.\n- 16 a 50: lo anterior más el cuestionario de factores de riesgo (Guía II).\n- Más de 50: lo anterior más la Guía III y medidas de control.\n\nDifusión: se comparte con todo el personal al ingresar y cada año.\nFirma de dirección y fecha.\n"
+  },
+  {
+   "area": "rrhh",
+   "tarea": "teletrabajo",
+   "id": "politica_teletrabajo",
+   "titulo": "Política de teletrabajo (NOM-037)",
+   "contenido": "> Borrador de trabajo generado como punto de partida. Revísalo con tu contador o abogado antes de firmarlo o publicarlo; las leyes cambian y cada caso tiene particularidades.\n\n\n# Política de teletrabajo\n\nBase: LFT arts. 330-A a 330-K y NOM-037-STPS-2023. Aplica a quien trabaja a distancia más del 40 % de su jornada.\n\n1. **Acuerdo por escrito** con domicilio del lugar de teletrabajo, horario y forma de contacto.\n2. **Equipo:** DOMINUS entrega [laptop, silla ergonómica, diadema] y lo registra en el inventario.\n3. **Gastos:** apoyo mensual de MXN [ ] para internet y electricidad.\n4. **Desconexión:** fuera del horario no hay obligación de responder (art. 330-E fr. VI).\n5. **Seguridad de la información:** cifrado de disco, VPN o red segura, verificación en dos pasos y bloqueo de pantalla.\n6. **Salud y seguridad:** lista de verificación del lugar de trabajo (iluminación, ventilación, ergonomía) al iniciar y cada año.\n7. **Reversibilidad:** se puede volver a trabajo presencial por acuerdo.\n"
+  },
+  {
+   "area": "operaciones",
+   "tarea": "metodo",
+   "id": "flujo_proyecto",
+   "titulo": "Flujo estándar de proyecto (de alta a cierre)",
+   "contenido": "> Borrador de trabajo generado como punto de partida. Revísalo con tu contador o abogado antes de firmarlo o publicarlo; las leyes cambian y cada caso tiene particularidades.\n\n\n# Flujo estándar de proyecto\n\n| Paso | Qué se hace | Entregable | Dónde queda |\n|---|---|---|---|\n| 1. Alta del cliente | Datos del cliente, contacto, contrato firmado | Ficha del cliente | Admin → Clientes y proyectos |\n| 2. Arranque | Junta inicial: alcance, sedes, países, riesgos prioritarios | Minuta de arranque | Proyecto |\n| 3. Plan | Actividades, fechas, responsables | Plan / Gantt | Proyecto |\n| 4. Auditorías | Aplicar la plantilla del sector | Hallazgos con evidencia | Proyecto |\n| 5. Seguimiento | Revisión semanal de avance y riesgos | Reporte semanal | Proyecto |\n| 6. Entrega | Informe final y presentación | Informe | Proyecto |\n| 7. Cierre | Encuesta de satisfacción y lecciones aprendidas | Acta de cierre | Proyecto |\n\nRegla: ningún proyecto avanza al paso siguiente sin el entregable del paso anterior.\n"
+  },
+  {
+   "area": "operaciones",
+   "tarea": "lecciones",
+   "id": "lecciones",
+   "titulo": "Acta de cierre y lecciones aprendidas",
+   "contenido": "> Borrador de trabajo generado como punto de partida. Revísalo con tu contador o abogado antes de firmarlo o publicarlo; las leyes cambian y cada caso tiene particularidades.\n\n\n# Acta de cierre · [Proyecto]\n\n- Cliente: [ ] · Fechas: [inicio] a [fin] · Responsable: [ ]\n- ¿Se cumplió el alcance? [sí / parcial / no] — explicación: [ ]\n- Horas planeadas vs. reales: [ ] / [ ]\n- Satisfacción del cliente (1 a 5): [ ]\n\n## Qué funcionó\n1.\n\n## Qué no funcionó y por qué\n1.\n\n## Qué cambiamos para el siguiente proyecto\n| Cambio | Responsable | Fecha |\n|---|---|---|\n| | | |\n"
+  },
+  {
+   "area": "viajes",
+   "tarea": "politica",
+   "id": "politica_viajes",
+   "titulo": "Política de viajes y trabajo en sitio",
+   "contenido": "> Borrador de trabajo generado como punto de partida. Revísalo con tu contador o abogado antes de firmarlo o publicarlo; las leyes cambian y cada caso tiene particularidades.\n\n\n# Política de viajes\n\n1. **Autorización:** todo viaje se solicita con 10 días de anticipación (urgencias: aprobación de dirección).\n2. **Evaluación de riesgo:** antes de reservar, revisar el destino en el mapa de DOMINUS (seguridad, clima, salud, conflictos) y en las alertas oficiales (SRE, Departamento de Estado de EE. UU., Foreign Office).\n   - Riesgo bajo o medio: aprueba la persona responsable del área.\n   - Riesgo alto: aprueba la dirección general con plan de seguridad.\n   - Riesgo extremo: no se viaja, salvo decisión escrita de la dirección.\n3. **Gastos permitidos:** transporte en clase económica; hotel en zona segura con tope de USD [ ] por noche; viáticos de USD [ ] por día; comprobación con CFDI o recibo en 5 días.\n4. **Seguro:** gastos médicos internacionales y asistencia en viaje obligatorio fuera de México.\n5. **Contacto:** itinerario registrado, reporte diario y teléfono de emergencia 24 h.\n6. **Datos:** laptop cifrada, sin información de clientes innecesaria; usar VPN en redes públicas.\n"
+  },
+  {
+   "area": "viajes",
+   "tarea": "evaluacion",
+   "id": "evaluacion_viaje",
+   "titulo": "Evaluación de riesgo de viaje (formato)",
+   "contenido": "> Borrador de trabajo generado como punto de partida. Revísalo con tu contador o abogado antes de firmarlo o publicarlo; las leyes cambian y cada caso tiene particularidades.\n\n\n# Evaluación de riesgo de viaje\n\n- Viajero(s): [ ] · Destino(s): [ciudad, país] · Fechas: [ ] · Motivo: [ ]\n\n| Factor | Nivel (bajo / medio / alto / extremo) | Fuente consultada | Medida |\n|---|---|---|---|\n| Delincuencia y secuestro | | Mapa DOMINUS / alerta oficial | |\n| Conflicto o disturbios | | | |\n| Salud (brotes, vacunas) | | OMS / Secretaría de Salud | |\n| Clima y desastres | | | |\n| Transporte | | | |\n| Ciberseguridad (redes, aduanas y equipos) | | | |\n\n- Nivel global: [ ]\n- Hotel y traslados: [ ]\n- Contactos de emergencia: embajada o consulado [ ], asistencia [ ], DOMINUS 24 h [ ]\n- Aprobación: [Nombre, cargo, fecha]\n"
+  },
+  {
+   "area": "ventas",
+   "tarea": "propuesta",
+   "id": "propuesta_tipo",
+   "titulo": "Propuesta comercial tipo",
+   "contenido": "> Borrador de trabajo generado como punto de partida. Revísalo con tu contador o abogado antes de firmarlo o publicarlo; las leyes cambian y cada caso tiene particularidades.\n\n\n# Propuesta para [CLIENTE]\n\n## 1. Lo que entendimos\n[Problema del cliente en sus palabras: sedes, países, viajes, riesgos que le preocupan.]\n\n## 2. Qué proponemos\n| Servicio | Qué incluye | Entregable |\n|---|---|---|\n| Plataforma DOMINUS (plan [ ]) | Mapa de riesgos, alertas, Noticiero, [n] asientos | Acceso en 48 h |\n| Diagnóstico inicial | Auditoría por sector y país | Informe con matriz de riesgo |\n| Seguimiento | Revisión mensual | Reporte mensual |\n\n## 3. Plan de trabajo\nSemana 1: alta y configuración · Semana 2–3: diagnóstico · Semana 4: entrega y capacitación.\n\n## 4. Inversión (USD, más IVA)\n| Concepto | Precio |\n|---|---|\n| | |\n\nVigencia de la propuesta: 30 días. Forma de pago: [ ].\n\n## 5. Por qué DOMINUS\n[2 o 3 hechos concretos: fuentes, cobertura, tiempos.]\n\nContacto: [ ]\n"
+  },
+  {
+   "area": "marketing",
+   "tarea": "marca",
+   "id": "manual_marca",
+   "titulo": "Manual de marca (versión corta)",
+   "contenido": "> Borrador de trabajo generado como punto de partida. Revísalo con tu contador o abogado antes de firmarlo o publicarlo; las leyes cambian y cada caso tiene particularidades.\n\n\n# Manual de marca DOMINUS\n\n- **Nombre:** DOMINUS OSINT (en textos corridos: DOMINUS).\n- **Logotipo:** cruz roja + «DOMINUS OSINT». Espacio libre alrededor igual a la altura de la letra D. No deformar, no cambiar colores, no poner sobre fondos que reduzcan el contraste.\n- **Colores:** rojo marca #C8102E; fondo oscuro #0B1220; dorado acento #D9A826; texto claro #EEF2F6.\n- **Tipografía:** Inter (pantalla); respaldo: sistema.\n- **Tono:** claro, sobrio y concreto. Hechos con fuente; nada de alarmismo ni de promesas absolutas.\n- **Palabras que usamos:** riesgo, fuente, evidencia, decisión. **Evitamos:** «garantizado», «hackear», «espiar».\n- **Accesibilidad:** contraste mínimo 4.5:1 en textos (WCAG 2.2 AA).\n"
+  },
+  {
+   "area": "marketing",
+   "tarea": "casos",
+   "id": "autorizacion_caso",
+   "titulo": "Autorización para publicar caso de éxito",
+   "contenido": "> Borrador de trabajo generado como punto de partida. Revísalo con tu contador o abogado antes de firmarlo o publicarlo; las leyes cambian y cada caso tiene particularidades.\n\n\n# Autorización para caso de éxito\n\n[CLIENTE], por conducto de [nombre y cargo], autoriza a DOMINUS a publicar en su sitio, redes sociales y materiales comerciales:\n- [ ] Nombre y logotipo del cliente\n- [ ] Testimonio (texto anexo, aprobado por el cliente)\n- [ ] Resultados en cifras (anexo)\n- [ ] Solo de forma anónima («empresa del sector [ ]»)\n\nNo se publicará información confidencial ni datos personales. La autorización puede revocarse por escrito; DOMINUS retirará el material en [10] días hábiles.\n\nFirma, nombre, cargo y fecha.\n"
+  },
+  {
+   "area": "ti",
+   "tarea": "inventario",
+   "id": "inventario_activos",
+   "titulo": "Inventario de activos de TI",
+   "contenido": "> Borrador de trabajo generado como punto de partida. Revísalo con tu contador o abogado antes de firmarlo o publicarlo; las leyes cambian y cada caso tiene particularidades.\n\n\n# Inventario de activos de TI\n\n| Activo | Tipo (equipo / cuenta / servicio nube) | Responsable | Dato que guarda | 2FA | Respaldo | Fecha de revisión |\n|---|---|---|---|---|---|---|\n| Correo de la empresa | Cuenta | | Correos de clientes | Sí/No | | |\n| GitHub (repositorio) | Servicio | | Código | | | |\n| Cloudflare (Worker, D1, R2) | Servicio | | Base de datos y archivos | | | |\n| Google Cloud (YouTube API) | Servicio | | Credenciales OAuth | | | |\n| Mercado Pago | Servicio | | Cobros | | | |\n| Laptop [ ] | Equipo | | | Cifrado: Sí/No | | |\n\nRevisar cada trimestre. Referencia: ISO/IEC 27001:2022, control 5.9 (inventario de información y activos asociados).\n"
+  },
+  {
+   "area": "ti",
+   "tarea": "incidentes",
+   "id": "plan_incidentes",
+   "titulo": "Plan de respuesta a incidentes de seguridad",
+   "contenido": "> Borrador de trabajo generado como punto de partida. Revísalo con tu contador o abogado antes de firmarlo o publicarlo; las leyes cambian y cada caso tiene particularidades.\n\n\n# Plan de respuesta a incidentes\n\nReferencia: NIST SP 800-61 (rev. 3) e ISO/IEC 27035.\n\n## Roles\n| Rol | Persona | Contacto 24 h |\n|---|---|---|\n| Líder del incidente | | |\n| Técnico | | |\n| Comunicación con clientes | | |\n| Legal / datos personales | | |\n\n## Pasos\n1. **Detectar y registrar:** fecha, hora, quién lo vio, qué sistemas. Abrir folio.\n2. **Clasificar:** bajo / medio / alto / crítico (crítico = datos de clientes expuestos o servicio caído más de 4 h).\n3. **Contener:** revocar llaves y sesiones, bloquear cuentas, aislar el sistema. Activar «modo protección» si aplica.\n4. **Erradicar y recuperar:** corregir la causa, restaurar desde respaldo verificado, vigilar 72 h.\n5. **Avisar:** a clientes afectados y, si hubo vulneración de datos personales, a los titulares de forma inmediata (LFPDPPP y su reglamento). Para clientes en la UE: autoridad de control en 72 h (RGPD art. 33).\n6. **Lecciones:** reunión en 5 días hábiles; acciones con responsable y fecha.\n\n## Llaves y accesos a revocar primero\nCloudflare API, GitHub, Google OAuth (YouTube), Mercado Pago, correo.\n"
+  },
+  {
+   "area": "ti",
+   "tarea": "respaldos",
+   "id": "respaldos",
+   "titulo": "Política de respaldos 3-2-1 y prueba de restauración",
+   "contenido": "> Borrador de trabajo generado como punto de partida. Revísalo con tu contador o abogado antes de firmarlo o publicarlo; las leyes cambian y cada caso tiene particularidades.\n\n\n# Política de respaldos\n\n- Regla 3-2-1: 3 copias, en 2 medios distintos, 1 fuera del proveedor principal.\n- Qué se respalda: base D1, archivos R2, repositorio, configuración del Worker, documentos de Organización.\n- Frecuencia: diaria (datos), semanal (completa).\n- Retención: 30 diarios, 12 mensuales.\n- Prueba de restauración: cada trimestre; registrar tiempo de recuperación y resultado.\n\n| Fecha de prueba | Qué se restauró | Tiempo | Resultado | Responsable |\n|---|---|---|---|---|\n| | | | | |\n"
+  },
+  {
+   "area": "datos",
+   "tarea": "aviso",
+   "id": "aviso_privacidad",
+   "titulo": "Aviso de privacidad integral (modelo)",
+   "contenido": "> Borrador de trabajo generado como punto de partida. Revísalo con tu contador o abogado antes de firmarlo o publicarlo; las leyes cambian y cada caso tiene particularidades.\n\n\n# Aviso de privacidad integral\n\nBase: Ley Federal de Protección de Datos Personales en Posesión de los Particulares (publicada en el DOF el 20 de marzo de 2025) y disposiciones aplicables. Verifica el texto vigente y los lineamientos de la autoridad competente.\n\n1. **Responsable:** [NOMBRE], con domicilio para oír notificaciones en [ ] y correo [privacidad@dominusosint.com].\n2. **Datos que tratamos:** identificación y contacto (nombre, correo, empresa, cargo), datos de facturación (RFC, régimen, domicilio fiscal), datos de uso de la plataforma. No tratamos datos sensibles.\n3. **Finalidades necesarias:** crear y administrar tu cuenta, prestar el servicio contratado, facturar y cobrar, atender soporte, seguridad de la plataforma.\n4. **Finalidades secundarias** (puedes negarte): enviarte boletines y promociones; encuestas de satisfacción. Para negarte: [mecanismo].\n5. **Transferencias:** a proveedores que actúan por nuestra cuenta (nube, cobro, facturación) bajo contrato; a autoridades cuando la ley lo exija. No vendemos datos personales.\n6. **Derechos ARCO** (acceso, rectificación, cancelación y oposición) y revocación del consentimiento: escribe a [correo] con tu nombre, medio para responderte, copia de identificación y la descripción de lo que pides. Te responderemos en el plazo legal (consulta el vigente; la ley anterior fijaba 20 días hábiles).\n7. **Cookies y tecnologías similares:** usamos cookies necesarias para la sesión y la seguridad. [Detallar si hay analítica.]\n8. **Cambios al aviso:** se publicarán en [URL] con la fecha de actualización.\n\nFecha de última actualización: [AAAA-MM-DD]\n"
+  },
+  {
+   "area": "datos",
+   "tarea": "inventario",
+   "id": "inventario_datos",
+   "titulo": "Inventario de datos personales",
+   "contenido": "> Borrador de trabajo generado como punto de partida. Revísalo con tu contador o abogado antes de firmarlo o publicarlo; las leyes cambian y cada caso tiene particularidades.\n\n\n# Inventario de datos personales\n\n| Proceso | Datos | Titulares | Finalidad | Dónde se guarda | Quién accede | Plazo de conservación | Transferencia |\n|---|---|---|---|---|---|---|---|\n| Cuentas de usuario | Correo, nombre | Clientes | Acceso | Cloudflare D1 | Admin | Mientras haya cuenta + [1] año | No |\n| Facturación | RFC, régimen, domicilio fiscal | Clientes | Facturar | PAC / contador | Finanzas | 5 años (CFF art. 30) | PAC |\n| Soporte | Correo, mensaje | Clientes | Atender | Correo | Soporte | [2] años | No |\n| Huella digital (consultas) | Alias o correo consultado | Terceros | Investigación autorizada | No se guarda | Admin | No se conserva | No |\n"
+  },
+  {
+   "area": "datos",
+   "tarea": "derechos",
+   "id": "procedimiento_arco",
+   "titulo": "Procedimiento para solicitudes ARCO",
+   "contenido": "> Borrador de trabajo generado como punto de partida. Revísalo con tu contador o abogado antes de firmarlo o publicarlo; las leyes cambian y cada caso tiene particularidades.\n\n\n# Procedimiento ARCO\n\n1. **Recepción:** correo [privacidad@]. Registrar folio, fecha y solicitante.\n2. **Verificar identidad:** pedir identificación o confirmar desde el correo de la cuenta.\n3. **Requerir información faltante** dentro de los 5 días hábiles siguientes (si la ley vigente lo prevé así); el titular tiene 10 días para completarla.\n4. **Responder** dentro del plazo legal (ley anterior: 20 días hábiles para comunicar la respuesta y 15 para hacerla efectiva; verifica el vigente).\n5. **Ejecutar:** acceso (entregar copia), rectificación (corregir), cancelación (bloquear y luego suprimir), oposición (dejar de tratar para esa finalidad).\n6. **Archivar** la evidencia del folio durante [2] años.\n\n| Folio | Fecha | Tipo | Fecha límite | Respuesta | Fecha de cierre |\n|---|---|---|---|---|---|\n| | | | | | |\n"
+  },
+  {
+   "area": "auditoria",
+   "tarea": "riesgos",
+   "id": "matriz_riesgos",
+   "titulo": "Matriz de riesgos de la empresa",
+   "contenido": "> Borrador de trabajo generado como punto de partida. Revísalo con tu contador o abogado antes de firmarlo o publicarlo; las leyes cambian y cada caso tiene particularidades.\n\n\n# Matriz de riesgos DOMINUS\n\nEscala: probabilidad e impacto de 1 (bajo) a 5 (muy alto). Nivel = probabilidad × impacto (1–25). Referencia: ISO 31000:2018.\n\n| # | Riesgo | Área | Prob. | Impacto | Nivel | Controles actuales | Acción | Responsable | Fecha |\n|---|---|---|---|---|---|---|---|---|---|\n| 1 | Dependencia de una sola persona clave | Gobierno | 4 | 5 | 20 | Documentación en Organización | Respaldo y manuales | | |\n| 2 | Filtración de datos de clientes | TI | 2 | 5 | 10 | 2FA, revisión de seguridad | Plan de incidentes y simulacro | | |\n| 3 | Bloqueo o cambio de términos de una fuente de datos | Operaciones | 3 | 3 | 9 | Varias fuentes por tema | Monitor diario de procesos | | |\n| 4 | Incumplimiento fiscal | Fiscal | 2 | 4 | 8 | Contador externo | Calendario fiscal y 32-D mensual | | |\n| 5 | Falta de flujo de caja | Finanzas | 3 | 4 | 12 | — | Flujo a 13 semanas | | |\n| 6 | Reclamación por uso de información de terceros | Legal | 2 | 4 | 8 | Fuentes lícitas, robots.txt | Revisión legal de fuentes | | |\n\nRevisión: cada semestre o cuando ocurra un incidente relevante.\n"
+  },
+  {
+   "area": "auditoria",
+   "tarea": "denuncias",
+   "id": "canal_denuncias",
+   "titulo": "Procedimiento del canal de denuncias",
+   "contenido": "> Borrador de trabajo generado como punto de partida. Revísalo con tu contador o abogado antes de firmarlo o publicarlo; las leyes cambian y cada caso tiene particularidades.\n\n\n# Canal de denuncias\n\n1. **Qué se puede denunciar:** fraude, sobornos, acoso, discriminación, uso indebido de información, conflictos de interés no declarados, incumplimientos legales.\n2. **Cómo:** formulario anónimo [ ] o correo [ ]. Se puede denunciar sin dar el nombre.\n3. **Quién lo recibe:** [persona o comité independiente de la línea afectada].\n4. **Plazos:** acuse en 3 días hábiles; investigación en 30 días naturales.\n5. **Protección:** confidencialidad y cero represalias para quien denuncie de buena fe.\n6. **Registro:** folio, fecha, tema, estado y resolución (sin datos innecesarios).\n"
+  },
+  {
+   "area": "calidad",
+   "tarea": "procesos",
+   "id": "procesos_clave",
+   "titulo": "Mapa de los 5 procesos principales",
+   "contenido": "> Borrador de trabajo generado como punto de partida. Revísalo con tu contador o abogado antes de firmarlo o publicarlo; las leyes cambian y cada caso tiene particularidades.\n\n\n# Procesos principales\n\n| Proceso | Entrada | Pasos clave | Salida | Dueño | Indicador |\n|---|---|---|---|---|---|\n| Venta | Prospecto | Calificar → demo → propuesta → cierre | Contrato firmado | Ventas | % de cierre |\n| Alta de cliente | Contrato | Crear empresa → cuentas → configuración | Cliente activo | Operaciones | Días a activación |\n| Entrega | Plan | Auditorías → seguimiento → informe | Informe entregado | Operaciones | % a tiempo |\n| Cobranza | Factura | Recordatorios → cobro → conciliación | Pago aplicado | Finanzas | Días de cobro |\n| Soporte | Solicitud | Folio → atención → cierre | Caso resuelto | Soporte | Tiempo de respuesta |\n\nReferencia: ISO 9001:2015, cláusula 4.4 (sistema de gestión y sus procesos).\n"
+  },
+  {
+   "area": "calidad",
+   "tarea": "correctivas",
+   "id": "acciones_correctivas",
+   "titulo": "Registro de quejas y acciones correctivas",
+   "contenido": "> Borrador de trabajo generado como punto de partida. Revísalo con tu contador o abogado antes de firmarlo o publicarlo; las leyes cambian y cada caso tiene particularidades.\n\n\n# Quejas y acciones correctivas\n\n| Folio | Fecha | Origen (cliente / auditoría / interno) | Descripción | Causa raíz (5 porqués) | Acción | Responsable | Fecha compromiso | Verificación de eficacia | Cerrada |\n|---|---|---|---|---|---|---|---|---|---|\n| | | | | | | | | | |\n"
+  },
+  {
+   "area": "soporte",
+   "tarea": "canal",
+   "id": "politica_soporte",
+   "titulo": "Política de atención y soporte",
+   "contenido": "> Borrador de trabajo generado como punto de partida. Revísalo con tu contador o abogado antes de firmarlo o publicarlo; las leyes cambian y cada caso tiene particularidades.\n\n\n# Atención y soporte\n\n- Canal único: [soporte@dominusosint.com].\n- Horario: lunes a viernes, 9:00 a 18:00 (hora de Ciudad de México).\n- Tiempos objetivo:\n| Prioridad | Ejemplo | Primera respuesta | Solución |\n|---|---|---|---|\n| Crítica | Sin acceso para toda la empresa | 2 h hábiles | 1 día hábil |\n| Alta | Una función clave no sirve | 4 h hábiles | 2 días hábiles |\n| Normal | Duda de uso | 1 día hábil | 3 días hábiles |\n- Plantilla de respuesta: saludo → qué entendimos → qué hicimos → qué sigue → folio.\n- Cada caso repetido 3 veces se convierte en una pregunta frecuente.\n"
+  }
+ ]
+}

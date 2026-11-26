@@ -5,6 +5,7 @@ import { CSS as CSS_CUENTA, paginaCuenta } from "./cuenta-ui.js";
 import { TEMA_JS } from '../apariencia/tema-publico.js';
 import { avisoMercadoPago } from "./mercadopago.js";
 import { aceptarInvitacionDirecta, serveEmpresas } from "./empresas.js";
+import { serveDocumentos } from "./documentos.js";
 import { serveAcceso } from "./acceso.js";
 import { completarGoogle, correoSesion, googleConfigurado, iniciarGoogle, planPorCorreo, registrado, salirGoogle, TABLA_EMAIL } from "./google.js";
 
@@ -69,6 +70,11 @@ export async function servePlans(request, url, env, authRoot) {
       aceptarInvitacion: (token, email) => aceptarInvitacionDirecta(env.OSINT_PLANS_DB, token, email) });
   }
   // Espacios de empresa (organizaciones, miembros, invitaciones y cumplimiento): API JSON con la sesión de Google.
+  // Documentos de Organización DOMINUS (solo administración): texto en D1 y archivos en R2.
+  if (route === "empresa/admin/docs" || route.startsWith("empresa/admin/docs/")) {
+    return serveDocumentos(request, url, env, { esAdmin: await authorized(request, env).catch(() => false), origenes: ORIGENES_MAPA,
+      base: { "Cache-Control": "private, no-store", "X-Content-Type-Options": "nosniff", "Referrer-Policy": "no-referrer" } });
+  }
   if (route === "empresa" || route.startsWith("empresa/")) {
     const correo = await correoSesion(request, env).catch(() => null);
     const esAdmin = await authorized(request, env).catch(() => false);

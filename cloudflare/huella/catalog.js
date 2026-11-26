@@ -24,6 +24,9 @@ const sections = [
 const bySection = new Map(sections.map(([id, , categories]) =>
   [id, catalog.filter(([, category]) => categories.includes(category))]));
 bySection.set("all", catalog);
+// Redes principales del catálogo: la página las revisa siempre en un lote propio, sin importar la categoría elegida.
+export const PRINCIPALES = ["TikTok", "Snapchat", "Telegram", "Pinterest", "Flickr", "SoundCloud"];
+bySection.set("principales", catalog.filter(([source]) => PRINCIPALES.includes(source)));
 
 export const catalogInfo = {
   total: catalog.length,
