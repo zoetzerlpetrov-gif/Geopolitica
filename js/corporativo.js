@@ -45,6 +45,50 @@ export function probabilidad(cerca, indicePais = null) {
   return p;
 }
 
+/** Histórico de 12 meses alrededor de una instalación (data/riesgo_historico.json: celdas de 0.5° por mes). */
+export function historicoCerca(inst, hist, radioKm = 100) {
+  const g = hist?.celda_grados || 0.5, out = { n: 0, sev: 0, tipos: {}, meses: {} };
+  if (!hist?.celdas) return out;
+  const pasos = Math.ceil(radioKm / 55) + 1;   // 0.5° ≈ 55 km
+  const base = (v) => Math.floor(v / g) * g;
+  for (let i = -pasos; i <= pasos; i++) for (let j = -pasos; j <= pasos; j++) {
+    const la = base(inst.lat) + i * g, lo = base(inst.lon) + j * g;
+    if (distanciaKm(inst.lat, inst.lon, la + g / 2, lo + g / 2) > radioKm + 40) continue;
+    // Mismo formato que el archivo (Python: «19.0,-99.5»); -0.0 se escribe 0.0.
+    const k = (v) => { const r = Math.round(v * 10) / 10; return (Object.is(r, -0) ? 0 : r).toFixed(1); };
+    const c = hist.celdas[`${k(la)},${k(lo)}`];
+    if (!c) continue;
+    for (const [mes, v] of Object.entries(c)) {
+      out.n += v.n; out.sev += v.sev; out.meses[mes] = (out.meses[mes] || 0) + v.n;
+      for (const [t, k] of Object.entries(v.tipos || {})) out.tipos[t] = (out.tipos[t] || 0) + k;
+    }
+  }
+  return out;
+}
+
+/** Severidad equivalente a un año: si el histórico cubre menos días, se escala (p. ej. 52 días × 365/52). */
+export const anualizar = (sev, dias) => (dias > 0 ? (sev * 365) / Math.min(365, dias) : sev);
+
+/** Probabilidad 1–5 por el histórico (suma de severidad de los eventos de la zona, llevada a un año). */
+export function probabilidadHistorica(h, dias = 365) {
+  const s = anualizar(h?.sev || 0, dias);
+  return s === 0 ? 1 : s < 100 ? 2 : s < 400 ? 3 : s < 1500 ? 4 : 5;
+}
+
+/** Probabilidad combinada: el último año pesa 60 % y lo de hoy 40 %; si hoy es mayor, manda hoy (de 1 a 5). */
+export const probabilidadCombinada = (actual, historica) => Math.max(actual, Math.min(5, Math.round(actual * 0.4 + historica * 0.6)));
+
+/** Fila de un país para la matriz por país: histórico de 12 meses del país + índice de inestabilidad de hoy. */
+export function riesgoPais(iso3, hist, indice = {}) {
+  const meses = hist?.paises?.[iso3] || {};
+  const sev = Object.values(meses).reduce((t, v) => t + v.sev, 0), n = Object.values(meses).reduce((t, v) => t + v.n, 0);
+  const sa = anualizar(sev, hist?.dias_incluidos?.length || 365);
+  const ph = sa === 0 ? 1 : sa < 1500 ? 2 : sa < 8000 ? 3 : sa < 30000 ? 4 : 5;
+  const idx = indice[iso3]?.indice;
+  const pi = idx == null ? ph : idx >= 70 ? 5 : idx >= 50 ? 4 : idx >= 30 ? 3 : idx >= 15 ? 2 : 1;
+  return { iso3, n, sev, prob: Math.max(1, Math.min(5, Math.round((ph + pi) / 2))), indice: idx ?? null };
+}
+
 /** Nivel de riesgo (probabilidad × impacto) con la banda de la matriz 5×5. */
 export function nivel(prob, impacto) {
   const v = prob * impacto;
@@ -60,7 +104,11 @@ export function htmlMatriz(filas) {
     const n = nivel(p, i), x = o + (i - 1) * c, y = (5 - p) * c;
     const aqui = filas.filter((f) => f.prob === p && f.impacto === i);
     s += `<rect x="${x}" y="${y}" width="${c - 2}" height="${c - 2}" fill="${n.color}" opacity="0.28"><title>Probabilidad ${p} × impacto ${i} = ${n.valor} (${n.etiqueta})</title></rect>`;
-    if (aqui.length) s += `<text x="${x + c / 2 - 1}" y="${y + c / 2 + 5}" text-anchor="middle" class="matriz-n">${aqui.map((f) => Number(f.num) || 0).join(",")}</text>`;
+    if (aqui.length) {
+      const txt = aqui.map((f) => f.etiqueta ? String(f.etiqueta).replace(/[^A-Za-z0-9]/g, "").slice(0, 3) : Number(f.num) || 0);
+      const lineas = []; for (let k = 0; k < txt.length; k += 3) lineas.push(txt.slice(k, k + 3).join(","));
+      s += lineas.slice(0, 3).map((l, k) => `<text x="${x + c / 2 - 1}" y="${y + c / 2 + 5 + (k - (Math.min(3, lineas.length) - 1) / 2) * 12}" text-anchor="middle" class="matriz-n">${l}</text>`).join("");
+    }
   }
   s += `<text x="${o + c * 2.5}" y="${o + c * 5 - 2}" text-anchor="middle" class="matriz-eje">Impacto →</text>`;
   s += `<text x="10" y="${c * 2.5}" text-anchor="middle" class="matriz-eje" transform="rotate(-90 10 ${c * 2.5})">Probabilidad →</text></svg>`;
@@ -118,17 +166,25 @@ async function iniciar() {
     getJSON("config/corporativo.json"), getJSON("config/pagos.json").catch(() => ({})), getJSON("data/indice-paises.json", { bust: true }).catch(() => ({ paises: {} })),
     getJSON("config/ciudades.json").catch(() => ({ ciudades: [] })), getJSON("data/events.json", { bust: true }).catch(() => ({ eventos: [] })),
     vivo("ataques.geojson"), vivo("crimen.geojson"), vivo("cortes.geojson"), vivo("tornados.geojson"), vivo("red_cortes.geojson"), vivo("salud_oficial.geojson"), vivo("noticiero.json")]);
+  const hist = await getJSON("data/riesgo_historico.json", { bust: true }).catch(() => null);
   const amenazas = normalizar({ eventos: eventos.eventos, ataques, crimen, cortes, tornados, redCortes, salud });
   const indice = ind.paises || {};
-  $("cp-fuentes").textContent = `${amenazas.length} eventos y alertas cargados (eventos del mapa, ataques, crimen, cortes, tornados, cortes de internet y salud).`;
+  $("cp-fuentes").textContent = `${amenazas.length} eventos y alertas actuales (eventos del mapa, ataques, crimen, cortes, tornados, cortes de internet y salud)`
+    + (hist ? ` + histórico de 12 meses (${hist.meses?.[0] || ""} a ${hist.meses?.at(-1) || ""}, ${hist.dias_incluidos?.length || 0} días con datos).` : ". El histórico de 12 meses aún no está disponible.");
 
   // Ciudad → coordenadas y país (config/ciudades.json, ~500 ciudades).
   const lista = (ciudades.ciudades || []).map((c) => Array.isArray(c) ? Object.fromEntries(ciudades.campos.map((k, i) => [k, c[i]])) : c);
   $("cp-ciudades").innerHTML = lista.map((c) => `<option value="${esc(c.nombre_es || c.nombre)}">`).join("");
   $("cp-ciudad").addEventListener("change", () => {
     const c = lista.find((x) => (x.nombre_es || x.nombre) === $("cp-ciudad").value);
-    if (c) { $("cp-lat").value = c.lat; $("cp-lon").value = c.lon; $("cp-iso3").value = c.iso3 || ""; }
+    if (c) { $("cp-lat").value = c.lat; $("cp-lon").value = c.lon; $("cp-iso3").value = c.iso3 || ""; ponerPais(c.iso3 || ""); }
   });
+  // País con autocompletado (cualquier país, con o sin tildes); el código ISO-3 va en el campo oculto «iso3».
+  const P = await import("./paises.js");
+  document.head.insertAdjacentHTML("beforeend", `<style>${P.CSS_PAISES}</style>`);
+  const { paises: listaPaises } = await P.paises();
+  const ponerPais = (iso) => { $("cp-pais-ui").dataset.iso = iso; $("cp-pais-ui").value = P.nombreDe(listaPaises, iso); };
+  P.campoPais($("cp-pais-ui"), { alElegir: (iso) => { $("cp-iso3").value = iso; } });
 
   function pintar() {
     const insts = leer();
@@ -136,13 +192,15 @@ async function iniciar() {
     const filas = insts.map((x, k) => {
       const cerca = cercanas(x, amenazas, { radioKm, dias });
       const exp = exposicionPais(x.iso3, { indice, cfg, pagos });
-      const prob = probabilidad(cerca, exp.indice);
-      return { ...x, num: k + 1, cerca, exp, prob, nv: nivel(prob, x.impacto), esc: escenariosPara(cerca, exp.sanciones, cfg) };
+      const pAct = probabilidad(cerca, exp.indice), h = historicoCerca(x, hist, radioKm), pHist = probabilidadHistorica(h, hist?.dias_incluidos?.length || 365);
+      const prob = hist ? probabilidadCombinada(pAct, pHist) : pAct;
+      return { ...x, num: k + 1, cerca, exp, prob, pAct, pHist, h, nv: nivel(prob, x.impacto), esc: escenariosPara(cerca, exp.sanciones, cfg) };
     });
     $("cp-lista").innerHTML = filas.length ? filas.map((f) => `
       <details class="cp-inst" ${f.nv.valor >= 10 ? "open" : ""}><summary><b>${f.num}. ${esc(f.nombre)}</b> · ${esc(TIPOS_INST[f.tipo])}${f.iso3 ? ` · ${esc(f.iso3)}` : ""}
         <span class="chip" style="background:${f.nv.color};color:#fff">Riesgo ${esc(f.nv.etiqueta)} (${f.prob}×${f.impacto}=${f.nv.valor})</span></summary>
-        <p class="meta">${f.cerca.length} eventos a menos de ${radioKm} km en ${dias} días · índice de inestabilidad del país: ${f.exp.indice ?? "sin dato"}${f.nota ? ` · ${esc(f.nota)}` : ""}</p>
+        <p class="meta">Hoy: ${f.cerca.length} eventos a menos de ${radioKm} km en ${dias} días (probabilidad ${f.pAct}) · Último año: ${f.h.n} eventos en la zona${Object.keys(f.h.tipos).length ? ` (${Object.entries(f.h.tipos).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([t, n]) => `${esc(t)} ${n}`).join(", ")})` : ""} (probabilidad ${f.pHist})
+          · Combinada: <b>${f.prob}</b> · índice de inestabilidad del país: ${f.exp.indice ?? "sin dato"}${f.nota ? ` · ${esc(f.nota)}` : ""}</p>
         <ul class="fuentes">${f.cerca.slice(0, 8).map((a) => `<li>[${a.sev}] ${a.km} km · ${a.url ? `<a href="${esc(safeUrl(a.url))}" target="_blank" rel="noopener noreferrer">${esc(a.titulo || "(sin título)")}</a>` : esc(a.titulo || "")} <span class="meta">${esc(String(a.fecha || "").slice(0, 10))}</span></li>`).join("") || "<li>Sin eventos cercanos en los datos actuales.</li>"}</ul>
         ${f.exp.sanciones.map((s) => `<p class="cp-sancion">⚠ ${esc(s.programa)} (${esc(s.emisor)}): ${esc(s.nota)} <a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.fuente)}</a></p>`).join("")}
         ${f.esc.length ? `<h4>Escenarios a preparar</h4>${f.esc.map((e) => `<div class="cp-esc"><b>${esc(e.nombre)}</b>: ${esc(e.que_pasa)} <i>Impacto:</i> ${esc(e.impacto)}<ul>${e.acciones.map((a) => `<li>${esc(a)}</li>`).join("")}</ul><span class="meta">Señal de alerta: ${esc(e.indicador)}</span></div>`).join("")}` : ""}
@@ -150,6 +208,12 @@ async function iniciar() {
            <button type="button" class="link-btn" data-borrar="${esc(f.id)}">Quitar</button></p>
       </details>`).join("") : `<p class="meta">Agrega tu primera instalación con el formulario.</p>`;
     $("cp-matriz").innerHTML = filas.length ? htmlMatriz(filas) : "";
+    // Matriz por país: países de las instalaciones; impacto = el mayor de sus instalaciones.
+    const porPais = new Map();
+    for (const f of filas) if (f.iso3) porPais.set(f.iso3, Math.max(porPais.get(f.iso3) || 0, f.impacto));
+    const paisesF = [...porPais.entries()].map(([iso, imp], k) => { const r = riesgoPais(iso, hist, indice); return { ...r, num: k + 1, etiqueta: iso, impacto: imp, nv: nivel(r.prob, imp) }; });
+    $("cp-matriz-pais").innerHTML = paisesF.length ? `${htmlMatriz(paisesF)}<div class="desliza"><table class="t"><tr><th>País</th><th>Eventos en 12 meses</th><th>Índice hoy</th><th>Probabilidad</th><th>Impacto (mayor de sus sedes)</th><th>Nivel</th></tr>
+      ${paisesF.map((r) => `<tr><td>${esc(r.iso3)}</td><td>${r.n}</td><td>${r.indice ?? "—"}</td><td>${r.prob}</td><td>${r.impacto}</td><td><span class="chip" style="background:${r.nv.color};color:#fff">${esc(r.nv.etiqueta)} (${r.nv.valor})</span></td></tr>`).join("")}</table></div>` : '<p class="meta">Agrega instalaciones con su país para ver la matriz por país.</p>';
   }
 
   $("cp-form").addEventListener("submit", (e) => {
