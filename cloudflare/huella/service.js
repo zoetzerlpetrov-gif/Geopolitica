@@ -147,7 +147,16 @@ export function dorks(tipo, valor) {
 }
 
 // Brave marca coincidencias con <strong>; se dejan solo letras: sin ningún «<» ni «>» (la página además usa textContent).
-const textoPlano = (v, n) => String(v || "").replace(/<[^>]*>/g, "").replace(/[<>]/g, "").slice(0, n);
+function textoPlano(v, n) {
+  let out = "", dentro = false;
+  for (const c of String(v || "")) {
+    if (c === "<") dentro = true;
+    else if (c === ">") dentro = false;
+    else if (!dentro) out += c;
+    if (out.length >= n) break;
+  }
+  return out;
+}
 
 async function buscar(tipo, valor, clave) {
   const grupos = [];
