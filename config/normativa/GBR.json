@@ -1,0 +1,604 @@
+{
+ "jurisdiccion": "GBR",
+ "nombre": "Reino Unido",
+ "revisado": "2026-11",
+ "nota": "Mapa ley por ley de lo que debe cumplir una empresa en el Reino Unido (fuera de la UE desde el 31 de enero de 2020; conserva el RGPD como «UK GDPR»). Puntos de atención recientes: el delito de «no prevenir el fraude» (Economic Crime and Corporate Transparency Act 2023, vigente desde el 1 de septiembre de 2025) y la verificación de identidad ante Companies House. Revisado en noviembre de 2026 con fuentes públicas; «verificar» indica que la fecha o el detalle no se confirmó en la fuente oficial. Resumen propio, no es asesoría legal.",
+ "fuentes_oficiales": [
+  [
+   "legislation.gov.uk (texto oficial de las leyes)",
+   "https://www.legislation.gov.uk"
+  ],
+  [
+   "Companies House",
+   "https://www.gov.uk/government/organisations/companies-house"
+  ],
+  [
+   "HMRC (impuestos)",
+   "https://www.gov.uk/government/organisations/hm-revenue-customs"
+  ],
+  [
+   "ICO (protección de datos)",
+   "https://ico.org.uk"
+  ],
+  [
+   "OFSI (sanciones financieras)",
+   "https://www.gov.uk/government/organisations/office-of-financial-sanctions-implementation"
+  ]
+ ],
+ "generales": [
+  {
+   "area": "Societario y gobierno corporativo",
+   "leyes": [
+    {
+     "id": "uk_companies_act",
+     "nombre": "Companies Act 2006",
+     "sigla": "CA 2006",
+     "tipo": "ley",
+     "autoridad": "Companies House",
+     "url": "https://www.legislation.gov.uk/ukpga/2006/46/contents",
+     "ultima_reforma": "verificar",
+     "aplica": "Sociedades constituidas en el Reino Unido y sucursales de sociedades extranjeras.",
+     "obligaciones": [
+      "Presentar cuentas anuales y la declaración de confirmación (confirmation statement) cada año.",
+      "Llevar el registro de personas con control significativo (PSC).",
+      "Deberes de los consejeros (secciones 171 a 177)."
+     ],
+     "tramites": [
+      {
+       "que": "Declaración de confirmación",
+       "plazo": "Al menos cada 12 meses",
+       "ante": "Companies House"
+      },
+      {
+       "que": "Cuentas anuales",
+       "plazo": "Hasta 9 meses después del cierre (sociedad privada)",
+       "ante": "Companies House"
+      }
+     ],
+     "sanciones": "Multas por presentación tardía y responsabilidad penal de consejeros.",
+     "evidencia": [
+      "Acuse de Companies House",
+      "Registro PSC"
+     ],
+     "preguntas": [
+      "¿Se presentaron a tiempo las cuentas anuales y la declaración de confirmación?",
+      "¿El registro de personas con control significativo está actualizado?"
+     ]
+    },
+    {
+     "id": "uk_eccta",
+     "nombre": "Economic Crime and Corporate Transparency Act 2023",
+     "sigla": "ECCTA",
+     "tipo": "ley",
+     "autoridad": "Companies House y Serious Fraud Office",
+     "url": "https://www.legislation.gov.uk/ukpga/2023/56/contents",
+     "ultima_reforma": "2025-09-01",
+     "aplica": "Todas las sociedades; el delito de no prevenir el fraude aplica a organizaciones grandes.",
+     "obligaciones": [
+      "Verificar la identidad de consejeros y personas con control ante Companies House.",
+      "Tener procedimientos razonables para prevenir el fraude cometido en beneficio de la empresa (vigente desde el 1 de septiembre de 2025)."
+     ],
+     "tramites": [
+      {
+       "que": "Verificación de identidad de consejeros y PSC",
+       "plazo": "Según el calendario de Companies House (verificar)",
+       "ante": "Companies House"
+      }
+     ],
+     "sanciones": "Multas sin tope para la organización por no prevenir el fraude.",
+     "evidencia": [
+      "Evaluación de riesgos de fraude",
+      "Constancias de verificación de identidad"
+     ],
+     "preguntas": [
+      "¿Los consejeros y personas con control ya verificaron su identidad?",
+      "¿Existe un programa documentado para prevenir el fraude?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Fiscal y contable",
+   "leyes": [
+    {
+     "id": "uk_impuestos",
+     "nombre": "Impuesto de sociedades y IVA (Corporation Tax Act 2009 y Value Added Tax Act 1994)",
+     "sigla": "CT / VAT",
+     "tipo": "ley",
+     "autoridad": "HMRC",
+     "url": "https://www.gov.uk/corporation-tax",
+     "ultima_reforma": "verificar",
+     "aplica": "Sociedades residentes y establecimientos permanentes.",
+     "obligaciones": [
+      "Impuesto de sociedades: tasa principal de 25 % desde abril de 2023 (tasa reducida de 19 % para utilidades bajas).",
+      "Registro de IVA al superar el umbral de facturación (90,000 libras desde abril de 2024); tasa general de 20 %.",
+      "Llevar registros digitales (Making Tax Digital para IVA)."
+     ],
+     "tramites": [
+      {
+       "que": "Declaración CT600",
+       "plazo": "12 meses después del cierre del ejercicio",
+       "ante": "HMRC"
+      },
+      {
+       "que": "Declaración de IVA",
+       "plazo": "Trimestral, por lo general",
+       "ante": "HMRC"
+      }
+     ],
+     "sanciones": "Recargos, intereses y multas por presentación tardía.",
+     "evidencia": [
+      "Acuses de HMRC"
+     ],
+     "preguntas": [
+      "¿La declaración del impuesto de sociedades (CT600) se presentó a tiempo?",
+      "¿La empresa está registrada en IVA si supera el umbral?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Laboral y seguridad social",
+   "leyes": [
+    {
+     "id": "uk_empleo",
+     "nombre": "Employment Rights Act 1996 y Equality Act 2010",
+     "sigla": "ERA / EqA",
+     "tipo": "ley",
+     "autoridad": "Tribunales laborales y ACAS",
+     "url": "https://www.legislation.gov.uk/ukpga/1996/18/contents",
+     "ultima_reforma": "verificar",
+     "aplica": "Todo empleador.",
+     "obligaciones": [
+      "Entregar por escrito las condiciones de trabajo desde el primer día.",
+      "Pagar al menos el salario mínimo nacional (National Living Wage).",
+      "Inscribir a los trabajadores en un plan de pensiones (auto-enrolment).",
+      "No discriminar por características protegidas."
+     ],
+     "tramites": [
+      {
+       "que": "Declaración de cumplimiento de pensiones",
+       "plazo": "Tras la fecha de obligación del empleador",
+       "ante": "The Pensions Regulator"
+      }
+     ],
+     "sanciones": "Indemnizaciones ante tribunales laborales y multas del regulador de pensiones.",
+     "evidencia": [
+      "Contratos",
+      "Nómina"
+     ],
+     "preguntas": [
+      "¿Cada trabajador tiene su declaración escrita de condiciones?",
+      "¿Se aplica la inscripción automática en pensiones?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Seguridad y salud en el trabajo",
+   "leyes": [
+    {
+     "id": "uk_hswa",
+     "nombre": "Health and Safety at Work etc. Act 1974",
+     "sigla": "HSWA",
+     "tipo": "ley",
+     "autoridad": "Health and Safety Executive (HSE)",
+     "url": "https://www.legislation.gov.uk/ukpga/1974/37/contents",
+     "ultima_reforma": "verificar",
+     "aplica": "Todo empleador y centro de trabajo.",
+     "obligaciones": [
+      "Evaluación de riesgos por escrito (si hay 5 o más trabajadores).",
+      "Política de seguridad y salud por escrito.",
+      "Reportar accidentes graves (RIDDOR)."
+     ],
+     "tramites": [
+      {
+       "que": "Reporte de accidente grave (RIDDOR)",
+       "plazo": "Sin demora; máximo 10 días en la mayoría de los casos (verificar)",
+       "ante": "HSE"
+      }
+     ],
+     "sanciones": "Multas sin tope y prisión en casos graves.",
+     "evidencia": [
+      "Evaluación de riesgos",
+      "Registro de accidentes"
+     ],
+     "preguntas": [
+      "¿Existe evaluación de riesgos actualizada por centro de trabajo?",
+      "¿Se reportan los accidentes conforme a RIDDOR?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Protección de datos y ciberseguridad",
+   "leyes": [
+    {
+     "id": "uk_gdpr",
+     "nombre": "UK GDPR y Data Protection Act 2018",
+     "sigla": "UK GDPR / DPA 2018",
+     "tipo": "ley",
+     "autoridad": "Information Commissioner's Office (ICO)",
+     "url": "https://ico.org.uk",
+     "ultima_reforma": "verificar",
+     "aplica": "Quien trate datos personales en el Reino Unido o de personas en el Reino Unido.",
+     "obligaciones": [
+      "Registro de actividades de tratamiento y base legal para cada uso.",
+      "Avisar a la ICO de una brecha de datos en 72 horas cuando haya riesgo.",
+      "Pagar la cuota anual de protección de datos a la ICO.",
+      "Revisar los cambios de la Data (Use and Access) Act 2025 (verificar fechas de entrada en vigor)."
+     ],
+     "tramites": [
+      {
+       "que": "Aviso de brecha de datos",
+       "plazo": "72 horas",
+       "ante": "ICO"
+      },
+      {
+       "que": "Cuota de protección de datos",
+       "plazo": "Anual",
+       "ante": "ICO"
+      }
+     ],
+     "sanciones": "Multas de hasta 17.5 millones de libras o 4 % de la facturación mundial.",
+     "evidencia": [
+      "Registro de tratamientos",
+      "Avisos de privacidad"
+     ],
+     "preguntas": [
+      "¿Se pagó la cuota anual a la ICO?",
+      "¿Hay procedimiento para avisar brechas en 72 horas?"
+     ]
+    },
+    {
+     "id": "uk_nis",
+     "nombre": "Network and Information Systems Regulations 2018",
+     "sigla": "NIS",
+     "tipo": "reglamento",
+     "autoridad": "Autoridades sectoriales e ICO",
+     "url": "https://www.legislation.gov.uk/uksi/2018/506/contents",
+     "ultima_reforma": "verificar",
+     "aplica": "Operadores de servicios esenciales y proveedores digitales relevantes.",
+     "obligaciones": [
+      "Medidas de seguridad proporcionadas al riesgo.",
+      "Reportar incidentes significativos a la autoridad competente."
+     ],
+     "tramites": [
+      {
+       "que": "Reporte de incidente NIS",
+       "plazo": "72 horas (verificar)",
+       "ante": "Autoridad competente del sector"
+      }
+     ],
+     "sanciones": "Multas de hasta 17 millones de libras.",
+     "evidencia": [],
+     "preguntas": [
+      "¿La empresa es operador de servicios esenciales o proveedor digital relevante?",
+      "¿Hay procedimiento de reporte de incidentes NIS?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Prevención de lavado de dinero",
+   "leyes": [
+    {
+     "id": "uk_mlr",
+     "nombre": "Money Laundering Regulations 2017 y Proceeds of Crime Act 2002",
+     "sigla": "MLR 2017 / POCA",
+     "tipo": "reglamento",
+     "autoridad": "FCA, HMRC y otros supervisores",
+     "url": "https://www.legislation.gov.uk/uksi/2017/692/contents",
+     "ultima_reforma": "verificar",
+     "aplica": "Bancos, financieras, contadores, abogados, inmobiliarias, comerciantes de alto valor y otros sujetos obligados.",
+     "obligaciones": [
+      "Evaluación de riesgos y debida diligencia del cliente.",
+      "Reportar operaciones sospechosas (SAR) a la National Crime Agency.",
+      "Registrarse con un supervisor si la actividad lo exige."
+     ],
+     "tramites": [
+      {
+       "que": "Reporte de operación sospechosa (SAR)",
+       "plazo": "En cuanto se conozca o sospeche",
+       "ante": "National Crime Agency"
+      }
+     ],
+     "sanciones": "Multas y prisión de hasta 14 años por lavado (POCA).",
+     "evidencia": [
+      "Manual de prevención",
+      "Expedientes de clientes"
+     ],
+     "preguntas": [
+      "¿La empresa es sujeto obligado y está registrada con su supervisor?",
+      "¿Se reportan las operaciones sospechosas a la NCA?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Anticorrupción e integridad",
+   "leyes": [
+    {
+     "id": "uk_bribery",
+     "nombre": "Bribery Act 2010",
+     "sigla": "UKBA",
+     "tipo": "ley",
+     "autoridad": "Serious Fraud Office (SFO)",
+     "url": "https://www.legislation.gov.uk/ukpga/2010/23/contents",
+     "ultima_reforma": "verificar",
+     "aplica": "Empresas que hagan negocios en el Reino Unido, aunque el soborno ocurra en otro país.",
+     "obligaciones": [
+      "Procedimientos adecuados para prevenir sobornos de empleados, agentes y socios (sección 7).",
+      "Prohibición de pagos de facilitación."
+     ],
+     "tramites": [],
+     "sanciones": "Multas sin tope para la empresa y hasta 10 años de prisión para personas.",
+     "evidencia": [
+      "Política anticorrupción",
+      "Registros de capacitación"
+     ],
+     "preguntas": [
+      "¿Existe un programa anticorrupción con evaluación de riesgos y capacitación?",
+      "¿Se hace debida diligencia de agentes e intermediarios?"
+     ]
+    },
+    {
+     "id": "uk_modern_slavery",
+     "nombre": "Modern Slavery Act 2015",
+     "sigla": "MSA",
+     "tipo": "ley",
+     "autoridad": "Home Office",
+     "url": "https://www.legislation.gov.uk/ukpga/2015/30/contents",
+     "ultima_reforma": "verificar",
+     "aplica": "Empresas con facturación de 36 millones de libras o más que hagan negocios en el Reino Unido.",
+     "obligaciones": [
+      "Publicar cada año una declaración sobre esclavitud moderna en la cadena de suministro, aprobada por el consejo."
+     ],
+     "tramites": [
+      {
+       "que": "Declaración de esclavitud moderna",
+       "plazo": "Anual (se recomienda dentro de 6 meses del cierre)",
+       "ante": "Registro de declaraciones del gobierno"
+      }
+     ],
+     "sanciones": "Orden judicial de cumplimiento.",
+     "evidencia": [
+      "Declaración publicada"
+     ],
+     "preguntas": [
+      "¿Se publicó la declaración anual en el sitio web y en el registro del gobierno?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Competencia",
+   "leyes": [
+    {
+     "id": "uk_competencia",
+     "nombre": "Competition Act 1998 y Digital Markets, Competition and Consumers Act 2024",
+     "sigla": "CA98 / DMCCA",
+     "tipo": "ley",
+     "autoridad": "Competition and Markets Authority (CMA)",
+     "url": "https://www.legislation.gov.uk/ukpga/1998/41/contents",
+     "ultima_reforma": "verificar",
+     "aplica": "Todas las empresas; reglas especiales para empresas digitales con estatus estratégico.",
+     "obligaciones": [
+      "No pactar precios ni repartir mercados.",
+      "Revisar si una fusión requiere aviso a la CMA."
+     ],
+     "tramites": [],
+     "sanciones": "Multas de hasta 10 % de la facturación mundial.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Hay política de competencia y capacitación para el equipo comercial?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Protección al consumidor y producto",
+   "leyes": [
+    {
+     "id": "uk_consumidor",
+     "nombre": "Consumer Rights Act 2015 y DMCCA 2024 (protección al consumidor)",
+     "sigla": "CRA / DMCCA",
+     "tipo": "ley",
+     "autoridad": "CMA y Trading Standards",
+     "url": "https://www.legislation.gov.uk/ukpga/2015/15/contents",
+     "ultima_reforma": "verificar",
+     "aplica": "Quien venda a consumidores en el Reino Unido.",
+     "obligaciones": [
+      "Productos y servicios conformes a lo ofrecido; derechos de reparación, reemplazo o reembolso.",
+      "Prohibición de reseñas falsas y precios ocultos (DMCCA; la CMA puede multar directamente desde abril de 2025, verificar)."
+     ],
+     "tramites": [],
+     "sanciones": "Multas de la CMA de hasta 10 % de la facturación mundial (DMCCA).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Los términos de venta reflejan los derechos del consumidor?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Ambiental y sostenibilidad (ESG)",
+   "leyes": [
+    {
+     "id": "uk_ambiental",
+     "nombre": "Environmental Protection Act 1990 y Environment Act 2021",
+     "sigla": "EPA / EA 2021",
+     "tipo": "ley",
+     "autoridad": "Environment Agency (Inglaterra) y equivalentes en Escocia, Gales e Irlanda del Norte",
+     "url": "https://www.legislation.gov.uk/ukpga/1990/43/contents",
+     "ultima_reforma": "verificar",
+     "aplica": "Empresas que generen residuos, emisiones o requieran permisos ambientales.",
+     "obligaciones": [
+      "Deber de cuidado en el manejo de residuos.",
+      "Permisos ambientales para actividades reguladas.",
+      "Reporte de energía y carbono (SECR) para empresas grandes en su informe anual."
+     ],
+     "tramites": [],
+     "sanciones": "Multas y suspensión de actividades.",
+     "evidencia": [
+      "Permisos",
+      "Notas de transferencia de residuos"
+     ],
+     "preguntas": [
+      "¿Se tienen los permisos ambientales y las notas de transferencia de residuos?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Inversión extranjera, comercio exterior y sanciones",
+   "leyes": [
+    {
+     "id": "uk_nsi",
+     "nombre": "National Security and Investment Act 2021",
+     "sigla": "NSI Act",
+     "tipo": "ley",
+     "autoridad": "Investment Security Unit (Cabinet Office)",
+     "url": "https://www.legislation.gov.uk/ukpga/2021/25/contents",
+     "ultima_reforma": "verificar",
+     "aplica": "Adquisiciones en 17 sectores sensibles (defensa, energía, comunicaciones, IA, entre otros).",
+     "obligaciones": [
+      "Aviso obligatorio previo y aprobación antes de cerrar adquisiciones en los sectores sensibles."
+     ],
+     "tramites": [
+      {
+       "que": "Aviso obligatorio de adquisición",
+       "plazo": "Antes del cierre",
+       "ante": "Investment Security Unit"
+      }
+     ],
+     "sanciones": "La operación es nula sin aprobación; multas y prisión.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Alguna adquisición o inversión cae en los 17 sectores del aviso obligatorio?"
+     ]
+    },
+    {
+     "id": "uk_sanciones",
+     "nombre": "Sanctions and Anti-Money Laundering Act 2018 y Export Control Order 2008",
+     "sigla": "SAMLA / ECO 2008",
+     "tipo": "ley",
+     "autoridad": "OFSI, OTSI y Export Control Joint Unit",
+     "url": "https://www.legislation.gov.uk/ukpga/2018/13/contents",
+     "ultima_reforma": "verificar",
+     "aplica": "Toda persona y empresa británica, y operaciones en el Reino Unido.",
+     "obligaciones": [
+      "Revisar clientes y proveedores contra la lista consolidada de sanciones del Reino Unido.",
+      "Licencia de exportación para bienes militares y de uso dual.",
+      "Reportar a OFSI bienes congelados o sospechas de incumplimiento."
+     ],
+     "tramites": [
+      {
+       "que": "Reporte a OFSI",
+       "plazo": "Lo antes posible",
+       "ante": "OFSI"
+      }
+     ],
+     "sanciones": "Multas monetarias de OFSI y prisión.",
+     "evidencia": [
+      "Registros de revisión de listas"
+     ],
+     "preguntas": [
+      "¿Se revisan clientes y proveedores contra la lista de sanciones del Reino Unido?",
+      "¿Las exportaciones de uso dual tienen licencia?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Propiedad intelectual",
+   "leyes": [
+    {
+     "id": "uk_pi",
+     "nombre": "Trade Marks Act 1994, Patents Act 1977 y Copyright, Designs and Patents Act 1988",
+     "sigla": "TMA / PA / CDPA",
+     "tipo": "ley",
+     "autoridad": "UK Intellectual Property Office (IPO)",
+     "url": "https://www.gov.uk/government/organisations/intellectual-property-office",
+     "ultima_reforma": "verificar",
+     "aplica": "Quien registre o use marcas, patentes y obras.",
+     "obligaciones": [
+      "Registrar marcas y patentes en el Reino Unido (los registros de la UE ya no lo cubren desde 2021).",
+      "Renovar marcas cada 10 años."
+     ],
+     "tramites": [
+      {
+       "que": "Renovación de marca",
+       "plazo": "Cada 10 años",
+       "ante": "UK IPO"
+      }
+     ],
+     "sanciones": "Pérdida de derechos y acciones por infracción.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Las marcas de la empresa están registradas en el Reino Unido?"
+     ]
+    }
+   ]
+  }
+ ],
+ "sectores": {
+  "bancos": {
+   "nombre": "Bancos y servicios financieros",
+   "leyes": [
+    {
+     "id": "uk_fsma",
+     "nombre": "Financial Services and Markets Act 2000",
+     "sigla": "FSMA",
+     "tipo": "ley",
+     "autoridad": "FCA y PRA",
+     "url": "https://www.legislation.gov.uk/ukpga/2000/8/contents",
+     "ultima_reforma": "verificar",
+     "aplica": "Quien preste servicios financieros regulados.",
+     "obligaciones": [
+      "Autorización previa de la FCA (y de la PRA para bancos y aseguradoras).",
+      "Régimen de responsabilidad de altos directivos (SM&CR).",
+      "Deber del consumidor (Consumer Duty)."
+     ],
+     "tramites": [
+      {
+       "que": "Autorización de la FCA",
+       "plazo": "Antes de operar",
+       "ante": "FCA"
+      }
+     ],
+     "sanciones": "Multas, prohibición de operar y sanciones penales.",
+     "evidencia": [],
+     "preguntas": [
+      "¿La empresa cuenta con la autorización de la FCA para su actividad?"
+     ]
+    }
+   ]
+  },
+  "telecom": {
+   "nombre": "Telecomunicaciones",
+   "leyes": [
+    {
+     "id": "uk_telecom",
+     "nombre": "Communications Act 2003 y Telecommunications (Security) Act 2021",
+     "sigla": "CA 2003 / TSA",
+     "tipo": "ley",
+     "autoridad": "Ofcom",
+     "url": "https://www.legislation.gov.uk/ukpga/2021/31/contents",
+     "ultima_reforma": "verificar",
+     "aplica": "Proveedores de redes y servicios de comunicaciones públicos.",
+     "obligaciones": [
+      "Cumplir las condiciones generales de Ofcom.",
+      "Medidas de seguridad de red y reporte de incidentes (TSA)."
+     ],
+     "tramites": [],
+     "sanciones": "Multas de hasta 10 % de la facturación.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se aplican los requisitos de seguridad de la Telecommunications (Security) Act?"
+     ]
+    }
+   ]
+  }
+ }
+}

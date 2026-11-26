@@ -163,7 +163,7 @@ test("normativa: México primero y los demás de la A a la Z; sectores en una so
   assert.equal(H.JURISDICCIONES[0][0], "MEX");
   const resto = H.JURISDICCIONES.slice(1).map(([, n]) => n.replace(/^[^\p{L}]+/u, ""));
   assert.deepEqual(resto, [...resto].sort((a, b) => a.localeCompare(b, "es")));
-  for (const iso of ["CHN", "JPN", "BRA", "ARG", "CHL", "SAU", "ARE", "ISR", "TUR", "MDO"]) assert.ok(H.JURISDICCIONES.some(([i]) => i === iso), iso);
+  for (const iso of ["CHN", "JPN", "BRA", "ARG", "CHL", "SAU", "ARE", "ISR", "TUR", "MDO", "GBR", "CHE"]) assert.ok(H.JURISDICCIONES.some(([i]) => i === iso), iso);
   assert.deepEqual(H.mexicoPrimero([["ARG", "Argentina"], ["MEX", "México"], ["AUT", "Austria"], ["ALB", "Albania"]]).map(([i]) => i), ["MEX", "ALB", "ARG", "AUT"]);
   const s = H.sectoresOrdenados({ telecom: { nombre: "Telecomunicaciones" }, alimentos: { nombre: "Alimentos y bebidas" } }, { agropecuario: { nombre: " Agropecuario" }, telecom: { nombre: "otro" } });
   assert.deepEqual(s, [["agropecuario", "Agropecuario"], ["alimentos", "Alimentos y bebidas"], ["telecom", "Telecomunicaciones"]]);
@@ -218,4 +218,17 @@ test("bitácora normativa: notas revisadas, filtros, avisos por ley y riesgo reg
   const cat = JSON.parse(readFileSync(new URL("../../config/escenarios.json", import.meta.url))).escenarios;
   const p = proponer(cat, { texto: r.texto, eventosPorArea: { instituciones: r.peso } });
   assert.equal(p[0].id, "cambio_normativo");
+});
+
+test("normativa: Europa por país (UE y EEE usan el catálogo EUR; Reino Unido y Suiza tienen el suyo)", async () => {
+  const H = await import("../../js/herr-logica.js");
+  assert.equal(Object.keys(H.EUROPA_UE).length, 27);
+  assert.deepEqual(["ESP", "FRA", "NOR", "GBR", "CHE", "MEX"].map(H.catalogoDe), ["EUR", "EUR", "EUR", "GBR", "CHE", "MEX"]);
+  assert.equal(H.PAISES_NORMATIVA[0][0], "MEX");
+  for (const iso of ["ESP", "DEU", "ISL", "GBR", "CHE", "EUR"]) assert.ok(H.PAISES_NORMATIVA.some(([i]) => i === iso), iso);
+  assert.equal(H.nombrePaisNormativa("ESP"), "España");
+  const r = H.catalogosDePaises(["MEX", "ESP", "FRA", "GBR"]);
+  assert.deepEqual(r.jurisdicciones, ["MEX", "EUR", "GBR"]);
+  assert.equal(r.nombres.EUR, "España, Francia (normativa UE)");
+  assert.equal(r.nombres.GBR, "Reino Unido");
 });

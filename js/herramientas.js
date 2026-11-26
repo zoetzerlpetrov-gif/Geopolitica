@@ -429,9 +429,10 @@ pintarNube();
     normas[iso] = n;
     return n;
   }).catch(() => null));
-  const disponibles = H.JURISDICCIONES;
+  const disponibles = H.PAISES_NORMATIVA;
+  const jurN = () => H.catalogoDe($("nor-jur").value);
   await cargarNorma("MEX");
-  const claveN = () => `gp_norma_${$("nor-jur").value}`;
+  const claveN = () => `gp_norma_${jurN()}`;
   const resp = () => leer(claveN(), {});
   let actuales = [];
   $("nor-jur").innerHTML = disponibles.map(([i, n]) => `<option value="${i}">${n}</option>`).join("");
@@ -439,19 +440,19 @@ pintarNube();
   const pintarSectoresN = () => {
     const v = $("nor-sector").value;
     $("nor-sector").innerHTML = `<option value="">Solo generales (toda empresa)</option>`
-      + H.sectoresOrdenados(sectores, normas[$("nor-jur").value]?.sectores || {}).map(([k, n]) => `<option value="${k}">${esc(n)}</option>`).join("");
+      + H.sectoresOrdenados(sectores, normas[jurN()]?.sectores || {}).map(([k, n]) => `<option value="${k}">${esc(n)}</option>`).join("");
     if ([...$("nor-sector").options].some((o) => o.value === v)) $("nor-sector").value = v;
   };
   pintarSectoresN();
   const SEMN = { verde: "#2E7D32", amarillo: "#F9A825", rojo: "#B71C1C", "sin evaluar": "var(--line)" };
   function resumenN() {
-    const c = H.cumplimientoNormativa($("nor-jur").value, actuales, resp());
+    const c = H.cumplimientoNormativa(jurN(), actuales, resp());
     const nPreg = actuales.reduce((n, x) => n + (x.ley.preguntas || []).length, 0);
     $("nor-resumen").innerHTML = `<p><b>${actuales.length} leyes y normas · ${nPreg} preguntas · cumplimiento ${c.global == null ? "sin evaluar" : c.global + " %"}</b></p>
       <div class="desliza"><table class="t"><tr><th>Área</th><th>Preguntas</th><th>Cumplimiento</th></tr>${c.areas.map((a) => `<tr><td>${esc(a.area)}</td><td>${a.n}</td><td><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${SEMN[H.semaforo(a.pct)]}"></span> ${a.pct == null ? "—" : a.pct + " %"}</td></tr>`).join("")}</table></div>`;
   }
   function pintarN() {
-    const jur = $("nor-jur").value, n = normas[jur];
+    const jur = jurN(), n = normas[jur];
     if (!n) { $("nor-leyes").innerHTML = `<p class="meta">Esta jurisdicción aún no está disponible.</p>`; return; }
     actuales = H.leyesDe(n, $("nor-sector").value, $("nor-q").value);
     const sinSector = $("nor-sector").value && !n.sectores?.[$("nor-sector").value];
@@ -493,7 +494,7 @@ pintarNube();
     const d = resp(); (d[c.dataset.np] ||= {})[e.target.dataset.k] = e.target.value; guardar(claveN(), d);
     if (e.target.dataset.k === "estado") resumenN();
   });
-  $("nor-jur").onchange = async () => { await cargarNorma($("nor-jur").value); pintarSectoresN(); pintarN(); }; $("nor-sector").onchange = pintarN;
+  $("nor-jur").onchange = async () => { await cargarNorma(jurN()); pintarSectoresN(); pintarN(); }; $("nor-sector").onchange = pintarN;
   $("p-normativa").addEventListener("click", (e) => {
     const b = e.target.closest("[data-bit-pais]");
     if (b) irABitacora({ pais: b.dataset.bitPais, ley: b.dataset.bitLey || "", dias: b.dataset.bitLey ? "90" : "30" });
@@ -512,14 +513,15 @@ pintarNube();
     const durPlan = await fetch("config/plan_duraciones.json").then((r) => r.json()).then((x) => x.reglas || []).catch(() => []);
     const extraS = await fetch("config/normativa/MEX_sectores.json").then((r) => r.json()).then((x) => x.sectores || {}).catch(() => ({}));
     $("plan-sector").innerHTML = `<option value="">Solo generales (toda empresa)</option>` + H.sectoresOrdenados(sectores, extraS).map(([k, n]) => `<option value="${k}">${esc(n)}</option>`).join("");
-    $("plan-paises").innerHTML = H.JURISDICCIONES.map(([i, n]) => `<label style="display:inline-flex;gap:4px;align-items:center;margin:2px 10px 2px 0"><input type="checkbox" value="${i}"${i === "MEX" ? " checked" : ""}> ${esc(n)}</label>`).join("");
+    $("plan-paises").innerHTML = H.PAISES_NORMATIVA.filter(([i]) => i !== "EUR").map(([i, n]) => `<label style="display:inline-flex;gap:4px;align-items:center;margin:2px 10px 2px 0"><input type="checkbox" value="${i}"${i === "MEX" ? " checked" : ""}> ${esc(n)}</label>`).join("");
     const lunes = new Date(); lunes.setDate(lunes.getDate() + ((8 - lunes.getDay()) % 7 || 7));
     $("plan-inicio").value = lunes.toISOString().slice(0, 10);
     const opcionesPlan = async () => {
-      const paises = [...$("plan-paises").querySelectorAll("input:checked")].map((c) => c.value);
+      // Cada país europeo se elige por su nombre; por dentro, los de la UE y el EEE comparten el catálogo «EUR».
+      const elegidos = [...$("plan-paises").querySelectorAll("input:checked")].map((c) => c.value);
+      const { jurisdicciones: paises, nombres } = H.catalogosDePaises(elegidos);
       await Promise.all(paises.map(cargarNorma));
       const sector = $("plan-sector").value, extranjera = $("plan-extranjera").checked && paises.includes("MEX");
-      const nombres = Object.fromEntries(H.JURISDICCIONES.map(([i, n]) => [i, n.replace(/^[^\p{L}]+/u, "")]));
       const P = await import("./plan-proyecto.js");
       const plan = P.construirPlan({ cfg: cfgPlan, catalogos: normas, jurisdicciones: paises, sector, extranjera, nombres, duraciones: durPlan });
       const sectorNombre = $("plan-sector").selectedOptions[0]?.textContent || "";
@@ -557,7 +559,7 @@ pintarNube();
   import("./exportar.js").then((X) => {
     $("nor-exp").innerHTML = X.htmlSelectorExportar("norx");
     $("norx-btn").onclick = () => X.exportar($("norx-fmt").value, ["jurisdiccion", "area", "ley", "autoridad", "pregunta", "resultado", "hallazgo", "evidencia", "url"],
-      H.filasNormativa($("nor-jur").value, actuales, resp(), ESTADOS), { titulo: `Normativa ${$("nor-jur").selectedOptions[0]?.textContent || ""} ${$("nor-sector").selectedOptions[0]?.textContent || ""}`.trim(), tabla: "normativa" });
+      H.filasNormativa(jurN(), actuales, resp(), ESTADOS), { titulo: `Normativa ${$("nor-jur").selectedOptions[0]?.textContent || ""} ${$("nor-sector").selectedOptions[0]?.textContent || ""}`.trim(), tabla: "normativa" });
   });
   pintarN();
 }

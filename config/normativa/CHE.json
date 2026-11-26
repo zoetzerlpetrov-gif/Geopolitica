@@ -1,0 +1,457 @@
+{
+ "jurisdiccion": "CHE",
+ "nombre": "Suiza",
+ "revisado": "2026-11",
+ "nota": "Mapa ley por ley de lo que debe cumplir una empresa en Suiza (no es de la UE ni del EEE; tiene acuerdos bilaterales con la UE). Las leyes son federales y los cantones aplican impuestos y permisos propios. Puntos de atención recientes: la nueva Ley de Protección de Datos (nLPD, vigente desde el 1 de septiembre de 2023) y la obligación de reportar ciberataques a infraestructuras críticas (desde el 1 de abril de 2025). Revisado en noviembre de 2026 con fuentes públicas; «verificar» indica que la fecha o el detalle no se confirmó en la fuente oficial. Resumen propio, no es asesoría legal.",
+ "fuentes_oficiales": [
+  [
+   "Fedlex (texto oficial del derecho federal)",
+   "https://www.fedlex.admin.ch"
+  ],
+  [
+   "Registro Mercantil (Zefix)",
+   "https://www.zefix.ch"
+  ],
+  [
+   "Administración Federal de Contribuciones",
+   "https://www.estv.admin.ch"
+  ],
+  [
+   "Comisionado Federal de Protección de Datos (FDPIC)",
+   "https://www.edoeb.admin.ch"
+  ],
+  [
+   "SECO (sanciones y control de exportaciones)",
+   "https://www.seco.admin.ch"
+  ]
+ ],
+ "generales": [
+  {
+   "area": "Societario y gobierno corporativo",
+   "leyes": [
+    {
+     "id": "ch_codigo_obligaciones",
+     "nombre": "Código de Obligaciones (CO)",
+     "sigla": "CO / OR",
+     "tipo": "ley",
+     "autoridad": "Registro Mercantil cantonal",
+     "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/en",
+     "ultima_reforma": "verificar",
+     "aplica": "Sociedades anónimas (SA/AG), de responsabilidad limitada (Sàrl/GmbH) y sucursales.",
+     "obligaciones": [
+      "Inscripción en el Registro Mercantil.",
+      "Contabilidad y estados financieros anuales; auditoría según tamaño.",
+      "Registro de accionistas y de beneficiarios efectivos.",
+      "Informe sobre temas no financieros y diligencia en minerales de conflicto y trabajo infantil para empresas que superen los umbrales (art. 964a a 964l)."
+     ],
+     "tramites": [
+      {
+       "que": "Aprobación de cuentas anuales por la asamblea",
+       "plazo": "Dentro de 6 meses del cierre",
+       "ante": "Asamblea general"
+      }
+     ],
+     "sanciones": "Multas y responsabilidad de los administradores.",
+     "evidencia": [
+      "Extracto del Registro Mercantil",
+      "Registro de accionistas"
+     ],
+     "preguntas": [
+      "¿El registro de accionistas y beneficiarios efectivos está actualizado?",
+      "¿La empresa supera los umbrales de los informes no financieros o de diligencia?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Fiscal y contable",
+   "leyes": [
+    {
+     "id": "ch_impuestos",
+     "nombre": "Ley del IVA (LTVA) y Ley del Impuesto Federal Directo (LIFD)",
+     "sigla": "LTVA / LIFD",
+     "tipo": "ley",
+     "autoridad": "Administración Federal de Contribuciones (AFC/ESTV) y administraciones cantonales",
+     "url": "https://www.estv.admin.ch",
+     "ultima_reforma": "verificar",
+     "aplica": "Empresas con facturación mundial de 100,000 francos o más (IVA) y sociedades residentes.",
+     "obligaciones": [
+      "IVA: tasa normal de 8.1 % desde el 1 de enero de 2024.",
+      "Impuesto federal directo sobre utilidades de 8.5 %, más impuestos cantonales y municipales.",
+      "Impuesto mínimo de 15 % para grupos grandes (OCDE pilar 2) desde 2024."
+     ],
+     "tramites": [
+      {
+       "que": "Declaración de IVA",
+       "plazo": "Trimestral, por lo general",
+       "ante": "AFC/ESTV"
+      }
+     ],
+     "sanciones": "Intereses de mora y multas.",
+     "evidencia": [
+      "Declaraciones y acuses"
+     ],
+     "preguntas": [
+      "¿La empresa está registrada en IVA?",
+      "¿Se presentan las declaraciones cantonales a tiempo?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Laboral y seguridad social",
+   "leyes": [
+    {
+     "id": "ch_trabajo",
+     "nombre": "Ley del Trabajo (LTr) y Código de Obligaciones (contrato de trabajo)",
+     "sigla": "LTr / ArG",
+     "tipo": "ley",
+     "autoridad": "SECO e inspecciones cantonales del trabajo",
+     "url": "https://www.fedlex.admin.ch/eli/cc/1966/57_57_57/en",
+     "ultima_reforma": "verificar",
+     "aplica": "Todo empleador en Suiza.",
+     "obligaciones": [
+      "Respetar jornada máxima, descansos y registro de horas.",
+      "Afiliar a los trabajadores al seguro de vejez (AVS), al de accidentes (LAA) y a la previsión profesional (LPP).",
+      "Permisos de trabajo para personas extranjeras."
+     ],
+     "tramites": [],
+     "sanciones": "Multas y pago de cotizaciones atrasadas.",
+     "evidencia": [
+      "Nómina",
+      "Certificados de afiliación"
+     ],
+     "preguntas": [
+      "¿Se registran las horas trabajadas?",
+      "¿Todos los trabajadores están afiliados a AVS, LAA y LPP?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Seguridad y salud en el trabajo",
+   "leyes": [
+    {
+     "id": "ch_seguridad_trabajo",
+     "nombre": "Ley del Seguro de Accidentes (LAA) y Ordenanza sobre Prevención de Accidentes (OPA)",
+     "sigla": "LAA / OPA",
+     "tipo": "ley",
+     "autoridad": "Suva e inspecciones cantonales",
+     "url": "https://www.suva.ch",
+     "ultima_reforma": "verificar",
+     "aplica": "Todo empleador.",
+     "obligaciones": [
+      "Medidas de prevención de accidentes y enfermedades profesionales.",
+      "Recurrir a especialistas en seguridad cuando el riesgo lo requiera (directiva CFST 6508)."
+     ],
+     "tramites": [],
+     "sanciones": "Primas más altas y sanciones.",
+     "evidencia": [
+      "Concepto de seguridad"
+     ],
+     "preguntas": [
+      "¿Hay un concepto de seguridad conforme a la directiva CFST?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Protección de datos y ciberseguridad",
+   "leyes": [
+    {
+     "id": "ch_nlpd",
+     "nombre": "Ley Federal de Protección de Datos (nLPD)",
+     "sigla": "nLPD / nDSG",
+     "tipo": "ley",
+     "autoridad": "Comisionado Federal de Protección de Datos (FDPIC)",
+     "url": "https://www.edoeb.admin.ch",
+     "ultima_reforma": "2023-09-01",
+     "aplica": "Quien trate datos personales con efecto en Suiza.",
+     "obligaciones": [
+      "Registro de actividades de tratamiento (con excepciones para empresas de menos de 250 personas).",
+      "Informar a las personas cuando se recaban sus datos.",
+      "Avisar al FDPIC lo antes posible de brechas con riesgo alto."
+     ],
+     "tramites": [
+      {
+       "que": "Aviso de brecha de datos",
+       "plazo": "Lo antes posible",
+       "ante": "FDPIC"
+      }
+     ],
+     "sanciones": "Multas de hasta 250,000 francos a la persona responsable.",
+     "evidencia": [
+      "Registro de tratamientos",
+      "Aviso de privacidad"
+     ],
+     "preguntas": [
+      "¿Existe registro de actividades de tratamiento?",
+      "¿Hay procedimiento de aviso de brechas al FDPIC?"
+     ]
+    },
+    {
+     "id": "ch_ciberseguridad",
+     "nombre": "Ley de Seguridad de la Información (LSI) y obligación de reportar ciberataques",
+     "sigla": "LSI / ISG",
+     "tipo": "ley",
+     "autoridad": "Oficina Federal de Ciberseguridad (OFCS/BACS)",
+     "url": "https://www.ncsc.admin.ch",
+     "ultima_reforma": "2025-04-01",
+     "aplica": "Operadores de infraestructuras críticas (energía, salud, finanzas, telecomunicaciones, transporte, entre otros).",
+     "obligaciones": [
+      "Reportar ciberataques a la OFCS en 24 horas desde que se descubren (desde el 1 de abril de 2025)."
+     ],
+     "tramites": [
+      {
+       "que": "Reporte de ciberataque",
+       "plazo": "24 horas",
+       "ante": "OFCS/BACS"
+      }
+     ],
+     "sanciones": "Multas de hasta 100,000 francos (aplicables desde el 1 de octubre de 2025, verificar).",
+     "evidencia": [],
+     "preguntas": [
+      "¿La empresa es operador de infraestructura crítica obligado a reportar?",
+      "¿Hay procedimiento para reportar en 24 horas?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Prevención de lavado de dinero",
+   "leyes": [
+    {
+     "id": "ch_lba",
+     "nombre": "Ley contra el Lavado de Dinero (LBA)",
+     "sigla": "LBA / GwG",
+     "tipo": "ley",
+     "autoridad": "FINMA, organismos de autorregulación y MROS",
+     "url": "https://www.fedlex.admin.ch/eli/cc/1998/892_892_892/en",
+     "ultima_reforma": "verificar",
+     "aplica": "Intermediarios financieros y comerciantes que reciban más de 100,000 francos en efectivo.",
+     "obligaciones": [
+      "Identificar al cliente y al beneficiario efectivo.",
+      "Reportar sospechas a la Oficina de Comunicación (MROS).",
+      "Afiliarse a un organismo de autorregulación o estar bajo FINMA."
+     ],
+     "tramites": [
+      {
+       "que": "Comunicación de sospecha",
+       "plazo": "De inmediato",
+       "ante": "MROS"
+      }
+     ],
+     "sanciones": "Multas y prisión.",
+     "evidencia": [
+      "Expedientes de identificación"
+     ],
+     "preguntas": [
+      "¿La empresa es intermediario financiero y está afiliada a un organismo de autorregulación?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Anticorrupción e integridad",
+   "leyes": [
+    {
+     "id": "ch_codigo_penal",
+     "nombre": "Código Penal: corrupción (art. 322ter a 322decies) y responsabilidad de la empresa (art. 102)",
+     "sigla": "CP / StGB",
+     "tipo": "ley",
+     "autoridad": "Ministerio Público de la Confederación",
+     "url": "https://www.fedlex.admin.ch/eli/cc/54/757_781_799/en",
+     "ultima_reforma": "verificar",
+     "aplica": "Toda empresa con actividad en Suiza.",
+     "obligaciones": [
+      "Organización suficiente para prevenir el soborno de funcionarios y el soborno privado.",
+      "La empresa responde si no tomó las medidas razonables."
+     ],
+     "tramites": [],
+     "sanciones": "Multa de hasta 5 millones de francos a la empresa.",
+     "evidencia": [
+      "Código de conducta",
+      "Registros de capacitación"
+     ],
+     "preguntas": [
+      "¿Existe un programa anticorrupción con controles de pagos y regalos?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Competencia",
+   "leyes": [
+    {
+     "id": "ch_carteles",
+     "nombre": "Ley de Cárteles (LCart)",
+     "sigla": "LCart / KG",
+     "tipo": "ley",
+     "autoridad": "Comisión de la Competencia (COMCO/WEKO)",
+     "url": "https://www.fedlex.admin.ch/eli/cc/1996/546_546_546/en",
+     "ultima_reforma": "verificar",
+     "aplica": "Todas las empresas.",
+     "obligaciones": [
+      "No pactar precios, cantidades ni territorios.",
+      "Notificar concentraciones que superen los umbrales."
+     ],
+     "tramites": [
+      {
+       "que": "Notificación de concentración",
+       "plazo": "Antes de ejecutarla",
+       "ante": "COMCO"
+      }
+     ],
+     "sanciones": "Multas de hasta 10 % de la facturación en Suiza de los últimos 3 años.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Hay política de competencia para el equipo comercial?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Protección al consumidor y producto",
+   "leyes": [
+    {
+     "id": "ch_consumidor",
+     "nombre": "Ley contra la Competencia Desleal (LCD) y Ley de Seguridad de Productos (LSPro)",
+     "sigla": "LCD / LSPro",
+     "tipo": "ley",
+     "autoridad": "SECO y autoridades de vigilancia del mercado",
+     "url": "https://www.fedlex.admin.ch/eli/cc/1988/223_223_223/en",
+     "ultima_reforma": "verificar",
+     "aplica": "Quien venda bienes o servicios en Suiza.",
+     "obligaciones": [
+      "Precios e información veraces; indicación de precios.",
+      "Productos seguros y retiro del mercado si representan peligro."
+     ],
+     "tramites": [],
+     "sanciones": "Multas y retiro de productos.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Los productos cumplen las normas técnicas suizas o reconocidas?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Ambiental y sostenibilidad (ESG)",
+   "leyes": [
+    {
+     "id": "ch_ambiental",
+     "nombre": "Ley de Protección del Medio Ambiente (LPE) y Ley del CO2",
+     "sigla": "LPE / USG",
+     "tipo": "ley",
+     "autoridad": "Oficina Federal del Medio Ambiente (OFEV/BAFU) y cantones",
+     "url": "https://www.fedlex.admin.ch/eli/cc/1984/1122_1122_1122/en",
+     "ultima_reforma": "verificar",
+     "aplica": "Empresas con emisiones, residuos o instalaciones reguladas.",
+     "obligaciones": [
+      "Permisos y límites de emisión.",
+      "Informe sobre temas climáticos para empresas grandes (ordenanza vigente desde 2024)."
+     ],
+     "tramites": [],
+     "sanciones": "Multas y cierre de instalaciones.",
+     "evidencia": [],
+     "preguntas": [
+      "¿La empresa debe publicar el informe climático?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Inversión extranjera, comercio exterior y sanciones",
+   "leyes": [
+    {
+     "id": "ch_sanciones",
+     "nombre": "Ley de Embargos (LEmb) y Ley sobre el Control de Bienes (LCB)",
+     "sigla": "LEmb / LCB",
+     "tipo": "ley",
+     "autoridad": "SECO",
+     "url": "https://www.seco.admin.ch",
+     "ultima_reforma": "verificar",
+     "aplica": "Toda empresa en Suiza; exportadores de bienes de uso dual y militares.",
+     "obligaciones": [
+      "Revisar clientes y proveedores contra las listas de sanciones de SECO (Suiza adopta en buena medida las de la UE).",
+      "Licencia de exportación para bienes de uso dual y militares."
+     ],
+     "tramites": [],
+     "sanciones": "Multas y prisión.",
+     "evidencia": [
+      "Registros de revisión de listas"
+     ],
+     "preguntas": [
+      "¿Se revisan clientes y proveedores contra las listas de SECO?",
+      "¿Las exportaciones de uso dual tienen licencia?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Propiedad intelectual",
+   "leyes": [
+    {
+     "id": "ch_pi",
+     "nombre": "Ley de Marcas (LPM) y Ley de Patentes (LBI)",
+     "sigla": "LPM / LBI",
+     "tipo": "ley",
+     "autoridad": "Instituto Federal de la Propiedad Intelectual (IPI)",
+     "url": "https://www.ige.ch",
+     "ultima_reforma": "verificar",
+     "aplica": "Quien registre o use marcas y patentes.",
+     "obligaciones": [
+      "Registrar las marcas en Suiza (el registro de la UE no la cubre).",
+      "Renovar marcas cada 10 años.",
+      "Reglas de «Swissness» para usar el origen suizo."
+     ],
+     "tramites": [
+      {
+       "que": "Renovación de marca",
+       "plazo": "Cada 10 años",
+       "ante": "IPI"
+      }
+     ],
+     "sanciones": "Pérdida de derechos y acciones por infracción.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Las marcas están registradas en Suiza?"
+     ]
+    }
+   ]
+  }
+ ],
+ "sectores": {
+  "bancos": {
+   "nombre": "Bancos y servicios financieros",
+   "leyes": [
+    {
+     "id": "ch_finma",
+     "nombre": "Ley de Bancos (LB) y Ley de Servicios Financieros (LSFin)",
+     "sigla": "LB / LSFin",
+     "tipo": "ley",
+     "autoridad": "FINMA",
+     "url": "https://www.finma.ch",
+     "ultima_reforma": "verificar",
+     "aplica": "Bancos, gestores de activos y prestadores de servicios financieros.",
+     "obligaciones": [
+      "Licencia de FINMA antes de operar.",
+      "Reglas de conducta con clientes (LSFin)."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia de FINMA",
+       "plazo": "Antes de operar",
+       "ante": "FINMA"
+      }
+     ],
+     "sanciones": "Retiro de licencia, multas y sanciones penales.",
+     "evidencia": [],
+     "preguntas": [
+      "¿La empresa tiene la licencia de FINMA que requiere su actividad?"
+     ]
+    }
+   ]
+  }
+ }
+}

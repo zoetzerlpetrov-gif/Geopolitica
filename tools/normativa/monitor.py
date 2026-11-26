@@ -53,6 +53,8 @@ SIN_FUENTE = {
     "BHR": "Sin fuente automática abierta: revisión semanal manual.", "OMN": "Sin fuente automática abierta: revisión semanal manual.",
     "ISR": "Sin fuente automática abierta: revisión semanal manual.", "TUR": "Sin fuente automática abierta: revisión semanal manual.",
     "EGY": "Sin fuente automática abierta: revisión semanal manual.", "JOR": "Sin fuente automática abierta: revisión semanal manual.",
+    "GBR": "Revisión semanal manual en legislation.gov.uk y los avisos de OFSI (fuente automática pendiente).",
+    "CHE": "Revisión semanal manual en Fedlex (Recopilación Oficial) y las sanciones de SECO (fuente automática pendiente).",
     "MDO": "Sanciones: revisión semanal manual en OFAC, el mapa de sanciones de la UE y la ONU.",
 }
 
