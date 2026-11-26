@@ -3,7 +3,6 @@
 import { campoPais, paises, nombreDe, CSS_PAISES } from "./paises.js";
 
 const $ = (id) => document.getElementById(id);
-const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
 if ($("cl-pais-ui")) {
   document.head.insertAdjacentHTML("beforeend", `<style>${CSS_PAISES}</style>`);
@@ -11,7 +10,13 @@ if ($("cl-pais-ui")) {
   const avisar = (el) => el.dispatchEvent(new Event("input", { bubbles: true }));
   const otros = () => String($("cl-paises").value || "").split(/[,\s]+/).map((x) => x.toUpperCase()).filter((x) => /^[A-Z]{3}$/.test(x));
   const chips = () => {
-    $("cl-paises-chips").innerHTML = otros().map((i) => `<span>${esc(nombreDe(lista, i))} <button type="button" data-quitar="${i}" aria-label="Quitar ${esc(nombreDe(lista, i))}">×</button></span>`).join("");
+    const caja = $("cl-paises-chips");
+    caja.replaceChildren(...otros().map((i) => {
+      const span = document.createElement("span"), b = document.createElement("button");
+      span.textContent = `${nombreDe(lista, i)} `;
+      Object.assign(b, { type: "button", textContent: "×" }); b.dataset.quitar = i; b.setAttribute("aria-label", `Quitar ${nombreDe(lista, i)}`);
+      span.append(b); return span;
+    }));
   };
   // ops.js llena los campos después de cargar su catálogo: espera a que el sector tenga opciones.
   for (let i = 0; i < 50 && $("cl-sector").options.length < 2; i++) await new Promise((r) => setTimeout(r, 100));
