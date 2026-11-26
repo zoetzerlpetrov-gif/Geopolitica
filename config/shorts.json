@@ -1,0 +1,167 @@
+{
+ "_nota": "Shorts temáticos del canal (tools/shorts/shorts.py): cada día un tema distinto, que no repite las noticias de Brújula Diaria. Se toman 3 titulares recientes en español de la sección del Noticiero, con su medio; la voz es sintética (se declara a YouTube). Agrega, quita o reordena temas aquí; «seccion» es el id del Noticiero. «ligero»: true salta titulares de muertes, violencia o accidentes (temas de entretenimiento). «icono»: imagen alusiva grande en cada escena.",
+ "duracion_max_s": 58,
+ "titulares": 3,
+ "temas": [
+  {
+   "seccion": "gastronomia_viajes",
+   "nombre": "Gastronomía y viajes",
+   "gancho": "Tres noticias para viajar y comer bien",
+   "hashtags": [
+    "viajes",
+    "gastronomia",
+    "turismo"
+   ],
+   "icono": "🍽️",
+   "ligero": true
+  },
+  {
+   "seccion": "espectaculos",
+   "nombre": "Espectáculos",
+   "gancho": "Lo que se mueve hoy en espectáculos",
+   "hashtags": [
+    "espectaculos",
+    "cine",
+    "musica"
+   ],
+   "icono": "🎬",
+   "ligero": true
+  },
+  {
+   "seccion": "tecnologia",
+   "nombre": "Tecnología",
+   "gancho": "Tres novedades de tecnología de hoy",
+   "hashtags": [
+    "tecnologia",
+    "inteligenciaartificial",
+    "innovacion"
+   ],
+   "icono": "🤖",
+   "ligero": true
+  },
+  {
+   "seccion": "cultura",
+   "nombre": "Cultura",
+   "gancho": "Teatro, arte y libros: lo nuevo de hoy",
+   "hashtags": [
+    "cultura",
+    "teatro",
+    "arte"
+   ],
+   "icono": "🎭",
+   "ligero": true
+  },
+  {
+   "seccion": "salud",
+   "nombre": "Salud",
+   "gancho": "Tres noticias de salud que conviene saber",
+   "hashtags": [
+    "salud",
+    "bienestar",
+    "ciencia"
+   ],
+   "icono": "🩺"
+  },
+  {
+   "seccion": "conspiracion",
+   "nombre": "Misterios y teorías",
+   "gancho": "Ovnis, misterios y teorías: qué dicen las fuentes",
+   "hashtags": [
+    "misterios",
+    "ovnis",
+    "verificacion"
+   ],
+   "icono": "🛸"
+  },
+  {
+   "seccion": "belleza_moda",
+   "nombre": "Belleza y moda",
+   "gancho": "Tendencias de belleza y moda de hoy",
+   "hashtags": [
+    "moda",
+    "belleza",
+    "tendencias"
+   ],
+   "icono": "👗",
+   "ligero": true
+  },
+  {
+   "seccion": "infantil",
+   "nombre": "Para niñas y niños",
+   "gancho": "Planes y estrenos para la familia",
+   "hashtags": [
+    "familia",
+    "niños",
+    "planes"
+   ],
+   "icono": "🎈",
+   "ligero": true
+  },
+  {
+   "seccion": "clima",
+   "nombre": "Clima",
+   "gancho": "El clima que viene: lo que hay que saber",
+   "hashtags": [
+    "clima",
+    "pronostico",
+    "mexico"
+   ],
+   "icono": "⛅"
+  },
+  {
+   "seccion": "ciberseguridad",
+   "nombre": "Estafas y ciberseguridad",
+   "gancho": "Tres estafas y riesgos digitales de hoy",
+   "hashtags": [
+    "ciberseguridad",
+    "estafas",
+    "prevencion"
+   ],
+   "icono": "🛡️"
+  },
+  {
+   "seccion": "agenda2030",
+   "nombre": "Planeta y futuro",
+   "gancho": "Planeta y futuro: tres noticias de hoy",
+   "hashtags": [
+    "medioambiente",
+    "sostenibilidad",
+    "futuro"
+   ],
+   "icono": "🌎"
+  },
+  {
+   "seccion": "politica_mx",
+   "nombre": "Política en México",
+   "gancho": "Política en México en tres titulares",
+   "hashtags": [
+    "politica",
+    "mexico",
+    "noticias"
+   ],
+   "icono": "🏛️"
+  },
+  {
+   "seccion": "cripto",
+   "nombre": "Criptomonedas",
+   "gancho": "Criptomonedas hoy en tres titulares",
+   "hashtags": [
+    "cripto",
+    "bitcoin",
+    "finanzas"
+   ],
+   "icono": "🪙"
+  },
+  {
+   "seccion": "inmobiliario",
+   "nombre": "Bienes raíces",
+   "gancho": "Vivienda y bienes raíces: lo nuevo",
+   "hashtags": [
+    "bienesraices",
+    "vivienda",
+    "inversion"
+   ],
+   "icono": "🏠"
+  }
+ ]
+}
