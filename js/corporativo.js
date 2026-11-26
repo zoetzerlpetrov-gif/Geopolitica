@@ -211,8 +211,8 @@ async function iniciar() {
     // El número en cada cuadro es el número de la sede en esta tabla (y en la lista de abajo).
     $("cp-matriz").innerHTML = filas.length ? `<div class="cp-matriz-par">${htmlMatriz(filas)}<div class="desliza"><table class="t"><caption class="meta">Cada número de la matriz es una sede.</caption>
       <tr><th>#</th><th>Sede</th><th>Ciudad / país</th><th>Probabilidad (hoy · año · combinada)</th><th>Impacto</th><th>Nivel</th></tr>
-      ${filas.map((f) => `<tr><td><b>${f.num}</b></td><td>${esc(f.nombre)}</td><td>${esc([f.ciudad, nombrePais(f.iso3)].filter(Boolean).join(", ") || "—")}</td><td>${f.pAct} · ${f.pHist} · <b>${f.prob}</b></td><td>${f.impacto}</td>
-        <td><span class="chip" style="background:${f.nv.color};color:#fff">${esc(f.nv.etiqueta)} (${f.nv.valor})</span></td></tr>`).join("")}</table></div></div>` : "";
+      ${filas.map((f) => `<tr><td><b>${esc(f.num)}</b></td><td>${esc(f.nombre)}</td><td>${esc([f.ciudad, nombrePais(f.iso3)].filter(Boolean).join(", ") || "—")}</td><td>${esc(f.pAct)} · ${esc(f.pHist)} · <b>${esc(f.prob)}</b></td><td>${esc(f.impacto)}</td>
+        <td><span class="chip" style="background:${esc(f.nv.color)};color:#fff">${esc(f.nv.etiqueta)} (${esc(f.nv.valor)})</span></td></tr>`).join("")}</table></div></div>` : "";
     // Matriz por país: países de las instalaciones; impacto = el mayor de sus instalaciones.
     const porPais = new Map();
     for (const f of filas) if (f.iso3) porPais.set(f.iso3, Math.max(porPais.get(f.iso3) || 0, f.impacto));
