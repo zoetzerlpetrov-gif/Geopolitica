@@ -194,6 +194,23 @@ export async function serveEmpresas(request, url, env, { correo, esAdmin = false
         const c = await db.prepare("SELECT activa FROM dominus_cuentas WHERE email = ?").bind(email).first();
         return json({ ok: true, vence, token: c?.activa ? null : await enlaceActivacion(db, email, "admin-dominus") }, 201, h);
       }
+      if (partes[1] === "interno") {
+        // Organización DOMINUS (organizacion.html): avance de las tareas de cada área de la propia empresa.
+        const ORG = "dominus-interno";
+        if (request.method === "GET") {
+          const r = await db.prepare("SELECT clave, estado, responsable, fecha_limite, evidencia, actualizado FROM dominus_cumplimiento WHERE org_id = ?").bind(ORG).all();
+          return json({ respuestas: r.results || [] }, 200, h);
+        }
+        const clave = String(cuerpo.clave || ""), estado = String(cuerpo.estado || "pendiente");
+        const responsable = String(cuerpo.responsable || "").trim().slice(0, 120), fecha_limite = String(cuerpo.fecha_limite || ""), evidencia = String(cuerpo.evidencia || "").slice(0, 1000);
+        if (!/^[a-z0-9_]{1,30}\.[a-z0-9_]{1,30}$/.test(clave)) return json({ error: "Tarea inválida." }, 400, h);
+        if (!ESTADOS.includes(estado)) return json({ error: "Estado inválido." }, 400, h);
+        if (fecha_limite && !/^\d{4}-\d{2}-\d{2}$/.test(fecha_limite)) return json({ error: "Fecha inválida." }, 400, h);
+        await db.prepare(`INSERT INTO dominus_cumplimiento (org_id, clave, estado, responsable, fecha_limite, evidencia, actualizado, actualizado_por) VALUES (?, ?, ?, ?, ?, ?, ?, 'admin-dominus')
+          ON CONFLICT (org_id, clave) DO UPDATE SET estado = excluded.estado, responsable = excluded.responsable, fecha_limite = excluded.fecha_limite, evidencia = excluded.evidencia, actualizado = excluded.actualizado`)
+          .bind(ORG, clave, estado, responsable, fecha_limite, evidencia, ahora()).run();
+        return json({ ok: true, actualizado: ahora() }, 200, h);
+      }
       if (partes[1] === "cuentas" && request.method === "GET") {
         await asegurarAcceso(db);
         const cuentas = (await db.prepare("SELECT email, nombre, activa, creada, ultimo_ingreso, bloqueo FROM dominus_cuentas ORDER BY creada DESC LIMIT 500").all()).results || [];

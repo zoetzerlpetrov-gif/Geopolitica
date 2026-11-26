@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Organización DOMINUS</title>
+  <meta name="description" content="Solo administración: las áreas de la empresa (gobierno, legal, fiscal, finanzas, RRHH, operaciones, viajes, ventas, TI, datos, auditoría, calidad, soporte) con sus tareas por etapa, normas y avance.">
+  <meta name="robots" content="noindex">
+  <meta name="color-scheme" content="light dark">
+  <script>try { const t = localStorage.getItem("gp_theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23C8102E' d='M44 44 30 4h40L56 44 96 30v40L56 56l14 40H30l14-40L4 70V30z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/app.css">
+  <style>
+    body { display: block; height: auto; overflow: auto; }
+    .ops { max-width: 1180px; margin: 0 auto; padding: 16px; }
+    .ops h2 { font-size: 19px; text-transform: none; letter-spacing: 0; color: var(--text); margin: 18px 0 6px; }
+    .tarjeta { border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; margin: 10px 0; background: var(--surface); }
+    .meta { color: var(--text-2); font-size: 13px; }
+    .areas { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+    .area { text-align: left; font: inherit; cursor: pointer; border: 1px solid var(--line); border-radius: var(--radius); padding: 10px; background: var(--surface); color: var(--text); }
+    .area[aria-pressed="true"] { outline: 3px solid var(--accent); }
+    .area b { display: block; margin-bottom: 4px; }
+    .progreso { height: 10px; border-radius: 999px; background: var(--surface-2); overflow: hidden; border: 1px solid var(--line); margin-top: 6px; }
+    .progreso i { display: block; height: 100%; background: #24733b; }
+    .tarea { display: grid; grid-template-columns: minmax(240px, 2.2fr) 140px 170px 150px minmax(150px, 1.4fr); gap: 8px; align-items: center; padding: 8px 0 8px 10px; border-top: 1px dashed var(--line); }
+    .tarea.estado-cumple { box-shadow: inset 4px 0 0 #24733b; } .tarea.estado-en_proceso { box-shadow: inset 4px 0 0 #8a5c00; } .tarea.estado-no_cumple { box-shadow: inset 4px 0 0 #b3261e; }
+    .ops input, .ops select { font: inherit; padding: 5px 8px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); width: 100%; box-sizing: border-box; }
+    .ops button.b { font: inherit; min-height: 34px; padding: 4px 12px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); cursor: pointer; }
+    .barra { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; } .barra select { width: auto; }
+    .chip { display: inline-block; font-size: 12px; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface-2); margin: 2px; }
+    .recordatorio { border-left: 5px solid var(--accent); }
+    .error { color: var(--danger, #b3261e); font-weight: 600; }
+    @media (max-width: 900px) { .tarea { grid-template-columns: 1fr 1fr; } .tarea .texto { grid-column: 1 / -1; } }
+  </style>
+  <script type="module" src="js/apariencia.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="link-btn" href="./">← Regresar al Mapa</a>
+    <h1>🏛️ Organización DOMINUS (solo admin)</h1>
+  </header>
+  <main class="ops">
+    <div class="tarjeta"><b>Para qué sirve:</b> tener en un solo lugar todo lo que una empresa formal necesita, área por área, y avanzar por etapas:
+      primero lo indispensable para operar hoy, después lo necesario al crecer y al final lo que piden clientes grandes y del extranjero.
+      <p class="meta">Elige un área, marca el estado de cada tarea, asigna responsable y fecha y deja la evidencia (enlace o nota). Se guarda en el servidor.</p></div>
+    <div id="or-recordatorio"></div>
+    <div id="or-resumen"></div>
+    <div class="barra"><label>Mostrar etapa <select id="or-etapa"><option value="">Todas</option></select></label>
+      <button type="button" class="b" id="or-csv">⬇️ Exportar todo a Excel (CSV)</button> <span id="or-msg" class="meta" role="status"></span></div>
+    <div class="areas" id="or-areas"></div>
+    <div id="or-area"></div>
+  </main>
+  <script type="module" src="js/organizacion.js"></script>
+</body>
+</html>

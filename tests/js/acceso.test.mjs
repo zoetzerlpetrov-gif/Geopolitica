@@ -101,3 +101,12 @@ test("cortesías: plan del mapa y de creadores con su vencimiento; lista de cuen
   assert.equal(l.body.cortesias.length, 2);
   assert.ok(l.body.cuentas.some((x) => x.email === "amigo@x.mx" && x.activa === 0));
 });
+
+test("Organización DOMINUS: solo Admin guarda y lee el avance interno de cada área", { skip: !DatabaseSync }, async () => {
+  const e = env();
+  assert.equal((await empresa(e, "x@y.mx", "admin/interno", { clave: "legal.sociedad", estado: "en_proceso" })).status, 403);
+  assert.equal((await empresa(e, null, "admin/interno", { clave: "legal.sociedad", estado: "en_proceso", responsable: "Contador", fecha_limite: "2027-01-31" }, true)).status, 200);
+  assert.equal((await empresa(e, null, "admin/interno", { clave: "mal clave", estado: "cumple" }, true)).status, 400);
+  const g = await empresa(e, null, "admin/interno", undefined, true);
+  assert.equal(g.body.respuestas[0].responsable, "Contador");
+});
