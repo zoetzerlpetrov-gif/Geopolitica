@@ -5,6 +5,7 @@
 // DESTINOS_FIJOS: no se llama a otros servicios.
 
 import { asegurarAcceso, enlaceActivacion } from "./acceso.js";
+import { rutaProyectos } from "./proyectos.js";
 
 export const ROLES = ["lector", "editor", "admin", "dueno"];
 export const ESTADOS = ["pendiente", "en_proceso", "cumple", "no_cumple", "no_aplica"];
@@ -194,6 +195,13 @@ export async function serveEmpresas(request, url, env, { correo, esAdmin = false
         const c = await db.prepare("SELECT activa FROM dominus_cuentas WHERE email = ?").bind(email).first();
         return json({ ok: true, vence, token: c?.activa ? null : await enlaceActivacion(db, email, "admin-dominus") }, 201, h);
       }
+      if (partes[1] === "proyectos") {
+        // Proyectos y seguimiento de cualquier cliente (Admin → Clientes y proyectos → Proyectos).
+        const org = /^[0-9a-f]{16}$/.test(partes[2] || "") ? await db.prepare("SELECT id FROM dominus_orgs WHERE id = ?").bind(partes[2]).first() : null;
+        if (!org) return json({ error: "Elige una empresa válida." }, 404, h);
+        const [b, s] = await rutaProyectos(db, org.id, partes.slice(3), request.method, cuerpo, { quien: "admin-dominus", escribir: true });
+        return json(b, s, h);
+      }
       if (partes[1] === "interno") {
         // Organización DOMINUS (organizacion.html): avance de las tareas de cada área de la propia empresa.
         const ORG = "dominus-interno";
@@ -258,6 +266,10 @@ export async function serveEmpresas(request, url, env, { correo, esAdmin = false
     if (escritura && !vigente(org) && accion !== "quitar") return json({ error: "El periodo de la empresa terminó: queda en solo lectura hasta renovar el plan." }, 402, h);
     const miembros = async () => (await db.prepare("SELECT email, rol, alta FROM dominus_org_miembros WHERE org_id = ? ORDER BY alta").bind(orgId).all()).results || [];
 
+    if (accion === "proyectos") {
+      const [b, s] = await rutaProyectos(db, orgId, partes.slice(2), request.method, cuerpo, { quien: correo, escribir: puede(yo.rol, "editor") });
+      return json(b, s, h);
+    }
     if (accion === "info" && request.method === "GET") {
       const ms = await miembros();
       const inv = puede(yo.rol, "admin") ? ((await db.prepare("SELECT email, rol, vence FROM dominus_org_invitaciones WHERE org_id = ? AND vence > ?").bind(orgId, ahora()).all()).results || []) : [];

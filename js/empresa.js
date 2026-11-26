@@ -2,6 +2,7 @@
 // bitácora. Habla con la API del Worker (cloudflare/planes/empresas.js) con la sesión de Google de la cuenta.
 // Todo texto que viene de la API o de las fichas se escapa antes de dibujarse.
 import * as C from "./cumplimiento-logica.js";
+import { montarProyectos, CSS_PROYECTOS } from "./proyectos-ui.js";
 
 const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 const $ = (id) => document.getElementById(id);
@@ -172,6 +173,12 @@ if (typeof document !== "undefined" && $("em-app")) {
     const b = e.target.closest("button[data-p]"); if (!b) return;
     for (const x of document.querySelectorAll(".pestanas button")) x.setAttribute("aria-selected", String(x === b));
     for (const p of document.querySelectorAll("section[role=tabpanel]")) p.hidden = p.id !== `p-${b.dataset.p}`;
+    if (b.dataset.p === "proyectos") {
+      if (!document.getElementById("css-proyectos")) document.head.insertAdjacentHTML("beforeend", `<style id="css-proyectos">${CSS_PROYECTOS}</style>`);
+      const org = estado.org, editar = ["editor", "admin", "dueno"].includes(estado.info?.rol) && estado.info?.org.vigente;
+      const cont = $("pr-cont").cloneNode(false); $("pr-cont").replaceWith(cont); // sin oyentes de la empresa anterior
+      montarProyectos(cont, { editar, api: (ruta, cuerpo) => api(`${org}/proyectos${ruta ? "/" + ruta : ""}`, cuerpo), alMensaje: (h) => { $("pr-msg").innerHTML = h; } }).lista();
+    }
     if (b.dataset.p === "bitacora") {
       try { const r = await api(`${estado.org}/bitacora`); $("bi-lista").innerHTML = `<table class="t"><tr><th>Fecha</th><th>Quién</th><th>Acción</th><th>Detalle</th></tr>${r.bitacora.map((x) => `<tr><td>${new Date(x.fecha * 1000).toLocaleString("es-MX")}</td><td>${esc(x.email)}</td><td>${esc(x.accion)}</td><td>${esc(x.detalle)}</td></tr>`).join("")}</table>`; }
       catch (err) { $("bi-lista").innerHTML = `<p class="meta">${esc(err.message)}</p>`; }

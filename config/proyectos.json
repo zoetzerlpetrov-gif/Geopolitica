@@ -1,0 +1,17 @@
+{
+ "_nota": "Orden de manejo de los proyectos de clientes (Admin → Clientes y proyectos → Proyectos, y Mi empresa → Proyectos). Cada proyecto avanza por estas fases en orden; cada fase pide su entregable. Los ids no deben cambiar una vez usados.",
+ "fases": [
+  {"id": "alta", "nombre": "1. Alta", "icono": "🧾", "que": "Registrar al cliente, el contrato o propuesta aceptada y a la persona responsable.", "entregable": "Contrato o propuesta firmada", "hecho": "La empresa existe en DOMINUS y su responsable ya entró con su cuenta."},
+  {"id": "arranque", "nombre": "2. Arranque", "icono": "🚀", "que": "Junta inicial: alcance, sedes, países, riesgos que más preocupan y cómo se reportará.", "entregable": "Minuta de arranque", "hecho": "Alcance y sedes acordados por escrito."},
+  {"id": "plan", "nombre": "3. Plan", "icono": "🗓️", "que": "Lista de actividades con responsable y fecha (lo que se hará y cuándo).", "entregable": "Plan de actividades", "hecho": "Cada actividad tiene responsable y fecha."},
+  {"id": "auditorias", "nombre": "4. Auditorías", "icono": "🔍", "que": "Aplicar la autoauditoría o la plantilla del sector y registrar cada hallazgo con su gravedad.", "entregable": "Hallazgos con evidencia", "hecho": "Todos los hallazgos tienen gravedad y responsable."},
+  {"id": "seguimiento", "nombre": "5. Seguimiento", "icono": "📈", "que": "Revisión semanal: avance de actividades, hallazgos cerrados, riesgos nuevos y acuerdos.", "entregable": "Notas de seguimiento semanales", "hecho": "Hallazgos críticos y altos cerrados o con plan."},
+  {"id": "entrega", "nombre": "6. Entrega", "icono": "📦", "que": "Informe final y presentación a directivos.", "entregable": "Informe final", "hecho": "El cliente recibió y aprobó el informe."},
+  {"id": "cierre", "nombre": "7. Cierre", "icono": "🏁", "que": "Encuesta de satisfacción, lecciones aprendidas y archivo del proyecto.", "entregable": "Acta de cierre", "hecho": "Encuesta enviada y lecciones registradas."}
+ ],
+ "tipos": {
+  "actividad": {"nombre": "Actividad del plan", "estados": ["pendiente", "en_proceso", "hecho", "bloqueado"]},
+  "hallazgo": {"nombre": "Hallazgo de auditoría", "estados": ["abierto", "en_proceso", "cerrado", "aceptado"], "severidades": ["baja", "media", "alta", "critica"]},
+  "seguimiento": {"nombre": "Nota de seguimiento", "estados": ["registrada"]}
+ }
+}
