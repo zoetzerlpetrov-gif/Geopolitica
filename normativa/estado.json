@@ -1,11 +1,11 @@
 {
- "generado_utc": "2026-11-25T23:17:43Z",
+ "generado_utc": "2026-11-26T11:26:49Z",
  "fuentes": {
   "MEX": {
    "fuente": "Diario Oficial de la Federación y Cámara de Diputados",
    "ok": true,
    "estado": "ok",
-   "nuevas": 4,
+   "nuevas": 6,
    "error": "",
    "hasta": "2026-11-25"
   },
@@ -15,7 +15,7 @@
    "estado": "ok",
    "nuevas": 1,
    "error": "",
-   "hasta": "2026-11-25"
+   "hasta": "2026-11-26"
   },
   "CAN": {
    "fuente": "Canada Gazette, Parte II",
@@ -23,15 +23,15 @@
    "estado": "ok",
    "nuevas": 0,
    "error": "",
-   "hasta": "2026-11-25"
+   "hasta": "2026-11-26"
   },
   "EUR": {
    "fuente": "Oficina de Publicaciones de la UE (Cellar)",
    "ok": true,
    "estado": "ok",
-   "nuevas": 2,
+   "nuevas": 5,
    "error": "",
-   "hasta": "2026-11-25"
+   "hasta": "2026-11-26"
   },
   "JPN": {
    "fuente": "e-Gov, API de leyes v2",
@@ -39,15 +39,15 @@
    "estado": "ok",
    "nuevas": 0,
    "error": "",
-   "hasta": "2026-11-25"
+   "hasta": "2026-11-26"
   },
   "RUS": {
    "fuente": "Portal oficial de publicación de actos jurídicos",
    "ok": true,
    "estado": "ok",
-   "nuevas": 2,
+   "nuevas": 0,
    "error": "",
-   "hasta": "2026-11-25"
+   "hasta": "2026-11-26"
   },
   "ARG": {
    "fuente": "Boletín Oficial, primera sección",
@@ -55,7 +55,7 @@
    "estado": "ok",
    "nuevas": 0,
    "error": "",
-   "hasta": "2026-11-25"
+   "hasta": "2026-11-26"
   }
  },
  "sin_fuente": {
@@ -75,16 +75,40 @@
   "MDO": "Sanciones: revisión semanal manual en OFAC, el mapa de sanciones de la UE y la ONU."
  },
  "ultima_fecha": {
-  "USA": "2026-11-25",
-  "CAN": "2026-11-25",
-  "EUR": "2026-11-25",
-  "JPN": "2026-11-25",
-  "RUS": "2026-11-25",
+  "USA": "2026-11-26",
+  "CAN": "2026-11-26",
+  "EUR": "2026-11-26",
+  "JPN": "2026-11-26",
+  "RUS": "2026-11-26",
   "MEX": "2026-11-25",
-  "ARG": "2026-11-25"
+  "ARG": "2026-11-26"
  },
- "desactualizadas": [],
+ "desactualizadas": [
+  {
+   "pais": "MEX",
+   "ley_id": "cpf_400bis",
+   "sigla": "CPF 400 Bis",
+   "nombre": "Código Penal Federal, art. 400 Bis (operaciones con recursos de procedencia ilícita)",
+   "catalogo": "2026-03-13 (última reforma de la ley según la Cámara de Diputados) · antes registrado: 2025-07-16 (verificar)",
+   "oficial": "2026-11-13",
+   "url": "https://www.diputados.gob.mx/LeyesBiblio/ref/cpf.htm"
+  },
+  {
+   "pais": "MEX",
+   "ley_id": "lgt",
+   "sigla": "LGT",
+   "nombre": "Ley General de Turismo",
+   "catalogo": "2025-11-14",
+   "oficial": "2026-11-13",
+   "url": "https://www.diputados.gob.mx/LeyesBiblio/ref/lgt.htm"
+  }
+ ],
  "por_pais": {
+  "EUR": {
+   "total": 63,
+   "alto": 10,
+   "ultimos_30d": 24
+  },
   "USA": {
    "total": 38,
    "alto": 0,
@@ -96,14 +120,9 @@
    "ultimos_30d": 33
   },
   "MEX": {
-   "total": 559,
-   "alto": 51,
-   "ultimos_30d": 39
-  },
-  "EUR": {
-   "total": 60,
-   "alto": 8,
-   "ultimos_30d": 24
+   "total": 561,
+   "alto": 53,
+   "ultimos_30d": 41
   },
   "JPN": {
    "total": 1,
@@ -111,5 +130,5 @@
    "ultimos_30d": 1
   }
  },
- "agregadas_hoy": 3
+ "agregadas_hoy": 5
 }

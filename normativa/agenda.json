@@ -1,14 +1,14 @@
 {
- "generado_utc": "2026-11-25T23:18:50Z",
+ "generado_utc": "2026-11-26T11:29:33Z",
  "agregadas_hoy": 3,
  "resumen": {
-  "en_curso": 21,
-  "federal": 21,
+  "en_curso": 24,
+  "federal": 24,
   "estatal": 0,
   "publicadas": 1,
-  "alta_probabilidad": 9,
+  "alta_probabilidad": 10,
   "por_sector": {
-   "sin sector": 14,
+   "sin sector": 17,
    "energia_electrica": 5,
    "manufactura_immex": 2,
    "logistica": 1,
@@ -18,15 +18,17 @@
   },
   "por_tema": {
    "energia": 6,
+   "salud": 4,
    "animales": 3,
+   "trabajo": 3,
    "transporte": 3,
-   "mujeres_igualdad": 2,
-   "otros": 2,
+   "mujeres_igualdad": 3,
    "impuestos_dinero": 2,
-   "salud": 1,
+   "migracion": 2,
+   "otros": 2,
+   "ninez": 1,
    "telecom_internet": 1,
    "cultura_deporte": 1,
-   "migracion": 1,
    "seguridad_justicia": 1,
    "bancos_pagos": 1,
    "educacion": 1,
@@ -146,6 +148,192 @@
   "logistica": "Transporte y logística"
  },
  "senales": [
+  {
+   "id": "AG:576602014692",
+   "detectado": "2026-11-19",
+   "actualizado": "2026-11-26",
+   "fuente": "Monitor de noticias (titular)",
+   "ambito": "federal",
+   "etapa": "aprobada_camara",
+   "etapa_nombre": "Aprobada en una cámara (minuta)",
+   "probabilidad": 0.8,
+   "horizonte_meses": "1–3",
+   "titulo": "Congreso aprueba nueva Ley de Protección Animal en México; contempla multas de hasta 234 mil pesos por maltrato",
+   "url": "https://rancherita.com.mx/noticias/detalles/200683/congreso-aprueba-nueva-ley-de-proteccion-animal-en-mexico-contempla-multas-de-hasta-234-mil-pesos-por-maltrato.html",
+   "medio": "rancherita.com.mx",
+   "leyes": [],
+   "sectores": [],
+   "estado": "en curso",
+   "notas": [
+    {
+     "t": "Carlos Canturosas destaca nueva ley que sanciona el maltrato y abandono animal",
+     "u": "https://horacero.com.mx/tamaulipas/carlos-canturosas-proteccion-animal",
+     "m": "horacero.com.mx",
+     "f": "2026-11-19"
+    },
+    {
+     "t": "Nueva ley contra el maltrato animal obligará a estados y municipios a modificar sus reglamentos: regidora Adriana Muñoz",
+     "u": "https://plumaslibres.com.mx/2026/11/19/nueva-ley-contra-el-maltrato-animal-obligara-a-estados-y-municipios-a-modificar-sus-reglamentos-regidora-adriana-munoz/",
+     "m": "plumaslibres.com.mx",
+     "f": "2026-11-19"
+    },
+    {
+     "t": "Congreso aprueba nueva Ley de Protección Animal en México; contempla multas de hasta 234 mil pesos por maltrato",
+     "u": "https://rancherita.com.mx/noticias/detalles/200683/congreso-aprueba-nueva-ley-de-proteccion-animal-en-mexico-contempla-multas-de-hasta-234-mil-pesos-por-maltrato.html",
+     "m": "rancherita.com.mx",
+     "f": "2026-11-19"
+    },
+    {
+     "t": "Aprueban nueva ley de protección animal - Noticias Quadratín Chihuahua",
+     "u": "https://chihuahua.quadratin.com.mx/principal/aprueban-nueva-ley-de-proteccion-animal/",
+     "m": "quadratin.com.mx",
+     "f": "2026-11-21"
+    },
+    {
+     "t": "Delicias se suma a batalla legal de más de 200 municipios contra nueva ley federal de impuestos",
+     "u": "https://chihuahua.quadratin.com.mx/municipios/delicias-se-suma-a-batalla-legal-de-mas-de-200-municipios-contra-nueva-ley-federal-de-impuestos/",
+     "m": "quadratin.com.mx",
+     "f": "2026-11-22"
+    },
+    {
+     "t": "Avanza protección animal en México con nueva Ley General de Bienestar",
+     "u": "https://www.excelsior.com.mx/politica/avanza-proteccion-animal-mexico-con-nueva-ley-general-bienestar",
+     "m": "excelsior.com.mx",
+     "f": "2026-11-22"
+    },
+    {
+     "t": "Destaca Gudiño aprobación de nueva Ley de Movilidad - Quadratin Querétaro",
+     "u": "https://queretaro.quadratin.com.mx/destaca-gudino-aprobacion-de-nueva-ley-de-movilidad/",
+     "m": "quadratin.com.mx",
+     "f": "2026-11-23"
+    },
+    {
+     "t": "IMSS-Bienestar tendría una nueva ley ¿Qué busca modificar Sheinbaum en los servicios de salud?",
+     "u": "https://www.infobae.com/mexico/2026/11/26/imss-bienestar-tendria-una-nueva-ley-que-busca-modificar-sheinbaum-en-los-servicios-de-salud/",
+     "m": "Infobae México",
+     "f": "2026-11-26"
+    }
+   ],
+   "temas": [
+    "animales",
+    "impuestos_dinero",
+    "salud",
+    "trabajo",
+    "transporte"
+   ],
+   "confirmacion": "varios medios",
+   "ventana": [
+    "2026-12",
+    "2027-02"
+   ],
+   "leyes_ids": []
+  },
+  {
+   "id": "AG:ee5d6e7e6989",
+   "detectado": "2026-11-26",
+   "actualizado": "2026-11-26",
+   "fuente": "Monitor de noticias (titular)",
+   "ambito": "federal",
+   "etapa": "aprobada_camara",
+   "etapa_nombre": "Aprobada en una cámara (minuta)",
+   "probabilidad": 0.8,
+   "horizonte_meses": "1–3",
+   "titulo": "Senado avala reforma para fortalecer la protección de mujeres y niñas migrantes, refugiadas y desplazadas",
+   "url": "https://tribuna.com.mx/politica-y-economia/2026/11/25/senado-avala-reforma-para-fortalecer-la-proteccion-de-mujeres-y-ninas-migrantes-refugiadas-y-desplazadas_720451/",
+   "medio": "tribuna.com.mx",
+   "leyes": [],
+   "leyes_ids": [],
+   "sectores": [],
+   "temas": [
+    "ninez",
+    "mujeres_igualdad",
+    "migracion"
+   ],
+   "estado": "en curso",
+   "notas": [
+    {
+     "t": "Senado avala reforma para fortalecer la protección de mujeres y niñas migrantes, refugiadas y desplazadas",
+     "u": "https://tribuna.com.mx/politica-y-economia/2026/11/25/senado-avala-reforma-para-fortalecer-la-proteccion-de-mujeres-y-ninas-migrantes-refugiadas-y-desplazadas_720451/",
+     "m": "tribuna.com.mx",
+     "f": "2026-11-26"
+    }
+   ],
+   "confirmacion": "un solo medio (sin confirmar)",
+   "ventana": [
+    "2026-12",
+    "2027-02"
+   ]
+  },
+  {
+   "id": "AG:4b16866e8605",
+   "detectado": "2026-11-26",
+   "actualizado": "2026-11-26",
+   "fuente": "Monitor de noticias (titular)",
+   "ambito": "federal",
+   "etapa": "anunciada",
+   "etapa_nombre": "Ley o reforma nueva en discusión pública",
+   "probabilidad": 0.45,
+   "horizonte_meses": "1–9",
+   "titulo": "Propone Sheinbaum nueva ley para el IMSS-Bienestar",
+   "url": "https://www.tiempo.com.mx/nacional/propone-sheinbaum-nueva-ley-para-el-imss-bienestar/",
+   "medio": "tiempo.com.mx",
+   "leyes": [],
+   "leyes_ids": [],
+   "sectores": [],
+   "temas": [
+    "trabajo",
+    "salud"
+   ],
+   "estado": "en curso",
+   "notas": [
+    {
+     "t": "Propone Sheinbaum nueva ley para el IMSS-Bienestar",
+     "u": "https://www.tiempo.com.mx/nacional/propone-sheinbaum-nueva-ley-para-el-imss-bienestar/",
+     "m": "tiempo.com.mx",
+     "f": "2026-11-26"
+    }
+   ],
+   "confirmacion": "un solo medio (sin confirmar)",
+   "ventana": [
+    "2026-12",
+    "2027-08"
+   ]
+  },
+  {
+   "id": "AG:216c5d3feb05",
+   "detectado": "2026-11-26",
+   "actualizado": "2026-11-26",
+   "fuente": "Monitor de noticias (titular)",
+   "ambito": "federal",
+   "etapa": "iniciativa",
+   "etapa_nombre": "Iniciativa presentada",
+   "probabilidad": 0.15,
+   "horizonte_meses": "3–18",
+   "titulo": "Diputados reciben iniciativa de Ley del IMSS-Bienestar",
+   "url": "https://www.excelsior.com.mx/nacional/camara-diputados-iniciativa-ley-servicios-salud-imss-bienestar-sheinbaum",
+   "medio": "excelsior.com.mx",
+   "leyes": [],
+   "leyes_ids": [],
+   "sectores": [],
+   "temas": [
+    "trabajo",
+    "salud"
+   ],
+   "estado": "en curso",
+   "notas": [
+    {
+     "t": "Diputados reciben iniciativa de Ley del IMSS-Bienestar",
+     "u": "https://www.excelsior.com.mx/nacional/camara-diputados-iniciativa-ley-servicios-salud-imss-bienestar-sheinbaum",
+     "m": "excelsior.com.mx",
+     "f": "2026-11-26"
+    }
+   ],
+   "confirmacion": "un solo medio (sin confirmar)",
+   "ventana": [
+    "2027-02",
+    "2028-05"
+   ]
+  },
   {
    "id": "AG:541a719d8cb1",
    "detectado": "2026-11-19",
@@ -387,78 +575,6 @@
     "2026-12",
     "2027-08"
    ]
-  },
-  {
-   "id": "AG:576602014692",
-   "detectado": "2026-11-19",
-   "actualizado": "2026-11-23",
-   "fuente": "Monitor de noticias (titular)",
-   "ambito": "federal",
-   "etapa": "aprobada_camara",
-   "etapa_nombre": "Aprobada en una cámara (minuta)",
-   "probabilidad": 0.8,
-   "horizonte_meses": "1–3",
-   "titulo": "Congreso aprueba nueva Ley de Protección Animal en México; contempla multas de hasta 234 mil pesos por maltrato",
-   "url": "https://rancherita.com.mx/noticias/detalles/200683/congreso-aprueba-nueva-ley-de-proteccion-animal-en-mexico-contempla-multas-de-hasta-234-mil-pesos-por-maltrato.html",
-   "medio": "rancherita.com.mx",
-   "leyes": [],
-   "sectores": [],
-   "estado": "en curso",
-   "notas": [
-    {
-     "t": "Carlos Canturosas destaca nueva ley que sanciona el maltrato y abandono animal",
-     "u": "https://horacero.com.mx/tamaulipas/carlos-canturosas-proteccion-animal",
-     "m": "horacero.com.mx",
-     "f": "2026-11-19"
-    },
-    {
-     "t": "Nueva ley contra el maltrato animal obligará a estados y municipios a modificar sus reglamentos: regidora Adriana Muñoz",
-     "u": "https://plumaslibres.com.mx/2026/11/19/nueva-ley-contra-el-maltrato-animal-obligara-a-estados-y-municipios-a-modificar-sus-reglamentos-regidora-adriana-munoz/",
-     "m": "plumaslibres.com.mx",
-     "f": "2026-11-19"
-    },
-    {
-     "t": "Congreso aprueba nueva Ley de Protección Animal en México; contempla multas de hasta 234 mil pesos por maltrato",
-     "u": "https://rancherita.com.mx/noticias/detalles/200683/congreso-aprueba-nueva-ley-de-proteccion-animal-en-mexico-contempla-multas-de-hasta-234-mil-pesos-por-maltrato.html",
-     "m": "rancherita.com.mx",
-     "f": "2026-11-19"
-    },
-    {
-     "t": "Aprueban nueva ley de protección animal - Noticias Quadratín Chihuahua",
-     "u": "https://chihuahua.quadratin.com.mx/principal/aprueban-nueva-ley-de-proteccion-animal/",
-     "m": "quadratin.com.mx",
-     "f": "2026-11-21"
-    },
-    {
-     "t": "Delicias se suma a batalla legal de más de 200 municipios contra nueva ley federal de impuestos",
-     "u": "https://chihuahua.quadratin.com.mx/municipios/delicias-se-suma-a-batalla-legal-de-mas-de-200-municipios-contra-nueva-ley-federal-de-impuestos/",
-     "m": "quadratin.com.mx",
-     "f": "2026-11-22"
-    },
-    {
-     "t": "Avanza protección animal en México con nueva Ley General de Bienestar",
-     "u": "https://www.excelsior.com.mx/politica/avanza-proteccion-animal-mexico-con-nueva-ley-general-bienestar",
-     "m": "excelsior.com.mx",
-     "f": "2026-11-22"
-    },
-    {
-     "t": "Destaca Gudiño aprobación de nueva Ley de Movilidad - Quadratin Querétaro",
-     "u": "https://queretaro.quadratin.com.mx/destaca-gudino-aprobacion-de-nueva-ley-de-movilidad/",
-     "m": "quadratin.com.mx",
-     "f": "2026-11-23"
-    }
-   ],
-   "temas": [
-    "animales",
-    "impuestos_dinero",
-    "transporte"
-   ],
-   "confirmacion": "varios medios",
-   "ventana": [
-    "2026-12",
-    "2027-02"
-   ],
-   "leyes_ids": []
   },
   {
    "id": "AG:9b2f236dd476",
