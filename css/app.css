@@ -932,3 +932,10 @@ button.concepto:hover { border-color: var(--accent, #C8102E); }
 .admin-grupo > a:hover, .admin-grupo > a:focus-visible { background: var(--surface-2); }
 .admin-grupo > p.meta { margin: 0 0 4px 18px; font-size: 12px; }
 .admin-grupo .centro-menu { margin-left: 8px; }
+
+/* Títulos de sección en las páginas (no en el panel del mapa): franja de color para ubicar cada sección de un vistazo. */
+main:not(.layout) h2:not(.sin-franja) { border-left: 6px solid var(--accent); padding: 2px 0 2px 10px; }
+/* Ícono ⓘ con la explicación de un campo (title al pasar el cursor o al enfocarlo con el teclado). */
+.info { display: inline-grid; place-items: center; width: 18px; height: 18px; margin-left: 4px; border-radius: 50%; border: 1px solid var(--line);
+  font-size: 12px; font-weight: 700; font-style: normal; cursor: help; color: var(--text-2); vertical-align: middle; }
+.info:focus-visible { outline: 2px solid var(--accent); }

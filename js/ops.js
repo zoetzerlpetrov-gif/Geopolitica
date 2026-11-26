@@ -26,7 +26,8 @@ const dims = cfg.dmi.dimensiones;
 // ------------------------------------------------------------------ cliente
 const CAMPOS_CL = ["nombre", "sector", "pais", "paises", "empleados", "ingresos", "moneda", "margen", "sitios", "proveedores", "contexto"];
 getJSON("config/auditorias.json").then((a) => {
-  $("cl-sector").innerHTML = `<option value=""></option>` + Object.entries(a.sectores).map(([k, s]) => `<option value="${k}">${esc(s.nombre)}</option>`).join("") + `<option value="otro">Otro</option>`;
+  $("cl-sector").innerHTML = `<option value="">Elige el sector…</option>` + Object.entries(a.sectores).sort((x, y) => x[1].nombre.localeCompare(y[1].nombre, "es"))
+    .map(([k, s]) => `<option value="${k}">${esc(s.nombre)}</option>`).join("") + `<option value="otro">Otro</option>`;
   const c = leer("gp_ops_cliente", {});
   for (const k of CAMPOS_CL) if (c[k] != null) $(`cl-${k}`).value = c[k];
 }).catch(() => {});
