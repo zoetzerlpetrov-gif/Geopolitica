@@ -5,7 +5,7 @@
 // DESTINOS_FIJOS: no se llama a otros servicios.
 
 import { asegurarAcceso, enlaceActivacion } from "./acceso.js";
-import { rutaProyectos } from "./proyectos.js";
+import { rutaProyectos, vistaCompartida } from "./proyectos.js";
 
 export const ROLES = ["lector", "editor", "admin", "dueno"];
 export const ESTADOS = ["pendiente", "en_proceso", "cumple", "no_cumple", "no_aplica"];
@@ -131,11 +131,16 @@ export async function serveEmpresas(request, url, env, { correo, esAdmin = false
   if (request.method === "POST") {
     const texto = await request.text();
     // Las actividades de una plantilla de proyecto llegan en lote (hasta 800): ese caso admite cuerpos más grandes.
-    if (texto.length > (/\/proyectos\/(?:[0-9a-f]{16}\/)?[0-9a-f]{16}\/items$/.test(url.pathname) ? 400000 : 20000)) return json({ error: "Solicitud demasiado grande." }, 413, h);
+    if (texto.length > (/\/proyectos\/(?:[0-9a-f]{16}\/)?[0-9a-f]{16}\/(?:items|checklist)$/.test(url.pathname) ? 400000 : 20000)) return json({ error: "Solicitud demasiado grande." }, 413, h);
     try { cuerpo = texto ? JSON.parse(texto) : {}; } catch { return json({ error: "JSON inválido." }, 400, h); }
   }
   try {
     await asegurar(db);
+    // Vista de solo lectura de un proyecto compartido por enlace (sin sesión).
+    if (partes[0] === "vista" && partes.length === 2 && request.method === "GET") {
+      const v = await vistaCompartida(db, partes[1]);
+      return v ? json(v, 200, h) : json({ error: "El enlace no existe o ya no está activo." }, 404, h);
+    }
     // Administración de DOMINUS: lista de organizaciones y alta de plan/asientos tras el cobro.
     if (partes[0] === "admin") {
       if (!esAdmin) return json({ error: "Solo administración." }, 403, h);
@@ -166,7 +171,7 @@ export async function serveEmpresas(request, url, env, { correo, esAdmin = false
         if (!org) return json({ error: "La empresa no existe." }, 404, h);
         if (String(cuerpo.confirmar || "").trim() !== org.nombre) return json({ error: "Para confirmar, escribe el nombre exacto de la empresa." }, 400, h);
         await rutaProyectos(db, org.id, [], "GET", {}, {}); // asegura las tablas de proyectos
-        await db.batch(["dominus_proyecto_items", "dominus_proyectos", "dominus_cumplimiento", "dominus_org_invitaciones", "dominus_org_miembros", "dominus_org_rfc", "dominus_org_bitacora"]
+        await db.batch(["dominus_proyecto_checklist", "dominus_proyecto_items", "dominus_proyectos", "dominus_cumplimiento", "dominus_org_invitaciones", "dominus_org_miembros", "dominus_org_rfc", "dominus_org_bitacora"]
           .map((t) => db.prepare(`DELETE FROM ${t} WHERE org_id = ?`).bind(org.id)).concat([db.prepare("DELETE FROM dominus_orgs WHERE id = ?").bind(org.id)]));
         return json({ ok: true }, 200, h);
       }

@@ -11,6 +11,11 @@
 //   POST "<pid>/items"            → {items: [...], reemplazar?} actividades en lote (plantilla generada o importada)
 //   POST "<pid>/item/<iid>/borrar"
 //   POST "<pid>/borrar"
+//   POST "<pid>/fase-datos"       → {fase, datos} datos propios de cada fase (alcance del arranque, entrega, cierre…)
+//   POST "<pid>/checklist"        → {items, reemplazar?} lista de auditoría y riesgos de la plantilla (se guardan para usarlos después)
+//   POST "<pid>/checklist/<cid>"  → {estado, nota} respuesta a una pregunta o estado de un riesgo
+//   POST "<pid>/compartir"        → {activar} crea o quita el enlace de solo lectura (vista para directivos)
+// Vista pública de solo lectura: vistaCompartida(db, token) (ruta /cuenta/empresa/vista/<token>, sin sesión).
 import cfg from "../../config/proyectos.json" with { type: "json" };
 
 export const FASES = cfg.fases.map((f) => f.id);
@@ -20,6 +25,7 @@ const ID = /^[0-9a-f]{16}$/;
 export const MAX_ITEMS = 2000;
 export const MAX_LOTE = 800;
 const FECHA = /^\d{4}-\d{2}-\d{2}$/;
+export const ESTADOS_CHECK = { pregunta: ["pendiente", "cumple", "no_cumple", "no_aplica"], riesgo: ["abierto", "mitigado", "aceptado", "hallazgo"] };
 const listas = new WeakSet();
 const ahora = () => Math.floor(Date.now() / 1000);
 const nuevoId = () => [...crypto.getRandomValues(new Uint8Array(8))].map((b) => b.toString(16).padStart(2, "0")).join("");
@@ -36,6 +42,14 @@ async function asegurar(db) {
     tipo TEXT NOT NULL CHECK (tipo IN ('actividad', 'hallazgo', 'seguimiento')), texto TEXT NOT NULL, responsable TEXT NOT NULL DEFAULT '',
     fecha TEXT NOT NULL DEFAULT '', estado TEXT NOT NULL DEFAULT '', severidad TEXT NOT NULL DEFAULT '', creado INTEGER NOT NULL,
     actualizado INTEGER NOT NULL, actualizado_por TEXT NOT NULL DEFAULT '')`).run();
+  await db.prepare(`CREATE TABLE IF NOT EXISTS dominus_proyecto_checklist (id TEXT PRIMARY KEY NOT NULL, proyecto_id TEXT NOT NULL, org_id TEXT NOT NULL,
+    tipo TEXT NOT NULL CHECK (tipo IN ('pregunta', 'riesgo')), grupo TEXT NOT NULL DEFAULT '', texto TEXT NOT NULL, detalle TEXT NOT NULL DEFAULT '',
+    pais TEXT NOT NULL DEFAULT '', responsable TEXT NOT NULL DEFAULT '', estado TEXT NOT NULL DEFAULT '', nota TEXT NOT NULL DEFAULT '',
+    orden INTEGER NOT NULL DEFAULT 0, actualizado INTEGER NOT NULL, actualizado_por TEXT NOT NULL DEFAULT '')`).run();
+  // Columnas agregadas después de la primera versión (si ya existen, ALTER falla y se ignora).
+  for (const col of ["fases_datos TEXT NOT NULL DEFAULT '{}'", "vista_token TEXT NOT NULL DEFAULT ''"]) {
+    try { await db.prepare(`ALTER TABLE dominus_proyectos ADD COLUMN ${col}`).run(); } catch { /* ya existe */ }
+  }
   listas.add(db);
 }
 
@@ -67,12 +81,51 @@ export function validarItem(d = {}) {
 }
 
 /** Avance: % de actividades hechas; hallazgos abiertos por gravedad. */
-export function resumen(items = []) {
+export function resumen(items = [], checklist = []) {
   const act = items.filter((x) => x.tipo === "actividad"), hechas = act.filter((x) => x.estado === "hecho").length;
   const abiertos = items.filter((x) => x.tipo === "hallazgo" && !["cerrado", "aceptado"].includes(x.estado));
   return { actividades: act.length, hechas, avance: act.length ? Math.round((hechas / act.length) * 100) : 0,
     hallazgos_abiertos: abiertos.length, criticos: abiertos.filter((x) => ["critica", "alta"].includes(x.severidad)).length,
-    notas: items.filter((x) => x.tipo === "seguimiento").length };
+    notas: items.filter((x) => x.tipo === "seguimiento").length,
+    preguntas: checklist.filter((x) => x.tipo === "pregunta").length, respondidas: checklist.filter((x) => x.tipo === "pregunta" && x.estado !== "pendiente").length,
+    no_cumple: checklist.filter((x) => x.tipo === "pregunta" && x.estado === "no_cumple").length,
+    riesgos: checklist.filter((x) => x.tipo === "riesgo").length, riesgos_abiertos: checklist.filter((x) => x.tipo === "riesgo" && x.estado === "abierto").length };
+}
+
+const datosFases = (p) => { try { return JSON.parse(p.fases_datos || "{}"); } catch { return {}; } };
+
+/** Datos de una fase validados: hasta 20 campos de texto (máx. 2,000 caracteres cada uno). */
+export function validarDatosFase(fase, datos) {
+  if (!FASES.includes(String(fase))) throw new ErrorDato("Fase inválida.");
+  if (!datos || typeof datos !== "object" || Array.isArray(datos)) throw new ErrorDato("Datos inválidos.");
+  const out = {};
+  for (const [k, v] of Object.entries(datos).slice(0, 20)) {
+    if (!/^[a-z_]{1,30}$/.test(k)) throw new ErrorDato("Campo inválido.");
+    out[k] = Array.isArray(v) ? v.slice(0, 50).map((x) => limpio(x, 200)) : limpio(v, 2000);
+  }
+  return out;
+}
+
+export function validarCheck(d = {}) {
+  const tipo = String(d.tipo || "");
+  if (!ESTADOS_CHECK[tipo]) throw new ErrorDato("Tipo inválido.");
+  const c = { tipo, grupo: limpio(d.grupo, 200), texto: limpio(d.texto, 1500), detalle: limpio(d.detalle, 1500), pais: limpio(d.pais, 60), responsable: limpio(d.responsable, 120) };
+  if (c.texto.length < 2) throw new ErrorDato("Texto vacío.");
+  return c;
+}
+
+/** Vista pública de solo lectura de un proyecto (enlace compartido): sin correos ni notas internas de la lista. */
+export async function vistaCompartida(db, token) {
+  if (!/^[0-9a-f]{32}$/.test(String(token || ""))) return null;
+  await asegurar(db);
+  const p = await db.prepare("SELECT * FROM dominus_proyectos WHERE vista_token = ?").bind(token).first();
+  if (!p) return null;
+  const org = await db.prepare("SELECT nombre FROM dominus_orgs WHERE id = ?").bind(p.org_id).first().catch(() => null);
+  const items = (await db.prepare("SELECT tipo, texto, responsable, fecha, estado, severidad, actualizado FROM dominus_proyecto_items WHERE proyecto_id = ? ORDER BY tipo, fecha, creado").bind(p.id).all()).results || [];
+  const checklist = (await db.prepare("SELECT tipo, estado, severidad FROM dominus_proyecto_checklist WHERE proyecto_id = ?").bind(p.id).all().catch(() => ({ results: [] }))).results || [];
+  const limpia = (x) => ({ ...x, responsable: String(x.responsable || "").includes("@") ? "" : x.responsable });
+  return { empresa: org?.nombre || "", proyecto: { nombre: p.nombre, objetivo: p.objetivo, sector: p.sector, pais: p.pais, sedes: p.sedes, inicio: p.inicio, fin: p.fin,
+    fase: p.fase, estado: p.estado, actualizado: p.actualizado, ...resumen(items, checklist) }, items: items.map(limpia), fases: cfg.fases };
 }
 
 /** Atiende una ruta de proyectos de una organización. Devuelve [cuerpo, estado]. */
@@ -83,13 +136,15 @@ export async function rutaProyectos(db, orgId, partes, metodo, cuerpo, { quien =
     if (metodo === "GET" && partes.length === 0) {
       const ps = (await db.prepare("SELECT * FROM dominus_proyectos WHERE org_id = ? ORDER BY estado = 'cerrado', actualizado DESC").bind(orgId).all()).results || [];
       const its = (await db.prepare("SELECT proyecto_id, tipo, estado, severidad FROM dominus_proyecto_items WHERE org_id = ?").bind(orgId).all()).results || [];
-      return [{ proyectos: ps.map((p) => ({ ...p, ...resumen(its.filter((i) => i.proyecto_id === p.id)) })), fases: cfg.fases, tipos: TIPOS }, 200];
+      const chk = (await db.prepare("SELECT proyecto_id, tipo, estado FROM dominus_proyecto_checklist WHERE org_id = ?").bind(orgId).all()).results || [];
+      return [{ proyectos: ps.map((p) => ({ ...p, fases_datos: datosFases(p), ...resumen(its.filter((i) => i.proyecto_id === p.id), chk.filter((c) => c.proyecto_id === p.id)) })), fases: cfg.fases, tipos: TIPOS }, 200];
     }
     if (metodo === "GET" && partes.length === 1) {
       const p = await proyecto(partes[0]);
       if (!p) return [{ error: "El proyecto no existe." }, 404];
       const items = (await db.prepare("SELECT * FROM dominus_proyecto_items WHERE proyecto_id = ? ORDER BY tipo, CASE WHEN fecha = '' THEN 1 ELSE 0 END, fecha, creado").bind(p.id).all()).results || [];
-      return [{ proyecto: { ...p, ...resumen(items) }, items, fases: cfg.fases, tipos: TIPOS }, 200];
+      const checklist = (await db.prepare("SELECT * FROM dominus_proyecto_checklist WHERE proyecto_id = ? ORDER BY tipo, orden").bind(p.id).all()).results || [];
+      return [{ proyecto: { ...p, fases_datos: datosFases(p), ...resumen(items, checklist) }, items, checklist, fases: cfg.fases, tipos: TIPOS, estados_check: ESTADOS_CHECK }, 200];
     }
     if (metodo !== "POST") return [{ error: "Ruta inexistente." }, 404];
     if (!escribir) return [{ error: "Tu rol solo permite consultar los proyectos." }, 403];
@@ -112,6 +167,7 @@ export async function rutaProyectos(db, orgId, partes, metodo, cuerpo, { quien =
     }
     if (partes[1] === "borrar" && partes.length === 2) {
       await db.prepare("DELETE FROM dominus_proyecto_items WHERE proyecto_id = ?").bind(p.id).run();
+      await db.prepare("DELETE FROM dominus_proyecto_checklist WHERE proyecto_id = ?").bind(p.id).run();
       await db.prepare("DELETE FROM dominus_proyectos WHERE id = ?").bind(p.id).run();
       return [{ ok: true }, 200];
     }
@@ -129,6 +185,38 @@ export async function rutaProyectos(db, orgId, partes, metodo, cuerpo, { quien =
           .bind(nuevoId(), p.id, orgId, i.tipo, i.texto, i.responsable, i.fecha, i.estado, i.severidad, t, t, quien).run();
       }
       await db.prepare("UPDATE dominus_proyectos SET actualizado = ?, actualizado_por = ? WHERE id = ?").bind(t, quien, p.id).run();
+      return [{ ok: true }, 200];
+    }
+    if (partes[1] === "fase-datos" && partes.length === 2) {
+      const d = validarDatosFase(cuerpo.fase, cuerpo.datos);
+      const todo = { ...datosFases(p), [cuerpo.fase]: d };
+      await db.prepare("UPDATE dominus_proyectos SET fases_datos = ?, actualizado = ?, actualizado_por = ? WHERE id = ?").bind(JSON.stringify(todo), t, quien, p.id).run();
+      return [{ ok: true }, 200];
+    }
+    if (partes[1] === "compartir" && partes.length === 2) {
+      const token = cuerpo.activar ? [...crypto.getRandomValues(new Uint8Array(16))].map((b) => b.toString(16).padStart(2, "0")).join("") : "";
+      await db.prepare("UPDATE dominus_proyectos SET vista_token = ?, actualizado = ?, actualizado_por = ? WHERE id = ?").bind(token, t, quien, p.id).run();
+      return [{ ok: true, token }, 200];
+    }
+    if (partes[1] === "checklist" && partes.length === 2) {
+      const lista = Array.isArray(cuerpo.items) ? cuerpo.items : [];
+      if (!lista.length || lista.length > MAX_LOTE) return [{ error: `Envía entre 1 y ${MAX_LOTE} elementos.` }, 400];
+      const cs = lista.map(validarCheck);
+      if (cuerpo.reemplazar) await db.prepare("DELETE FROM dominus_proyecto_checklist WHERE proyecto_id = ?").bind(p.id).run();
+      const n = await db.prepare("SELECT count(*) AS n FROM dominus_proyecto_checklist WHERE proyecto_id = ?").bind(p.id).first();
+      if ((n?.n || 0) + cs.length > MAX_ITEMS) return [{ error: "Se pasaría del límite de 2,000 elementos. Usa «reemplazar»." }, 409];
+      const ins = "INSERT INTO dominus_proyecto_checklist (id, proyecto_id, org_id, tipo, grupo, texto, detalle, pais, responsable, estado, orden, actualizado, actualizado_por) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      for (let k = 0; k < cs.length; k += 50) {
+        await db.batch(cs.slice(k, k + 50).map((c, j) => db.prepare(ins).bind(nuevoId(), p.id, orgId, c.tipo, c.grupo, c.texto, c.detalle, c.pais, c.responsable, ESTADOS_CHECK[c.tipo][0], k + j, t, quien)));
+      }
+      return [{ ok: true, agregados: cs.length }, 200];
+    }
+    if (partes[1] === "checklist" && partes.length === 3 && ID.test(partes[2])) {
+      const c = await db.prepare("SELECT tipo FROM dominus_proyecto_checklist WHERE id = ? AND proyecto_id = ?").bind(partes[2], p.id).first();
+      if (!c) return [{ error: "El elemento no existe." }, 404];
+      const estado = String(cuerpo.estado || "");
+      if (!ESTADOS_CHECK[c.tipo].includes(estado)) return [{ error: "Estado inválido." }, 400];
+      await db.prepare("UPDATE dominus_proyecto_checklist SET estado = ?, nota = ?, actualizado = ?, actualizado_por = ? WHERE id = ?").bind(estado, limpio(cuerpo.nota, 1000), t, quien, partes[2]).run();
       return [{ ok: true }, 200];
     }
     if (partes[1] === "items" && partes.length === 2) {

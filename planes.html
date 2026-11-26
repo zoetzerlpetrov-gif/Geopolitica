@@ -15,6 +15,15 @@
     .pl-tarjetas { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; margin: 16px 0; }
     .pl-plan { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px; }
     .pl-plan.actual { border: 2px solid #1565C0; }
+    .pl-plan { cursor: pointer; position: relative; transition: transform .12s, box-shadow .12s; }
+    .pl-plan:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,.12); }
+    .pl-plan:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+    .pl-plan.elegido { border: 3px solid var(--accent); box-shadow: 0 10px 28px rgba(0,0,0,.22); transform: translateY(-3px); }
+    .pl-plan .pl-marca { display: none; position: absolute; top: -12px; right: 12px; background: var(--accent); color: #111; font-weight: 800; font-size: 13px; padding: 3px 10px; border-radius: 999px; }
+    .pl-plan.elegido .pl-marca { display: inline-block; }
+    .pl-tabla .col-elegida { background: color-mix(in srgb, var(--accent) 18%, transparent); font-weight: 700; }
+    .pl-eleccion { position: sticky; bottom: 0; z-index: 5; display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: flex-start; padding-right: 300px !important; padding: 10px 14px; margin-top: 12px;
+      background: var(--surface); border: 2px solid var(--accent); border-radius: var(--radius); box-shadow: 0 -4px 18px rgba(0,0,0,.15); }
     .pl-plan h2 { margin: 0; font-size: 20px; text-transform: none; letter-spacing: 0; color: var(--text); }
     .pl-precio { font-size: 22px; font-weight: 700; margin: 6px 0 2px; }
     .pl-plan ul { padding-left: 18px; margin: 8px 0; }
@@ -23,6 +32,7 @@
     .pl-tabla th:first-child, .pl-tabla td:first-child { text-align: left; }
     .pl-tabla-wrap { overflow-x: auto; }
     .pl-comprar { display: inline-block; padding: 7px 14px; border-radius: 6px; background: var(--accent); color: #111; font-weight: 700; text-decoration: none; }
+    @media (max-width: 700px) { .pl-eleccion { padding-right: 14px !important; bottom: 64px; } }
     .si { color: #2E7D32; font-weight: 700; } .no { color: var(--text-2); }
   </style>
 <script type="module" src="js/apariencia.js"></script>
@@ -38,9 +48,7 @@
     <p class="meta" id="pl-fix">Consultando el tipo de cambio…</p>
     <p class="meta" id="pl-cuenta">¿Ya tienes un plan? <a id="pl-ingreso" href="https://admin.dominusosint.com/cuenta/">Inicia sesión con tu cuenta</a> y vuelve al mapa: verás lo que incluye tu plan.</p>
     <div class="pl-tarjetas" id="pl-tarjetas">Cargando…</div>
-    <h2>Para empresas y para creadores</h2>
-    <div class="pl-tarjetas"><div class="tarjeta"><h3>🏢 Mi empresa</h3><p>Cumplimiento normativo por país y sector con responsables, plazos, evidencias y avisos cuando cambia una ley; tu equipo con invitaciones y roles. 14 días de prueba con hasta 3 usuarios.</p><p><a class="boton" href="empresa.html">Crear el espacio de mi empresa</a></p></div>
-      <div class="tarjeta"><h3>🎬 Herramientas para creadores</h3><p>Gratis y sin cuenta: tu texto adaptado a cada red, imágenes y miniaturas con tu marca, temas del día y horarios para publicar.</p><p><a class="boton" href="creadores.html">Abrir las herramientas</a></p></div></div>
+    <div class="pl-eleccion" id="pl-eleccion" hidden role="status"></div>
     <h2>Comparación por sección</h2>
     <div class="pl-tabla-wrap"><table class="pl-tabla" id="pl-tabla"></table></div>
     <p class="meta">Algunas capas del sitio público no están en ningún plan porque su fuente no permite uso comercial; por eso no aparecen aquí.</p>
@@ -55,7 +63,8 @@
     const actual = vistaActual() === "pago" ? planActual(cat) : "";
     document.getElementById("pl-fix").textContent = fix ? `Precios en dólares (USD). El cobro se hace en pesos con el FIX de Banxico: ${fix.valor} pesos por dólar (${fix.fecha}).` : "Precios en dólares (USD). Sin tipo de cambio disponible para mostrar la referencia en pesos.";
     document.getElementById("pl-tarjetas").innerHTML = cat.planes.map((p) => `
-      <section class="pl-plan${p.id === actual ? " actual" : ""}" id="${esc(p.id)}">
+      <section class="pl-plan${p.id === actual ? " actual" : ""}" id="${esc(p.id)}" data-plan="${esc(p.id)}" tabindex="0" role="button" aria-pressed="false" aria-label="Elegir el plan ${esc(p.nombre)}">
+        <span class="pl-marca">✔ Elegido</span>
         <h2>${esc(p.nombre)}${p.id === actual ? ` <span class="chip vista-pago">tu plan</span>` : ""}</h2>
         <div class="pl-precio">${esc(precioCorto(p, fix))}</div>
         <p class="meta">${esc(textoPrecio(p, fix, cat.cobro.texto))}</p>
@@ -66,6 +75,23 @@
       </section>`).join("");
     document.getElementById("pl-tabla").innerHTML = `<tr><th>Sección</th>${cat.planes.map((p) => `<th>${esc(p.nombre)}</th>`).join("")}</tr>`
       + filasComparacion(cat).map((f) => `<tr><td>${esc(f.nombre)}</td>${f.incluido.map((x) => `<td class="${x ? "si" : "no"}">${x ? "✓" : "🔒"}</td>`).join("")}</tr>`).join("");
+    // Elegir un plan: se resalta su tarjeta y su columna en la comparación, y aparece abajo la barra para comprarlo.
+    const elegir = (id, desplazar = false) => {
+      const p = cat.planes.find((x) => x.id === id); if (!p) return;
+      const k = cat.planes.indexOf(p) + 2;
+      for (const t of document.querySelectorAll(".pl-plan")) { const si = t.dataset.plan === id; t.classList.toggle("elegido", si); t.setAttribute("aria-pressed", String(si)); }
+      for (const c of document.querySelectorAll("#pl-tabla .col-elegida")) c.classList.remove("col-elegida");
+      for (const c of document.querySelectorAll(`#pl-tabla tr > :nth-child(${k})`)) c.classList.add("col-elegida");
+      const url = p.usd > 0 ? enlaceCompra(p) : "";
+      const barra = document.getElementById("pl-eleccion"); barra.hidden = false;
+      barra.innerHTML = `<span>Elegiste <b>${esc(p.nombre)}</b> · ${esc(precioCorto(p, fix))}</span>${url ? `<a class="pl-comprar" href="${esc(url)}" target="_blank" rel="noopener noreferrer">Comprar ${esc(p.nombre)}</a>` : `<span class="meta">${p.usd > 0 ? "Compra en línea: muy pronto." : "Es gratis: no necesitas comprar."}</span>`}`;
+      try { history.replaceState(null, "", `#${id}`); } catch (e) { /* sin historial */ }
+      if (desplazar) document.getElementById(id).scrollIntoView({ block: "nearest", behavior: "smooth" });
+    };
+    document.getElementById("pl-tarjetas").addEventListener("click", (e) => { if (e.target.closest("a")) return; const t = e.target.closest("[data-plan]"); if (t) elegir(t.dataset.plan); });
+    document.getElementById("pl-tarjetas").addEventListener("keydown", (e) => { const t = e.target.closest("[data-plan]"); if (t && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); elegir(t.dataset.plan); } });
+    const inicial = decodeURIComponent(location.hash.slice(1));
+    if (inicial) elegir(inicial, true);
   </script>
   <script type="module" src="js/vista_enlaces.js"></script>
 </body>
