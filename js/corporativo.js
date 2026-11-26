@@ -1,6 +1,6 @@
 // Inteligencia estratégica corporativa: instalaciones propias (sedes, plantas, proveedores, almacenes) cruzadas con los
 // eventos del mapa, matriz de riesgo 5×5 (ISO 31000), escenarios, exposición por país y radar de competidores.
-// Las instalaciones se guardan SOLO en este navegador (localStorage); no se envían a ningún servidor.
+// Las instalaciones se guardan en localStorage y js/sincronizar.js las copia al servidor por empresa (solo administración).
 import { esc, safeUrl, storage, distanciaKm, getJSON } from "./util.js";
 import * as seg from "./seguimiento.js";
 

@@ -6,6 +6,7 @@
 
 import { asegurarAcceso, enlaceActivacion } from "./acceso.js";
 import { rutaProyectos, vistaCompartida } from "./proyectos.js";
+import { rutaDatos, INTERNO } from "./almacen.js";
 
 export const ROLES = ["lector", "editor", "admin", "dueno"];
 export const ESTADOS = ["pendiente", "en_proceso", "cumple", "no_cumple", "no_aplica"];
@@ -131,7 +132,7 @@ export async function serveEmpresas(request, url, env, { correo, esAdmin = false
   if (request.method === "POST") {
     const texto = await request.text();
     // Las actividades de una plantilla de proyecto llegan en lote (hasta 800): ese caso admite cuerpos más grandes.
-    if (texto.length > (/\/proyectos\/(?:[0-9a-f]{16}\/)?[0-9a-f]{16}\/(?:items|checklist)$/.test(url.pathname) ? 400000 : 20000)) return json({ error: "Solicitud demasiado grande." }, 413, h);
+    if (texto.length > (/\/proyectos\/(?:[0-9a-f]{16}\/)?[0-9a-f]{16}\/(?:items|checklist)$|\/admin\/datos\/[0-9a-z-]+$/.test(url.pathname) ? 2000000 : 20000)) return json({ error: "Solicitud demasiado grande." }, 413, h);
     try { cuerpo = texto ? JSON.parse(texto) : {}; } catch { return json({ error: "JSON inválido." }, 400, h); }
   }
   try {
@@ -171,7 +172,8 @@ export async function serveEmpresas(request, url, env, { correo, esAdmin = false
         if (!org) return json({ error: "La empresa no existe." }, 404, h);
         if (String(cuerpo.confirmar || "").trim() !== org.nombre) return json({ error: "Para confirmar, escribe el nombre exacto de la empresa." }, 400, h);
         await rutaProyectos(db, org.id, [], "GET", {}, {}); // asegura las tablas de proyectos
-        await db.batch(["dominus_proyecto_checklist", "dominus_proyecto_items", "dominus_proyectos", "dominus_cumplimiento", "dominus_org_invitaciones", "dominus_org_miembros", "dominus_org_rfc", "dominus_org_bitacora"]
+        await rutaDatos(db, org.id, "GET"); // y la de datos de OPS/Caja/Corporativo
+        await db.batch(["dominus_org_datos", "dominus_proyecto_checklist", "dominus_proyecto_items", "dominus_proyectos", "dominus_cumplimiento", "dominus_org_invitaciones", "dominus_org_miembros", "dominus_org_rfc", "dominus_org_bitacora"]
           .map((t) => db.prepare(`DELETE FROM ${t} WHERE org_id = ?`).bind(org.id)).concat([db.prepare("DELETE FROM dominus_orgs WHERE id = ?").bind(org.id)]));
         return json({ ok: true }, 200, h);
       }
@@ -269,6 +271,11 @@ export async function serveEmpresas(request, url, env, { correo, esAdmin = false
         await db.prepare("INSERT INTO dominus_cortesias (email, producto, plan, vence, nota, creada_por) VALUES (?, ?, ?, ?, ?, 'admin-dominus')").bind(email, producto, plan, vence, nota).run();
         const c = await db.prepare("SELECT activa FROM dominus_cuentas WHERE email = ?").bind(email).first();
         return json({ ok: true, vence, token: c?.activa ? null : await enlaceActivacion(db, email, "admin-dominus") }, 201, h);
+      }
+      if (partes[1] === "datos" && partes.length === 3) {
+        // Datos de DOMINUS OPS, Caja e Inteligencia corporativa por empresa (js/sincronizar.js).
+        const [b, s] = await rutaDatos(db, partes[2] === INTERNO ? INTERNO : partes[2], request.method, cuerpo);
+        return json(b, s, h);
       }
       if (partes[1] === "proyectos") {
         // Proyectos y seguimiento de cualquier cliente (Admin → Clientes y proyectos → Proyectos).

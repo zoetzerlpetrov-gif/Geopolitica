@@ -1,6 +1,6 @@
 // DOMINUS OPS → Ciberseguridad: cuestionario guiado, revisión pública del dominio (DNS sobre HTTPS de Cloudflare,
 // solo registros públicos), resultados por función de NIST CSF 2.0, preparación por amenaza, plan de acción y reporte.
-// Las respuestas se guardan solo en este navegador (por cliente). Nada se envía a un servidor de DOMINUS.
+// Las respuestas se guardan por cliente en localStorage; js/sincronizar.js las copia al servidor por empresa.
 import { calcular, evaluarDNS, respuestaCorreo, limpiarDominio, DOMINIO } from "./ops-ciber-logica.js";
 
 const $ = (id) => document.getElementById(id);

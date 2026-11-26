@@ -22,6 +22,24 @@ if (q.get("embebido") === "1" && window.parent !== window) {
   window.addEventListener("load", () => { abrir(); avisar(); });
   if (document.readyState !== "loading") abrir(); else document.addEventListener("DOMContentLoaded", abrir);
   new ResizeObserver(avisar).observe(document.documentElement);
+  // Si la página cambia sola a otra pestaña (p. ej. «Abrir en la pestaña Bitácora»), las pestañas están ocultas:
+  // aparece un botón para volver a la pestaña de este paso.
+  if (panel) {
+    const volver = document.createElement("button");
+    volver.type = "button"; volver.hidden = true;
+    volver.style.cssText = "position:sticky;top:0;z-index:20;margin:6px 0;font:inherit;font-weight:700;padding:6px 14px;border-radius:8px;border:2px solid var(--accent,#C8102E);background:var(--surface,#fff);color:var(--text,#111);cursor:pointer";
+    const original = () => document.querySelector(`[role=tab][data-p="${CSS.escape(panel)}"]`);
+    volver.addEventListener("click", () => { original()?.click(); volver.hidden = true; window.scrollTo(0, 0); });
+    const revisar = () => {
+      const o = original(); if (!o) return;
+      const activa = document.querySelector('[role=tab][aria-selected="true"]');
+      volver.hidden = !activa || activa === o;
+      if (!volver.hidden) volver.textContent = `↩ Volver a «${o.textContent.trim()}»`;
+    };
+    document.addEventListener("click", () => setTimeout(revisar, 50), true);
+    document.addEventListener("DOMContentLoaded", () => (document.querySelector("main") || document.body).prepend(volver));
+    if (document.readyState !== "loading") (document.querySelector("main") || document.body).prepend(volver);
+  }
   // Enlaces a otras páginas: se abren en otra pestaña (la página de proyectos no se pierde).
   document.addEventListener("click", (e) => {
     const a = e.target.closest("a[href]");

@@ -56,7 +56,7 @@ export const FASES_OPS = { "0": "Antes de empezar", I: "Fase I · Estrategia y p
   IV: "Fase IV · Monitoreo y War Room", V: "Fase V · Evaluación y cierre", VI: "Fase VI · Escalamiento y continuidad" };
 
 /** Dirección del panel incrustado. */
-export const urlPanel = (pagina, panel) => `${pagina}?embebido=1${panel ? `&panel=${encodeURIComponent(panel)}` : ""}`;
+export const urlPanel = (pagina, panel, org = "") => `${pagina}?embebido=1${panel ? `&panel=${encodeURIComponent(panel)}` : ""}${org ? `&org=${encodeURIComponent(org)}` : ""}`;
 
 async function api(ruta, cuerpo) {
   const init = { credentials: "include", cache: "no-store" };
@@ -111,7 +111,7 @@ if (typeof document !== "undefined" && $("fl-indice")) {
       ${p.proyecto ? (o ? `<div class="tarjeta"><b>Proyectos de ${esc(o.nombre)}</b><p id="pr-msg" class="meta" role="status"></p><div id="pr-cont"></div></div>`
         : `<div class="tarjeta">Primero elige la empresa en «Empresa activa» (arriba) o dala de alta en el paso 1.</div>`) : ""}
       ${p.paneles ? `<div class="subtabs" role="tablist">${p.paneles.map(([t], k) => `<button type="button" role="tab" data-panel="${k}" aria-selected="${k === 0}">${esc(t)}</button>`).join("")}</div>
-        <iframe class="panel" id="fl-iframe" title="${esc(p.paneles[0][0])}" src="${esc(urlPanel(p.paneles[0][1], p.paneles[0][2]))}" loading="lazy"></iframe>` : ""}
+        <iframe class="panel" id="fl-iframe" title="${esc(p.paneles[0][0])}" src="${esc(urlPanel(p.paneles[0][1], p.paneles[0][2], org))}" loading="lazy"></iframe>` : ""}
       <div class="nav-pasos">${i > 0 ? `<button type="button" class="b" data-paso="${PASOS[i - 1].id}">← ${esc(PASOS[i - 1].titulo)}</button>` : "<span></span>"}
         ${i < PASOS.length - 1 ? `<button type="button" class="si" data-paso="${PASOS[i + 1].id}">Siguiente paso: ${esc(PASOS[i + 1].titulo)} →</button>` : ""}</div>`;
     if (p.proyecto && o) {
@@ -128,7 +128,7 @@ if (typeof document !== "undefined" && $("fl-indice")) {
     if (t) {
       const p = PASOS.find((x) => x.id === actual), [titulo, pagina, panel] = p.paneles[Number(t.dataset.panel)];
       for (const x of document.querySelectorAll(".subtabs button")) x.setAttribute("aria-selected", String(x === t));
-      Object.assign($("fl-iframe"), { title: titulo, src: urlPanel(pagina, panel) });
+      Object.assign($("fl-iframe"), { title: titulo, src: urlPanel(pagina, panel, org) });
       $("fl-iframe").style.height = "";
     }
   });

@@ -36,6 +36,7 @@
     dl.kv { display: grid; grid-template-columns: minmax(120px, 220px) 1fr; gap: 2px 10px; margin: 6px 0; } dl.kv dt { color: var(--text-2); } dl.kv dd { margin: 0; word-break: break-word; }
     @media (max-width: 560px) { dl.kv { grid-template-columns: 1fr; } }
   </style>
+<script type="module" src="js/sincronizar.js"></script>
 <script type="module" src="js/apariencia.js"></script>
 </head>
 <body>
@@ -146,7 +147,7 @@
       <h2>Plantillas de auditoría por sector</h2>
       <p class="meta">Lista de verificación con controles comunes a toda empresa (gobierno, integridad, fiscal, laboral, datos, ESG, riesgo) y controles del sector.
         Cada control trae la evidencia que conviene pedir y la norma o ley de referencia, de México y del mundo. Califica cada uno, anota lo encontrado y descarga el informe.
-        Lo que captures se guarda solo en este navegador.</p>
+        Lo que captures se guarda en el servidor (por empresa).</p>
       <div class="barra"><select id="aud-sector" aria-label="Sector" style="max-width:420px"></select>
         <button type="button" id="aud-informe">Descargar informe (Markdown)</button><button type="button" id="aud-vaciar">Vaciar este sector</button></div>
       <details class="tarjeta plegable"><summary><h3>Datos de la auditoría y cumplimiento global</h3></summary>
@@ -211,7 +212,7 @@
       <h2>Seguimiento de proyecto (plan importado)</h2>
       <p class="meta">Importa el Excel de la plantilla de proyecto (o su JSON) y ve su avance: semáforo de vencimientos, Gantt por fase, avance por fase y país,
         lo vencido y lo que vence en los próximos 60 días, lo que está en proceso, lo cumplido y los cambios de la Bitácora normativa que tocan sus leyes.
-        Se guarda solo en este navegador y también aparece en DOMINUS OPS → Proyecto y en sus Tableros. Al actualizar el Excel, vuelve a importarlo.</p>
+        Se guarda en el servidor (por empresa) y también aparece en DOMINUS OPS → Proyecto y en sus Tableros. Al actualizar el Excel, vuelve a importarlo.</p>
       <div id="seg-raiz"></div>
     </section>
     <section class="panel" id="p-escenarios" hidden>
@@ -224,7 +225,7 @@
     <section class="panel" id="p-nube" hidden>
       <h2>Nube y seguridad: autoevaluación</h2>
       <p class="meta">Responde cada control (Sí, Parcial, No, No aplica). El resultado se agrupa en las seis funciones del NIST Cybersecurity Framework 2.0.
-        Las referencias apuntan a CIS Controls v8.1, CIS Benchmarks, CSA Cloud Controls Matrix (CCM) e ISO/IEC 27017. Se guarda solo en este navegador.</p>
+        Las referencias apuntan a CIS Controls v8.1, CIS Benchmarks, CSA Cloud Controls Matrix (CCM) e ISO/IEC 27017. Se guarda en el servidor (por empresa).</p>
       <details class="tarjeta plegable"><summary><h3>Resultados de la autoevaluación</h3></summary>
       <div id="nube-res"></div>
       <div class="barra"><button type="button" id="nube-md">Descargar resultado (Markdown)</button><button type="button" id="nube-vaciar">Vaciar</button></div>
