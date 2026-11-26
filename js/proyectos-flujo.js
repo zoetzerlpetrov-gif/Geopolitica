@@ -58,6 +58,45 @@ export const FASES_OPS = { "0": "Antes de empezar", I: "Fase I · Estrategia y p
 /** Dirección del panel incrustado. */
 export const urlPanel = (pagina, panel, org = "") => `${pagina}?embebido=1${panel ? `&panel=${encodeURIComponent(panel)}` : ""}${org ? `&org=${encodeURIComponent(org)}` : ""}`;
 
+// Mi empresa usa el mismo flujo, salvo el alta de la empresa (solo DOMINUS) y la autoauditoría de DOMINUS. Sus
+// herramientas se abren en las copias públicas de las páginas («empresa-*.html», ver tools/pages/paginas_empresa.py),
+// que guardan los datos en el espacio de la empresa con la sesión de sus miembros.
+export const PAGINA_EMPRESA = { "ops.html": "empresa-ops.html", "herramientas.html": "empresa-caja.html", "corporativo.html": "empresa-corporativo.html" };
+const SOLO_DOMINUS = new Set(["clientes.html", "ops.html#autoaud"]);
+
+/** Pasos para Admin («admin») o para una empresa cliente («empresa»), numerados en orden. */
+export function pasosPara(modo = "admin") {
+  if (modo !== "empresa") return PASOS;
+  return PASOS.filter((p) => p.id !== "empresa").map((p, k) => ({
+    ...p, num: String(k + 1),
+    que: p.que.map((x) => x.replace(/ o dala de alta en el paso 1/g, "")),
+    paneles: p.paneles?.filter(([, pag, pan]) => !SOLO_DOMINUS.has(pag) && !SOLO_DOMINUS.has(`${pag}#${pan}`)).map(([t, pag, pan]) => [t, PAGINA_EMPRESA[pag] || pag, pan]),
+  })).map((p) => (p.paneles && !p.paneles.length ? { ...p, paneles: undefined } : p));
+}
+
+/** Estilos del flujo (los usa Mi empresa; proyectos.html los trae en su página). */
+export const CSS_FLUJO = `.flujo { display: grid; grid-template-columns: 270px 1fr; gap: 16px; align-items: start; }
+  .indice { position: sticky; top: 8px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); padding: 8px; }
+  .indice ol { list-style: none; margin: 0; padding: 0; }
+  .indice button { display: grid; grid-template-columns: 34px 1fr; gap: 6px; align-items: center; width: 100%; text-align: left; font: inherit; padding: 8px; margin: 2px 0;
+    border: 1px solid transparent; border-radius: var(--radius); background: transparent; color: var(--text); cursor: pointer; }
+  .indice button:hover { background: var(--surface-2); } .indice button[aria-current="step"] { border-color: var(--accent); background: var(--surface-2); font-weight: 700; }
+  .indice .num { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--line); font-weight: 800; font-size: 13px; }
+  .indice button[aria-current="step"] .num { background: var(--accent); color: var(--on-accent, #fff); border-color: var(--accent); }
+  .indice .grupo-ops { margin: 10px 4px 2px; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; color: var(--accent); }
+  .indice .sub { display: block; font-weight: 400; color: var(--text-2); font-size: 12px; }
+  .grupo-ops-actual { margin: 0; font-weight: 700; color: var(--accent); }
+  .paso h2 { border-left: 6px solid var(--accent); padding-left: 10px; font-size: 20px; text-transform: none; letter-spacing: 0; color: var(--text); margin: 0 0 6px; }
+  .que { border-left: 5px solid var(--accent); padding: 8px 12px; background: var(--surface-2); border-radius: var(--radius); margin: 8px 0 12px; }
+  .que ol { margin: 6px 0 0 18px; padding: 0; } .que li { margin: 3px 0; }
+  .subtabs { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+  .subtabs button { font: inherit; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface-2); color: var(--text); cursor: pointer; }
+  .subtabs button[aria-selected="true"] { background: var(--accent); color: var(--on-accent, #fff); border-color: transparent; font-weight: 700; }
+  iframe.panel { width: 100%; min-height: 600px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+  .nav-pasos { display: flex; justify-content: space-between; gap: 8px; margin-top: 14px; }
+  .nav-pasos .si { font: inherit; min-height: 38px; padding: 6px 16px; border: 0; border-radius: var(--radius); background: var(--accent); color: var(--on-accent, #fff); font-weight: 700; cursor: pointer; }
+  @media (max-width: 900px) { .flujo { grid-template-columns: 1fr; } .indice { position: static; } }`;
+
 async function api(ruta, cuerpo) {
   const init = { credentials: "include", cache: "no-store" };
   if (cuerpo !== undefined) Object.assign(init, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify(cuerpo) });
@@ -67,29 +106,37 @@ async function api(ruta, cuerpo) {
   return d;
 }
 
-if (typeof document !== "undefined" && $("fl-indice")) {
-  document.head.insertAdjacentHTML("beforeend", `<style>${CSS_PROYECTOS}</style>`);
+/**
+ * Monta el flujo dentro de `raiz` (debe contener #fl-indice, #fl-paso, #fl-org, #fl-proy y #fl-msg).
+ * op.modo: «admin» (elige entre todas las empresas) o «empresa» (una sola, la de Mi empresa).
+ * op.orgs(): lista [{id, nombre}]; op.proyectos(org): lista de proyectos; op.apiProyecto(org): (ruta, cuerpo) → respuesta;
+ * op.evidencias(org): base de la API de evidencias; op.editar: si puede editar.
+ */
+export async function montarFlujo(raiz, op) {
+  const $f = (id) => raiz.querySelector(`#${id}`);
+  const pasos = pasosPara(op.modo);
   const leer = (k) => { try { return localStorage.getItem(k) || ""; } catch { return ""; } };
   const guardar = (k, v) => { try { localStorage.setItem(k, v); } catch { /* sin almacenamiento */ } };
-  let org = leer("dominus_flujo_org"), actual = (location.hash.match(/paso=([a-z]+)/) || [])[1] || leer("dominus_flujo_paso") || "empresa";
-  if (!PASOS.some((p) => p.id === actual)) actual = "empresa";
-  let orgs = [], proyActivo = leer("dominus_flujo_proyecto");
+  const pref = op.modo === "empresa" ? "dominus_flujo_emp_" : "dominus_flujo_";
+  let org = op.org || leer(`${pref}org`), actual = (location.hash.match(/paso=([a-z]+)/) || [])[1] || leer(`${pref}paso`) || pasos[0].id;
+  if (!pasos.some((p) => p.id === actual)) actual = pasos[0].id;
+  let orgs = [], proyActivo = leer(`${pref}proyecto`);
 
   async function cargarOrgs() {
     try {
-      orgs = (await api("orgs")).orgs;
-      $("fl-org").innerHTML = `<option value="">Elige una empresa…</option>${orgs.map((o) => `<option value="${esc(o.id)}">${esc(o.nombre)}</option>`).join("")}`;
-      if (!orgs.some((o) => o.id === org)) org = "";
-      $("fl-org").value = org;
+      orgs = await op.orgs();
+      $f("fl-org").innerHTML = `${op.modo === "empresa" ? "" : '<option value="">Elige una empresa…</option>'}${orgs.map((o) => `<option value="${esc(o.id)}">${esc(o.nombre)}</option>`).join("")}`;
+      if (!orgs.some((o) => o.id === org)) org = op.modo === "empresa" ? orgs[0]?.id || "" : "";
+      $f("fl-org").value = org;
       await cargarProyectos();
-    } catch (e) { $("fl-msg").innerHTML = `<span class="error">${esc(e.message)}</span>`; }
+    } catch (e) { $f("fl-msg").innerHTML = `<span class="error">${esc(e.message)}</span>`; }
   }
 
   async function cargarProyectos() {
-    const sel = $("fl-proy");
+    const sel = $f("fl-proy");
     if (!org) { sel.innerHTML = '<option value="">—</option>'; sel.disabled = true; proyActivo = ""; return; }
     try {
-      const { proyectos } = await api(`proyectos/${org}`);
+      const proyectos = await op.proyectos(org);
       if (!proyectos.some((x) => x.id === proyActivo)) proyActivo = "";
       sel.innerHTML = `<option value="">Elige o crea uno en el paso 1…</option>${proyectos.map((x) => `<option value="${esc(x.id)}">${esc(x.nombre)}</option>`).join("")}`;
       sel.value = proyActivo; sel.disabled = false;
@@ -98,51 +145,64 @@ if (typeof document !== "undefined" && $("fl-indice")) {
 
   function indice() {
     let grupo = "";
-    $("fl-indice").innerHTML = PASOS.map((p) => `${p.ops !== grupo ? `<li class="grupo-ops">${esc(FASES_OPS[(grupo = p.ops)])}</li>` : ""}<li><button type="button" data-paso="${p.id}" ${p.id === actual ? 'aria-current="step"' : ""}>
+    $f("fl-indice").innerHTML = pasos.map((p) => `${p.ops !== grupo ? `<li class="grupo-ops">${esc(FASES_OPS[(grupo = p.ops)])}</li>` : ""}<li><button type="button" data-paso="${p.id}" ${p.id === actual ? 'aria-current="step"' : ""}>
       <span class="num">${esc(p.num)}</span><span>${esc(p.icono)} ${esc(p.titulo)}<span class="sub">${esc(p.sub)}</span></span></button></li>`).join("");
   }
 
   function pintar() {
-    const i = PASOS.findIndex((p) => p.id === actual), p = PASOS[i];
+    const i = pasos.findIndex((p) => p.id === actual), p = pasos[i];
     indice();
     const o = orgs.find((x) => x.id === org);
-    $("fl-paso").innerHTML = `<p class="meta grupo-ops-actual">${esc(FASES_OPS[p.ops])}</p><h2>${esc(p.num)}. ${esc(p.icono)} ${esc(p.titulo)}</h2>
+    $f("fl-paso").innerHTML = `<p class="meta grupo-ops-actual">${esc(FASES_OPS[p.ops])}</p><h2>${esc(p.num)}. ${esc(p.icono)} ${esc(p.titulo)}</h2>
       <div class="que"><b>Qué haces en este paso</b><ol>${p.que.map((x) => `<li>${esc(x)}</li>`).join("")}</ol></div>
       ${p.proyecto ? (o ? `<div class="tarjeta"><b>Proyectos de ${esc(o.nombre)}</b><p id="pr-msg" class="meta" role="status"></p><div id="pr-cont"></div></div>`
-        : `<div class="tarjeta">Primero elige la empresa en «Empresa activa» (arriba) o dala de alta en el paso 1.</div>`) : ""}
+        : `<div class="tarjeta">Primero elige la empresa en «Empresa activa» (arriba)${op.modo === "empresa" ? "" : " o dala de alta en el paso 0"}.</div>`) : ""}
       ${p.paneles ? `<div class="subtabs" role="tablist">${p.paneles.map(([t], k) => `<button type="button" role="tab" data-panel="${k}" aria-selected="${k === 0}">${esc(t)}</button>`).join("")}</div>
         <iframe class="panel" id="fl-iframe" title="${esc(p.paneles[0][0])}" src="${esc(urlPanel(p.paneles[0][1], p.paneles[0][2], org))}" loading="lazy"></iframe>` : ""}
-      <div class="nav-pasos">${i > 0 ? `<button type="button" class="b" data-paso="${PASOS[i - 1].id}">← ${esc(PASOS[i - 1].titulo)}</button>` : "<span></span>"}
-        ${i < PASOS.length - 1 ? `<button type="button" class="si" data-paso="${PASOS[i + 1].id}">Siguiente paso: ${esc(PASOS[i + 1].titulo)} →</button>` : ""}</div>`;
+      <div class="nav-pasos">${i > 0 ? `<button type="button" class="b" data-paso="${pasos[i - 1].id}">← ${esc(pasos[i - 1].titulo)}</button>` : "<span></span>"}
+        ${i < pasos.length - 1 ? `<button type="button" class="si" data-paso="${pasos[i + 1].id}">Siguiente paso: ${esc(pasos[i + 1].titulo)} →</button>` : ""}</div>`;
     if (p.proyecto && o) {
-      const m = montarProyectos($("pr-cont"), { editar: true, evidencias: `${API}evidencias/${org}`, api: (ruta, cuerpo) => api(`proyectos/${org}${ruta ? "/" + ruta : ""}`, cuerpo), alMensaje: (h) => { $("pr-msg").innerHTML = h; },
-        alAbrir: (pid) => { if (pid !== proyActivo) { proyActivo = pid; guardar("dominus_flujo_proyecto", pid); cargarProyectos(); } } });
+      const m = montarProyectos($f("pr-cont"), { editar: op.editar !== false, evidencias: op.evidencias(org), api: op.apiProyecto(org), alMensaje: (h) => { $f("pr-msg").innerHTML = h; },
+        alAbrir: (pid) => { if (pid !== proyActivo) { proyActivo = pid; guardar(`${pref}proyecto`, pid); cargarProyectos(); } } });
       if (proyActivo) m.abrir(proyActivo, p.fase); else m.lista();
     }
   }
 
-  const irA = (id) => { actual = id; guardar("dominus_flujo_paso", id); history.replaceState(null, "", `#paso=${id}`); pintar(); window.scrollTo({ top: 0, behavior: "smooth" }); };
-  document.addEventListener("click", (e) => {
+  const irA = (id) => { actual = id; guardar(`${pref}paso`, id); history.replaceState(null, "", `#paso=${id}`); pintar(); raiz.scrollIntoView({ behavior: "smooth", block: "start" }); };
+  raiz.addEventListener("click", (e) => {
     const b = e.target.closest("[data-paso]"); if (b) return irA(b.dataset.paso);
     const t = e.target.closest("[data-panel]");
     if (t) {
-      const p = PASOS.find((x) => x.id === actual), [titulo, pagina, panel] = p.paneles[Number(t.dataset.panel)];
-      for (const x of document.querySelectorAll(".subtabs button")) x.setAttribute("aria-selected", String(x === t));
-      Object.assign($("fl-iframe"), { title: titulo, src: urlPanel(pagina, panel, org) });
-      $("fl-iframe").style.height = "";
+      const p = pasos.find((x) => x.id === actual), [titulo, pagina, panel] = p.paneles[Number(t.dataset.panel)];
+      for (const x of raiz.querySelectorAll(".subtabs button")) x.setAttribute("aria-selected", String(x === t));
+      Object.assign($f("fl-iframe"), { title: titulo, src: urlPanel(pagina, panel, org) });
+      $f("fl-iframe").style.height = "";
     }
   });
-  $("fl-org").addEventListener("change", async (e) => { org = e.target.value; guardar("dominus_flujo_org", org); proyActivo = ""; guardar("dominus_flujo_proyecto", ""); await cargarProyectos(); pintar(); });
-  $("fl-proy").addEventListener("change", (e) => { proyActivo = e.target.value; guardar("dominus_flujo_proyecto", proyActivo); pintar(); });
+  $f("fl-org").addEventListener("change", async (e) => { org = e.target.value; guardar(`${pref}org`, org); proyActivo = ""; guardar(`${pref}proyecto`, ""); await cargarProyectos(); pintar(); });
+  $f("fl-proy").addEventListener("change", (e) => { proyActivo = e.target.value; guardar(`${pref}proyecto`, proyActivo); pintar(); });
   // Altura de los paneles incrustados (los avisa js/embebido.js desde el mismo origen).
   window.addEventListener("message", (e) => {
     if (e.origin !== location.origin || !e.data?.dominusEmbebido) return;
-    const f = $("fl-iframe");
+    const f = $f("fl-iframe");
     if (f && e.source === f.contentWindow) f.style.height = `${Math.max(500, Math.min(20000, Number(e.data.alto) + 24))}px`;
   });
-  // Al volver de dar de alta una empresa en el paso 1, refresca la lista.
-  let ultimaCarga = 0;
-  window.addEventListener("focus", () => { if (Date.now() - ultimaCarga > 15000) { ultimaCarga = Date.now(); cargarOrgs(); } });
+  if (op.modo !== "empresa") {
+    // Al volver de dar de alta una empresa en el paso 0, refresca la lista.
+    let ultimaCarga = 0;
+    window.addEventListener("focus", () => { if (Date.now() - ultimaCarga > 15000) { ultimaCarga = Date.now(); cargarOrgs(); } });
+  }
   await cargarOrgs();
   pintar();
+}
+
+if (typeof document !== "undefined" && document.getElementById("fl-indice") && !document.getElementById("p-flujo")) {
+  document.head.insertAdjacentHTML("beforeend", `<style>${CSS_PROYECTOS}</style>`);
+  montarFlujo(document.body, {
+    modo: "admin",
+    orgs: async () => (await api("orgs")).orgs,
+    proyectos: async (org) => (await api(`proyectos/${org}`)).proyectos,
+    apiProyecto: (org) => (ruta, cuerpo) => api(`proyectos/${org}${ruta ? "/" + ruta : ""}`, cuerpo),
+    evidencias: (org) => `${API}evidencias/${org}`,
+  });
 }

@@ -56,6 +56,7 @@ jobs:
           touch _site/.nojekyll
           python3 tools/pages/fuentes_pagina.py _site/fuentes.html   # fuentes y licencias dentro del sitio (sin enlazar al repositorio)
           python3 tools/pages/sgsi_documentos.py _site/config/sgsi_documentos.json
+          python3 tools/pages/paginas_empresa.py _site   # copias de OPS, Caja y Corporativo para Mi empresa (antes de mover las de Admin)
           python3 tools/pages/mover_admin.py _site   # Admin en /ops/ (Cloudflare Access protege dominusosint.com/ops/*)
           # Llave pública de Esri para la imagen satelital nítida (restringida al dominio en ArcGIS).
           # Vive en el secreto ESRI_API_KEY, nunca en el repositorio; sin secreto no se escribe el archivo.

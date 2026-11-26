@@ -32,7 +32,9 @@ export function conVista(href, plan) {
 
 /** Páginas que se comparten por enlace con terceros (demostración para directivos y vista de directivo de la cartera):
  *  se abren tal cual, sin candados ni botón de planes. */
-export const COMPARTIDAS = new Set(["demo.html", "cartera.html"]);
+// Las «empresa-*.html» son las herramientas de DOMINUS OPS, Caja e Inteligencia corporativa para las empresas cliente:
+// solo funcionan dentro de Mi empresa, con la sesión de un miembro (js/sincronizar.js revisa el acceso con el servidor).
+export const COMPARTIDAS = new Set(["demo.html", "cartera.html", "empresa-ops.html", "empresa-caja.html", "empresa-corporativo.html"]);
 
 async function iniciar() {
   if (vistaActual() !== "pago") return;

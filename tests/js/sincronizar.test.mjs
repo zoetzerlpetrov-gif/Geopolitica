@@ -2,7 +2,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { rutaDatos, CLAVES as CLAVES_SERVIDOR, INTERNO } from "../../cloudflare/planes/almacen.js";
-import { CLAVES, empresaDe, locales, diferencias } from "../../js/sincronizar.js";
+import { CLAVES, empresaDe, locales, diferencias, modoEmpresa, apiDatos } from "../../js/sincronizar.js";
 
 let DatabaseSync = null;
 try { ({ DatabaseSync } = await import("node:sqlite")); } catch { /* sin SQLite */ }
@@ -42,4 +42,16 @@ test("servidor: guardar, leer, borrar, validar y aislar por empresa", { skip: !D
   assert.equal((await rutaDatos(db, "0123456789abcdef", "POST", { cambios: { gp_groq_llave: "x" } }))[1], 400);
   assert.equal((await rutaDatos(db, "0123456789abcdef", "POST", { cambios: { gp_ops_dmi: "x".repeat(400001) } }))[1], 413);
   assert.equal((await rutaDatos(db, "ffffffffffffffff", "GET"))[1], 404);
+});
+
+test("copias para empresas cliente: solo la empresa indicada y la API de miembros", () => {
+  const u = (ruta, q = "", host = "dominusosint.com") => ({ pathname: ruta, search: q, hostname: host });
+  assert.ok(modoEmpresa(u("/empresa-ops.html")) && modoEmpresa(u("/empresa-caja")) && modoEmpresa(u("/empresa-corporativo.html")));
+  assert.ok(!modoEmpresa(u("/ops.html")) && !modoEmpresa(u("/empresa.html")));
+  // En modo empresa no hay respaldo a «dominus-interno» ni a la empresa activa del flujo de Admin
+  assert.equal(empresaDe(u("/empresa-ops.html", ""), almacen({ dominus_flujo_org: "fedcba9876543210" })), "");
+  assert.equal(empresaDe(u("/empresa-ops.html", "?org=dominus-interno"), almacen({})), "");
+  assert.equal(empresaDe(u("/empresa-ops.html", "?embebido=1&org=0123456789abcdef"), almacen({})), "0123456789abcdef");
+  assert.equal(apiDatos("0123456789abcdef", u("/empresa-ops.html")), "https://admin.dominusosint.com/cuenta/empresa/0123456789abcdef/datos");
+  assert.equal(apiDatos("0123456789abcdef", u("/ops.html", "", "admin.dominusosint.com")), "/cuenta/empresa/admin/datos/0123456789abcdef");
 });
