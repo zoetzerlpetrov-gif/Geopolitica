@@ -129,7 +129,7 @@ if (typeof document !== "undefined" && $("al-guardar")) {
   });
   $("pr-org").addEventListener("change", (e) => {
     const org = e.target.value, cont = $("pr-cont").cloneNode(false); $("pr-cont").replaceWith(cont);
-    if (org) montarProyectos(cont, { editar: true, api: (ruta, cuerpo) => api(`proyectos/${org}${ruta ? "/" + ruta : ""}`, cuerpo), alMensaje: (h) => { $("pr-msg").innerHTML = h; } }).lista();
+    if (org) montarProyectos(cont, { editar: true, evidencias: `${API}evidencias/${org}`, api: (ruta, cuerpo) => api(`proyectos/${org}${ruta ? "/" + ruta : ""}`, cuerpo), alMensaje: (h) => { $("pr-msg").innerHTML = h; } }).lista();
   });
   $("cl-tabla").addEventListener("click", async (e) => {
     const ed = e.target.dataset.editarOrg, bo = e.target.dataset.borrarOrg;

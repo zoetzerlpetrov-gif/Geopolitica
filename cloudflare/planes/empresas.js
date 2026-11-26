@@ -173,7 +173,11 @@ export async function serveEmpresas(request, url, env, { correo, esAdmin = false
         if (String(cuerpo.confirmar || "").trim() !== org.nombre) return json({ error: "Para confirmar, escribe el nombre exacto de la empresa." }, 400, h);
         await rutaProyectos(db, org.id, [], "GET", {}, {}); // asegura las tablas de proyectos
         await rutaDatos(db, org.id, "GET"); // y la de datos de OPS/Caja/Corporativo
-        await db.batch(["dominus_org_datos", "dominus_proyecto_checklist", "dominus_proyecto_items", "dominus_proyectos", "dominus_cumplimiento", "dominus_org_invitaciones", "dominus_org_miembros", "dominus_org_rfc", "dominus_org_bitacora"]
+        // Evidencias: primero sus archivos en R2, luego sus registros.
+        await db.prepare("CREATE TABLE IF NOT EXISTS dominus_evidencias (id TEXT PRIMARY KEY NOT NULL, org_id TEXT NOT NULL, ref TEXT NOT NULL, tipo TEXT NOT NULL, titulo TEXT NOT NULL, url TEXT NOT NULL DEFAULT '', nota TEXT NOT NULL DEFAULT '', nombre TEXT NOT NULL DEFAULT '', mime TEXT NOT NULL DEFAULT '', tamano INTEGER NOT NULL DEFAULT 0, creado INTEGER NOT NULL, por TEXT NOT NULL DEFAULT '')").run();
+        const archivos = (await db.prepare("SELECT id FROM dominus_evidencias WHERE org_id = ? AND tipo = 'archivo'").bind(org.id).all()).results || [];
+        for (const a of archivos) await env.DATOS_PLAN?.delete(`evidencias/${org.id}/${a.id}`);
+        await db.batch(["dominus_evidencias", "dominus_org_datos", "dominus_proyecto_checklist", "dominus_proyecto_items", "dominus_proyectos", "dominus_cumplimiento", "dominus_org_invitaciones", "dominus_org_miembros", "dominus_org_rfc", "dominus_org_bitacora"]
           .map((t) => db.prepare(`DELETE FROM ${t} WHERE org_id = ?`).bind(org.id)).concat([db.prepare("DELETE FROM dominus_orgs WHERE id = ?").bind(org.id)]));
         return json({ ok: true }, 200, h);
       }

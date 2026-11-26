@@ -51,13 +51,29 @@ async function iniciar() {
   const pintar = () => {
     const mk = $("aa-marco").value, f = $("aa-filtro").value;
     const filas = res.controles.filter((c) => (!mk || c.marco === mk) && (!f || c.estado === f));
-    $("aa-tabla").innerHTML = `<tr><th>Marco</th><th>Ref.</th><th>Control</th><th>Estado</th><th>Detalle</th><th>Cómo mejorar</th><th>Tipo</th></tr>`
-      + filas.map((c) => `<tr><td>${esc(nombres[c.marco] || c.marco)}</td><td>${esc(c.ref)}</td><td>${esc(c.titulo)}</td><td>${esc(ETIQ[c.estado] || c.estado)}</td>
-        <td>${esc(c.detalle)}</td><td>${esc(c.estado === "cumple" ? "" : c.mejora)}</td><td>${esc(c.tipo === "auto" ? "automático" : "manual")}</td></tr>`).join("");
+    $("aa-tabla").innerHTML = `<tr><th>Marco</th><th>Ref.</th><th>Control</th><th>Estado</th><th>Detalle</th><th>Cómo mejorar</th><th>Tipo</th><th>Evidencia</th></tr>`
+      + filas.map((c) => { const ref = refEv(c); return `<tr><td>${esc(nombres[c.marco] || c.marco)}</td><td>${esc(c.ref)}</td><td>${esc(c.titulo)}</td><td>${esc(ETIQ[c.estado] || c.estado)}</td>
+        <td>${esc(c.detalle)}</td><td>${esc(c.estado === "cumple" ? "" : c.mejora)}</td><td>${esc(c.tipo === "auto" ? "automático" : "manual")}</td>
+        <td><button type="button" class="btn" data-ev-ref="${esc(ref)}" title="${c.tipo === "auto" ? "Opcional: el sistema lo verifica solo" : "Sube aquí lo que demuestra que cumple"}">📎 ${evN[ref] || 0}</button></td></tr>
+        <tr hidden><td colspan="8"><div class="ev-panel"></div></td></tr>`; }).join("");
   };
+  // Evidencias en el servidor (DOMINUS interno): los controles manuales se respaldan con archivos, enlaces o notas.
+  const BASE = "/cuenta/empresa/admin/evidencias/dominus-interno";
+  const { montarEvidencias, contarEvidencias, CSS_EVIDENCIAS } = await import("./evidencias-ui.js");
+  document.head.insertAdjacentHTML("beforeend", `<style>${CSS_EVIDENCIAS}</style>`);
+  const evN = await contarEvidencias(BASE, "autoaud:");
+  $("aa-tabla").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-ev-ref]"); if (!b) return;
+    const fila = b.closest("tr").nextElementSibling; fila.hidden = !fila.hidden;
+    const caja = fila.querySelector(".ev-panel");
+    if (!fila.hidden && !caja.dataset.listo) { caja.dataset.listo = "1"; montarEvidencias(caja, { base: BASE, ref: b.dataset.evRef, alCambiar: (n) => { evN[b.dataset.evRef] = n; b.textContent = `📎 ${n}`; } }); }
+  });
   $("aa-marco").addEventListener("change", pintar);
   $("aa-filtro").addEventListener("change", pintar);
   pintar();
 }
+
+/** Referencia de evidencia de un control: «autoaud:<marco>:<ref>» con solo caracteres seguros. */
+export const refEv = (c) => `autoaud:${String(c.marco || "").replace(/[^A-Za-z0-9_.-]/g, "_")}:${String(c.ref || c.titulo || "").replace(/[^A-Za-z0-9_.-]/g, "_")}`.slice(0, 128);
 
 if (typeof document !== "undefined" && $("p-autoaud")) iniciar();

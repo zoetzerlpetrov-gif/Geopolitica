@@ -6,6 +6,7 @@ import { TEMA_JS } from '../apariencia/tema-publico.js';
 import { avisoMercadoPago } from "./mercadopago.js";
 import { aceptarInvitacionDirecta, serveEmpresas } from "./empresas.js";
 import { serveDocumentos } from "./documentos.js";
+import { serveEvidencias } from "./evidencias.js";
 import { serveAcceso } from "./acceso.js";
 import { completarGoogle, correoSesion, googleConfigurado, iniciarGoogle, planPorCorreo, registrado, salirGoogle, TABLA_EMAIL } from "./google.js";
 
@@ -78,6 +79,10 @@ export async function servePlans(request, url, env, authRoot) {
   if (route === "empresa" || route.startsWith("empresa/")) {
     const correo = await correoSesion(request, env).catch(() => null);
     const esAdmin = await authorized(request, env).catch(() => false);
+    // Evidencias (archivos, enlaces y notas) de proyectos, cumplimiento y autoauditoría, por empresa.
+    if (/^empresa\/(admin\/evidencias\/[0-9a-z-]+|[0-9a-f]{16}\/evidencias)(\/|$)/.test(route)) {
+      return serveEvidencias(request, url, env, { correo, esAdmin, origenes: ORIGENES_MAPA, base: { "Cache-Control": "private, no-store", "X-Content-Type-Options": "nosniff", "Referrer-Policy": "no-referrer" } });
+    }
     return serveEmpresas(request, url, env, { correo, esAdmin, origenes: ORIGENES_MAPA, base: { "Cache-Control": "private, no-store", "X-Content-Type-Options": "nosniff", "Referrer-Policy": "no-referrer" } });
   }
   if (request.method !== "GET") return Response.json({ error: "Método inválido." }, { status: 405, headers });

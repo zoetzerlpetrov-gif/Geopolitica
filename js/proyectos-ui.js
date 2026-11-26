@@ -3,6 +3,7 @@
 // consultar o editar; cada una muestra solo lo suyo, sus requisitos y el botón para completarla. Todo se guarda en el
 // servidor (D1): datos del proyecto, datos de cada fase, actividades, lista de auditoría, riesgos, hallazgos y notas.
 import { campoPais, paises as listaPaises, nombreDe, CSS_PAISES } from "./paises.js";
+import { montarEvidencias, contarEvidencias, CSS_EVIDENCIAS } from "./evidencias-ui.js";
 
 const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 const ETIQ = { pendiente: "⏳ Pendiente", en_proceso: "🔄 En proceso", hecho: "✅ Hecho", bloqueado: "⛔ Bloqueado", abierto: "🔴 Abierto",
@@ -53,8 +54,10 @@ export function faltantes(fase, d) {
  * Monta la pantalla en `cont`. `api(ruta, cuerpo?)` llama al servidor (ruta relativa a proyectos: "", "<pid>", "crear"…);
  * `editar`: si el rol permite escribir.
  */
-export function montarProyectos(cont, { api, editar = true, alMensaje = () => {}, alAbrir = () => {} }) {
-  let fases = [], d = null, vista = "", generado = null, sectores = [], nombresPais = [];
+export function montarProyectos(cont, { api, editar = true, alMensaje = () => {}, alAbrir = () => {}, evidencias = "" }) {
+  let fases = [], d = null, vista = "", generado = null, sectores = [], nombresPais = [], evN = {};
+  // Botón de evidencias (archivos, enlaces y notas en el servidor) para una referencia; el panel se abre debajo.
+  const botonEv = (ref) => (evidencias ? `<button type="button" class="b ev-boton" data-ev-ref="${esc(ref)}" title="Archivos, enlaces y notas que respaldan esto">📎 ${evN[ref] || 0}</button>` : "");
   const msg = (t, error = false) => alMensaje(error ? `<span class="error">${esc(t)}</span>` : esc(t));
   const PS = () => import("./plan-servidor.js");
   const nombreSector = (id) => sectores.find(([k]) => k === id)?.[1] || id || "";
@@ -116,11 +119,13 @@ export function montarProyectos(cont, { api, editar = true, alMensaje = () => {}
   const tablaItems = (tipo, cols) => {
     const xs = d.items.filter((x) => x.tipo === tipo);
     if (!xs.length) return '<p class="meta">Nada registrado todavía.</p>';
-    return `<div class="pr-desliza"><table class="t"><tr>${cols.map((c) => `<th>${c}</th>`).join("")}${editar ? "<th></th>" : ""}</tr>${xs.map((x) => `<tr data-item="${esc(x.id)}" data-tipo="${tipo}">
+    return `<div class="pr-desliza"><table class="t"><tr>${cols.map((c) => `<th>${c}</th>`).join("")}${evidencias && tipo === "hallazgo" ? "<th>Evidencia</th>" : ""}${editar ? "<th></th>" : ""}</tr>${xs.map((x) => `<tr data-item="${esc(x.id)}" data-tipo="${tipo}">
       <td>${esc(x.texto)}</td>${tipo !== "seguimiento" ? `<td>${esc(x.responsable || "—")}</td>` : ""}<td>${esc(x.fecha || "—")}</td>
       ${tipo === "hallazgo" ? `<td>${SEV[x.severidad] || ""}</td>` : ""}
       ${tipo !== "seguimiento" ? `<td>${editar ? `<select data-estado aria-label="Estado">${d.tipos[tipo].estados.map((s) => `<option value="${s}" ${s === x.estado ? "selected" : ""}>${ETIQ[s] || s}</option>`).join("")}</select>` : esc(ETIQ[x.estado] || x.estado)}</td>` : ""}
-      ${editar ? `<td><button type="button" class="b" data-borrar-item title="Eliminar">🗑️</button></td>` : ""}</tr>`).join("")}</table></div>`;
+      ${evidencias && tipo === "hallazgo" ? `<td>${botonEv(`proy:${d.proyecto.id}:item:${x.id}`)}</td>` : ""}
+      ${editar ? `<td><button type="button" class="b" data-borrar-item title="Eliminar">🗑️</button></td>` : ""}</tr>
+      ${evidencias && tipo === "hallazgo" ? `<tr class="ev-fila" hidden><td colspan="7"><div class="ev-panel"></div></td></tr>` : ""}`).join("")}</table></div>`;
   };
   const formItem = (tipo, ph) => (editar ? `<div class="pr-form" data-tipo="${tipo}"><input data-i="texto" maxlength="2000" placeholder="${esc(ph)}">
     ${tipo !== "seguimiento" ? '<input data-i="responsable" maxlength="120" placeholder="Responsable">' : ""}<input data-i="fecha" type="date" aria-label="Fecha">
@@ -135,7 +140,8 @@ export function montarProyectos(cont, { api, editar = true, alMensaje = () => {}
     return [...grupos.entries()].map(([g, qs]) => `<details class="pr-ley"${filtro === "no_cumple" || grupos.size <= 3 ? " open" : ""}><summary>${esc(g || "General")} (${qs.length}${qs.filter((q) => q.estado === "pendiente").length ? `, ${qs.filter((q) => q.estado === "pendiente").length} sin responder` : ""})</summary>${qs.map((q) => `<div class="pr-preg" data-check="${esc(q.id)}">
       <div>${esc(q.texto)}${q.pais ? ` <span class="chip">${esc(q.pais)}</span>` : ""}${q.detalle ? `<div class="meta">Evidencia sugerida: ${esc(q.detalle)}</div>` : ""}</div>
       ${editar ? `<select data-check-estado aria-label="Resultado">${d.estados_check.pregunta.map((s) => `<option value="${s}" ${s === q.estado ? "selected" : ""}>${ETIQ[s]}</option>`).join("")}</select>
-      <input data-check-nota maxlength="1000" placeholder="Nota o evidencia" value="${esc(q.nota)}">` : `<span>${ETIQ[q.estado]}</span><span class="meta">${esc(q.nota)}</span>`}</div>`).join("")}</details>`).join("") || '<p class="meta">Nada con ese filtro.</p>';
+      <input data-check-nota maxlength="1000" placeholder="Nota" value="${esc(q.nota)}">` : `<span>${ETIQ[q.estado]}</span><span class="meta">${esc(q.nota)}</span>`}${botonEv(`proy:${d.proyecto.id}:check:${q.id}`)}
+      ${evidencias ? '<div class="ev-panel pr-ev-ancho" hidden></div>' : ""}</div>`).join("")}</details>`).join("") || '<p class="meta">Nada con ese filtro.</p>';
   };
   const listaRiesgos = () => {
     const rs = d.checklist.filter((x) => x.tipo === "riesgo");
@@ -197,15 +203,20 @@ export function montarProyectos(cont, { api, editar = true, alMensaje = () => {}
       <nav class="pr-tabs" role="tablist" aria-label="Fases del proyecto">${fases.map((x, i) => `<button type="button" role="tab" data-ver="${x.id}" aria-selected="${x.id === vista}" class="${i < iAct || cerrado ? "hecha" : i === iAct ? "actual" : ""}">
         <span class="pr-tab-num">${i < iAct || cerrado ? "✅" : i === iAct ? "▶" : i + 1}</span>${esc(x.icono)} ${esc(x.nombre.replace(/^\d+\.\s*/, ""))}</button>`).join("")}</nav>
       <section class="pr-fase"><h3 class="pr-titulo-fase">${esc(f.icono)} ${esc(f.nombre)}</h3><p>${esc(f.que)}</p><p class="meta">Entregable: <b>${esc(f.entregable)}</b> · Se completa cuando: ${esc(f.hecho)}</p>
-        ${contenidoFase(f)}${pie}</section>`;
+        ${contenidoFase(f)}
+        ${evidencias ? `<h4>📎 Evidencias de esta fase</h4><p class="meta">Sube aquí el entregable de la fase (${esc(f.entregable)}) y lo que lo respalde: archivos, enlaces o notas. Quedan en el servidor.</p>
+          <div class="ev-panel" data-ev-fase="proy:${esc(p.id)}:fase:${esc(f.id)}"></div>` : ""}${pie}</section>`;
     const pais = cont.querySelector('.pr-fase [data-n="pais"]'); if (pais) campoPais(pais);
     if (f.id === "plan") prepararPlantilla();
+    const evFase = cont.querySelector("[data-ev-fase]");
+    if (evFase) montarEvidencias(evFase, { base: evidencias, ref: evFase.dataset.evFase, editar });
   }
 
   async function abrir(pid, ver) {
     try {
       await cargarListas();
       d = await api(pid); fases = d.fases;
+      if (evidencias) evN = await contarEvidencias(evidencias, `proy:${pid}:`);
       if (!ver || !fases.some((f) => f.id === ver)) ver = d.proyecto.fase;
       vista = ver; pintarDetalle(); alAbrir(pid);
     } catch (e) { msg(e.message, true); }
@@ -241,8 +252,20 @@ export function montarProyectos(cont, { api, editar = true, alMensaje = () => {}
   }
 
   // ── Eventos ──
+  cont.addEventListener("click", (e) => {
+    const b = e.target.closest("[data-ev-ref]"); if (!b) return;
+    const fila = b.closest("tr"), panel = fila?.nextElementSibling?.classList.contains("ev-fila") ? fila.nextElementSibling : b.parentElement.querySelector(":scope > .ev-panel");
+    if (!panel) return;
+    panel.hidden = !panel.hidden;
+    const caja = panel.querySelector(".ev-panel") || panel;
+    if (!panel.hidden && !caja.dataset.listo) {
+      caja.dataset.listo = "1";
+      montarEvidencias(caja, { base: evidencias, ref: b.dataset.evRef, editar, alCambiar: (n) => { evN[b.dataset.evRef] = n; b.textContent = `📎 ${n}`; } });
+    }
+  });
   cont.addEventListener("click", async (e) => {
     const t = e.target.closest("button, [data-abrir]") || e.target;
+    if (t.closest?.(".ev-caja") || t.matches?.("[data-ev-ref]")) return;
     try {
       if (t.matches("[data-volver]")) return lista();
       if (t.dataset.abrir) return abrir(t.dataset.abrir);
@@ -378,7 +401,7 @@ export function montarProyectos(cont, { api, editar = true, alMensaje = () => {}
   return { lista, abrir };
 }
 
-export const CSS_PROYECTOS = `${CSS_PAISES}
+export const CSS_PROYECTOS = `${CSS_PAISES}${CSS_EVIDENCIAS}
   .pr-fases { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; padding: 0; margin: 10px 0; }
   .pr-fases li { padding: 6px 10px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface-2); font-size: 13px; }
   .pr-fases li span { margin-right: 4px; }
@@ -411,7 +434,8 @@ export const CSS_PROYECTOS = `${CSS_PAISES}
   .pr-pie.ok { border-style: solid; border-color: #24733b; }
   .pr-explica { border-left: 5px solid var(--accent); padding: 8px 12px; background: var(--surface-2); border-radius: var(--radius); margin: 8px 0; } .pr-explica ol { margin: 6px 0 0 18px; padding: 0; }
   .pr-plantilla { border: 1px solid var(--line); border-radius: var(--radius); padding: 8px 12px; margin: 12px 0; }
-  .pr-preg { display: grid; grid-template-columns: 1fr 170px minmax(160px, 260px); gap: 8px; align-items: start; padding: 6px 0; border-top: 1px dashed var(--line); }
+  .pr-preg { display: grid; grid-template-columns: 1fr 170px minmax(160px, 240px) auto; gap: 8px; align-items: start; padding: 6px 0; border-top: 1px dashed var(--line); }
+  .pr-ev-ancho { grid-column: 1 / -1; }
   .pr-preg input, .pr-preg select { width: 100%; box-sizing: border-box; }
   .pr-ley { margin: 6px 0; } .pr-ley summary { font-weight: 600; cursor: pointer; }
   .pr-x { border: 0; background: none; cursor: pointer; font-weight: 700; color: inherit; } .chip { display: inline-block; font-size: 12px; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface-2); }
