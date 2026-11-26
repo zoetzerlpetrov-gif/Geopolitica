@@ -129,6 +129,11 @@
   },
   {
    "tipo": "pagina",
+   "href": "clientes.html",
+   "nombre": "Clientes y proyectos"
+  },
+  {
+   "tipo": "pagina",
    "href": "ops.html",
    "nombre": "DOMINUS OPS"
   },

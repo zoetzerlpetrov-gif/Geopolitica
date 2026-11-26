@@ -261,6 +261,94 @@
       "formato": "sitemap_noticias",
       "max_items": 80,
       "pais_defecto": "MEX"
+    },
+    {
+      "id": "informador",
+      "nombre": "El Informador",
+      "url": "https://www.informador.mx/rss/mexico.xml",
+      "idioma": "es",
+      "tipo": "noticia",
+      "pais_defecto": "MEX",
+      "max_items": 40
+    },
+    {
+      "id": "bbc_mundo",
+      "nombre": "BBC Mundo",
+      "url": "https://feeds.bbci.co.uk/mundo/rss.xml",
+      "idioma": "es",
+      "tipo": "noticia",
+      "max_items": 40
+    },
+    {
+      "id": "eltiempo_mundo",
+      "nombre": "El Tiempo · Mundo (Colombia)",
+      "url": "https://www.eltiempo.com/rss/mundo.xml",
+      "idioma": "es",
+      "tipo": "noticia",
+      "max_items": 30
+    },
+    {
+      "id": "oms",
+      "nombre": "OMS · Noticias",
+      "url": "https://www.who.int/rss-feeds/news-english.xml",
+      "idioma": "en",
+      "tipo": "noticia",
+      "max_items": 25,
+      "nota": "Fuente oficial de salud global (pandemias, brotes, emergencias sanitarias)."
+    },
+    {
+      "id": "nasa",
+      "nombre": "NASA · Noticias",
+      "url": "https://www.nasa.gov/news-release/feed/",
+      "idioma": "en",
+      "tipo": "noticia",
+      "max_items": 20,
+      "nota": "Fuente oficial: espacio, clima espacial y ciencia."
+    },
+    {
+      "id": "climatehome",
+      "nombre": "Climate Home News",
+      "url": "https://www.climatechangenews.com/feed/",
+      "idioma": "en",
+      "tipo": "noticia",
+      "max_items": 20,
+      "nota": "Clima y política climática internacional."
+    },
+    {
+      "id": "bleepingcomputer",
+      "nombre": "BleepingComputer",
+      "url": "https://www.bleepingcomputer.com/feed/",
+      "idioma": "en",
+      "tipo": "noticia",
+      "max_items": 25,
+      "nota": "Ciberseguridad: ataques, filtraciones y vulnerabilidades."
+    },
+    {
+      "id": "techcrunch",
+      "nombre": "TechCrunch",
+      "url": "https://techcrunch.com/feed/",
+      "idioma": "en",
+      "tipo": "noticia",
+      "max_items": 20,
+      "nota": "Tecnología e inteligencia artificial."
+    },
+    {
+      "id": "oilprice",
+      "nombre": "OilPrice",
+      "url": "https://oilprice.com/rss/main",
+      "idioma": "en",
+      "tipo": "noticia",
+      "max_items": 20,
+      "nota": "Energía, petróleo y gas."
+    },
+    {
+      "id": "defensenews",
+      "nombre": "Defense News",
+      "url": "https://www.defensenews.com/arc/outboundfeeds/rss/",
+      "idioma": "en",
+      "tipo": "noticia",
+      "max_items": 20,
+      "nota": "Defensa y seguridad internacional."
     }
   ],
   "reliefweb": {

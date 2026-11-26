@@ -4,7 +4,8 @@ import { servirDatos } from "./datos.js";
 import { CSS as CSS_CUENTA, paginaCuenta } from "./cuenta-ui.js";
 import { TEMA_JS } from '../apariencia/tema-publico.js';
 import { avisoMercadoPago } from "./mercadopago.js";
-import { serveEmpresas } from "./empresas.js";
+import { aceptarInvitacionDirecta, serveEmpresas } from "./empresas.js";
+import { serveAcceso } from "./acceso.js";
 import { completarGoogle, correoSesion, googleConfigurado, iniciarGoogle, planPorCorreo, registrado, salirGoogle, TABLA_EMAIL } from "./google.js";
 
 const ORDER = ["demo", "recon", "analyst", "command"];
@@ -61,6 +62,11 @@ export async function servePlans(request, url, env, authRoot) {
     logout.headers.set("Location", "/cuenta/");
     logout.headers.append("Set-Cookie", salirGoogle());
     return new Response(null, { status: 303, headers: logout.headers });
+  }
+  // Cuentas propias de DOMINUS (correo y contraseña): entrar, activar con enlace o invitación, salir.
+  if (route === "acceso" || route.startsWith("acceso/")) {
+    return serveAcceso(request, url, env, { origenes: ORIGENES_MAPA, base: { "Cache-Control": "private, no-store", "X-Content-Type-Options": "nosniff", "Referrer-Policy": "no-referrer" },
+      aceptarInvitacion: (token, email) => aceptarInvitacionDirecta(env.OSINT_PLANS_DB, token, email) });
   }
   // Espacios de empresa (organizaciones, miembros, invitaciones y cumplimiento): API JSON con la sesión de Google.
   if (route === "empresa" || route.startsWith("empresa/")) {

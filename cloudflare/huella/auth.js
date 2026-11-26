@@ -156,12 +156,17 @@ export function signOut(mode = "admin") {
 }
 
 /** Mientras se usa, la sesión (Admin o plan) se extiende: se cierra tras 1 h sin uso y a las 12 h del ingreso. */
-export async function conSesionRenovada(request, env, respuesta) {
+export async function conSesionRenovada(request, env, respuesta, renovarCliente = null) {
   const puestas = respuesta.headers.getSetCookie?.() || [];
   const nuevas = [];
   for (const [modo, nombre] of [["admin", "__Host-dominus-huella="], ["planes", "__Host-dominus-planes="]]) {
     if (puestas.some((c) => c.startsWith(nombre))) continue;  // ingreso o salida: ya trae su propia cookie
     const c = await renovar(request, env, modo);
+    if (c) nuevas.push(c);
+  }
+  // Sesión de cliente por correo (Google o cuenta propia de DOMINUS): también se extiende con el uso.
+  if (renovarCliente && !puestas.some((c) => c.startsWith("__Host-dominus-planes-g="))) {
+    const c = await renovarCliente(request, env);
     if (c) nuevas.push(c);
   }
   if (!nuevas.length) return respuesta;

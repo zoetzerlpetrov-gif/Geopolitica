@@ -147,8 +147,12 @@ async function iniciar(elegida) {
   } catch (e) {
     $("em-app").hidden = true; $("em-estado").hidden = false;
     if (e.status === 401) {
-      $("em-estado").innerHTML = `<h2>Inicia sesión para entrar a tu empresa</h2><p>Usa tu cuenta de Google (el mismo correo con el que te invitaron, si es el caso). Después vuelve a esta página.</p>
-        <p><a class="boton si" href="${ADMIN}/cuenta/google">Continuar con Google</a></p><p class="meta">Si abriste un enlace de invitación, guárdalo: al volver con la sesión iniciada se acepta solo.</p>`;
+      const inv = new URLSearchParams(location.hash.slice(1)).get("inv");
+      $("em-estado").innerHTML = `<h2>Inicia sesión para entrar a tu empresa</h2>
+        ${inv ? `<p><b>Te invitaron a una empresa.</b> Si es tu primera vez, crea tu contraseña DOMINUS con este mismo enlace:</p>
+          <p><a class="boton si" href="acceso.html?volver=empresa.html#activar=${esc(inv)}">Crear mi contraseña y entrar</a></p><p class="meta">¿Ya tienes cuenta? Entra abajo y la invitación se acepta sola.</p>` : ""}
+        <p><a class="boton ${inv ? "" : "si"}" href="acceso.html?volver=empresa.html">Entrar con mi cuenta DOMINUS</a> <a class="boton" href="${ADMIN}/cuenta/google">Entrar con Google</a></p>
+        <p class="meta">Si te dieron de alta, recibiste un enlace para crear tu contraseña. Si no lo tienes, pídelo al administrador de tu empresa.</p>`;
       try { const inv = new URLSearchParams(location.hash.slice(1)).get("inv"); if (inv) sessionStorage.setItem("gp_inv", inv); } catch { /* */ }
     } else $("em-estado").innerHTML = `<p class="error">No se pudo cargar tu espacio de empresa: ${esc(e.message)}.</p><p class="meta">Si estás en una copia de prueba o en local, la API solo responde en dominusosint.com.</p>`;
   }
@@ -196,6 +200,10 @@ if (typeof document !== "undefined" && $("em-app")) {
   $("eq-miembros").addEventListener("click", async (e) => {
     const email = e.target.dataset.quitar; if (!email || !confirm(`¿Quitar a ${email} de la empresa?`)) return;
     try { await api(`${estado.org}/quitar`, { email }); await iniciar(email === estado.yo.email ? undefined : estado.org); } catch (err) { $("eq-enlace").innerHTML = `<span class="error">${esc(err.message)}</span>`; }
+  });
+  $("em-salir").addEventListener("click", async () => {
+    try { await fetch(baseApi().replace("empresa/", "acceso/salir"), { method: "POST", credentials: "include", headers: { "Content-Type": "text/plain" }, body: "{}" }); } catch { /* */ }
+    location.reload();
   });
   iniciar();
 }
