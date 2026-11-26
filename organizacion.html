@@ -30,7 +30,21 @@
     .chip { display: inline-block; font-size: 12px; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface-2); margin: 2px; }
     .recordatorio { border-left: 5px solid var(--accent); }
     .error { color: var(--danger, #b3261e); font-weight: 600; }
-    @media (max-width: 900px) { .tarea { grid-template-columns: 1fr 1fr; } .tarea .texto { grid-column: 1 / -1; } }
+    .ops button.mini, .ops label.mini { min-height: 28px; padding: 2px 8px; font-size: 13px; }
+    .ops label.b { display: inline-flex; align-items: center; font: inherit; min-height: 34px; padding: 4px 12px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); cursor: pointer; }
+    .ops .peligro { color: var(--danger, #b3261e); }
+    .skills { display: grid; gap: 6px; }
+    .skill { display: grid; grid-template-columns: minmax(200px, 1fr) 2fr auto; gap: 8px; align-items: center; padding: 6px 0; border-top: 1px dashed var(--line); }
+    .docs { width: 100%; border-collapse: collapse; margin-top: 8px; }
+    .docs th, .docs td { text-align: left; padding: 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    .docs .acciones { display: flex; flex-wrap: wrap; gap: 4px; }
+    dialog#or-editor { width: min(980px, 96vw); max-height: 94vh; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); color: var(--text); padding: 14px; }
+    dialog#or-editor::backdrop { background: rgba(0,0,0,.5); }
+    #ed-contenido { width: 100%; min-height: 50vh; font: 14px/1.5 ui-monospace, Menlo, Consolas, monospace; padding: 8px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); box-sizing: border-box; }
+    #ed-vista { min-height: 50vh; max-height: 60vh; overflow: auto; border: 1px solid var(--line); border-radius: var(--radius); padding: 8px 14px; }
+    #ed-vista table { border-collapse: collapse; } #ed-vista th, #ed-vista td { border: 1px solid var(--line); padding: 4px 6px; }
+    .ed-campos { display: grid; grid-template-columns: 2fr 2fr; gap: 8px; margin-bottom: 8px; }
+    @media (max-width: 900px) { .tarea { grid-template-columns: 1fr 1fr; } .tarea .texto { grid-column: 1 / -1; } .skill, .ed-campos { grid-template-columns: 1fr; } .docs thead { display: none; } .docs tr { display: grid; border-bottom: 1px solid var(--line); } .docs td { border: 0; } }
   </style>
   <script type="module" src="js/apariencia.js"></script>
 </head>
@@ -42,7 +56,8 @@
   <main class="ops">
     <div class="tarjeta"><b>Para qué sirve:</b> tener en un solo lugar todo lo que una empresa formal necesita, área por área, y avanzar por etapas:
       primero lo indispensable para operar hoy, después lo necesario al crecer y al final lo que piden clientes grandes y del extranjero.
-      <p class="meta">Elige un área, marca el estado de cada tarea, asigna responsable y fecha y deja la evidencia (enlace o nota). Se guarda en el servidor.</p></div>
+      <p class="meta">Elige un área, marca el estado de cada tarea, asigna responsable y fecha y deja la evidencia (enlace o nota). Se guarda en el servidor.</p>
+      <p class="meta">Cada área tiene <b>📄 plantillas</b> (borradores listos para completar), <b>📁 documentos</b> que puedes crear, subir, editar, renombrar o eliminar, y <b>🤖 skills de Claude</b> recomendadas con la indicación lista para copiar.</p></div>
     <div id="or-recordatorio"></div>
     <div id="or-resumen"></div>
     <div class="barra"><label>Mostrar etapa <select id="or-etapa"><option value="">Todas</option></select></label>
@@ -50,6 +65,26 @@
     <div class="areas" id="or-areas"></div>
     <div id="or-area"></div>
   </main>
+  <dialog id="or-editor" aria-labelledby="ed-h">
+    <h2 id="ed-h" style="margin-top:0">📝 Documento</h2>
+    <input type="hidden" id="ed-id"><input type="hidden" id="ed-area">
+    <div class="ed-campos ops" style="padding:0">
+      <label>Título <input id="ed-titulo" maxlength="160"></label>
+      <label>Tarea relacionada <select id="ed-tarea"></select></label>
+      <label style="grid-column:1/-1">Nota (quién revisó, versión firmada, etc.) <input id="ed-nota" maxlength="500"></label>
+    </div>
+    <p class="meta">Escribe en texto simple: <code># Título</code>, <code>**negritas**</code>, listas con <code>-</code> y tablas con <code>|</code>. Cambia lo que está entre [corchetes].</p>
+    <textarea id="ed-contenido" spellcheck="true" aria-label="Contenido"></textarea>
+    <div id="ed-vista" hidden></div>
+    <div class="barra ops" style="padding:0">
+      <button type="button" class="b" id="ed-guardar">💾 Guardar en el servidor</button>
+      <button type="button" class="b" id="ed-vista-btn">👁️ Vista previa / editar</button>
+      <button type="button" class="b" id="ed-word">⬇️ Descargar Word (.doc)</button>
+      <button type="button" class="b" id="ed-md">⬇️ Descargar texto (.md)</button>
+      <button type="button" class="b" id="ed-cerrar">Cerrar</button>
+      <span id="ed-msg" class="meta" role="status"></span>
+    </div>
+  </dialog>
   <script type="module" src="js/organizacion.js"></script>
 </body>
 </html>

@@ -28,6 +28,8 @@ NOTICIERO = "https://dominusosint.com/data/vivos/noticiero.json"
 PALABRAS_ES = {"el", "la", "de", "que", "en", "los", "las", "y", "del", "un", "una", "por", "con", "para", "se", "su", "al", "es", "más"}
 ORDINALES = ["Uno", "Dos", "Tres", "Cuatro", "Cinco"]
 # Temas ligeros (viajes, espectáculos, moda…): se saltan titulares de muertes, violencia o accidentes.
+# Todos los temas: se descarta la violencia (el canal es para público general).
+VIOLENTO = re.compile(r"\b(asesin|homicid|balacera|balea|disparo|ejecutad|secuestr|narco|cartel|c[áa]rtel|violaci|feminicid|masacre|fosa|cad[áa]ver|desmembr|tortur|ataque armado|sicari)", re.I)
 TRAGICO = re.compile(r"\b(muer[et]|muri[óo]|fallec|asesin|homicid|matan|cad[áa]ver|accidente|choque|balacera|disparo|ataque|violaci|secuestr|desaparec|tragedia|herid[oa]s?|v[íi]ctima|incendio|explosi[óo]n|narco|extorsi|abuso|robo|asalt|fraude|denuncia|critican|polémica)", re.I)
 
 
@@ -67,7 +69,7 @@ def elegir_titulares(noticiero, seccion, n=3, horas=72, ahora=None, ligero=False
             break
         tit = re.sub(r"\s+", " ", str(x["t"])).strip()
         clave = tit.lower()[:60]
-        if not tit or clave in titulos or (x.get("m") in medios and len(notas) > n * 2) or (ligero and TRAGICO.search(tit)):
+        if not tit or clave in titulos or (x.get("m") in medios and len(notas) > n * 2) or VIOLENTO.search(tit) or (ligero and TRAGICO.search(tit)):
             continue
         titulos.add(clave); medios.add(x.get("m"))
         out.append({"titulo": tit[:180], "medio": str(x.get("m", "")).strip()[:60], "url": x["u"], "fecha": str(x.get("f", ""))[:10]})
@@ -76,20 +78,51 @@ def elegir_titulares(noticiero, seccion, n=3, horas=72, ahora=None, ligero=False
     return out
 
 
+# Emoji alusivo a cada titular (el primero que coincida); si ninguno, el del tema.
+EMOJIS = [
+    (r"playa|mar\b|caribe|costa|isla", "🏖️"), (r"vuelo|aerol|aeropuerto|avi[óo]n", "✈️"), (r"hotel|hosped", "🏨"),
+    (r"taco|comida|restaur|chef|gastron|platillo|cocina|receta", "🌮"), (r"caf[ée]\b", "☕"), (r"vino|cerveza|mezcal|tequila", "🍷"),
+    (r"pel[íi]cula|cine|estreno|netflix|serie", "🎬"), (r"concierto|m[úu]sica|canci[óo]n|[áa]lbum|gira", "🎤"), (r"teatro|obra", "🎭"),
+    (r"museo|arte|exposici", "🖼️"), (r"libro|feria del libro|novela", "📚"), (r"lluvia|tormenta|hurac[áa]n|cicl[óo]n", "🌧️"),
+    (r"calor|temperatura|ola de calor", "🌡️"), (r"fr[íi]o|helada|nieve", "❄️"), (r"sismo|temblor|volc[áa]n", "🌋"),
+    (r"inteligencia artificial|\bia\b|chatgpt|robot", "🤖"), (r"celular|iphone|android|app\b", "📱"), (r"videojuego|consola|gamer", "🎮"),
+    (r"bitcoin|cripto|ethereum", "🪙"), (r"d[óo]lar|peso|bolsa|inflaci", "💵"), (r"casa|vivienda|renta|departamento", "🏠"),
+    (r"moda|vestido|pasarela|outfit", "👗"), (r"maquillaje|belleza|piel|cabello", "💄"), (r"salud|vacuna|m[ée]dic|hospital", "🩺"),
+    (r"ejercicio|deporte|f[úu]tbol|olimp", "⚽"), (r"ni[ñn]os|familia|escuela", "🎈"), (r"ovni|extraterrestre|alien", "🛸"),
+    (r"espacio|nasa|luna|marte|cohete", "🚀"), (r"estafa|fraude|phishing|hacker", "🛡️"), (r"planeta|clima|ambiente|bosque|oc[ée]ano", "🌎"),
+]
+CIERRES = [
+    "¿Cuál te sorprendió más? Cuéntanos en los comentarios y síguenos para más.",
+    "Dale like si te sirvió y síguenos: cada día un tema nuevo.",
+    "Comparte este video con quien le encante el tema. ¡Nos vemos mañana!",
+]
+
+
+def emoji_de(titulo, defecto=""):
+    for patron, emo in EMOJIS:
+        if re.search(patron, titulo, re.I):
+            return emo
+    return defecto
+
+
 def guion(tema, items, dia):
-    """Escenas del short: portada con gancho, una por titular y cierre."""
-    ic = tema.get("icono", "")
-    escenas = [{"tipo": "portada", "titulo": tema["gancho"], "tema": tema["nombre"], "icono": ic, "voz": f"{tema['gancho']}."}]
+    """Escenas del short, en tono cercano para público general: portada con gancho, una por titular y cierre con llamada a la acción."""
+    ic, n = tema.get("icono", ""), len(items)
+    d = date.fromisoformat(str(dia)[:10])
+    escenas = [{"tipo": "portada", "titulo": tema["gancho"], "tema": tema["nombre"], "icono": ic, "total": n,
+                "sub": f"{n} cosas que pasaron hoy 👇", "voz": f"{tema['gancho']}. Aquí van {n} cosas que pasaron hoy. ¡Quédate hasta el final!"}]
     for i, it in enumerate(items):
-        escenas.append({"tipo": "nota", "numero": i + 1, "titulo": it["titulo"], "medio": it["medio"], "tema": tema["nombre"], "icono": ic,
-                        "voz": f"{ORDINALES[i]}. Según {it['medio']}: {it['titulo'].rstrip('.')}."})
-    escenas.append({"tipo": "cierre", "titulo": "Más temas cada día", "tema": tema["nombre"], "icono": ic,
-                    "voz": "Más temas cada día en DOMINUS. Síguenos para no perdértelo."})
-    titulo = f"{tema['nombre']}: {len(items)} noticias de hoy #Shorts"
+        ultima = i == n - 1
+        entrada = "Y para cerrar" if ultima and n > 1 else f"Número {ORDINALES[i].lower()}"
+        escenas.append({"tipo": "nota", "numero": i + 1, "total": n, "titulo": it["titulo"], "medio": it["medio"], "tema": tema["nombre"],
+                        "icono": ic, "emoji": emoji_de(it["titulo"], ic), "voz": f"{entrada}: {it['titulo'].rstrip('.')}. Lo cuenta {it['medio']}."})
+    cierre = CIERRES[d.toordinal() % len(CIERRES)]
+    escenas.append({"tipo": "cierre", "titulo": "¿Cuál te gustó más?", "tema": tema["nombre"], "icono": ic, "total": n, "voz": cierre})
+    titulo = f"{ic} {tema['gancho']} | {tema['nombre']} hoy #Shorts".strip()
     fuentes = "\n".join(f"• {it['titulo']} — {it['medio']} ({it['url']})" for it in items)
     tags = " ".join(f"#{h}" for h in tema.get("hashtags", []))
-    descripcion = (f"{tema['gancho']}. Titulares del {dia} con su fuente; abre cada enlace para leer la nota completa en el medio.\n\n"
-                   f"Fuentes:\n{fuentes}\n\nMás en https://dominusosint.com\n"
+    descripcion = (f"{ic} {tema['gancho']}: {n} titulares del {dia} con su fuente. Abre cada enlace para leer la nota completa en el medio.\n\n"
+                   f"Fuentes:\n{fuentes}\n\n👉 Cada día un tema nuevo. Más en https://dominusosint.com\n"
                    "Voz sintética. Resumen informativo de titulares públicos; cada nota pertenece a su medio.\n\n"
                    f"{tags} #Shorts #DOMINUS")
     return {"fecha": str(dia)[:10], "tema": tema["seccion"], "titulo": titulo[:100], "escenas": escenas, "items": items,

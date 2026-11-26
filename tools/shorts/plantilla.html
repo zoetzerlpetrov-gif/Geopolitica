@@ -4,29 +4,46 @@
 <meta charset="utf-8">
 <title>Short DOMINUS</title>
 <style>
-  /* Plantilla de los shorts temáticos (tools/shorts/grabar.mjs). La paleta cambia en cada short; el logo y la
-     disposición se conservan para que el canal se reconozca. */
+  /* Plantilla de los shorts temáticos (tools/shorts/grabar.mjs), 1080×1920. Pensada para público general: colores vivos,
+     un emoji grande que rebota, titular en tarjeta clara y pasos 1-2-3. La paleta cambia en cada short; el logo se conserva. */
   :root { --fondo: #0b1220; --fondo2: #13233d; --tinta: #eef2f6; --gris: #9fb0c3; --acento: #d9a826; }
   * { box-sizing: border-box; margin: 0; }
   html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--fondo); }
   body { font-family: "Inter", "IBM Plex Sans", "DejaVu Sans", system-ui, sans-serif; color: var(--tinta); }
-  .lienzo { position: absolute; inset: 0; padding: 110px 84px; display: flex; flex-direction: column;
-    background: radial-gradient(120% 60% at 90% 0%, var(--fondo2) 0%, transparent 65%), linear-gradient(170deg, var(--fondo) 0%, var(--fondo2) 100%); }
-  .formas { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
-  .formas i { position: absolute; border-radius: 50%; border: 3px solid var(--acento); opacity: .18; }
-  .marca { display: flex; align-items: center; gap: 16px; font-weight: 800; letter-spacing: .14em; font-size: 38px; position: relative; }
-  .marca svg { width: 46px; height: 46px; color: #e2334a; }
+  .lienzo { position: absolute; inset: 0; padding: 100px 72px; display: flex; flex-direction: column; overflow: hidden;
+    background: radial-gradient(70% 45% at 85% 8%, color-mix(in srgb, var(--acento) 55%, transparent) 0%, transparent 70%),
+                radial-gradient(60% 40% at 10% 95%, color-mix(in srgb, var(--acento) 35%, transparent) 0%, transparent 70%),
+                linear-gradient(165deg, var(--fondo) 0%, var(--fondo2) 100%); }
+  .confeti { position: absolute; inset: 0; pointer-events: none; }
+  .confeti i { position: absolute; border-radius: 50%; background: var(--acento); opacity: .35; }
+  .confeti b { position: absolute; width: 26px; height: 26px; border: 6px solid var(--tinta); border-radius: 6px; opacity: .18; }
+  .marca { display: flex; align-items: center; gap: 14px; font-weight: 800; letter-spacing: .14em; font-size: 34px; position: relative; }
+  .marca svg { width: 42px; height: 42px; color: #e2334a; }
   .marca span { color: var(--acento); }
-  .tema { margin-top: 40px; align-self: flex-start; padding: 12px 26px; border-radius: 999px; background: var(--acento); color: var(--fondo); font-weight: 800; font-size: 34px; letter-spacing: .04em; position: relative; }
-  .numero { margin-top: 120px; font-size: 220px; font-weight: 900; line-height: 1; color: var(--acento); position: relative; }
-  .titulo { margin-top: 40px; font-size: 84px; line-height: 1.12; font-weight: 800; position: relative; }
-  .nota .titulo { font-size: 66px; margin-top: 30px; }
-  .medio { margin-top: 36px; font-size: 40px; color: var(--gris); position: relative; }
-  .medio b { color: var(--tinta); }
-  .pie { margin-top: auto; display: flex; justify-content: space-between; align-items: center; position: relative; }
-  .url { background: var(--acento); color: var(--fondo); font-weight: 800; font-size: 42px; padding: 18px 30px; border-radius: 16px; }
-  .icono { position: absolute; left: 50%; bottom: 260px; transform: translateX(-50%); font-size: 360px; line-height: 1; filter: drop-shadow(0 18px 40px rgba(0,0,0,.45)); }
-  .barra { position: absolute; left: 0; bottom: 0; height: 14px; background: var(--acento); }
+  .fila { display: flex; align-items: center; gap: 16px; margin-top: 34px; position: relative; }
+  .tema { padding: 12px 26px; border-radius: 999px; background: var(--acento); color: var(--fondo); font-weight: 900; font-size: 36px; }
+  .hoy { padding: 10px 22px; border-radius: 14px; background: var(--tinta); color: var(--fondo); font-weight: 900; font-size: 32px; transform: rotate(-6deg); }
+  .emoji { position: relative; align-self: center; font-size: 340px; line-height: 1; margin-top: 70px; filter: drop-shadow(0 24px 40px rgba(0,0,0,.45)); }
+  .gancho { position: relative; margin-top: 50px; font-size: 92px; line-height: 1.08; font-weight: 900; text-align: center; text-wrap: balance; }
+  .gancho mark { background: var(--acento); color: var(--fondo); padding: 0 .18em; border-radius: .18em; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+  .sub { position: relative; margin-top: 30px; font-size: 44px; color: var(--gris); text-align: center; font-weight: 700; }
+  .pasos { display: flex; gap: 18px; justify-content: center; margin-top: 46px; position: relative; }
+  .pasos i { width: 86px; height: 86px; border-radius: 50%; display: grid; place-items: center; font-style: normal; font-weight: 900; font-size: 44px; border: 5px solid var(--acento); color: var(--acento); }
+  .pasos i.activo { background: var(--acento); color: var(--fondo); transform: scale(1.12); }
+  .tarjeta { position: relative; margin-top: 110px; background: var(--tinta); color: var(--fondo); border-radius: 44px; padding: 54px 50px 46px;
+    box-shadow: 0 30px 70px rgba(0,0,0,.45); }
+  .tarjeta .num { position: absolute; top: -58px; left: 44px; width: 116px; height: 116px; border-radius: 50%; background: var(--acento); color: var(--fondo);
+    display: grid; place-items: center; font-weight: 900; font-size: 68px; box-shadow: 0 12px 30px rgba(0,0,0,.35); }
+  .tarjeta .mini { position: absolute; top: -70px; right: 34px; font-size: 140px; line-height: 1; }
+  .tarjeta .titulo { font-size: 70px; line-height: 1.14; font-weight: 850; text-wrap: pretty; }
+  .tarjeta .medio { margin-top: 30px; font-size: 36px; font-weight: 700; opacity: .75; }
+  .centro { flex: 1; display: flex; flex-direction: column; justify-content: center; padding-bottom: 60px; position: relative; }
+  .centro > .emoji { margin-top: 0; }
+  .pie { margin-top: auto; display: flex; justify-content: center; position: relative; }
+  .url { background: var(--acento); color: var(--fondo); font-weight: 900; font-size: 42px; padding: 18px 34px; border-radius: 18px; }
+  .cta { display: flex; gap: 22px; justify-content: center; margin-top: 46px; position: relative; }
+  .cta span { padding: 18px 28px; border-radius: 22px; background: color-mix(in srgb, var(--tinta) 14%, transparent); border: 3px solid var(--acento); font-size: 40px; font-weight: 800; }
+  .barra { position: absolute; left: 0; bottom: 0; height: 16px; background: var(--acento); }
 </style>
 </head>
 <body>
@@ -34,28 +51,42 @@
 <script>
   const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   const CRUZ = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9 1h6v8h8v6h-8v8H9v-8H1V9h8z"/></svg>';
-  let dur = 5, hecho = [];
-  /** Dibuja una escena: portada (gancho), nota (número, titular y medio) o cierre. */
+  let dur = 5, animados = [], emoji = null, total = 3;
+  /** Resalta las dos primeras palabras con peso del gancho (marcador de color). */
+  const resaltar = (t) => { const p = esc(t).split(" "); const k = p.findIndex((w) => w.replace(/[^\p{L}\p{N}]/gu, "").length > 3);
+    if (k < 0) return p.join(" "); return [...p.slice(0, k), `<mark>${p.slice(k, k + 2).join(" ")}</mark>`, ...p.slice(k + 2)].join(" "); };
   window.escena = (e, m) => {
     for (const [k, v] of Object.entries(m.paleta || {})) if (/^#[0-9a-f]{6}$/i.test(String(v))) document.documentElement.style.setProperty(`--${k}`, v);
-    dur = e.dur || 5;
-    const formas = Array.from({ length: 5 }, (_, i) => `<i style="width:${260 + i * 140}px;height:${260 + i * 140}px;right:${-120 - i * 60}px;top:${200 + i * 90}px"></i>`).join("");
+    dur = e.dur || 5; total = e.total || 3;
+    const confeti = Array.from({ length: 14 }, (_, i) => i % 3 === 0
+      ? `<b style="left:${(i * 83) % 1000}px;top:${(i * 157) % 1800}px;transform:rotate(${i * 25}deg)"></b>`
+      : `<i style="width:${18 + (i * 7) % 40}px;height:${18 + (i * 7) % 40}px;left:${(i * 131) % 1040}px;top:${(i * 211) % 1880}px"></i>`).join("");
+    const pasos = (n) => `<div class="pasos" data-a="1">${Array.from({ length: total }, (_, i) => `<i class="${i + 1 === n ? "activo" : ""}">${i + 1}</i>`).join("")}</div>`;
     let cuerpo = "";
-    if (e.tipo === "nota") cuerpo = `<div class="numero" data-a="1">${esc(e.numero)}</div><div class="titulo" data-a="2">${esc(e.titulo)}</div><div class="medio" data-a="3">Según <b>${esc(e.medio)}</b></div>`;
-    else cuerpo = `<div class="titulo" data-a="1" style="margin-top:${e.tipo === "portada" ? 260 : 320}px">${esc(e.titulo)}</div>${e.tipo === "cierre" ? '<div class="medio" data-a="2">Síguenos para no perdértelo</div>' : ""}`;
-    document.getElementById("lienzo").innerHTML = `<div class="formas">${formas}</div><div class="marca">${CRUZ} DOMINUS <span>OSINT</span></div>
-      <div class="tema">${esc(e.tema)}</div>${cuerpo}${e.icono ? `<div class="icono" data-a="4" aria-hidden="true">${esc(e.icono)}</div>` : ""}<div class="pie"><span></span><div class="url">dominusosint.com</div></div><div class="barra" id="barra"></div>`;
-    hecho = [...document.querySelectorAll("[data-a]")];
+    if (e.tipo === "portada") cuerpo = `<div class="emoji" data-e="1">${esc(e.icono)}</div><div class="gancho" data-a="2">${resaltar(e.titulo)}</div>
+      <div class="sub" data-a="3">${esc(e.sub || "Quédate hasta el final 👇")}</div>${pasos(0)}`;
+    else if (e.tipo === "nota") cuerpo = `${pasos(e.numero)}<div class="tarjeta" data-a="2"><div class="num">${esc(e.numero)}</div><div class="mini" data-e="1">${esc(e.emoji || e.icono)}</div>
+      <div class="titulo">${esc(e.titulo)}</div><div class="medio">📰 ${esc(e.medio)}</div></div>`;
+    else cuerpo = `<div class="emoji" data-e="1">${esc(e.icono)}</div><div class="gancho" data-a="2">${resaltar(e.titulo)}</div>
+      <div class="cta" data-a="3"><span>👍 Like</span><span>💬 Comenta</span><span>🔔 Síguenos</span></div>`;
+    document.getElementById("lienzo").innerHTML = `<div class="confeti">${confeti}</div><div class="marca">${CRUZ} DOMINUS <span>OSINT</span></div>
+      <div class="fila"><div class="tema">${esc(e.tema)}</div><div class="hoy">HOY</div></div><div class="centro">${cuerpo}</div><div class="pie"><div class="url">dominusosint.com</div></div><div class="barra" id="barra"></div>`;
+    animados = [...document.querySelectorAll("[data-a]")]; emoji = document.querySelector("[data-e]");
     window.aTiempo(0);
   };
   const suave = (x) => (x <= 0 ? 0 : x >= 1 ? 1 : 1 - Math.pow(1 - x, 3));
-  /** Estado de la escena en el segundo t: entradas escalonadas, formas que giran y barra de avance. */
+  const rebote = (x) => (x <= 0 ? 0 : x >= 1 ? 1 : 1 + 2.70158 * Math.pow(x - 1, 3) + 1.70158 * Math.pow(x - 1, 2));
+  /** Estado en el segundo t: entradas escalonadas, emoji que rebota y late, confeti que flota y barra de avance. */
   window.aTiempo = (t) => {
-    for (const el of hecho) {
-      const k = suave((t - 0.15 - (Number(el.dataset.a) - 1) * 0.35) / 0.5);
-      el.style.opacity = k; el.style.transform = `translateY(${(1 - k) * 60}px) scale(${0.96 + 0.04 * k})`;
+    for (const el of animados) {
+      const k = suave((t - 0.1 - (Number(el.dataset.a) - 1) * 0.3) / 0.45);
+      el.style.opacity = k; el.style.transform = `translateY(${(1 - k) * 80}px)` + (el.classList.contains("tarjeta") ? ` rotate(${(1 - k) * -4}deg)` : "");
     }
-    document.querySelectorAll(".formas i").forEach((f, i) => { f.style.transform = `translate(${Math.sin(t * 0.6 + i) * 24}px, ${Math.cos(t * 0.5 + i) * 24}px)`; });
+    if (emoji) {
+      const k = rebote(t / 0.7);
+      emoji.style.transform = `scale(${(0.2 + 0.8 * k) * (1 + 0.05 * Math.sin(t * 5))}) rotate(${Math.sin(t * 2.4) * 6}deg)`;
+    }
+    document.querySelectorAll(".confeti > *").forEach((f, i) => { f.style.translate = `${Math.sin(t * 0.8 + i) * 22}px ${((t * (22 + i * 3)) % 60) - 30}px`; });
     const b = document.getElementById("barra"); if (b) b.style.width = `${Math.min(100, (t / dur) * 100)}%`;
   };
 </script>

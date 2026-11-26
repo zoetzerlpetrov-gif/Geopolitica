@@ -72,3 +72,6 @@ button.mini { padding: .15rem .5rem; font-size: .85rem; margin-left: .4rem; }
 .cobertura-catalogo { width: 100%; border-collapse: collapse; margin: 1rem 0; }
 .cobertura-catalogo caption { text-align: left; font-weight: 700; }
 .cobertura-catalogo th, .cobertura-catalogo td { padding: .35rem; text-align: left; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.boton-busqueda { display: inline-block; margin: .15rem .3rem .15rem 0; padding: .1rem .5rem; border: 1px solid var(--line); border-radius: .35rem; font-size: .85rem; text-decoration: none; }
+.resultados-buscador h5 { margin: .8rem 0 .2rem; }
+#res-buscadores h4 { margin: 1rem 0 .3rem; }

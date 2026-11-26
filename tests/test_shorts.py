@@ -76,3 +76,17 @@ def test_sin_llaves_no_sube(tmp_path, monkeypatch):
         monkeypatch.delenv(k, raising=False)
     (tmp_path / "guion.json").write_text(json.dumps({"titulo": "x"}), encoding="utf-8")
     assert U.subir(str(tmp_path)) is None
+
+
+def test_violencia_fuera_en_todos_los_temas_y_emoji_por_titular():
+    n = {"notas": [nota("Balacera en la capital deja heridos", "Medio A", s="politica_mx", u="https://a.mx/1"),
+                   nota("El Congreso aprueba la reforma educativa en lo general", "Medio B", s="politica_mx", u="https://a.mx/2"),
+                   nota("Senado discute el presupuesto para el próximo año", "Medio C", s="politica_mx", u="https://a.mx/3")]}
+    items = S.elegir_titulares(n, "politica_mx", 3, ahora=AHORA)
+    assert [i["medio"] for i in items] == ["Medio B", "Medio C"]
+    assert S.emoji_de("Nueva ruta de vuelo a Cancún", "🍽️") == "✈️"
+    assert S.emoji_de("Sin coincidencias aquí", "🍽️") == "🍽️"
+    g = S.guion(S.config()["temas"][0], items, "2026-11-26")
+    assert g["escenas"][-2]["voz"].startswith("Y para cerrar")
+    assert g["escenas"][1]["voz"].startswith("Número uno")
+    assert all(e["total"] == 2 for e in g["escenas"])

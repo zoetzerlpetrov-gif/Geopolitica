@@ -1,12 +1,12 @@
 {
- "_nota": "Shorts temáticos del canal (tools/shorts/shorts.py): cada día un tema distinto, que no repite las noticias de Brújula Diaria. Se toman 3 titulares recientes en español de la sección del Noticiero, con su medio; la voz es sintética (se declara a YouTube). Agrega, quita o reordena temas aquí; «seccion» es el id del Noticiero. «ligero»: true salta titulares de muertes, violencia o accidentes (temas de entretenimiento). «icono»: imagen alusiva grande en cada escena.",
+ "_nota": "Shorts temáticos del canal (tools/shorts/shorts.py): cada día un tema distinto, que no repite las noticias de Brújula Diaria. Se toman 3 titulares recientes en español de la sección del Noticiero, con su medio; la voz es sintética (se declara a YouTube). Agrega, quita o reordena temas aquí; «seccion» es el id del Noticiero. «ligero»: true salta titulares de muertes, violencia o accidentes (temas de entretenimiento). «icono»: emoji grande del tema; cada titular lleva además un emoji alusivo. «gancho»: frase corta y cercana para público general.",
  "duracion_max_s": 58,
  "titulares": 3,
  "temas": [
   {
    "seccion": "gastronomia_viajes",
    "nombre": "Gastronomía y viajes",
-   "gancho": "Tres noticias para viajar y comer bien",
+   "gancho": "¿Antojo de viajar? Esto te va a encantar",
    "hashtags": [
     "viajes",
     "gastronomia",
@@ -18,7 +18,7 @@
   {
    "seccion": "espectaculos",
    "nombre": "Espectáculos",
-   "gancho": "Lo que se mueve hoy en espectáculos",
+   "gancho": "Lo que está dando de qué hablar en espectáculos",
    "hashtags": [
     "espectaculos",
     "cine",
@@ -30,7 +30,7 @@
   {
    "seccion": "tecnologia",
    "nombre": "Tecnología",
-   "gancho": "Tres novedades de tecnología de hoy",
+   "gancho": "Tecnología que vas a querer probar",
    "hashtags": [
     "tecnologia",
     "inteligenciaartificial",
@@ -42,7 +42,7 @@
   {
    "seccion": "cultura",
    "nombre": "Cultura",
-   "gancho": "Teatro, arte y libros: lo nuevo de hoy",
+   "gancho": "Planes culturales que no te puedes perder",
    "hashtags": [
     "cultura",
     "teatro",
@@ -54,7 +54,7 @@
   {
    "seccion": "salud",
    "nombre": "Salud",
-   "gancho": "Tres noticias de salud que conviene saber",
+   "gancho": "Tips de salud que sí sirven",
    "hashtags": [
     "salud",
     "bienestar",
@@ -65,7 +65,7 @@
   {
    "seccion": "conspiracion",
    "nombre": "Misterios y teorías",
-   "gancho": "Ovnis, misterios y teorías: qué dicen las fuentes",
+   "gancho": "Ovnis y misterios: ¿qué hay de cierto?",
    "hashtags": [
     "misterios",
     "ovnis",
@@ -76,7 +76,7 @@
   {
    "seccion": "belleza_moda",
    "nombre": "Belleza y moda",
-   "gancho": "Tendencias de belleza y moda de hoy",
+   "gancho": "Lo que viene fuerte en moda y belleza",
    "hashtags": [
     "moda",
     "belleza",
@@ -88,7 +88,7 @@
   {
    "seccion": "infantil",
    "nombre": "Para niñas y niños",
-   "gancho": "Planes y estrenos para la familia",
+   "gancho": "Planes geniales para la familia",
    "hashtags": [
     "familia",
     "niños",
@@ -100,7 +100,7 @@
   {
    "seccion": "clima",
    "nombre": "Clima",
-   "gancho": "El clima que viene: lo que hay que saber",
+   "gancho": "¿Paraguas o bloqueador? El clima que viene",
    "hashtags": [
     "clima",
     "pronostico",
@@ -111,7 +111,7 @@
   {
    "seccion": "ciberseguridad",
    "nombre": "Estafas y ciberseguridad",
-   "gancho": "Tres estafas y riesgos digitales de hoy",
+   "gancho": "Que no te estafen: 3 alertas de hoy",
    "hashtags": [
     "ciberseguridad",
     "estafas",
@@ -122,7 +122,7 @@
   {
    "seccion": "agenda2030",
    "nombre": "Planeta y futuro",
-   "gancho": "Planeta y futuro: tres noticias de hoy",
+   "gancho": "Buenas noticias para el planeta",
    "hashtags": [
     "medioambiente",
     "sostenibilidad",
@@ -133,7 +133,7 @@
   {
    "seccion": "politica_mx",
    "nombre": "Política en México",
-   "gancho": "Política en México en tres titulares",
+   "gancho": "Lo que tienes que saber de política hoy",
    "hashtags": [
     "politica",
     "mexico",
@@ -144,7 +144,7 @@
   {
    "seccion": "cripto",
    "nombre": "Criptomonedas",
-   "gancho": "Criptomonedas hoy en tres titulares",
+   "gancho": "Cripto en 30 segundos",
    "hashtags": [
     "cripto",
     "bitcoin",
@@ -155,7 +155,7 @@
   {
    "seccion": "inmobiliario",
    "nombre": "Bienes raíces",
-   "gancho": "Vivienda y bienes raíces: lo nuevo",
+   "gancho": "Vivienda: lo que conviene saber hoy",
    "hashtags": [
     "bienesraices",
     "vivienda",

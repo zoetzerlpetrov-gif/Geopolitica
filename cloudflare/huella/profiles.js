@@ -163,6 +163,13 @@ export function publicProfileChecks(alias, upstream, email, youtubeKey) {
     });
   }
 
+  if (!youtubeKey && /^[a-z0-9][a-z0-9_.-]{1,28}[a-z0-9]$/i.test(alias)) {
+    // La página del identificador responde 200 si existe y 404 si no (el canal aparece más allá del límite de lectura).
+    add("YouTube · página pública", `https://www.youtube.com/@${safe}`, data => (typeof data === "string" && /youtube/i.test(data)
+      ? { status: "verificado", url: `https://www.youtube.com/@${safe}`, detail: "La página pública del identificador @ existe." } : unclear),
+      { text: true, category: "social" });
+  }
+
   add("Stack Overflow · nombre visible", query("https://api.stackexchange.com/2.3/users", {
     site: "stackoverflow", inname: alias, pagesize: "20"
   }), data => {

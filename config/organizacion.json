@@ -1,5 +1,5 @@
 {
- "_nota": "Admin → Organización DOMINUS (organizacion.html): las áreas de la empresa con sus tareas por etapa, normas de referencia y herramientas. El avance (estado, responsable, fecha y evidencia) se guarda en la base del Worker. Edita este archivo para agregar o cambiar tareas; el id de cada tarea no debe cambiar una vez usado.",
+ "_nota": "Admin → Organización DOMINUS (organizacion.html): las áreas de la empresa con sus tareas por etapa, normas de referencia y herramientas. «skills»: habilidades de Claude recomendadas por área (se copian con su indicación). El avance (estado, responsable, fecha y evidencia) se guarda en la base del Worker. Edita este archivo para agregar o cambiar tareas; el id de cada tarea no debe cambiar una vez usado.",
  "etapas": {
   "ahora": "Ahora (1 a 5 personas)",
   "crecimiento": "Crecimiento (6 a 50 personas)",
@@ -13,6 +13,11 @@
    "objetivo": "Saber hacia dónde va la empresa, quién decide qué y cómo se rinden cuentas.",
    "normas": ["ISO 37000:2021 (gobernanza de organizaciones)", "COSO 2013 (control interno)"],
    "herramientas": ["Objetivos anuales y trimestrales (OKR)", "Calendario de juntas con acta"],
+   "skills": [
+    {"skill": "operations:status-report", "para": "Reporte mensual de resultados para la junta"},
+    {"skill": "small-business:business-pulse", "para": "Pulso del negocio: ventas, caja y pendientes"},
+    {"skill": "product-management:stakeholder-update", "para": "Comunicado a socios o inversionistas"}
+   ],
    "tareas": [
     {"id": "objetivos", "etapa": "ahora", "texto": "Escribir misión, visión y 3 a 5 objetivos del año con su indicador."},
     {"id": "juntas", "etapa": "ahora", "texto": "Fijar una junta mensual de revisión de resultados con minuta y acuerdos."},
@@ -28,6 +33,13 @@
    "objetivo": "Operar con la figura jurídica adecuada, contratos claros y la marca protegida.",
    "normas": ["Ley General de Sociedades Mercantiles", "Ley Federal de Protección a la Propiedad Industrial", "Código de Comercio"],
    "herramientas": ["Contratos modelo revisados por un abogado", "Libro de actas y registro de poderes"],
+   "skills": [
+    {"skill": "legal:legal-risk-assessment", "para": "Evaluar riesgos legales de una decisión (p. ej., S.A.P.I. vs. S. de R.L.)"},
+    {"skill": "legal:review-contract", "para": "Revisar un contrato de cliente o proveedor contra tu modelo"},
+    {"skill": "legal:triage-nda", "para": "Clasificar un NDA recibido: firmar, negociar o escalar"},
+    {"skill": "legal:compliance-check", "para": "Revisar si una acción cumple la normativa"},
+    {"skill": "legal:signature-request", "para": "Preparar el paquete de firma"}
+   ],
    "tareas": [
     {"id": "sociedad", "etapa": "ahora", "texto": "Evaluar con contador y notario constituir una sociedad (S.A.P.I. o S. de R.L. de C.V.) en lugar de seguir como persona física con actividad empresarial: costos, régimen fiscal, responsabilidad limitada y contratos con clientes extranjeros."},
     {"id": "marca", "etapa": "ahora", "texto": "Registrar la marca DOMINUS ante el IMPI en las clases de los servicios que se venden."},
@@ -43,6 +55,12 @@
    "objetivo": "Cumplir con el SAT a tiempo y tener números confiables cada mes.",
    "normas": ["Código Fiscal de la Federación", "Ley del ISR y Ley del IVA", "Anexo 20 (CFDI 4.0)", "NIF (Normas de Información Financiera)"],
    "herramientas": ["PAC para facturar (CFDI 4.0)", "Contabilidad electrónica", "ERP cuando haya varias personas en finanzas"],
+   "skills": [
+    {"skill": "small-business:tax-prep", "para": "Ordenar información para declaraciones"},
+    {"skill": "small-business:month-end-prep", "para": "Preparar el cierre del mes con el contador"},
+    {"skill": "finance:close-management", "para": "Calendario y tareas del cierre contable"},
+    {"skill": "finance:reconciliation", "para": "Conciliación bancaria"}
+   ],
    "tareas": [
     {"id": "declaraciones", "etapa": "ahora", "texto": "Calendario de declaraciones mensuales (día 17) y anual, con quién las presenta."},
     {"id": "cfdi", "etapa": "ahora", "texto": "Elegir proveedor de facturación (PAC), tramitar el CSD y probar factura y factura global de público en general."},
@@ -60,6 +78,12 @@
    "objetivo": "Tener efectivo suficiente, cobrar a tiempo y saber cuánto deja cada servicio.",
    "normas": ["NIF B-2 (flujo de efectivo)"],
    "herramientas": ["Presupuesto anual", "Flujo de caja a 13 semanas", "Tablero de cobranza"],
+   "skills": [
+    {"skill": "small-business:cash-flow-snapshot", "para": "Foto del flujo de caja"},
+    {"skill": "finance:variance-analysis", "para": "Explicar diferencias entre presupuesto y real"},
+    {"skill": "finance:financial-statements", "para": "Estado de resultados y balance"},
+    {"skill": "small-business:invoice-chase", "para": "Mensajes de cobranza"}
+   ],
    "tareas": [
     {"id": "cuentas", "etapa": "ahora", "texto": "Separar cuentas bancarias del negocio y personales."},
     {"id": "presupuesto", "etapa": "ahora", "texto": "Presupuesto anual de ingresos y gastos por mes."},
@@ -76,6 +100,13 @@
    "objetivo": "Contratar bien, cumplir la ley laboral y que el equipo sepa qué se espera de él.",
    "normas": ["Ley Federal del Trabajo", "NOM-035-STPS-2018 (riesgo psicosocial)", "NOM-037-STPS-2023 (teletrabajo)", "Ley del Seguro Social"],
    "herramientas": ["Sistema de nómina y expedientes", "Evaluación de desempeño"],
+   "skills": [
+    {"skill": "human-resources:org-planning", "para": "Organigrama y plan de contrataciones"},
+    {"skill": "human-resources:draft-offer", "para": "Carta oferta"},
+    {"skill": "human-resources:onboarding", "para": "Plan de los primeros 30-60-90 días"},
+    {"skill": "human-resources:performance-review", "para": "Evaluación de desempeño"},
+    {"skill": "small-business:job-post-builder", "para": "Anuncio de vacante"}
+   ],
    "tareas": [
     {"id": "contratos", "etapa": "crecimiento", "texto": "Contrato individual de trabajo por escrito, alta en IMSS e INFONAVIT desde el primer día."},
     {"id": "descripciones", "etapa": "crecimiento", "texto": "Descripción de cada puesto con objetivos, responsabilidades e indicadores."},
@@ -93,6 +124,12 @@
    "objetivo": "Entregar cada proyecto a tiempo, con calidad y con aprendizaje para el siguiente.",
    "normas": ["ISO 21502:2020 (gestión de proyectos)", "Guía PMBOK (PMI)"],
    "herramientas": ["Admin → Clientes y proyectos", "DOMINUS OPS", "Registro de horas"],
+   "skills": [
+    {"skill": "operations:process-doc", "para": "Documentar un proceso paso a paso"},
+    {"skill": "operations:runbook", "para": "Manual de operación de una tarea repetitiva"},
+    {"skill": "operations:capacity-plan", "para": "Capacidad del equipo vs. proyectos"},
+    {"skill": "operations:status-report", "para": "Reporte semanal de proyecto"}
+   ],
    "tareas": [
     {"id": "metodo", "etapa": "ahora", "texto": "Usar un mismo flujo para todo proyecto: alta del cliente, plan, auditorías, seguimiento y cierre."},
     {"id": "horas", "etapa": "crecimiento", "texto": "Registrar horas por proyecto para conocer el costo real de cada servicio."},
@@ -107,6 +144,10 @@
    "objetivo": "Que cada persona que visita a un cliente, en México o en otro país, viaje con el riesgo evaluado y un plan si algo sale mal.",
    "normas": ["ISO 31030:2021 (gestión del riesgo de viajes)", "ISO 31000:2018 (gestión del riesgo)"],
    "herramientas": ["Mapa DOMINUS: riesgo del destino, alertas oficiales y clima", "Inmuebles y riesgo: evaluación de la ubicación del cliente"],
+   "skills": [
+    {"skill": "operations:risk-assessment", "para": "Evaluación de riesgo de un viaje o sitio"},
+    {"skill": "legal:legal-risk-assessment", "para": "Riesgos legales de trabajar en otro país"}
+   ],
    "tareas": [
     {"id": "politica", "etapa": "crecimiento", "texto": "Política de viajes: quién autoriza, gastos permitidos y proveedores."},
     {"id": "evaluacion", "etapa": "crecimiento", "texto": "Evaluación de riesgo del destino antes de cada salida (con el mapa de DOMINUS) y aprobación si el riesgo es alto."},
@@ -122,6 +163,12 @@
    "objetivo": "Saber de dónde vienen los clientes, cuánto cuesta conseguirlos y cuántos renuevan.",
    "normas": [],
    "herramientas": ["CRM", "Propuestas y contratos con firma electrónica", "Encuesta de satisfacción"],
+   "skills": [
+    {"skill": "sales:account-research", "para": "Investigar a un prospecto"},
+    {"skill": "sales:call-prep", "para": "Preparar una llamada de venta"},
+    {"skill": "small-business:proposal-builder", "para": "Armar una propuesta"},
+    {"skill": "sales:forecast", "para": "Pronóstico de ventas"}
+   ],
    "tareas": [
     {"id": "crm", "etapa": "ahora", "texto": "Registrar cada prospecto y cliente en un CRM con su etapa."},
     {"id": "propuesta", "etapa": "ahora", "texto": "Propuesta tipo y lista de precios aprobada."},
@@ -136,6 +183,12 @@
    "objetivo": "Que los clientes adecuados conozcan DOMINUS y confíen en él.",
    "normas": ["Código de autorregulación de publicidad (CONAR)"],
    "herramientas": ["Admin → Marketing de DOMINUS"],
+   "skills": [
+    {"skill": "marketing:campaign-plan", "para": "Plan de campaña"},
+    {"skill": "marketing:content-creation", "para": "Textos para redes y sitio"},
+    {"skill": "marketing:brand-review", "para": "Revisar que un texto cumpla el manual de marca"},
+    {"skill": "marketing:performance-report", "para": "Reporte de resultados de marketing"}
+   ],
    "tareas": [
     {"id": "plan", "etapa": "ahora", "texto": "Seguir el plan de lanzamiento de la página de Marketing."},
     {"id": "marca", "etapa": "crecimiento", "texto": "Manual de marca (logotipo, colores, tono) para todo el equipo."},
@@ -149,6 +202,12 @@
    "objetivo": "Proteger la información propia y de los clientes y poder seguir operando si algo falla.",
    "normas": ["ISO/IEC 27001:2022", "NIST CSF 2.0", "CIS Controls v8"],
    "herramientas": ["SGSI del proyecto (docs/SGSI.md)", "Autoauditoría y vigía en Admin", "Ambientes de pruebas, UAT y respaldo"],
+   "skills": [
+    {"skill": "engineering:incident-response", "para": "Guiar la respuesta a un incidente"},
+    {"skill": "security-review", "para": "Revisión de seguridad del código"},
+    {"skill": "operations:vendor-review", "para": "Evaluar un proveedor de nube o software"},
+    {"skill": "operations:change-request", "para": "Solicitud de cambio en producción"}
+   ],
    "tareas": [
     {"id": "inventario", "etapa": "ahora", "texto": "Inventario de equipos, cuentas y servicios en la nube con su responsable."},
     {"id": "2fa", "etapa": "ahora", "texto": "Verificación en dos pasos en correo, GitHub, Cloudflare, Google y banco."},
@@ -166,6 +225,11 @@
    "objetivo": "Tratar los datos de clientes y personal conforme a la ley de cada país.",
    "normas": ["Ley Federal de Protección de Datos Personales en Posesión de los Particulares (2025)", "RGPD (Unión Europea) si hay clientes o personas en la UE"],
    "herramientas": ["Aviso de privacidad (Admin → Datos legales)"],
+   "skills": [
+    {"skill": "legal:compliance-check", "para": "Revisar cumplimiento de protección de datos"},
+    {"skill": "operations:compliance-tracking", "para": "Calendario y evidencias de cumplimiento"},
+    {"skill": "legal:vendor-check", "para": "Revisar contratos de proveedores que tratan datos"}
+   ],
    "tareas": [
     {"id": "aviso", "etapa": "ahora", "texto": "Aviso de privacidad publicado y actualizado."},
     {"id": "inventario", "etapa": "crecimiento", "texto": "Inventario de qué datos personales se tratan, para qué, dónde y cuánto tiempo."},
@@ -181,6 +245,12 @@
    "objetivo": "Revisar de forma independiente que los controles funcionen y corregir a tiempo.",
    "normas": ["Normas Globales de Auditoría Interna (IIA, 2024)", "ISO 19011:2018 (auditorías de sistemas de gestión)"],
    "herramientas": ["Autoauditoría de DOMINUS", "Matriz de riesgos"],
+   "skills": [
+    {"skill": "operations:compliance-tracking", "para": "Seguimiento de obligaciones y auditorías"},
+    {"skill": "operations:risk-assessment", "para": "Actualizar la matriz de riesgos"},
+    {"skill": "finance:audit-support", "para": "Preparar evidencia para una auditoría"},
+    {"skill": "legal:legal-risk-assessment", "para": "Evaluar riesgos legales detectados"}
+   ],
    "tareas": [
     {"id": "riesgos", "etapa": "crecimiento", "texto": "Matriz de riesgos de la empresa revisada cada semestre."},
     {"id": "plan", "etapa": "crecimiento", "texto": "Plan anual de auditoría interna basado en esa matriz."},
@@ -195,6 +265,11 @@
    "objetivo": "Hacer las cosas igual de bien cada vez y mejorar con datos.",
    "normas": ["ISO 9001:2015"],
    "herramientas": ["Procesos documentados", "Registro de acciones correctivas"],
+   "skills": [
+    {"skill": "operations:process-optimization", "para": "Mejorar un proceso con datos"},
+    {"skill": "operations:process-doc", "para": "Documentar procesos"},
+    {"skill": "customer-support:customer-research", "para": "Analizar quejas y comentarios de clientes"}
+   ],
    "tareas": [
     {"id": "procesos", "etapa": "crecimiento", "texto": "Documentar los 5 procesos principales (venta, alta de cliente, entrega, cobranza, soporte)."},
     {"id": "indicadores", "etapa": "crecimiento", "texto": "Un indicador por proceso con meta y revisión mensual."},
@@ -209,6 +284,12 @@
    "objetivo": "Responder rápido y dejar registro de cada solicitud.",
    "normas": ["Ley Federal de Protección al Consumidor (venta en línea a personas)"],
    "herramientas": ["Correo de soporte con folio", "Base de preguntas frecuentes"],
+   "skills": [
+    {"skill": "customer-support:ticket-triage", "para": "Clasificar y priorizar solicitudes"},
+    {"skill": "customer-support:draft-response", "para": "Redactar respuestas a clientes"},
+    {"skill": "customer-support:kb-article", "para": "Escribir artículos de ayuda"},
+    {"skill": "customer-support:customer-escalation", "para": "Manejar una escalación"}
+   ],
    "tareas": [
     {"id": "canal", "etapa": "ahora", "texto": "Un solo correo de soporte con respuesta en menos de 1 día hábil."},
     {"id": "faq", "etapa": "crecimiento", "texto": "Preguntas frecuentes y tutoriales en el sitio."},
