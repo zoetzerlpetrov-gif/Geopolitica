@@ -18,13 +18,13 @@ export function rutaPages(pathname) {
 }
 const headers = { "Cache-Control": "private, no-store", "Referrer-Policy": "no-referrer" };
 
-/** Encabezados de las páginas de administración: privadas, sin caché, sin incrustarse en otros sitios. */
+/** Encabezados de las páginas de administración: privadas, sin caché; solo se incrustan en el mismo sitio (proyectos.html). */
 export const ENCABEZADOS_ADMIN = {
   ...headers,
   "Content-Type": "text/html; charset=utf-8",
   "X-Content-Type-Options": "nosniff",
-  "X-Frame-Options": "DENY",
-  "Content-Security-Policy": "frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'",
+  "X-Frame-Options": "SAMEORIGIN",
+  "Content-Security-Policy": "frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'",
   "X-Robots-Tag": "noindex, nofollow",
 };
 

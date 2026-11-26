@@ -139,6 +139,11 @@
   },
   {
    "tipo": "pagina",
+   "href": "proyectos.html",
+   "nombre": "Proyectos de principio a fin"
+  },
+  {
+   "tipo": "pagina",
    "href": "ops.html",
    "nombre": "DOMINUS OPS"
   },

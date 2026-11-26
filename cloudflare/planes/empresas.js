@@ -130,7 +130,8 @@ export async function serveEmpresas(request, url, env, { correo, esAdmin = false
   let cuerpo = {};
   if (request.method === "POST") {
     const texto = await request.text();
-    if (texto.length > 20000) return json({ error: "Solicitud demasiado grande." }, 413, h);
+    // Las actividades de una plantilla de proyecto llegan en lote (hasta 800): ese caso admite cuerpos más grandes.
+    if (texto.length > (/\/proyectos\/(?:[0-9a-f]{16}\/)?[0-9a-f]{16}\/items$/.test(url.pathname) ? 400000 : 20000)) return json({ error: "Solicitud demasiado grande." }, 413, h);
     try { cuerpo = texto ? JSON.parse(texto) : {}; } catch { return json({ error: "JSON inválido." }, 400, h); }
   }
   try {
@@ -139,8 +140,77 @@ export async function serveEmpresas(request, url, env, { correo, esAdmin = false
     if (partes[0] === "admin") {
       if (!esAdmin) return json({ error: "Solo administración." }, 403, h);
       if (partes[1] === "orgs" && request.method === "GET") {
-        const r = await db.prepare("SELECT o.id, o.nombre, o.pais, o.plan, o.asientos, o.vence, o.creada, (SELECT count(*) FROM dominus_org_miembros m WHERE m.org_id = o.id) AS miembros FROM dominus_orgs o ORDER BY o.creada DESC LIMIT 500").all();
-        return json({ orgs: r.results || [] }, 200, h);
+        const r = await db.prepare(`SELECT o.id, o.nombre, o.pais, o.sectores, o.plan, o.asientos, o.vence, o.creada, (SELECT rfc FROM dominus_org_rfc x WHERE x.org_id = o.id) AS rfc,
+          (SELECT group_concat(email, ', ') FROM dominus_org_miembros m WHERE m.org_id = o.id AND m.rol = 'dueno') AS duenos,
+          (SELECT count(*) FROM dominus_org_miembros m WHERE m.org_id = o.id) AS miembros FROM dominus_orgs o ORDER BY o.creada DESC LIMIT 500`).all();
+        return json({ orgs: (r.results || []).map((o) => ({ ...o, sectores: JSON.parse(o.sectores || "[]") })) }, 200, h);
+      }
+      if (partes[1] === "org" && partes[2] === "editar" && request.method === "POST") {
+        // Editar datos de una empresa cliente: nombre, RFC, país y sectores (sin repetir otra empresa).
+        const org = await db.prepare("SELECT id FROM dominus_orgs WHERE id = ?").bind(String(cuerpo.org || "")).first();
+        if (!org) return json({ error: "La empresa no existe." }, 404, h);
+        const d = validarOrg(cuerpo), rfc = rfcValido(cuerpo.rfc);
+        const ya = await empresaExistente(db, d.nombre, rfc);
+        if (ya && ya.id !== org.id) return json({ error: `Ya existe «${ya.nombre}» (coincide el ${ya.por}).` }, 409, h);
+        await db.batch([
+          db.prepare("UPDATE dominus_orgs SET nombre = ?, pais = ?, sectores = ? WHERE id = ?").bind(d.nombre, d.pais, JSON.stringify(d.sectores), org.id),
+          db.prepare("DELETE FROM dominus_org_rfc WHERE org_id = ?").bind(org.id),
+          ...(rfc ? [db.prepare("INSERT INTO dominus_org_rfc (org_id, rfc) VALUES (?, ?)").bind(org.id, rfc)] : []),
+          db.prepare("INSERT INTO dominus_org_bitacora (org_id, email, accion, detalle) VALUES (?, 'admin-dominus', 'editar', ?)").bind(org.id, d.nombre),
+        ]);
+        return json({ ok: true }, 200, h);
+      }
+      if (partes[1] === "org" && partes[2] === "borrar" && request.method === "POST") {
+        // Eliminar una empresa y todo lo suyo (miembros, invitaciones, cumplimiento, proyectos). Pide escribir el nombre.
+        const org = await db.prepare("SELECT id, nombre FROM dominus_orgs WHERE id = ?").bind(String(cuerpo.org || "")).first();
+        if (!org) return json({ error: "La empresa no existe." }, 404, h);
+        if (String(cuerpo.confirmar || "").trim() !== org.nombre) return json({ error: "Para confirmar, escribe el nombre exacto de la empresa." }, 400, h);
+        await rutaProyectos(db, org.id, [], "GET", {}, {}); // asegura las tablas de proyectos
+        await db.batch(["dominus_proyecto_items", "dominus_proyectos", "dominus_cumplimiento", "dominus_org_invitaciones", "dominus_org_miembros", "dominus_org_rfc", "dominus_org_bitacora"]
+          .map((t) => db.prepare(`DELETE FROM ${t} WHERE org_id = ?`).bind(org.id)).concat([db.prepare("DELETE FROM dominus_orgs WHERE id = ?").bind(org.id)]));
+        return json({ ok: true }, 200, h);
+      }
+      if (partes[1] === "cuenta" && ["editar", "borrar"].includes(partes[2]) && request.method === "POST") {
+        await asegurarAcceso(db);
+        const email = String(cuerpo.email || "").trim().toLowerCase();
+        const c = await db.prepare("SELECT email FROM dominus_cuentas WHERE email = ?").bind(email).first();
+        if (!c) return json({ error: "La cuenta no existe." }, 404, h);
+        if (partes[2] === "editar") {
+          // Nombre visible y, si se pide, desbloquear (borra los intentos fallidos).
+          const nombre = String(cuerpo.nombre ?? "").trim().slice(0, 120);
+          await db.prepare(`UPDATE dominus_cuentas SET nombre = ?${cuerpo.desbloquear ? ", bloqueo = 0, intentos = 0" : ""} WHERE email = ?`).bind(nombre, email).run();
+          return json({ ok: true }, 200, h);
+        }
+        // Borrar la cuenta: ya no podrá entrar con contraseña. No se borra si es la única dueña de una empresa.
+        const unica = await db.prepare(`SELECT o.nombre FROM dominus_org_miembros m JOIN dominus_orgs o ON o.id = m.org_id WHERE m.email = ? AND m.rol = 'dueno'
+          AND (SELECT count(*) FROM dominus_org_miembros x WHERE x.org_id = m.org_id AND x.rol = 'dueno') = 1`).bind(email).first();
+        if (unica) return json({ error: `Es la única dueña de «${unica.nombre}». Elimina esa empresa o agrega otra persona dueña antes.` }, 409, h);
+        await db.batch([
+          db.prepare("DELETE FROM dominus_cuentas_tokens WHERE email = ?").bind(email),
+          db.prepare("DELETE FROM dominus_org_miembros WHERE email = ?").bind(email),
+          db.prepare("DELETE FROM dominus_cuentas WHERE email = ?").bind(email),
+        ]);
+        return json({ ok: true }, 200, h);
+      }
+      if (partes[1] === "cortesia" && ["editar", "borrar"].includes(partes[2]) && request.method === "POST") {
+        // Ampliar/cambiar la vigencia de una cortesía (días desde hoy) o quitarla (también apaga el plan del mapa que dio).
+        await asegurarAcceso(db);
+        const id = Number(cuerpo.id);
+        const co = Number.isInteger(id) ? await db.prepare("SELECT id, email, producto FROM dominus_cortesias WHERE id = ?").bind(id).first() : null;
+        if (!co) return json({ error: "La cortesía no existe." }, 404, h);
+        const mapa = co.producto === "mapa";
+        if (mapa) await db.prepare("CREATE TABLE IF NOT EXISTS dominus_memberships_email (email TEXT PRIMARY KEY NOT NULL CHECK (length(email) BETWEEN 3 AND 254 AND email = lower(email) AND email LIKE '%_@_%._%'), plan TEXT NOT NULL CHECK (plan IN ('recon', 'analyst', 'command')), active INTEGER NOT NULL DEFAULT 1 CHECK (active IN (0, 1)), expires_at INTEGER CHECK (expires_at IS NULL OR expires_at > 0), updated_at INTEGER NOT NULL DEFAULT (unixepoch())) STRICT").run();
+        if (partes[2] === "borrar") {
+          await db.batch([db.prepare("DELETE FROM dominus_cortesias WHERE id = ?").bind(co.id),
+            ...(mapa ? [db.prepare("UPDATE dominus_memberships_email SET active = 0, updated_at = unixepoch() WHERE email = ?").bind(co.email)] : [])]);
+          return json({ ok: true }, 200, h);
+        }
+        const dias = Math.floor(Number(cuerpo.dias));
+        if (!(dias >= 1 && dias <= 400)) return json({ error: "Días inválidos (1-400)." }, 400, h);
+        const vence = ahora() + dias * DIA, nota = String(cuerpo.nota ?? "").slice(0, 300);
+        await db.batch([db.prepare("UPDATE dominus_cortesias SET vence = ?, nota = ? WHERE id = ?").bind(vence, nota, co.id),
+          ...(mapa ? [db.prepare("UPDATE dominus_memberships_email SET active = 1, expires_at = ?, updated_at = unixepoch() WHERE email = ?").bind(vence, co.email)] : [])]);
+        return json({ ok: true, vence }, 200, h);
       }
       if (partes[1] === "plan" && request.method === "POST") {
         const plan = String(cuerpo.plan || ""), asientos = Number(cuerpo.asientos), dias = Number(cuerpo.dias);
@@ -222,7 +292,7 @@ export async function serveEmpresas(request, url, env, { correo, esAdmin = false
       if (partes[1] === "cuentas" && request.method === "GET") {
         await asegurarAcceso(db);
         const cuentas = (await db.prepare("SELECT email, nombre, activa, creada, ultimo_ingreso, bloqueo FROM dominus_cuentas ORDER BY creada DESC LIMIT 500").all()).results || [];
-        const cortesias = (await db.prepare("SELECT email, producto, plan, vence, nota, creada FROM dominus_cortesias ORDER BY id DESC LIMIT 500").all()).results || [];
+        const cortesias = (await db.prepare("SELECT id, email, producto, plan, vence, nota, creada FROM dominus_cortesias ORDER BY id DESC LIMIT 500").all()).results || [];
         return json({ cuentas, cortesias }, 200, h);
       }
       return json({ error: "Ruta inexistente." }, 404, h);

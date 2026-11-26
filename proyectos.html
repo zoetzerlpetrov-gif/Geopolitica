@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Proyectos de principio a fin</title>
+  <meta name="description" content="Solo administración: el flujo completo de un proyecto en una sola página, paso a paso: empresa, proyecto, diagnóstico, plantilla y normativa, auditorías, riesgos, seguimiento y cierre.">
+  <meta name="robots" content="noindex">
+  <meta name="color-scheme" content="light dark">
+  <script>try { const t = localStorage.getItem("gp_theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23C8102E' d='M44 44 30 4h40L56 44 96 30v40L56 56l14 40H30l14-40L4 70V30z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/app.css">
+  <style>
+    body { display: block; height: auto; overflow: auto; }
+    .ops { max-width: 1400px; margin: 0 auto; padding: 12px 16px; }
+    .meta { color: var(--text-2); font-size: 13px; }
+    .error { color: var(--danger, #b3261e); font-weight: 600; }
+    .tarjeta { border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; margin: 10px 0; background: var(--surface); }
+    .flujo { display: grid; grid-template-columns: 270px 1fr; gap: 16px; align-items: start; }
+    .indice { position: sticky; top: 8px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); padding: 8px; }
+    .indice ol { list-style: none; margin: 0; padding: 0; }
+    .indice button { display: grid; grid-template-columns: 34px 1fr; gap: 6px; align-items: center; width: 100%; text-align: left; font: inherit; padding: 8px; margin: 2px 0;
+      border: 1px solid transparent; border-radius: var(--radius); background: transparent; color: var(--text); cursor: pointer; }
+    .indice button:hover { background: var(--surface-2); }
+    .indice button[aria-current="step"] { border-color: var(--accent); background: var(--surface-2); font-weight: 700; }
+    .indice .num { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--line); font-weight: 800; font-size: 13px; }
+    .indice button[aria-current="step"] .num { background: var(--accent); color: var(--on-accent, #fff); border-color: var(--accent); }
+    .indice .sub { display: block; font-weight: 400; color: var(--text-2); font-size: 12px; }
+    .barra-org { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 8px 12px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); margin-bottom: 10px; }
+    .barra-org select { font: inherit; padding: 6px 8px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); min-width: 260px; }
+    .paso h2 { font-size: 20px; text-transform: none; letter-spacing: 0; color: var(--text); margin: 0 0 6px; }
+    .que { border-left: 5px solid var(--accent); padding: 8px 12px; background: var(--surface-2); border-radius: var(--radius); margin: 8px 0 12px; }
+    .que ol { margin: 6px 0 0 18px; padding: 0; } .que li { margin: 3px 0; }
+    .subtabs { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+    .subtabs button { font: inherit; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface-2); color: var(--text); cursor: pointer; }
+    .subtabs button[aria-selected="true"] { background: var(--accent); color: var(--on-accent, #fff); border-color: transparent; font-weight: 700; }
+    iframe.panel { width: 100%; min-height: 600px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+    .nav-pasos { display: flex; justify-content: space-between; gap: 8px; margin-top: 14px; }
+    .ops button.si, .ops a.si { font: inherit; min-height: 38px; padding: 6px 16px; border: 0; border-radius: var(--radius); background: var(--accent); color: var(--on-accent, #fff); font-weight: 700; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; }
+    .ops button.b, .ops label.b { font: inherit; min-height: 32px; padding: 3px 10px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); cursor: pointer; }
+    .ops label { display: inline-block; } .ops input, .ops select { font: inherit; padding: 5px 8px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); }
+    .rejilla { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; } .rejilla label { display: block; } .rejilla input { width: 100%; box-sizing: border-box; }
+    table.t { width: 100%; border-collapse: collapse; font-size: 14px; } table.t td, table.t th { border-bottom: 1px solid var(--line); padding: 6px; text-align: left; vertical-align: top; }
+    @media (max-width: 900px) { .flujo { grid-template-columns: 1fr; } .indice { position: static; } }
+  </style>
+  <script type="module" src="js/apariencia.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="link-btn" href="./">← Regresar al Mapa</a>
+    <h1>🧭 Proyectos de principio a fin (solo admin)</h1>
+  </header>
+  <main class="ops">
+    <div class="barra-org">
+      <label>Empresa activa <select id="fl-org"><option value="">Elige una empresa…</option></select></label>
+      <span id="fl-msg" class="meta" role="status"></span>
+      <span class="meta">Todo el flujo está en esta página: avanza con «Siguiente paso» o elige un paso a la izquierda.</span>
+    </div>
+    <div class="flujo">
+      <nav class="indice" aria-label="Pasos del proyecto"><ol id="fl-indice"></ol></nav>
+      <section class="paso" id="fl-paso" aria-live="polite"></section>
+    </div>
+  </main>
+  <script type="module" src="js/proyectos-flujo.js"></script>
+</body>
+</html>
