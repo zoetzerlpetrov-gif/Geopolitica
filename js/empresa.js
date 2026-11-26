@@ -79,7 +79,9 @@ function pintarCumplimiento() {
   $("cu-resumen").innerHTML = `<div class="kpis"><div class="kpi"><b>${s.pct} %</b>cumple (sin contar «no aplica»)<div class="progreso" aria-hidden="true"><i style="width:${s.pct}%"></i></div></div>
     <div class="kpi"><b>${s.cumple}</b>Cumple</div><div class="kpi"><b>${s.en_proceso}</b>En proceso</div><div class="kpi"><b>${s.no_cumple}</b>No cumple</div>
     <div class="kpi"><b>${s.pendiente}</b>Pendientes</div><div class="kpi"><b>${s.alertas}</b>Con aviso (ley cambió o plazo vencido)</div></div>
-    <p class="meta">${s.total} preguntas de ${new Set(items.map((i) => i.ley.id)).size} leyes que aplican a ${esc(PAISES[info.org.pais] || info.org.pais)}${info.org.sectores.length ? ` y a tus sectores` : ""}. El catálogo se revisa cada día contra el DOF y fuentes oficiales.</p>`;
+    <p class="meta">${s.total} preguntas de ${new Set(items.map((i) => i.ley.id)).size} leyes que aplican a ${esc(PAISES[info.org.pais] || info.org.pais)}${info.org.sectores.length ? ` y a tus sectores` : ""}. El catálogo se revisa cada día contra el DOF y fuentes oficiales.</p>
+    <p class="skill-claude">💡 <b>Con Claude:</b> <code>legal:compliance-check</code> revisa si un proceso o documento cumple estas leyes, y <code>finance:audit-support</code> prepara el paquete de evidencias para una auditoría
+      (descarga las evidencias de cada pregunta con «📎» y pásaselas).</p>`;
   const f = { estado: $("cu-estado").value, area: $("cu-area").value, alertas: $("cu-alertas").checked, q: $("cu-q").value.trim().toLowerCase() };
   const puedeEditar = ["editor", "admin", "dueno"].includes(info.rol) && info.org.vigente;
   const miembros = info.miembros.map((m) => m.email);

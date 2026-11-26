@@ -2,10 +2,10 @@
 // y js/xlsx-escritor.js para el archivo. Las fechas, el avance, el Gantt, los vencimientos y el tablero son fórmulas: se
 // recalculan al cambiar la fecha de inicio, una duración, una predecesora, un estado o al marcar «No» en «¿Aplica?».
 // Las hojas Gantt y Vencimientos leen la hoja Plan por número de fila (INDEX): si agregas o borras filas en el Plan, se ajustan.
-import { libroXLSX, libroXLSXComprimido, serialFecha, col } from "./xlsx-escritor.js";
+import { libroXLSX, libroXLSXComprimido, serialFecha, col, diaHabil } from "./xlsx-escritor.js";
 import { COLUMNAS_PLAN, feriadosMexico } from "./plan-proyecto.js";
 
-const SEMANAS = 104;          // dos años de Gantt
+const SEMANAS_MAX = 104;      // hasta dos años de Gantt (se ajusta a la duración del plan, con holgura)
 const FILA_ENC = 5;           // encabezados del plan
 const C = Object.fromEntries(COLUMNAS_PLAN.map(([k], i) => [k, col(i)]));  // clave → letra de columna
 const G0 = COLUMNAS_PLAN.length;                                           // columnas de la hoja Plan
@@ -20,33 +20,65 @@ export function hojasPlan(plan, { cfg, titulo, inicio, sectorNombre = "", paises
   const rango = (k) => `${C[k]}${FILA_ENC + 1}:${C[k]}${ultima}`;
   const abs = (k) => `Plan!$${C[k]}$${FILA_ENC + 1}:$${C[k]}$${ultima}`;
   const feriados = `'Días inhábiles'!$A$2:$A$200`;
+  // Rangos acotados (no columnas completas): Excel calcula mucho más rápido al abrir el archivo.
+  const finTabla = ultima + EXTRA;
+  const colPlan = (k) => `$${C[k]}$1:$${C[k]}$${finTabla}`;
+  // Feriados de México (mismos que la hoja «Días inhábiles») para dejar las fechas ya calculadas dentro del archivo.
+  const y0 = inicio.getUTCFullYear();
+  const ferList = paises.some((p) => /méxico/i.test(p)) ? feriadosMexico([y0, y0 + 1, y0 + 2, y0 + 3]) : [];
+  const ferSet = new Set(ferList.map((f) => serialFecha(new Date(`${f}T00:00:00Z`))));
+  const hoy = serialFecha(new Date());
+  const valores = {};   // fila del Plan → valores ya calculados (los usa también la hoja Gantt)
+  const finDe = {};     // ID → fecha de fin calculada
 
   // ------------------------------------------------------------ Plan
   const filas = [
     [{ v: titulo, s: "titulo" }],
-    [t("Inicio del proyecto (cámbialo y todo se recalcula):", "seccion"), "", { v: ini, s: "fecha" }, "", t("Hoy:", "seccion"), { f: "TODAY()", s: "fecha" }, "", t("Sector:", "seccion"), t(sectorNombre || "Solo generales (toda empresa)"),
+    [t("Inicio del proyecto (cámbialo y todo se recalcula):", "seccion"), "", { v: ini, s: "fecha" }, "", t("Hoy:", "seccion"), { f: "TODAY()", v: hoy, s: "fecha" }, "", t("Sector:", "seccion"), t(sectorNombre || "Solo generales (toda empresa)"),
       "", t("Países:", "seccion"), t(paises.join(", "))],
     [{ v: `Duraciones en días hábiles: en los trámites salen del plazo legal o de la regla de la ley indicada en «Base de la duración»; en lo demás son estimaciones. Catálogo de normativa revisado ${revisado}. Para quitar una sección: marca «No» en «¿Aplica?» o borra sus filas. Para agregar una actividad: copia una fila completa (lleva las fórmulas de fechas). No es asesoría legal: confirma cada norma en su fuente oficial.`, s: "nota" }],
     [],
     COLUMNAS_PLAN.map(([, n]) => ({ v: n, s: "encabezado" })),
   ];
   const condG = [], hitos = [];
+  // Fechas ya calculadas, igual que las fórmulas: una tarea puede depender de otra que está más abajo, así que se
+  // recalcula hasta que nada cambie (como hace Excel).
+  const fasesUsadas = cfg.fases.filter(([fid]) => plan.tareas.some((x) => x.fase === fid));
+  for (let vuelta = 0, cambio = true; cambio && vuelta < 60; vuelta++) {
+    cambio = false;
+    for (const [fid] of fasesUsadas) {
+      const fines = [];
+      for (const x of plan.tareas.filter((y) => y.fase === fid)) {
+        const a = x.pred && finDe[x.pred] != null ? diaHabil(finDe[x.pred], 1, ferSet) : ini;
+        const b = diaHabil(a, Math.max((Number(x.dias) || 0) - 1, 0), ferSet);
+        if (finDe[x.id] !== b) { finDe[x.id] = b; cambio = true; }
+        fines.push(b);
+      }
+      const h = Math.max(...fines);
+      if (finDe[`HITO-${fid}`] !== h) { finDe[`HITO-${fid}`] = h; cambio = true; }
+    }
+  }
   let r = FILA_ENC;
   for (const [fid, fnombre, fobj] of cfg.fases) {
     const delaFase = plan.tareas.filter((x) => x.fase === fid);
     if (!delaFase.length) continue;
     r += 1;
     filas.push([{ v: fnombre, s: "fase" }, { v: fobj, s: "fase" }, ...Array(G0 - 2).fill({ v: "", s: "fase" })]);
-    const desde = r + 1;
+    valores[r] = { id: fnombre, fase: fobj, tarea: "", pais: "", rol: "", inicio: "", fin: "", estado: "", avance: "", aplica: "" };
+    const desde = r + 1, finesFase = [];
     for (const x of delaFase) {
       r += 1;
+      const vIni = x.pred && finDe[x.pred] != null ? diaHabil(finDe[x.pred], 1, ferSet) : ini;
+      const vFin = finDe[x.id];
+      finesFase.push(vFin);
+      valores[r] = { id: x.id, fase: x.faseNombre, tarea: x.tarea, pais: x.pais || "", rol: rolN[x.rol] || x.rol || "", inicio: vIni, fin: vFin, estado: "Pendiente", avance: 0, aplica: "Sí" };
       const fila = COLUMNAS_PLAN.map(([k]) => {
         switch (k) {
           case "fase": return t(x.faseNombre);
           case "rol": return t(rolN[x.rol] || x.rol);
           case "dias": return { v: x.dias, s: "numero" };
-          case "inicio": return { f: `IF(${C.pred}${r}="",$C$2,IFERROR(WORKDAY(INDEX($${C.fin}:$${C.fin},MATCH(${C.pred}${r},$${C.id}:$${C.id},0)),1,${feriados}),$C$2))`, s: "fecha" };
-          case "fin": return { f: `IF(${C.aplica}${r}="No",${C.inicio}${r},WORKDAY(${C.inicio}${r},MAX(${C.dias}${r}-1,0),${feriados}))`, s: "fecha" };
+          case "inicio": return { f: `IF(${C.pred}${r}="",$C$2,IFERROR(WORKDAY(INDEX(${colPlan("fin")},MATCH(${C.pred}${r},${colPlan("id")},0)),1,${feriados}),$C$2))`, v: vIni, s: "fecha" };
+          case "fin": return { f: `IF(${C.aplica}${r}="No",${C.inicio}${r},WORKDAY(${C.inicio}${r},MAX(${C.dias}${r}-1,0),${feriados}))`, v: vFin, s: "fecha" };
           case "aplica": return { v: "Sí", s: "numero" };
           case "estado": return { v: "Pendiente", s: "numero" };
           case "avance": return { v: 0, s: "porcentaje" };
@@ -63,17 +95,19 @@ export function hojasPlan(plan, { cfg, titulo, inicio, sectorNombre = "", paises
     r += 1;
     const hito = `HITO-${fid}`;
     hitos.push(r);
+    const vHito = Math.max(...finesFase);
+    valores[r] = { id: hito, fase: fnombre, tarea: `Hito: ${fnombre} terminada`, pais: "", rol: "", inicio: vHito, fin: vHito, estado: "Pendiente", avance: 0, aplica: "Sí" };
     filas.push(COLUMNAS_PLAN.map(([k]) => {
       switch (k) {
         case "id": return { v: hito, s: "hito" };
         case "fase": return { v: fnombre, s: "hito" };
         case "tarea": return { v: `Hito: ${fnombre} terminada`, s: "hito" };
-        case "inicio": return { f: `MAX(${C.fin}${desde}:${C.fin}${r - 1})`, s: "fechaHito" };
-        case "fin": return { f: `${C.inicio}${r}`, s: "fechaHito" };
+        case "inicio": return { f: `MAX(${C.fin}${desde}:${C.fin}${r - 1})`, v: vHito, s: "fechaHito" };
+        case "fin": return { f: `${C.inicio}${r}`, v: vHito, s: "fechaHito" };
         case "dias": return { v: 0, s: "numeroHito" };
         case "aplica": return { v: "Sí", s: "numeroHito" };
-        case "estado": return { f: `IF(COUNTIFS(${C.estado}${desde}:${C.estado}${r - 1},"<>Hecho",${C.aplica}${desde}:${C.aplica}${r - 1},"<>No")=0,"Hecho","Pendiente")`, s: "numeroHito" };
-        case "avance": return { f: `IFERROR(AVERAGEIFS(${C.avance}${desde}:${C.avance}${r - 1},${C.aplica}${desde}:${C.aplica}${r - 1},"<>No"),0)`, s: "porcentaje" };
+        case "estado": return { f: `IF(COUNTIFS(${C.estado}${desde}:${C.estado}${r - 1},"<>Hecho",${C.aplica}${desde}:${C.aplica}${r - 1},"<>No")=0,"Hecho","Pendiente")`, v: "Pendiente", s: "numeroHito" };
+        case "avance": return { f: `IFERROR(AVERAGEIFS(${C.avance}${desde}:${C.avance}${r - 1},${C.aplica}${desde}:${C.aplica}${r - 1},"<>No"),0)`, v: 0, s: "porcentaje" };
         default: return { v: "", s: "hito" };
       }
     }));
@@ -96,22 +130,29 @@ export function hojasPlan(plan, { cfg, titulo, inicio, sectorNombre = "", paises
 
   // ------------------------------------------------------------ Gantt (lee la hoja Plan fila por fila)
   const finG = ultimaReal + EXTRA;
-  const P = (k, fila = "ROW()") => `INDEX(Plan!$${C[k]}:$${C[k]},${fila})`;
+  const P = (k, fila = "ROW()") => `INDEX(Plan!${colPlan(k)},${fila})`;
   const espejo = (k, fila) => `IF(${P(k, fila)}="","",${P(k, fila)})`;
+  // Semanas del Gantt: de la semana de inicio a 8 semanas después del último fin (mínimo 26, máximo 104).
+  const ultimoFin = Math.max(ini, ...Object.values(finDe));
+  const SEMANAS = Math.min(SEMANAS_MAX, Math.max(26, Math.ceil((ultimoFin - ini) / 7) + 9));
+  const lunes0 = ini - ((((ini - 2) % 7) + 7) % 7);   // WEEKDAY(fecha,3): 0 = lunes
+  const semana = (i) => lunes0 + 7 * i;
+  const diaDelMes = (n) => new Date((n - 25569) * 86400000).getUTCDate();
   const GC = { id: "A", tarea: "B", pais: "C", rol: "D", inicio: "E", fin: "F", estado: "G", avance: "H", aplica: "I" }, W0 = 9;
   const gw = (i) => col(W0 + i), gUlt = gw(SEMANAS - 1);
   const filasG = [
     [{ v: "Diagrama de Gantt", s: "titulo" }],
     [{ v: "Se dibuja solo con las fechas y el estado de la hoja Plan (cada fila de aquí es la misma fila del Plan). Barras: azul = pendiente, azul oscuro = en curso, verde = hecho, rojo = vencido (la fecha de fin ya pasó y no está hecho), naranja = bloqueado, dorado = hito de fin de fase. Columna amarilla = semana actual. Cada columna es una semana que empieza en lunes.", s: "nota" }],
     [],
-    [...Array(W0).fill(""), ...Array.from({ length: SEMANAS }, (_, i) => ({ f: i === 0 ? `${gw(0)}5` : `IF(DAY(${gw(i)}5)<=7,${gw(i)}5,"")`, s: "mes" }))],
+    [...Array(W0).fill(""), ...Array.from({ length: SEMANAS }, (_, i) => ({ f: i === 0 ? `${gw(0)}5` : `IF(DAY(${gw(i)}5)<=7,${gw(i)}5,"")`, v: i === 0 || diaDelMes(semana(i)) <= 7 ? semana(i) : "", s: "mes" }))],
     [...["ID", "Tarea", "País", "Responsable", "Inicio", "Fin", "Estado", "Avance", "¿Aplica?"].map((v) => ({ v, s: "encabezado" })),
-      ...Array.from({ length: SEMANAS }, (_, i) => ({ f: i === 0 ? "Plan!$C$2-WEEKDAY(Plan!$C$2,3)" : `${gw(i - 1)}5+7`, s: "dia" }))],
+      ...Array.from({ length: SEMANAS }, (_, i) => ({ f: i === 0 ? "Plan!$C$2-WEEKDAY(Plan!$C$2,3)" : `${gw(i - 1)}5+7`, v: semana(i), s: "dia" }))],
   ];
   for (let fila = FILA_ENC + 1; fila <= finG; fila++) {
-    filasG.push([{ f: espejo("id"), s: "texto" }, { f: `IF(${P("inicio")}="",IF(${P("fase")}="",${espejo("id")},${P("fase")}),${espejo("tarea")})`, s: "texto" }, { f: espejo("pais"), s: "texto" },
-      { f: espejo("rol"), s: "texto" }, { f: espejo("inicio"), s: "fecha" }, { f: espejo("fin"), s: "fecha" }, { f: espejo("estado"), s: "numero" }, { f: `IF(${P("avance")}="","",${P("avance")})`, s: "porcentaje" },
-      { f: espejo("aplica"), s: "numero" }]);
+    const v = valores[fila] || { id: "", fase: "", tarea: "", pais: "", rol: "", inicio: "", fin: "", estado: "", avance: "", aplica: "" };
+    filasG.push([{ f: espejo("id"), v: v.id, s: "texto" }, { f: `IF(${P("inicio")}="",IF(${P("fase")}="",${espejo("id")},${P("fase")}),${espejo("tarea")})`, v: v.inicio === "" ? (v.fase || v.id) : v.tarea, s: "texto" }, { f: espejo("pais"), v: v.pais, s: "texto" },
+      { f: espejo("rol"), v: v.rol, s: "texto" }, { f: espejo("inicio"), v: v.inicio, s: "fecha" }, { f: espejo("fin"), v: v.fin, s: "fecha" }, { f: espejo("estado"), v: v.estado, s: "numero" }, { f: `IF(${P("avance")}="","",${P("avance")})`, v: v.avance, s: "porcentaje" },
+      { f: espejo("aplica"), v: v.aplica, s: "numero" }]);
   }
   const rg = `${gw(0)}6:${gUlt}${finG}`, base = `$E6<>"",$I6<>"No",${gw(0)}$5+6>=$E6,${gw(0)}$5<=$F6`;
   const hojaGantt = { nombre: "Gantt", color: "4A7FB5", filas: filasG, zoom: 85, congelar: { fila: 5, col: 2 }, filtro: `A5:I${finG}`,
@@ -224,12 +265,12 @@ export function hojasPlan(plan, { cfg, titulo, inicio, sectorNombre = "", paises
 
   // ------------------------------------------------------------ Riesgos
   const ri = [[{ v: "Registro de riesgos de cumplimiento", s: "titulo" }], [{ v: "Probabilidad e impacto de 1 (muy bajo) a 5 (muy alto). Nivel = probabilidad × impacto: 15 o más alto, 8 a 14 medio. Método: ISO 31000:2018. Los valores iniciales son supuestos: ajústalos.", s: "nota" }], [],
-    ["ID", "País", "Área", "Riesgo", "Consecuencia (sanción)", "Probabilidad (1-5)", "Impacto (1-5)", "Nivel", "Clasificación", "Respuesta / control", "Dueño", "Estado"].map((v) => ({ v, s: "encabezado" })),
-    ...plan.riesgos.map((x, i) => { const rr = 5 + i; return [t(x.id), t(x.pais), t(x.area), t(x.riesgo), t(x.consecuencia), { v: x.prob, s: "numero" }, { v: x.impacto, s: "numero" }, { f: `F${rr}*G${rr}`, s: "numero" },
-      { f: `IF(H${rr}>=15,"Alto",IF(H${rr}>=8,"Medio","Bajo"))`, s: "numero" }, t(x.respuesta), t(rolN[x.rol] || x.rol), { v: "Abierto", s: "numero" }]; })];
-  const hojaRi = { nombre: "Riesgos", color: "B71C1C", filas: ri, cols: [22, 12, 22, 30, 50, 12, 11, 8, 13, 50, 20, 11], congelar: { fila: 4 }, filtro: `A4:L${ri.length}`,
-    validaciones: [{ rango: `F5:G${ri.length + 50}`, lista: ["1", "2", "3", "4", "5"] }, { rango: `L5:L${ri.length + 50}`, lista: ["Abierto", "Mitigado", "Aceptado", "Cerrado"] }],
-    condicionales: [{ rango: `I5:I${ri.length + 50}`, formula: 'I5="Alto"', estilo: "vencido" }, { rango: `I5:I${ri.length + 50}`, formula: 'I5="Medio"', estilo: "alerta" }] };
+    ["ID", "País", "Área", "Riesgo", "De qué trata / qué se debe cumplir", "Consecuencia (sanción)", "Probabilidad (1-5)", "Impacto (1-5)", "Nivel", "Clasificación", "Respuesta / control", "Dueño", "Estado"].map((v) => ({ v, s: "encabezado" })),
+    ...plan.riesgos.map((x, i) => { const rr = 5 + i; return [t(x.id), t(x.pais), t(x.area), t(x.riesgo), t(x.descripcion || ""), t(x.consecuencia), { v: x.prob, s: "numero" }, { v: x.impacto, s: "numero" }, { f: `G${rr}*H${rr}`, s: "numero" },
+      { f: `IF(I${rr}>=15,"Alto",IF(I${rr}>=8,"Medio","Bajo"))`, s: "numero" }, t(x.respuesta), t(rolN[x.rol] || x.rol), { v: "Abierto", s: "numero" }]; })];
+  const hojaRi = { nombre: "Riesgos", color: "B71C1C", filas: ri, cols: [22, 12, 22, 30, 60, 50, 12, 11, 8, 13, 50, 20, 11], congelar: { fila: 4 }, filtro: `A4:M${ri.length}`,
+    validaciones: [{ rango: `G5:H${ri.length + 50}`, lista: ["1", "2", "3", "4", "5"] }, { rango: `M5:M${ri.length + 50}`, lista: ["Abierto", "Mitigado", "Aceptado", "Cerrado"] }],
+    condicionales: [{ rango: `J5:J${ri.length + 50}`, formula: 'J5="Alto"', estilo: "vencido" }, { rango: `J5:J${ri.length + 50}`, formula: 'J5="Medio"', estilo: "alerta" }] };
 
   // ------------------------------------------------------------ RACI
   const raci = [[{ v: "Matriz RACI por fase", s: "titulo" }], [{ v: "R = responsable (hace el trabajo) · A = aprueba (rinde cuentas, solo uno) · C = consultado · I = informado. Escribe en la columna «Persona» quién ocupa cada rol.", s: "nota" }], [], [],

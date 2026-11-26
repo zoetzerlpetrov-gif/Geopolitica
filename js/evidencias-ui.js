@@ -42,6 +42,7 @@ export async function montarEvidencias(caja, { base, ref, editar = true, alCambi
           <input data-ev="titulo-e" maxlength="200" placeholder="Título"><input data-ev="url" maxlength="1000" placeholder="https://… (opcional)">
           <input data-ev="nota" maxlength="3000" placeholder="Nota: qué se revisó y qué se encontró (opcional)">
           <button type="button" class="b" data-ev-guardar>Guardar</button></div></div>` : ""}
+      <p class="meta">Sin límite de enlaces o notas; hasta 10 MB por archivo y 5,000 evidencias por empresa en total. Para entregar un paquete de auditoría, la skill de Claude <code>finance:audit-support</code> ordena estas evidencias por control.</p>
       <p class="meta ev-msg" role="status"></p></div>`;
     alCambiar(lista.length);
   };

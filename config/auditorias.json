@@ -1411,6 +1411,1116 @@
      ]
     }
    ]
+  },
+  "agropecuario": {
+   "nombre": "Agropecuario (agricultura y ganadería)",
+   "reguladores_mx": [
+    "SADER",
+    "SENASICA",
+    "SEMARNAT/PROFEPA",
+    "CONAGUA",
+    "STPS"
+   ],
+   "reguladores_int": [
+    "Codex Alimentarius (FAO/OMS)",
+    "USDA/FDA (exportación a EUA)",
+    "OMSA (sanidad animal)"
+   ],
+   "normas": [
+    "GlobalG.A.P.",
+    "SRRC de SENASICA (reducción de riesgos de contaminación)",
+    "ISO 22000",
+    "Codex CXC 1-1969 (principios de higiene)"
+   ],
+   "areas": [
+    {
+     "area": "Sanidad e inocuidad",
+     "controles": [
+      {
+       "c": "¿Las unidades de producción están registradas y certificadas en buenas prácticas (SRRC o GlobalG.A.P.)?",
+       "e": "Constancias de SENASICA, certificados vigentes, auditorías internas",
+       "r": "Ley Federal de Sanidad Vegetal y Ley Federal de Sanidad Animal; lineamientos SRRC de SENASICA"
+      },
+      {
+       "c": "¿Se lleva bitácora de aplicación de plaguicidas y fármacos veterinarios con productos autorizados y periodos de retiro?",
+       "e": "Bitácoras, registros COFEPRIS de los productos, recetas del médico veterinario",
+       "r": "NOM-033-SAG/ZOO-2014 (verificar la aplicable); registro de plaguicidas COFEPRIS"
+      }
+     ]
+    },
+    {
+     "area": "Agua, suelo y residuos",
+     "controles": [
+      {
+       "c": "¿Cuenta con título de concesión de agua y lleva medición del volumen extraído?",
+       "e": "Título de CONAGUA, lecturas de medidor, declaraciones de derechos",
+       "r": "Ley de Aguas Nacionales art. 20 y 29"
+      },
+      {
+       "c": "¿Los envases vacíos de agroquímicos se manejan con un plan de manejo (triple lavado y centro de acopio)?",
+       "e": "Constancias de entrega a centro de acopio, plan de manejo",
+       "r": "LGPGIR art. 28 y 31"
+      }
+     ]
+    },
+    {
+     "area": "Trabajo en campo",
+     "controles": [
+      {
+       "c": "¿Los jornaleros están registrados en el IMSS y tienen equipo de protección para aplicar agroquímicos?",
+       "e": "Altas IMSS, entregas de EPP, capacitación",
+       "r": "LFT arts. 279 a 284 (trabajadores del campo); NOM-017-STPS-2008"
+      }
+     ]
+    }
+   ]
+  },
+  "pesca_acuicultura": {
+   "nombre": "Pesca y acuacultura",
+   "reguladores_mx": [
+    "CONAPESCA",
+    "SENASICA",
+    "SEMARNAT/PROFEPA",
+    "SEMAR (capitanías)"
+   ],
+   "reguladores_int": [
+    "FAO Código de Conducta para la Pesca Responsable",
+    "NOAA/FDA (exportación a EUA)",
+    "Reglamento (UE) 1005/2008 (pesca ilegal)"
+   ],
+   "normas": [
+    "ASC (acuicultura)",
+    "MSC (pesca sostenible)",
+    "BAP de la Global Seafood Alliance",
+    "HACCP (Codex)"
+   ],
+   "areas": [
+    {
+     "area": "Permisos y trazabilidad",
+     "controles": [
+      {
+       "c": "¿Cada embarcación o granja tiene permiso o concesión de CONAPESCA vigente para la especie y zona?",
+       "e": "Permisos, concesiones, registro RNPA",
+       "r": "Ley General de Pesca y Acuacultura Sustentables arts. 40 a 50"
+      },
+      {
+       "c": "¿Se emiten avisos de arribo o de cosecha y se puede rastrear cada lote hasta su origen?",
+       "e": "Avisos de arribo/cosecha, guías de pesca, registros de lote",
+       "r": "LGPAS art. 74 y 75; NOM de vedas vigentes"
+      }
+     ]
+    },
+    {
+     "area": "Inocuidad y sanidad acuícola",
+     "controles": [
+      {
+       "c": "¿Hay plan HACCP en proceso y certificado de sanidad acuícola para movilizar organismos?",
+       "e": "Plan HACCP, certificados de sanidad acuícola SENASICA",
+       "r": "Codex CXC 52-2003; LGPAS art. 141 y siguientes (verificar)"
+      }
+     ]
+    },
+    {
+     "area": "Ambiental",
+     "controles": [
+      {
+       "c": "¿Se respetan vedas, tallas mínimas y se tiene manifestación de impacto ambiental para la granja?",
+       "e": "Calendario de vedas, MIA autorizada, registros de captura",
+       "r": "LGEEPA art. 28 fr. XII; NOM-059-SEMARNAT-2010"
+      }
+     ]
+    }
+   ]
+  },
+  "fintech_pagos": {
+   "nombre": "Fintech, pagos electrónicos y activos virtuales",
+   "reguladores_mx": [
+    "CNBV",
+    "Banco de México",
+    "CONDUSEF",
+    "SHCP/UIF"
+   ],
+   "reguladores_int": [
+    "FATF/GAFI Recomendación 15 (activos virtuales)",
+    "PCI Security Standards Council"
+   ],
+   "normas": [
+    "PCI DSS v4.0",
+    "ISO/IEC 27001:2022",
+    "Disposiciones de carácter general aplicables a las ITF (CUITF)"
+   ],
+   "areas": [
+    {
+     "area": "Autorización y gobierno",
+     "controles": [
+      {
+       "c": "¿La empresa tiene autorización de la CNBV como ITF (financiamiento colectivo o fondos de pago electrónico) o opera bajo un modelo novedoso autorizado?",
+       "e": "Oficio de autorización, registro en el Padrón de ITF",
+       "r": "Ley para Regular las Instituciones de Tecnología Financiera (LRITF) art. 11 y 35"
+      },
+      {
+       "c": "¿Los recursos de clientes están separados de los propios y se concilian a diario?",
+       "e": "Estados de cuenta segregados, conciliaciones diarias",
+       "r": "LRITF art. 29 y CUITF (verificar artículo)"
+      }
+     ]
+    },
+    {
+     "area": "Prevención de lavado de dinero",
+     "controles": [
+      {
+       "c": "¿Hay manual PLD/FT, oficial de cumplimiento y reportes a la UIF (relevantes, inusuales, internos preocupantes)?",
+       "e": "Manual aprobado, designación del oficial, acuses de reportes",
+       "r": "LRITF art. 58; Disposiciones PLD para ITF"
+      }
+     ]
+    },
+    {
+     "area": "Seguridad de la información",
+     "controles": [
+      {
+       "c": "¿Se cumple PCI DSS si se procesan tarjetas y hay plan de respuesta a incidentes notificado a la CNBV?",
+       "e": "Reporte de cumplimiento PCI (AOC), plan de incidentes, pruebas de penetración",
+       "r": "PCI DSS v4.0 req. 12.10; CUITF capítulo de seguridad informática (verificar)"
+      }
+     ]
+    }
+   ]
+  },
+  "mercado_valores_fondos": {
+   "nombre": "Mercado de valores, fondos de inversión y afores",
+   "reguladores_mx": [
+    "CNBV",
+    "Banco de México",
+    "Bolsas de valores (BMV, BIVA)",
+    "SHCP"
+   ],
+   "reguladores_int": [
+    "IOSCO (principios de regulación de valores)",
+    "SEC (si cotiza en EUA)"
+   ],
+   "normas": [
+    "Circular Única de Emisoras",
+    "Disposiciones de fondos de inversión (CUFI)",
+    "Normas Internacionales de Información Financiera (NIIF)"
+   ],
+   "areas": [
+    {
+     "area": "Revelación de información",
+     "controles": [
+      {
+       "c": "¿Los reportes trimestrales y anuales y los eventos relevantes se presentan en tiempo a la CNBV y a la bolsa?",
+       "e": "Acuses de STIV-2/Emisnet, calendario de revelación",
+       "r": "LMV arts. 104 y 105; Circular Única de Emisoras"
+      },
+      {
+       "c": "¿Hay política de uso de información privilegiada y lista de personas con acceso?",
+       "e": "Política aprobada, listas de iniciados, periodos de bloqueo",
+       "r": "LMV arts. 362 a 364"
+      }
+     ]
+    },
+    {
+     "area": "Gobierno corporativo",
+     "controles": [
+      {
+       "c": "¿El consejo tiene al menos 25 % de consejeros independientes y comités de auditoría y prácticas societarias?",
+       "e": "Actas, informes anuales de los comités",
+       "r": "LMV arts. 24, 42 y 43"
+      }
+     ]
+    },
+    {
+     "area": "Fondos de inversión",
+     "controles": [
+      {
+       "c": "¿El prospecto, la valuación diaria y los límites de inversión se cumplen y se revelan?",
+       "e": "Prospecto autorizado, reportes del valuador independiente",
+       "r": "Ley de Fondos de Inversión arts. 9 y 32 (verificar)"
+      }
+     ]
+    }
+   ]
+  },
+  "sociedades_ahorro_credito": {
+   "nombre": "Ahorro y crédito popular, cooperativas, SOFOM y uniones de crédito",
+   "reguladores_mx": [
+    "CNBV",
+    "FOCOOP / Fondo de Protección",
+    "CONDUSEF",
+    "SHCP/UIF"
+   ],
+   "reguladores_int": [
+    "Consejo Mundial de Cooperativas de Ahorro y Crédito (WOCCU)",
+    "Principios de Basilea (proporcionalidad)"
+   ],
+   "normas": [
+    "Disposiciones prudenciales para SOCAP y SOFIPO",
+    "COSO 2013"
+   ],
+   "areas": [
+    {
+     "area": "Autorización y nivel de operación",
+     "controles": [
+      {
+       "c": "¿La sociedad está autorizada por la CNBV (o registrada en el nivel básico) y opera dentro de su nivel de operaciones?",
+       "e": "Oficio de autorización o registro, reporte de nivel de capital",
+       "r": "LRASCAP arts. 10 y 18 (SOCAP); LACP (SOFIPO)"
+      },
+      {
+       "c": "¿El índice de capitalización y la reserva de liquidez cumplen los mínimos regulatorios?",
+       "e": "Reportes regulatorios mensuales, cálculo del ICAP",
+       "r": "Disposiciones prudenciales de la CNBV para SOCAP/SOFIPO"
+      }
+     ]
+    },
+    {
+     "area": "Protección del ahorro",
+     "controles": [
+      {
+       "c": "¿La sociedad está inscrita en el fondo de protección y paga sus cuotas?",
+       "e": "Constancia del fondo, comprobantes de pago",
+       "r": "LRASCAP arts. 54 y siguientes (verificar)"
+      }
+     ]
+    },
+    {
+     "area": "Prevención de lavado de dinero",
+     "controles": [
+      {
+       "c": "¿Se identifica a cada socio (KYC) y se reportan operaciones a la UIF?",
+       "e": "Expedientes de socios, acuses de reportes",
+       "r": "LRASCAP art. 71; Disposiciones PLD para SOCAP"
+      }
+     ]
+    }
+   ]
+  },
+  "comercio_minorista": {
+   "nombre": "Comercio minorista",
+   "reguladores_mx": [
+    "PROFECO",
+    "Secretaría de Economía",
+    "SAT",
+    "COFEPRIS (productos regulados)",
+    "Protección Civil"
+   ],
+   "reguladores_int": [
+    "PCI Security Standards Council",
+    "Normas de etiquetado del país de origen"
+   ],
+   "normas": [
+    "NOM-050-SCFI-2004 (información comercial)",
+    "NOM-051-SCFI/SSA1-2010 (alimentos y bebidas)",
+    "PCI DSS v4.0"
+   ],
+   "areas": [
+    {
+     "area": "Consumidor",
+     "controles": [
+      {
+       "c": "¿Los precios exhibidos incluyen impuestos y se respetan al cobrar, con política de devoluciones visible?",
+       "e": "Fotos de exhibición, ticket de prueba, política publicada",
+       "r": "Ley Federal de Protección al Consumidor (LFPC) arts. 7 y 7 Bis"
+      },
+      {
+       "c": "¿Los productos tienen etiquetado en español con la NOM que les aplica?",
+       "e": "Muestreo de etiquetas, certificados NOM de proveedores",
+       "r": "NOM-050-SCFI-2004; NOM-051-SCFI/SSA1-2010"
+      }
+     ]
+    },
+    {
+     "area": "Pagos y datos",
+     "controles": [
+      {
+       "c": "¿Las terminales de pago y el comercio electrónico cumplen PCI DSS y no se guardan datos completos de tarjetas?",
+       "e": "AOC o SAQ de PCI, escaneos trimestrales",
+       "r": "PCI DSS v4.0 req. 3 y 11"
+      },
+      {
+       "c": "¿El aviso de privacidad está disponible y se atienden solicitudes ARCO?",
+       "e": "Aviso de privacidad, registro de solicitudes",
+       "r": "LFPDPPP arts. 15 y 16 (verificar la ley vigente de 2025)"
+      }
+     ]
+    },
+    {
+     "area": "Tienda física",
+     "controles": [
+      {
+       "c": "¿Cuenta con programa interno de protección civil y simulacros?",
+       "e": "Programa interno, constancias de simulacros",
+       "r": "Ley General de Protección Civil y ley estatal"
+      }
+     ]
+    }
+   ]
+  },
+  "turismo_hoteleria": {
+   "nombre": "Turismo y hotelería",
+   "reguladores_mx": [
+    "Secretaría de Turismo (SECTUR)",
+    "PROFECO",
+    "COFEPRIS",
+    "Protección Civil",
+    "SEMARNAT/PROFEPA"
+   ],
+   "reguladores_int": [
+    "OMT (Código Ético Mundial para el Turismo)",
+    "Normas de seguridad contra incendios del país (NFPA como referencia)"
+   ],
+   "normas": [
+    "Distintivo H (NMX-F-605-NORMEX-2018)",
+    "ISO 21401 (turismo sostenible en alojamiento)",
+    "Código de Conducta Nacional para la protección de niñas, niños y adolescentes en turismo"
+   ],
+   "areas": [
+    {
+     "area": "Registro y consumidor",
+     "controles": [
+      {
+       "c": "¿El establecimiento está inscrito en el Registro Nacional de Turismo y exhibe tarifas y condiciones?",
+       "e": "Constancia del RNT, tarifas publicadas, contratos de hospedaje",
+       "r": "Ley General de Turismo art. 46 y siguientes; LFPC"
+      },
+      {
+       "c": "¿Se registran las reservaciones y cancelaciones conforme a la política informada al huésped?",
+       "e": "Política de cancelación, registro de reservas",
+       "r": "LFPC arts. 7 y 65 (verificar)"
+      }
+     ]
+    },
+    {
+     "area": "Seguridad y salud",
+     "controles": [
+      {
+       "c": "¿La cocina y el manejo de alimentos cumplen la NOM-251 y, si aplica, tienen Distintivo H?",
+       "e": "Bitácoras de temperatura, constancias de capacitación, distintivo",
+       "r": "NOM-251-SSA1-2009"
+      },
+      {
+       "c": "¿Hay programa interno de protección civil, alarmas y simulacros con huéspedes?",
+       "e": "Programa, dictamen de instalaciones, simulacros",
+       "r": "Ley General de Protección Civil"
+      }
+     ]
+    },
+    {
+     "area": "Protección de menores",
+     "controles": [
+      {
+       "c": "¿El personal está capacitado para prevenir la explotación sexual de menores y se verifica la identidad al registrar menores?",
+       "e": "Constancias de capacitación, protocolo de registro",
+       "r": "Ley General de los Derechos de Niñas, Niños y Adolescentes; Código de Conducta Nacional"
+      }
+     ]
+    }
+   ]
+  },
+  "salud_hospitales": {
+   "nombre": "Servicios de salud, hospitales y clínicas",
+   "reguladores_mx": [
+    "COFEPRIS",
+    "Secretaría de Salud",
+    "Consejo de Salubridad General",
+    "SEMARNAT/PROFEPA",
+    "CONAMED"
+   ],
+   "reguladores_int": [
+    "OMS (seguridad del paciente)",
+    "Joint Commission International"
+   ],
+   "normas": [
+    "Certificación del Consejo de Salubridad General",
+    "NOM-004-SSA3-2012 (expediente clínico)",
+    "NOM-016-SSA3-2012 (infraestructura de hospitales)",
+    "ISO 15189 (laboratorios clínicos)"
+   ],
+   "areas": [
+    {
+     "area": "Licencias y responsables",
+     "controles": [
+      {
+       "c": "¿El hospital tiene licencia sanitaria y aviso de responsable sanitario vigentes?",
+       "e": "Licencia COFEPRIS, aviso de responsable",
+       "r": "Ley General de Salud arts. 198 y 200 Bis; Reglamento de Atención Médica"
+      },
+      {
+       "c": "¿El expediente clínico de cada paciente está completo, con consentimiento informado firmado?",
+       "e": "Muestreo de expedientes, formatos de consentimiento",
+       "r": "NOM-004-SSA3-2012"
+      }
+     ]
+    },
+    {
+     "area": "Seguridad del paciente",
+     "controles": [
+      {
+       "c": "¿Se aplican las acciones esenciales de seguridad del paciente (identificación, cirugía segura, prevención de caídas e infecciones)?",
+       "e": "Indicadores, listas de verificación quirúrgica, comité de infecciones",
+       "r": "Acciones Esenciales para la Seguridad del Paciente (DOF 2017); NOM-045-SSA2-2005"
+      }
+     ]
+    },
+    {
+     "area": "Residuos peligrosos biológico-infecciosos",
+     "controles": [
+      {
+       "c": "¿Los RPBI se separan, almacenan y entregan a un transportista autorizado con manifiestos?",
+       "e": "Manifiestos de entrega, bitácora del almacén temporal",
+       "r": "NOM-087-SEMARNAT-SSA1-2002; LGPGIR"
+      }
+     ]
+    }
+   ]
+  },
+  "educacion_privada": {
+   "nombre": "Educación privada",
+   "reguladores_mx": [
+    "SEP y autoridades educativas estatales",
+    "Protección Civil",
+    "PROFECO",
+    "Secretaría de Salud (cooperativas escolares)"
+   ],
+   "reguladores_int": [
+    "UNESCO (Marco de Acción Educación 2030)"
+   ],
+   "normas": [
+    "RVOE (reconocimiento de validez oficial de estudios)",
+    "ISO 21001:2018 (organizaciones educativas)"
+   ],
+   "areas": [
+    {
+     "area": "Validez oficial",
+     "controles": [
+      {
+       "c": "¿Cada plan de estudios tiene RVOE o incorporación vigente y se publica su número en la publicidad?",
+       "e": "Acuerdos de RVOE, publicidad revisada",
+       "r": "Ley General de Educación arts. 146 y 147; Ley General de Educación Superior"
+      },
+      {
+       "c": "¿Las colegiaturas, inscripciones y cuotas se informan por escrito antes de inscribir?",
+       "e": "Contratos, reglamento escolar, avisos de cuotas",
+       "r": "Acuerdo de PROFECO y SEP sobre servicios educativos particulares (DOF 1992, verificar vigencia)"
+      }
+     ]
+    },
+    {
+     "area": "Seguridad de los alumnos",
+     "controles": [
+      {
+       "c": "¿Hay programa interno de protección civil, simulacros y protocolo contra acoso y abuso?",
+       "e": "Programa, actas de simulacros, protocolo aprobado",
+       "r": "Ley General de Protección Civil; Ley General de los Derechos de Niñas, Niños y Adolescentes"
+      }
+     ]
+    },
+    {
+     "area": "Datos personales",
+     "controles": [
+      {
+       "c": "¿Los datos de alumnos y padres se tratan con aviso de privacidad y consentimiento para fotos o videos?",
+       "e": "Aviso de privacidad, formatos de consentimiento",
+       "r": "LFPDPPP; Ley General de los Derechos de Niñas, Niños y Adolescentes art. 76"
+      }
+     ]
+    }
+   ]
+  },
+  "inmobiliario_desarrollo": {
+   "nombre": "Inmobiliario y desarrollo de vivienda",
+   "reguladores_mx": [
+    "Ayuntamientos (licencias)",
+    "PROFECO",
+    "SHCP/UIF",
+    "SEMARNAT/PROFEPA",
+    "Registro Público de la Propiedad"
+   ],
+   "reguladores_int": [
+    "FATF/GAFI (sector inmobiliario)"
+   ],
+   "normas": [
+    "NOM-247-SE-2021 (comercialización de inmuebles)",
+    "Reglamento de construcción local"
+   ],
+   "areas": [
+    {
+     "area": "Venta al consumidor",
+     "controles": [
+      {
+       "c": "¿Los contratos de compraventa o preventa están registrados ante PROFECO y la publicidad cumple la NOM-247?",
+       "e": "Registro de contratos de adhesión, revisión de publicidad",
+       "r": "LFPC arts. 73 a 76 Bis; NOM-247-SE-2021"
+      },
+      {
+       "c": "¿Se entrega al comprador la información del inmueble (planos, licencias, gravámenes) antes de firmar?",
+       "e": "Expediente de entrega, acuses del comprador",
+       "r": "LFPC art. 73 Bis"
+      }
+     ]
+    },
+    {
+     "area": "Prevención de lavado de dinero",
+     "controles": [
+      {
+       "c": "¿La empresa está registrada como actividad vulnerable y presenta avisos ante el SAT por operaciones de inmuebles sobre el umbral?",
+       "e": "Alta en el portal PLD del SAT, acuses de avisos",
+       "r": "LFPIORPI art. 17 fr. XV y art. 18"
+      }
+     ]
+    },
+    {
+     "area": "Licencias y ambiental",
+     "controles": [
+      {
+       "c": "¿Cada desarrollo tiene licencia de construcción, uso de suelo y, si aplica, autorización de impacto ambiental?",
+       "e": "Licencias municipales, MIA autorizada",
+       "r": "Reglamento de construcción local; LGEEPA art. 28"
+      }
+     ]
+    }
+   ]
+  },
+  "quimica_petroquimica": {
+   "nombre": "Química y petroquímica",
+   "reguladores_mx": [
+    "SEMARNAT/PROFEPA",
+    "ASEA (si es del sector hidrocarburos)",
+    "STPS",
+    "SEDENA (precursores y explosivos)",
+    "COFEPRIS"
+   ],
+   "reguladores_int": [
+    "SGA/GHS de la ONU",
+    "Convenio de Rotterdam y Convenio de Estocolmo",
+    "Reglamento REACH (exportación a la UE)"
+   ],
+   "normas": [
+    "Responsible Care (ANIQ)",
+    "ISO 14001:2015",
+    "ISO 45001:2018",
+    "API RP 754 (indicadores de seguridad de procesos)"
+   ],
+   "areas": [
+    {
+     "area": "Seguridad de procesos",
+     "controles": [
+      {
+       "c": "¿Existe análisis de riesgos de proceso (HAZOP o similar) y administración del cambio para instalaciones con sustancias peligrosas?",
+       "e": "Estudios HAZOP, registros de MOC, auditorías de seguridad de procesos",
+       "r": "NOM-028-STPS-2012"
+      },
+      {
+       "c": "¿Las sustancias se identifican y comunican con hojas de datos de seguridad según el SGA?",
+       "e": "Hojas de datos de seguridad, etiquetas, capacitación",
+       "r": "NOM-018-STPS-2015"
+      }
+     ]
+    },
+    {
+     "area": "Ambiental",
+     "controles": [
+      {
+       "c": "¿Se presenta la Cédula de Operación Anual y se tiene licencia ambiental única o de funcionamiento?",
+       "e": "Acuses de COA, LAU",
+       "r": "LGEEPA art. 109 Bis; Reglamento en materia de RETC"
+      },
+      {
+       "c": "¿Los residuos peligrosos se clasifican, almacenan y entregan con manifiestos?",
+       "e": "Registro como generador, manifiestos, bitácoras",
+       "r": "NOM-052-SEMARNAT-2005; LGPGIR art. 40 a 48"
+      }
+     ]
+    },
+    {
+     "area": "Sustancias controladas",
+     "controles": [
+      {
+       "c": "¿Las sustancias químicas esenciales o precursores se controlan con los permisos y reportes que aplican?",
+       "e": "Permisos, reportes periódicos",
+       "r": "Ley Federal para el Control de Precursores Químicos, Productos Químicos Esenciales y Máquinas para elaborar Cápsulas, Tabletas y/o Comprimidos"
+      }
+     ]
+    }
+   ]
+  },
+  "manufactura_immex": {
+   "nombre": "Manufactura de exportación (IMMEX y programas de fomento)",
+   "reguladores_mx": [
+    "Secretaría de Economía",
+    "SAT/ANAM (aduanas)",
+    "STPS",
+    "SEMARNAT/PROFEPA"
+   ],
+   "reguladores_int": [
+    "Normas de origen del T-MEC (USMCA)",
+    "CBP de EUA (CTPAT)"
+   ],
+   "normas": [
+    "Decreto IMMEX",
+    "Anexo 24 y Anexo 31 de las Reglas Generales de Comercio Exterior",
+    "Certificación IVA e IEPS / OEA",
+    "CTPAT"
+   ],
+   "areas": [
+    {
+     "area": "Programa IMMEX",
+     "controles": [
+      {
+       "c": "¿El programa IMMEX está vigente, con domicilios registrados y reporte anual presentado?",
+       "e": "Oficio IMMEX, acuses del reporte anual",
+       "r": "Decreto IMMEX arts. 24 y 25"
+      },
+      {
+       "c": "¿Las importaciones temporales se retornan o cambian de régimen dentro del plazo?",
+       "e": "Control de inventarios Anexo 24, descargos, pedimentos",
+       "r": "Ley Aduanera art. 108; RGCE Anexo 24"
+      }
+     ]
+    },
+    {
+     "area": "Control de inventarios y certificaciones",
+     "controles": [
+      {
+       "c": "¿El sistema de control de inventarios automatizado (Anexo 24) cuadra con las cifras del SAT (Anexo 31)?",
+       "e": "Reportes de saldos, conciliaciones",
+       "r": "RGCE regla 4.3.1 y Anexos 24 y 31"
+      },
+      {
+       "c": "¿La certificación IVA/IEPS u OEA está vigente y se cumplen sus requisitos de seguridad de cadena?",
+       "e": "Resolución de certificación, autoevaluación anual",
+       "r": "Ley del IVA art. 28-A; RGCE reglas 7.1.1 y siguientes"
+      }
+     ]
+    },
+    {
+     "area": "Origen y cadena de suministro",
+     "controles": [
+      {
+       "c": "¿Se sustenta el origen T-MEC de las exportaciones con la información de proveedores?",
+       "e": "Certificaciones de origen, cálculos de VCR",
+       "r": "T-MEC capítulo 4 y 5"
+      }
+     ]
+    }
+   ]
+  },
+  "agua_saneamiento": {
+   "nombre": "Agua potable, saneamiento y tratamiento",
+   "reguladores_mx": [
+    "CONAGUA",
+    "Organismos operadores estatales y municipales",
+    "COFEPRIS",
+    "SEMARNAT/PROFEPA"
+   ],
+   "reguladores_int": [
+    "OMS (Guías para la calidad del agua potable)"
+   ],
+   "normas": [
+    "NOM-127-SSA1-2021 (agua para uso y consumo humano)",
+    "NOM-001-SEMARNAT-2021 (descargas)",
+    "ISO 24510/24511/24512 (servicios de agua)"
+   ],
+   "areas": [
+    {
+     "area": "Calidad del agua",
+     "controles": [
+      {
+       "c": "¿Se monitorea la calidad del agua entregada con la frecuencia y parámetros de la NOM-127?",
+       "e": "Reportes de laboratorio acreditado, registros de cloro residual",
+       "r": "NOM-127-SSA1-2021; NOM-179-SSA1-2020"
+      },
+      {
+       "c": "¿Las descargas de aguas residuales cumplen los límites y tienen permiso de descarga?",
+       "e": "Permiso de CONAGUA, análisis de laboratorio, declaraciones de derechos",
+       "r": "Ley de Aguas Nacionales art. 88; NOM-001-SEMARNAT-2021"
+      }
+     ]
+    },
+    {
+     "area": "Concesiones y continuidad",
+     "controles": [
+      {
+       "c": "¿Los títulos de concesión o asignación están vigentes y se mide el volumen extraído?",
+       "e": "Títulos, medidores, reportes",
+       "r": "Ley de Aguas Nacionales arts. 20 y 29"
+      },
+      {
+       "c": "¿Existe plan de continuidad ante sequía, cortes de energía o contaminación de la fuente?",
+       "e": "Plan de contingencia, pruebas",
+       "r": "ISO 24518:2015 (gestión de crisis en servicios de agua)"
+      }
+     ]
+    }
+   ]
+  },
+  "residuos_reciclaje": {
+   "nombre": "Gestión de residuos y reciclaje",
+   "reguladores_mx": [
+    "SEMARNAT/PROFEPA",
+    "Autoridades estatales y municipales de residuos",
+    "SCT/SICT (transporte de materiales peligrosos)"
+   ],
+   "reguladores_int": [
+    "Convenio de Basilea (movimientos transfronterizos)"
+   ],
+   "normas": [
+    "NOM-052-SEMARNAT-2005 (residuos peligrosos)",
+    "NOM-083-SEMARNAT-2003 (rellenos sanitarios)",
+    "ISO 14001:2015"
+   ],
+   "areas": [
+    {
+     "area": "Autorizaciones",
+     "controles": [
+      {
+       "c": "¿La empresa tiene autorización de SEMARNAT para recolectar, transportar, acopiar, reciclar o disponer residuos peligrosos?",
+       "e": "Autorizaciones vigentes por actividad, seguros",
+       "r": "LGPGIR art. 50; Reglamento de la LGPGIR"
+      },
+      {
+       "c": "¿Cada recolección queda en un manifiesto firmado por generador, transportista y destinatario?",
+       "e": "Manifiestos, bitácoras",
+       "r": "Reglamento de la LGPGIR art. 75 y siguientes"
+      }
+     ]
+    },
+    {
+     "area": "Transporte y operación",
+     "controles": [
+      {
+       "c": "¿Los vehículos que transportan residuos peligrosos tienen permiso y cumplen la NOM de identificación?",
+       "e": "Permisos SICT, carteles, hojas de emergencia",
+       "r": "NOM-002-SCT/2011 (verificar vigente)"
+      },
+      {
+       "c": "¿Se lleva plan de manejo y registro de volúmenes recibidos y valorizados?",
+       "e": "Plan de manejo, reportes de volúmenes",
+       "r": "LGPGIR art. 28 y 31"
+      }
+     ]
+    }
+   ]
+  },
+  "medios_publicidad": {
+   "nombre": "Medios, radiodifusión y publicidad",
+   "reguladores_mx": [
+    "Instituto Federal de Telecomunicaciones (IFT) o la autoridad que lo sustituya",
+    "PROFECO",
+    "COFEPRIS (publicidad de productos de salud)",
+    "Secretaría de Gobernación"
+   ],
+   "reguladores_int": [
+    "ICC (Código de Publicidad y Comunicaciones de Mercadotecnia)"
+   ],
+   "normas": [
+    "Código de Ética Publicitaria del CONAR",
+    "Lineamientos de publicidad de PROFECO"
+   ],
+   "areas": [
+    {
+     "area": "Publicidad veraz",
+     "controles": [
+      {
+       "c": "¿La publicidad es veraz, comprobable y distingue claramente la publicidad pagada (incluye influencers)?",
+       "e": "Expedientes de sustento de afirmaciones, etiquetas de «publicidad»",
+       "r": "LFPC arts. 32 y 34; Código de Ética Publicitaria del CONAR"
+      },
+      {
+       "c": "¿La publicidad de alimentos, bebidas, medicamentos o suplementos tiene permiso o aviso ante COFEPRIS cuando lo pide la ley?",
+       "e": "Permisos de publicidad, avisos",
+       "r": "Ley General de Salud arts. 300 a 312; Reglamento de la LGS en materia de publicidad"
+      }
+     ]
+    },
+    {
+     "area": "Derechos de terceros",
+     "controles": [
+      {
+       "c": "¿Se tienen licencias de música, imágenes y videos, y autorizaciones de las personas que aparecen?",
+       "e": "Licencias, contratos de cesión, cartas de autorización de imagen",
+       "r": "Ley Federal del Derecho de Autor arts. 27 y 87"
+      }
+     ]
+    },
+    {
+     "area": "Radiodifusión",
+     "controles": [
+      {
+       "c": "¿Si transmite por radio o televisión, respeta los tiempos de publicidad y la clasificación de contenidos?",
+       "e": "Pautas, reportes de transmisión",
+       "r": "Ley Federal de Telecomunicaciones y Radiodifusión arts. 237 y 238 (verificar)"
+      }
+     ]
+    }
+   ]
+  },
+  "juegos_sorteos": {
+   "nombre": "Juegos con apuesta y sorteos",
+   "reguladores_mx": [
+    "Secretaría de Gobernación (Dirección General de Juegos y Sorteos)",
+    "SAT",
+    "SHCP/UIF"
+   ],
+   "reguladores_int": [
+    "FATF/GAFI (casinos)"
+   ],
+   "normas": [
+    "Reglamento de la Ley Federal de Juegos y Sorteos",
+    "Certificación de máquinas y sistemas de juego por laboratorio (verificar requisito vigente)"
+   ],
+   "areas": [
+    {
+     "area": "Permiso",
+     "controles": [
+      {
+       "c": "¿La empresa tiene permiso vigente de SEGOB para cada establecimiento, sorteo o plataforma en línea?",
+       "e": "Permisos, oficios de SEGOB",
+       "r": "Ley Federal de Juegos y Sorteos art. 3 y 4; Reglamento art. 20 y siguientes"
+      },
+      {
+       "c": "¿Los sorteos con fines promocionales tienen permiso y bases publicadas?",
+       "e": "Permiso del sorteo, bases, acta de entrega de premios",
+       "r": "Reglamento de la LFJS arts. 92 y siguientes"
+      }
+     ]
+    },
+    {
+     "area": "Prevención de lavado de dinero",
+     "controles": [
+      {
+       "c": "¿La empresa está registrada como actividad vulnerable y presenta avisos por pagos y premios sobre el umbral?",
+       "e": "Alta en el portal PLD, avisos mensuales",
+       "r": "LFPIORPI art. 17 fr. I"
+      }
+     ]
+    },
+    {
+     "area": "Juego responsable",
+     "controles": [
+      {
+       "c": "¿Hay controles para impedir el acceso de menores y programa de juego responsable?",
+       "e": "Registros de verificación de edad, programa, señalización",
+       "r": "Reglamento de la LFJS (verificar artículo)"
+      }
+     ]
+    }
+   ]
+  },
+  "transporte_pasajeros": {
+   "nombre": "Transporte terrestre de pasajeros",
+   "reguladores_mx": [
+    "SICT (autotransporte federal)",
+    "Autoridades estatales de movilidad",
+    "Guardia Nacional (carreteras federales)",
+    "PROFECO"
+   ],
+   "reguladores_int": [
+    "UNECE (seguridad vial)"
+   ],
+   "normas": [
+    "NOM-087-SCT-2-2017 (tiempos de conducción y pausas)",
+    "NOM-068-SCT-2-2014 (condiciones físico-mecánicas)",
+    "ISO 39001:2012 (seguridad vial)"
+   ],
+   "areas": [
+    {
+     "area": "Permisos y unidades",
+     "controles": [
+      {
+       "c": "¿Cada unidad tiene permiso de la SICT o concesión estatal, póliza de seguro de viajero y verificación físico-mecánica?",
+       "e": "Permisos, pólizas, constancias de verificación",
+       "r": "Ley de Caminos, Puentes y Autotransporte Federal arts. 8 y 63; NOM-068-SCT-2-2014"
+      },
+      {
+       "c": "¿Se controla el tiempo de conducción y descanso de cada operador?",
+       "e": "Bitácoras de horas de servicio, registros de GPS",
+       "r": "NOM-087-SCT-2-2017"
+      }
+     ]
+    },
+    {
+     "area": "Operadores",
+     "controles": [
+      {
+       "c": "¿Los operadores tienen licencia federal vigente y examen psicofísico integral aprobado?",
+       "e": "Licencias, constancias de examen médico",
+       "r": "Reglamento de Autotransporte Federal y Servicios Auxiliares"
+      }
+     ]
+    },
+    {
+     "area": "Usuarios",
+     "controles": [
+      {
+       "c": "¿Se informa al pasajero de tarifas, derechos y política de equipaje, y se atienden quejas?",
+       "e": "Tarifas publicadas, libro o registro de quejas",
+       "r": "LFPC; Ley de Caminos, Puentes y Autotransporte Federal art. 66"
+      }
+     ]
+    }
+   ]
+  },
+  "restaurantes_alimentos_preparados": {
+   "nombre": "Restaurantes y alimentos preparados",
+   "reguladores_mx": [
+    "COFEPRIS y autoridades sanitarias estatales",
+    "PROFECO",
+    "Protección Civil",
+    "Ayuntamiento (licencia de funcionamiento)"
+   ],
+   "reguladores_int": [
+    "Codex Alimentarius (higiene de los alimentos)"
+   ],
+   "normas": [
+    "NOM-251-SSA1-2009 (prácticas de higiene)",
+    "Distintivo H (NMX-F-605-NORMEX-2018)",
+    "ISO 22000:2018"
+   ],
+   "areas": [
+    {
+     "area": "Higiene e inocuidad",
+     "controles": [
+      {
+       "c": "¿Se cumplen las prácticas de higiene de la NOM-251 (temperaturas, limpieza, control de plagas)?",
+       "e": "Bitácoras de temperatura y limpieza, contrato de control de plagas",
+       "r": "NOM-251-SSA1-2009"
+      },
+      {
+       "c": "¿El personal que maneja alimentos está capacitado y tiene constancia?",
+       "e": "Constancias de capacitación",
+       "r": "NOM-251-SSA1-2009 numeral 5.9 (verificar)"
+      }
+     ]
+    },
+    {
+     "area": "Consumidor",
+     "controles": [
+      {
+       "c": "¿La carta exhibe precios con impuestos y se informa si se cobra propina o servicio (la propina es voluntaria)?",
+       "e": "Carta, tickets, señalización",
+       "r": "LFPC art. 7 y 10; criterio de PROFECO sobre propinas"
+      }
+     ]
+    },
+    {
+     "area": "Licencias y seguridad",
+     "controles": [
+      {
+       "c": "¿Tiene licencia de funcionamiento, permiso de venta de alcohol si aplica y programa de protección civil?",
+       "e": "Licencias municipales, permisos, programa interno",
+       "r": "Reglamentos municipales; Ley General de Protección Civil"
+      }
+     ]
+    }
+   ]
+  },
+  "seguridad_privada": {
+   "nombre": "Seguridad privada",
+   "reguladores_mx": [
+    "Secretaría de Seguridad y Protección Ciudadana (SSPC)",
+    "Autoridades estatales de seguridad",
+    "SEDENA (armas)",
+    "STPS"
+   ],
+   "reguladores_int": [
+    "ISO 18788 (operaciones de seguridad privada)",
+    "Código de Conducta Internacional para Proveedores de Seguridad Privada (ICoCA)"
+   ],
+   "normas": [
+    "ISO 18788:2015",
+    "ISO 31000:2018"
+   ],
+   "areas": [
+    {
+     "area": "Autorización",
+     "controles": [
+      {
+       "c": "¿La empresa tiene autorización vigente de la SSPC (o de la autoridad estatal) para cada modalidad que presta?",
+       "e": "Autorización, revalidaciones, registro de personal",
+       "r": "Ley Federal de Seguridad Privada arts. 15 y 24"
+      },
+      {
+       "c": "¿Cada elemento está inscrito en el registro nacional de personal de seguridad y tiene evaluación de control de confianza?",
+       "e": "Constancias de registro, resultados de evaluación",
+       "r": "Ley General del Sistema Nacional de Seguridad Pública; LFSP art. 28 (verificar)"
+      }
+     ]
+    },
+    {
+     "area": "Armas y uso de la fuerza",
+     "controles": [
+      {
+       "c": "¿Si se usan armas, se tiene licencia colectiva de la SEDENA y protocolo de uso de la fuerza?",
+       "e": "Licencia colectiva, inventario de armas, protocolo",
+       "r": "Ley Federal de Armas de Fuego y Explosivos art. 29"
+      }
+     ]
+    },
+    {
+     "area": "Laboral",
+     "controles": [
+      {
+       "c": "¿Los elementos tienen contrato, IMSS y jornadas que respetan el descanso?",
+       "e": "Contratos, altas IMSS, roles de servicio",
+       "r": "LFT arts. 61 a 69"
+      }
+     ]
+    }
+   ]
+  },
+  "outsourcing_servicios_especializados": {
+   "nombre": "Servicios especializados (subcontratación) y agencias de colocación",
+   "reguladores_mx": [
+    "STPS (REPSE)",
+    "IMSS",
+    "INFONAVIT",
+    "SAT"
+   ],
+   "reguladores_int": [
+    "OIT (Convenio 181 sobre agencias de empleo privadas)"
+   ],
+   "normas": [
+    "Registro de Prestadoras de Servicios Especializados u Obras Especializadas (REPSE)"
+   ],
+   "areas": [
+    {
+     "area": "Registro y contratos",
+     "controles": [
+      {
+       "c": "¿La empresa tiene registro REPSE vigente (se renueva cada 3 años) y los servicios no forman parte del objeto ni actividad preponderante del cliente?",
+       "e": "Constancia REPSE, contratos, objeto social del cliente",
+       "r": "LFT arts. 13, 14 y 15; Acuerdo del REPSE"
+      },
+      {
+       "c": "¿Cada contrato de servicios especializados incluye el objeto, el número estimado de trabajadores y el registro REPSE?",
+       "e": "Contratos firmados",
+       "r": "LFT art. 15"
+      }
+     ]
+    },
+    {
+     "area": "Informes periódicos",
+     "controles": [
+      {
+       "c": "¿Se presentan los informes cuatrimestrales ante IMSS (ICSOE) e INFONAVIT (SISUB)?",
+       "e": "Acuses de ICSOE y SISUB",
+       "r": "Ley del Seguro Social art. 15-A; Ley del INFONAVIT art. 29 Bis"
+      }
+     ]
+    },
+    {
+     "area": "Deducibilidad del cliente",
+     "controles": [
+      {
+       "c": "¿El cliente recibe CFDI de nómina, pagos de cuotas y declaraciones del personal para poder deducir el servicio?",
+       "e": "Expediente mensual entregado al cliente",
+       "r": "Ley del ISR art. 27 fr. V; Ley del IVA art. 5 fr. II"
+      }
+     ]
+    }
+   ]
   }
  }
 }

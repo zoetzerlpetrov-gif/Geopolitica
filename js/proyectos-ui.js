@@ -146,7 +146,8 @@ export function montarProyectos(cont, { api, editar = true, alMensaje = () => {}
   const listaRiesgos = () => {
     const rs = d.checklist.filter((x) => x.tipo === "riesgo");
     if (!rs.length) return '<p class="meta">Aún no hay riesgos: se cargan con la plantilla en la fase <b>3. Plan</b>.</p>';
-    return `<div class="pr-desliza"><table class="t"><tr><th>Riesgo</th><th>Consecuencia</th><th>Estado</th></tr>${rs.map((r) => `<tr data-check="${esc(r.id)}"><td>${esc(r.texto)}${r.pais ? ` <span class="chip">${esc(r.pais)}</span>` : ""}</td><td class="meta">${esc(r.detalle)}</td>
+    return `<div class="pr-desliza"><table class="t"><tr><th>Riesgo</th><th>De qué trata / qué se debe cumplir</th><th>Consecuencia</th><th>Estado</th></tr>${rs.map((r) => `<tr data-check="${esc(r.id)}"><td>${esc(r.texto)}${r.pais ? ` <span class="chip">${esc(r.pais)}</span>` : ""}</td>
+      <td class="pr-desc">${r.descripcion ? esc(r.descripcion) : '<span class="meta">Sin descripción: vuelve a generar y guardar la plantilla en la fase 3. Plan para traerla.</span>'}</td><td class="meta">${esc(r.detalle)}</td>
       <td>${editar ? `<select data-check-estado aria-label="Estado del riesgo">${d.estados_check.riesgo.map((s) => `<option value="${s}" ${s === r.estado ? "selected" : ""}>${ETIQ[s] === ETIQ.hallazgo ? "📌 Registrar como hallazgo" : ETIQ[s]}</option>`).join("")}</select>` : ETIQ[r.estado]}</td></tr>`).join("")}</table></div>`;
   };
 
@@ -176,6 +177,8 @@ export function montarProyectos(cont, { api, editar = true, alMensaje = () => {}
       case "auditorias": return `${campos}<h4>🔍 Lista de auditoría</h4><p class="meta">Marca cada pregunta. Al elegir <b>❌ No cumple</b> se registra un hallazgo automáticamente (lo ves abajo para asignar responsable y fecha).</p>
         <label class="pr-inline">Mostrar <select data-filtro-aud><option value="pendientes">Sin responder</option><option value="no_cumple">No cumple</option><option value="todas">Todas</option></select></label>
         <div data-lista-aud>${listaAuditoria("pendientes")}</div>
+        <p class="skill-claude">💡 <b>Con Claude:</b> <code>legal:compliance-check</code> revisa un proceso o documento contra estas preguntas; <code>finance:audit-support</code> arma el paquete de evidencias de la auditoría;
+          <code>operations:risk-assessment</code> convierte los riesgos de incumplimiento en una matriz con controles y responsables.</p>
         <h4>📌 Hallazgos</h4>${tablaItems("hallazgo", ["Hallazgo", "Responsable", "Fecha límite", "Gravedad", "Estado"])}${formItem("hallazgo", "Nuevo hallazgo, p. ej. «Sin control de acceso en el almacén»")}`;
       case "seguimiento": return `${campos}<h4>📈 Avance de actividades</h4>${tablaItems("actividad", ["Actividad", "Responsable", "Fecha", "Estado"])}
         <h4>🎲 Riesgos de incumplimiento</h4><p class="meta">Vienen de la plantilla y se quedan guardados. Cambia su estado; «📌 Registrar como hallazgo» lo pasa a hallazgos.</p>${listaRiesgos()}

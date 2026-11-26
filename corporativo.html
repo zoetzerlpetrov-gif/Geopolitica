@@ -24,6 +24,8 @@
     .cp-esc { border-left: 3px solid var(--line); padding: 2px 8px; margin: 6px 0; font-size: 14px; }
     .cp-error { color: #B71C1C; min-height: 1em; }
     .matriz { width: 100%; max-width: 320px; }
+    .cp-matriz-par { display: grid; grid-template-columns: minmax(220px, 320px) 1fr; gap: 14px; align-items: start; }
+    @media (max-width: 760px) { .cp-matriz-par { grid-template-columns: 1fr; } }
     .matriz-n { font-size: 13px; font-weight: 700; fill: var(--text); }
     .matriz-eje { font-size: 11px; fill: var(--text-2); }
     .cp-aviso { font-size: 13px; color: var(--text-2); }
@@ -46,7 +48,7 @@
     <form id="cp-form" class="cp-form">
       <label>Nombre <input name="nombre" required maxlength="80" placeholder="Planta Saltillo"></label>
       <label>Tipo <select name="tipo"><option value="sede">Sede</option><option value="planta" selected>Planta</option><option value="almacen">Almacén o centro de distribución</option><option value="proveedor">Proveedor</option><option value="cliente">Cliente clave</option><option value="puerto">Puerto o cruce usado</option></select></label>
-      <label>Ciudad (llena las coordenadas) <input id="cp-ciudad" list="cp-ciudades" placeholder="Escribe una ciudad"></label>
+      <label>Ciudad (llena las coordenadas) <input id="cp-ciudad" name="ciudad" maxlength="80" list="cp-ciudades" placeholder="Escribe una ciudad"></label>
       <datalist id="cp-ciudades"></datalist>
       <label>Latitud <input id="cp-lat" name="lat" inputmode="decimal" required placeholder="25.42"></label>
       <label>Longitud <input id="cp-lon" name="lon" inputmode="decimal" required placeholder="-101.00"></label>
@@ -65,17 +67,20 @@
     <p id="cp-fuentes" class="meta">Cargando eventos…</p>
 
     <h2>2. Matriz de riesgo 5×5 por sede (ISO 31000)</h2>
-    <p class="meta">Cada número es una instalación. <b>Probabilidad</b> = 60 % el <b>último año</b> (eventos en la misma zona, por celdas de unos 55 km, llevados a un año si aún hay menos días)
+    <p class="meta">Cada número de la matriz es una instalación: búscalo en la columna «#» de la tabla de al lado (y en la lista de la sección 1). <b>Probabilidad</b> = 60 % el <b>último año</b> (eventos en la misma zona, por celdas de unos 55 km, llevados a un año si aún hay menos días)
       + 40 % lo de <b>hoy</b> (eventos dentro del radio y periodo elegidos, pesan más los graves y a menos de 25 km, más el índice de inestabilidad del país); si hoy es mayor, manda hoy. Así, dos sedes en ciudades distintas quedan en celdas distintas aunque hoy no haya noticias cerca.
       <b>Impacto</b>: lo que capturaste (qué tanto afecta si esa sede se detiene). Nivel = probabilidad × impacto: 1–4 bajo, 5–9 medio, 10–16 alto, 20–25 crítico.</p>
     <div id="cp-matriz"></div>
+    <p class="skill-claude">💡 <b>Con Claude:</b> la skill <code>operations:risk-assessment</code> arma una matriz de riesgos para un cliente concreto.
+      Dale la tabla de sedes (con sus probabilidades e impactos) y pídele el registro de riesgos con controles y responsables.</p>
     <h2>2b. Matriz de riesgo por país</h2>
     <p class="meta">Un renglón por país donde tienes instalaciones. Probabilidad: eventos del país en los últimos 12 meses y su índice de inestabilidad de hoy. Impacto: el mayor de sus sedes.</p>
     <div id="cp-matriz-pais"></div>
     <div id="cp-lista" aria-live="polite"></div>
 
     <h2>3. Exposición por país</h2>
-    <div class="cp-barra"><select id="cp-pais" aria-label="País"></select></div>
+    <div class="cp-barra"><label><span class="et">País <span class="info" title="Escribe el nombre del país y elígelo de la lista. Muestra índice de inestabilidad, sanciones, pagos y aranceles.">ⓘ</span></span>
+      <input id="cp-pais" placeholder="Escribe un país (p. ej. Alemania)" aria-label="País"></label></div>
     <div id="cp-pais-res"></div>
 
     <h2>4. Radar de competidores</h2>

@@ -56,6 +56,12 @@ function leyesCatalogo(norma, sector) {
  * Plan completo. `catalogos`: {iso: norma}; `jurisdicciones`: lista de iso (México primero); `extranjera`: agrega la ruta de
  * empresa extranjera en México. Devuelve tareas (orden de fase), base normativa, auditoría, riesgos y calendario recurrente.
  */
+/** De qué trata la ley y qué pide, en pocas líneas: a quién aplica y sus obligaciones principales. */
+export function descripcionLey(ley) {
+  const ob = (ley.obligaciones || []).slice(0, 3).join(" ");
+  return [ley.nombre, ley.aplica ? `Aplica a: ${ley.aplica}` : "", ob ? `Qué se debe cumplir: ${ob}` : ""].filter(Boolean).join(" · ").slice(0, 1500);
+}
+
 export function construirPlan({ cfg, catalogos = {}, jurisdicciones = ["MEX"], sector = "", extranjera = false, nombres = {}, duraciones = [] }) {
   const fases = Object.fromEntries(cfg.fases.map(([id, n]) => [id, n]));
   const tareas = [], base = [], auditoria = [], riesgos = [], recurrentes = [];
@@ -106,7 +112,8 @@ export function construirPlan({ cfg, catalogos = {}, jurisdicciones = ["MEX"], s
         aplica: ley.aplica || "", obligaciones: (ley.obligaciones || []).join(" • "), tramites: (ley.tramites || []).map((t) => `${t.que} (${t.plazo}; ante ${t.ante})`).join(" • "),
         sanciones: ley.sanciones || "", evidencia: (ley.evidencia || []).join("; "), url: ley.url || "", ultima_reforma: ley.ultima_reforma || "verificar", tareas: idsLey.join(", "), id: `${iso}:${ley.id}` });
       (ley.preguntas || []).forEach((p, i) => auditoria.push({ id: `${iso}:${ley.id}:${i}`, pais, area, ley: corto(ley), pregunta: p, evidencia: (ley.evidencia || []).join("; "), rol }));
-      if (ley.sanciones) riesgos.push({ id: `R-${iso}-${ley.id}`, pais, area, riesgo: `Incumplir ${corto(ley)}`, consecuencia: ley.sanciones, prob: 3, impacto: esSector ? 5 : 4, rol,
+      if (ley.sanciones) riesgos.push({ id: `R-${iso}-${ley.id}`, pais, area, riesgo: `Incumplir ${corto(ley)}`, consecuencia: ley.sanciones,
+        descripcion: descripcionLey(ley), prob: 3, impacto: esSector ? 5 : 4, rol,
         respuesta: (ley.obligaciones || [])[0] ? `Control: ${(ley.obligaciones || [])[0]}` : "Asignar dueño y control" });
     }
   }

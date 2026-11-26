@@ -55,20 +55,40 @@ export function promptInterpretacion(registro, contexto) {
 }
 
 const usd = (n) => (n == null || !Number.isFinite(n) ? "—" : Math.round(n).toLocaleString("es-MX"));
-/** Gráfica SVG de un histograma de pérdidas o de una serie (x, y). */
-export function svgResultado(r) {
+/** Gráfica SVG de un histograma de pérdidas o de una serie (x, y), con títulos de ejes, marcas y una explicación debajo. */
+export function svgResultado(r, { moneda = "MXN", simulaciones = 20000, ejeX = "Periodo", ejeY = "Valor" } = {}) {
+  const W = 640, H = 230, mi = 62, md = 16, ms = 26, mb = 46;
+  const ancho = W - mi - md, alto = H - ms - mb;
+  const ejes = (tx, ty) => `<line x1="${mi}" y1="${H - mb}" x2="${W - md}" y2="${H - mb}" stroke="var(--line,#999)"/><line x1="${mi}" y1="${ms}" x2="${mi}" y2="${H - mb}" stroke="var(--line,#999)"/>
+    <text x="${mi + ancho / 2}" y="${H - 6}" text-anchor="middle" class="g-eje">${tx}</text>
+    <text x="14" y="${ms + alto / 2}" text-anchor="middle" class="g-eje" transform="rotate(-90 14 ${ms + alto / 2})">${ty}</text>`;
   if (r.serie?.length) {
-    const xs = r.serie.map((p) => p.x), ys = r.serie.map((p) => p.y), W = 600, H = 170, m = 30;
+    const xs = r.serie.map((p) => p.x), ys = r.serie.map((p) => p.y);
     const x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(0, ...ys), y1 = Math.max(...ys) || 1;
-    const px = (x) => m + ((x - x0) / ((x1 - x0) || 1)) * (W - 2 * m), py = (y) => H - m - ((y - y0) / ((y1 - y0) || 1)) * (H - 2 * m);
-    return `<svg viewBox="0 0 ${W} ${H}" class="graf-esc" role="img" aria-label="Evolución"><line x1="${m}" y1="${py(0)}" x2="${W - m}" y2="${py(0)}" stroke="#999"/>
+    const px = (x) => mi + ((x - x0) / ((x1 - x0) || 1)) * ancho, py = (y) => H - mb - ((y - y0) / ((y1 - y0) || 1)) * alto;
+    return `<figure class="graf-fig"><svg viewBox="0 0 ${W} ${H}" class="graf-esc" role="img" aria-label="Evolución de ${ejeY} por ${ejeX}">${ejes(ejeX, ejeY)}
+      <line x1="${mi}" y1="${py(0)}" x2="${W - md}" y2="${py(0)}" stroke="#999" stroke-dasharray="3 3"/>
       <polyline fill="none" stroke="#C8102E" stroke-width="2" points="${r.serie.map((p) => `${px(p.x).toFixed(1)},${py(p.y).toFixed(1)}`).join(" ")}"/>
-      <text x="${m}" y="14" class="g-val">máx. ${usd(y1)}</text><text x="${m}" y="${H - 8}" class="g-et">${x0}</text><text x="${W - m}" y="${H - 8}" text-anchor="end" class="g-et">${x1}</text></svg>`;
+      <text x="${mi - 4}" y="${py(y1) + 4}" text-anchor="end" class="g-et">${usd(y1)}</text><text x="${mi - 4}" y="${py(y0) + 4}" text-anchor="end" class="g-et">${usd(y0)}</text>
+      <text x="${mi}" y="${H - mb + 14}" class="g-et">${x0}</text><text x="${W - md}" y="${H - mb + 14}" text-anchor="end" class="g-et">${x1}</text></svg>
+      <figcaption class="meta">Cómo leerla: el eje horizontal es ${ejeX.toLowerCase()} y el vertical ${ejeY.toLowerCase()}. El valor más alto de la línea es ${usd(y1)}.</figcaption></figure>`;
   }
   if (!r.histograma?.length) return "";
-  const W = 600, H = 170, m = 30, max = Math.max(...r.histograma.map((b) => b.n)) || 1, w = (W - 2 * m) / r.histograma.length;
-  return `<svg viewBox="0 0 ${W} ${H}" class="graf-esc" role="img" aria-label="Distribución de pérdidas anuales">${r.histograma.map((b, i) => {
-    const h = (b.n / max) * (H - 2 * m);
-    return `<rect x="${(m + i * w).toFixed(1)}" y="${(H - m - h).toFixed(1)}" width="${(w - 1).toFixed(1)}" height="${h.toFixed(1)}" fill="#C8102E" opacity="0.8"><title>${usd(b.desde)} – ${usd(b.hasta)}: ${b.n} simulaciones</title></rect>`;
-  }).join("")}<text x="${m}" y="14" class="g-val">Pérdida anual simulada (20 000 años)</text><text x="${m}" y="${H - 8}" class="g-et">${usd(r.histograma[0].desde)}</text><text x="${W - m}" y="${H - 8}" text-anchor="end" class="g-et">${usd(r.histograma.at(-1).hasta)}</text></svg>`;
+  const hs = r.histograma, max = Math.max(...hs.map((b) => b.n)) || 1, w = ancho / hs.length;
+  const desde = hs[0].desde, hasta = hs.at(-1).hasta, px = (v) => mi + ((v - desde) / ((hasta - desde) || 1)) * ancho;
+  const marca = (v, et) => (v != null && Number.isFinite(v) && v >= desde && v <= hasta
+    ? `<line x1="${px(v).toFixed(1)}" y1="${ms}" x2="${px(v).toFixed(1)}" y2="${H - mb}" stroke="var(--text,#222)" stroke-dasharray="4 3"/><text x="${(px(v) + 3).toFixed(1)}" y="${ms + 10}" class="g-et">${et}</text>` : "");
+  const pct = (n) => `${Math.round((n / simulaciones) * 1000) / 10} %`;
+  return `<figure class="graf-fig"><svg viewBox="0 0 ${W} ${H}" class="graf-esc" role="img" aria-label="Distribución de la pérdida en un año según ${simulaciones} simulaciones">${ejes(`Pérdida en un año (${moneda})`, "Simulaciones")}
+    ${hs.map((b, i) => {
+      const h = (b.n / max) * alto;
+      return `<rect x="${(mi + i * w).toFixed(1)}" y="${(H - mb - h).toFixed(1)}" width="${Math.max(1, w - 1).toFixed(1)}" height="${h.toFixed(1)}" fill="#C8102E" opacity="0.8"><title>${usd(b.desde)} a ${usd(b.hasta)} ${moneda}: ${b.n} de ${simulaciones} simulaciones (${pct(b.n)})</title></rect>`;
+    }).join("")}
+    ${marca(r.media ?? r.perdida, "Promedio")}${marca(r.var95, "VaR 95 %")}
+    <text x="${mi - 4}" y="${ms + 4}" text-anchor="end" class="g-et">${max}</text><text x="${mi - 4}" y="${H - mb + 4}" text-anchor="end" class="g-et">0</text>
+    <text x="${mi}" y="${H - mb + 14}" class="g-et">${usd(desde)}</text><text x="${mi + ancho / 2}" y="${H - mb + 14}" text-anchor="middle" class="g-et">${usd((desde + hasta) / 2)}</text><text x="${W - md}" y="${H - mb + 14}" text-anchor="end" class="g-et">${usd(hasta)}</text></svg>
+    <figcaption class="meta">Cómo leerla: el motor repite ${simulaciones.toLocaleString("es-MX")} veces un año posible (no son ${simulaciones.toLocaleString("es-MX")} años reales: es una simulación Monte Carlo).
+      Cada barra cuenta cuántas de esas simulaciones terminaron con una pérdida en ese rango (eje horizontal, en ${moneda}); el eje vertical es el número de simulaciones.
+      La barra de la izquierda suele ser la más alta porque en la mayoría de los años el evento no ocurre o cuesta poco. La línea «VaR 95 %» marca la pérdida que solo se supera en 1 de cada 20 años simulados.
+      Para que se lea mejor, la gráfica llega hasta el 99 % de los casos; el 1 % más extremo queda fuera del dibujo pero sí cuenta en los números de la tabla.</figcaption></figure>`;
 }

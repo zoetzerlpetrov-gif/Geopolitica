@@ -2,17 +2,29 @@
 import * as I from "./ops-informe-logica.js";
 import { ARCHIVOS_BIBLIOTECA } from "./ops-logica.js";
 import { exportarDocumento, htmlSelectorDocumento } from "./exportar.js";
+import { puntajeCSF, FUNCIONES_CSF, CONTROLES_NUBE } from "./herr-logica.js";
 
 const $ = (id) => document.getElementById(id);
 const leer = (k, def) => { try { return JSON.parse(localStorage.getItem(k)) ?? def; } catch (e) { return def; } };
 const guardar = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* modo privado */ } };
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 
+/** Resultado de Nube y seguridad para el informe: % por función del NIST CSF 2.0 y los controles en «No». */
+export function resumenNube(resp) {
+  const n = Object.keys(resp || {}).length;
+  if (!n) return null;
+  const p = puntajeCSF(resp);
+  return { respondidos: n, total: CONTROLES_NUBE.length, funciones: Object.entries(FUNCIONES_CSF).map(([k, nombre]) => ({ nombre, pct: p[k] })),
+    faltantes: CONTROLES_NUBE.map(([f, c], i) => (resp[i] === "no" ? `${FUNCIONES_CSF[f]}: ${c}` : null)).filter(Boolean) };
+}
+
 export async function iniciarInforme(cfg) {
   const biblioteca = (await Promise.all(ARCHIVOS_BIBLIOTECA.map((n) => fetch(`config/ops_biblioteca/${n}.json`).then((r) => r.json()).catch(() => ({ metodologias: [] }))))).flatMap((g) => g.metodologias);
   let op = leer("gp_ops_inf", { tarifas: I.TARIFAS, noOfrecidos: I.NO_OFRECIDOS, contingencia: 10, impuesto: 16, consultor: "", fecha: "", ia: {} });
   const datos = () => ({ cliente: leer("gp_ops_cliente", {}), dmi: leer("gp_ops_dmi", { puntos: {} }), gob: leer("gp_ops_gob", {}), raci: leer("gp_ops_raci", { filas: [] }),
-    pl: leer("gp_ops_pl", {}), kpi: leer("gp_ops_kpi", []), esc: leer("gp_ops_esc", []), bib: leer("gp_ops_bib", {}) });
+    pl: leer("gp_ops_pl", {}), kpi: leer("gp_ops_kpi", []), esc: leer("gp_ops_esc", []), bib: leer("gp_ops_bib", {}),
+    // Autoevaluación de Nube y seguridad (Caja del analista): mismo espacio de la empresa, guardado en el servidor.
+    nube: resumenNube(leer("gp_nube", {})) });
   const opciones = () => ({ tarifas: op.tarifas, noOfrecidos: op.noOfrecidos, contingencia: Number(op.contingencia) / 100 || 0, impuesto: Number(op.impuesto) / 100 || 0, consultor: op.consultor, fecha: op.fecha });
 
   function pintarAjustes() {
