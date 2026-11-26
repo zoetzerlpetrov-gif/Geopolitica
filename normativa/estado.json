@@ -1,5 +1,5 @@
 {
- "generado_utc": "2026-11-26T11:26:49Z",
+ "generado_utc": "2026-11-26T23:16:55Z",
  "fuentes": {
   "MEX": {
    "fuente": "Diario Oficial de la Federación y Cámara de Diputados",
@@ -7,7 +7,7 @@
    "estado": "ok",
    "nuevas": 6,
    "error": "",
-   "hasta": "2026-11-25"
+   "hasta": "2026-11-26"
   },
   "USA": {
    "fuente": "Federal Register (API oficial)",
@@ -29,7 +29,7 @@
    "fuente": "Oficina de Publicaciones de la UE (Cellar)",
    "ok": true,
    "estado": "ok",
-   "nuevas": 5,
+   "nuevas": 4,
    "error": "",
    "hasta": "2026-11-26"
   },
@@ -45,7 +45,7 @@
    "fuente": "Portal oficial de publicación de actos jurídicos",
    "ok": true,
    "estado": "ok",
-   "nuevas": 0,
+   "nuevas": 3,
    "error": "",
    "hasta": "2026-11-26"
   },
@@ -72,6 +72,8 @@
   "TUR": "Sin fuente automática abierta: revisión semanal manual.",
   "EGY": "Sin fuente automática abierta: revisión semanal manual.",
   "JOR": "Sin fuente automática abierta: revisión semanal manual.",
+  "GBR": "Revisión semanal manual en legislation.gov.uk y los avisos de OFSI (fuente automática pendiente).",
+  "CHE": "Revisión semanal manual en Fedlex (Recopilación Oficial) y las sanciones de SECO (fuente automática pendiente).",
   "MDO": "Sanciones: revisión semanal manual en OFAC, el mapa de sanciones de la UE y la ONU."
  },
  "ultima_fecha": {
@@ -80,30 +82,21 @@
   "EUR": "2026-11-26",
   "JPN": "2026-11-26",
   "RUS": "2026-11-26",
-  "MEX": "2026-11-25",
+  "MEX": "2026-11-26",
   "ARG": "2026-11-26"
  },
- "desactualizadas": [
-  {
-   "pais": "MEX",
-   "ley_id": "cpf_400bis",
-   "sigla": "CPF 400 Bis",
-   "nombre": "Código Penal Federal, art. 400 Bis (operaciones con recursos de procedencia ilícita)",
-   "catalogo": "2026-03-13 (última reforma de la ley según la Cámara de Diputados) · antes registrado: 2025-07-16 (verificar)",
-   "oficial": "2026-11-13",
-   "url": "https://www.diputados.gob.mx/LeyesBiblio/ref/cpf.htm"
-  },
-  {
-   "pais": "MEX",
-   "ley_id": "lgt",
-   "sigla": "LGT",
-   "nombre": "Ley General de Turismo",
-   "catalogo": "2025-11-14",
-   "oficial": "2026-11-13",
-   "url": "https://www.diputados.gob.mx/LeyesBiblio/ref/lgt.htm"
-  }
- ],
+ "desactualizadas": [],
  "por_pais": {
+  "RUS": {
+   "total": 36,
+   "alto": 4,
+   "ultimos_30d": 36
+  },
+  "MEX": {
+   "total": 563,
+   "alto": 53,
+   "ultimos_30d": 43
+  },
   "EUR": {
    "total": 63,
    "alto": 10,
@@ -113,16 +106,6 @@
    "total": 38,
    "alto": 0,
    "ultimos_30d": 31
-  },
-  "RUS": {
-   "total": 33,
-   "alto": 4,
-   "ultimos_30d": 33
-  },
-  "MEX": {
-   "total": 561,
-   "alto": 53,
-   "ultimos_30d": 41
   },
   "JPN": {
    "total": 1,

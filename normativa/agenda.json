@@ -1,14 +1,14 @@
 {
- "generado_utc": "2026-11-26T11:29:33Z",
- "agregadas_hoy": 3,
+ "generado_utc": "2026-11-26T23:18:16Z",
+ "agregadas_hoy": 2,
  "resumen": {
-  "en_curso": 24,
-  "federal": 24,
+  "en_curso": 26,
+  "federal": 26,
   "estatal": 0,
   "publicadas": 1,
-  "alta_probabilidad": 10,
+  "alta_probabilidad": 11,
   "por_sector": {
-   "sin sector": 17,
+   "sin sector": 19,
    "energia_electrica": 5,
    "manufactura_immex": 2,
    "logistica": 1,
@@ -19,14 +19,15 @@
   "por_tema": {
    "energia": 6,
    "salud": 4,
+   "mujeres_igualdad": 4,
    "animales": 3,
    "trabajo": 3,
    "transporte": 3,
-   "mujeres_igualdad": 3,
+   "otros": 3,
    "impuestos_dinero": 2,
    "migracion": 2,
-   "otros": 2,
    "ninez": 1,
+   "familia_civil": 1,
    "telecom_internet": 1,
    "cultura_deporte": 1,
    "seguridad_justicia": 1,
@@ -145,7 +146,27 @@
   "alimentos": "Alimentos y bebidas",
   "telecom": "Telecomunicaciones",
   "ti_digital": "Tecnología, nube y servicios digitales",
-  "logistica": "Transporte y logística"
+  "logistica": "Transporte y logística",
+  "agropecuario": "Agropecuario (agricultura y ganadería)",
+  "pesca_acuicultura": "Pesca y acuacultura",
+  "fintech_pagos": "Fintech, pagos electrónicos y activos virtuales",
+  "mercado_valores_fondos": "Mercado de valores, fondos de inversión y afores",
+  "sociedades_ahorro_credito": "Ahorro y crédito popular, cooperativas, SOFOM y uniones de crédito",
+  "comercio_minorista": "Comercio minorista",
+  "turismo_hoteleria": "Turismo y hotelería",
+  "salud_hospitales": "Servicios de salud, hospitales y clínicas",
+  "educacion_privada": "Educación privada",
+  "inmobiliario_desarrollo": "Inmobiliario y desarrollo de vivienda",
+  "quimica_petroquimica": "Química y petroquímica",
+  "manufactura_immex": "Manufactura de exportación (IMMEX y programas de fomento)",
+  "agua_saneamiento": "Agua potable, saneamiento y tratamiento",
+  "residuos_reciclaje": "Gestión de residuos y reciclaje",
+  "medios_publicidad": "Medios, radiodifusión y publicidad",
+  "juegos_sorteos": "Juegos con apuesta y sorteos",
+  "transporte_pasajeros": "Transporte terrestre de pasajeros",
+  "restaurantes_alimentos_preparados": "Restaurantes y alimentos preparados",
+  "seguridad_privada": "Seguridad privada",
+  "outsourcing_servicios_especializados": "Servicios especializados (subcontratación) y agencias de colocación"
  },
  "senales": [
   {
@@ -245,9 +266,9 @@
    "leyes_ids": [],
    "sectores": [],
    "temas": [
-    "ninez",
+    "migracion",
     "mujeres_igualdad",
-    "migracion"
+    "ninez"
    ],
    "estado": "en curso",
    "notas": [
@@ -262,6 +283,41 @@
    "ventana": [
     "2026-12",
     "2027-02"
+   ]
+  },
+  {
+   "id": "AG:4080145d6cd4",
+   "detectado": "2026-11-26",
+   "actualizado": "2026-11-26",
+   "fuente": "Monitor de noticias (titular)",
+   "ambito": "federal",
+   "etapa": "iniciativa_ejecutivo",
+   "etapa_nombre": "Iniciativa del Ejecutivo federal",
+   "probabilidad": 0.7,
+   "horizonte_meses": "1–6",
+   "titulo": "Sheinbaum presenta iniciativa de reforma para simplificar la adopción y combatir la violencia vicaria",
+   "url": "https://oem.com.mx/elsoldemexico/mexico/presidencia-presenta-propuesta-de-reforma-para-agilizar-adopciones-y-combatir-violencia-vicaria-33319240",
+   "medio": "El Sol de México",
+   "leyes": [],
+   "leyes_ids": [],
+   "sectores": [],
+   "temas": [
+    "familia_civil",
+    "mujeres_igualdad"
+   ],
+   "estado": "en curso",
+   "notas": [
+    {
+     "t": "Sheinbaum presenta iniciativa de reforma para simplificar la adopción y combatir la violencia vicaria",
+     "u": "https://oem.com.mx/elsoldemexico/mexico/presidencia-presenta-propuesta-de-reforma-para-agilizar-adopciones-y-combatir-violencia-vicaria-33319240",
+     "m": "El Sol de México",
+     "f": "2026-11-26"
+    }
+   ],
+   "confirmacion": "un solo medio (sin confirmar)",
+   "ventana": [
+    "2026-12",
+    "2027-05"
    ]
   },
   {
@@ -281,8 +337,8 @@
    "leyes_ids": [],
    "sectores": [],
    "temas": [
-    "trabajo",
-    "salud"
+    "salud",
+    "trabajo"
    ],
    "estado": "en curso",
    "notas": [
@@ -290,6 +346,44 @@
      "t": "Propone Sheinbaum nueva ley para el IMSS-Bienestar",
      "u": "https://www.tiempo.com.mx/nacional/propone-sheinbaum-nueva-ley-para-el-imss-bienestar/",
      "m": "tiempo.com.mx",
+     "f": "2026-11-26"
+    },
+    {
+     "t": "Propone Sheinbaum nueva ley para el IMSS-Bienestar",
+     "u": "https://www.tiempo.com.mx/local/propone-sheinbaum-nueva-ley-para-el-imss-bienestar/",
+     "m": "tiempo.com.mx",
+     "f": "2026-11-26"
+    }
+   ],
+   "confirmacion": "un solo medio (sin confirmar)",
+   "ventana": [
+    "2026-12",
+    "2027-08"
+   ]
+  },
+  {
+   "id": "AG:976eb72682b9",
+   "detectado": "2026-11-26",
+   "actualizado": "2026-11-26",
+   "fuente": "Monitor de noticias (titular)",
+   "ambito": "federal",
+   "etapa": "anunciada",
+   "etapa_nombre": "Ley o reforma nueva en discusión pública",
+   "probabilidad": 0.45,
+   "horizonte_meses": "1–9",
+   "titulo": "SNTE reporta avance de 95% en nueva ley para sustituir a Usicamm",
+   "url": "https://www.eluniversal.com.mx/nacion/snte-reporta-avance-de-95-en-nueva-ley-para-sustituir-a-usicamm-destaca-participacion-de-700-mil-docentes/",
+   "medio": "eluniversal.com.mx",
+   "leyes": [],
+   "leyes_ids": [],
+   "sectores": [],
+   "temas": [],
+   "estado": "en curso",
+   "notas": [
+    {
+     "t": "SNTE reporta avance de 95% en nueva ley para sustituir a Usicamm",
+     "u": "https://www.eluniversal.com.mx/nacion/snte-reporta-avance-de-95-en-nueva-ley-para-sustituir-a-usicamm-destaca-participacion-de-700-mil-docentes/",
+     "m": "eluniversal.com.mx",
      "f": "2026-11-26"
     }
    ],
@@ -316,8 +410,8 @@
    "leyes_ids": [],
    "sectores": [],
    "temas": [
-    "trabajo",
-    "salud"
+    "salud",
+    "trabajo"
    ],
    "estado": "en curso",
    "notas": [
@@ -326,9 +420,15 @@
      "u": "https://www.excelsior.com.mx/nacional/camara-diputados-iniciativa-ley-servicios-salud-imss-bienestar-sheinbaum",
      "m": "excelsior.com.mx",
      "f": "2026-11-26"
+    },
+    {
+     "t": "Envía Presidencia a San Lázaro iniciativa de ley del IMSS-Bienestar",
+     "u": "https://www.jornada.com.mx/2026/11/26/politica/010n2pol?partner=rss",
+     "m": "La Jornada (política)",
+     "f": "2026-11-26"
     }
    ],
-   "confirmacion": "un solo medio (sin confirmar)",
+   "confirmacion": "varios medios",
    "ventana": [
     "2027-02",
     "2028-05"
