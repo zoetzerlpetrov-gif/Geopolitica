@@ -165,6 +165,8 @@
       <p class="meta">Complementa las plantillas por sector con el detalle ley por ley: a quién aplica, obligaciones concretas, trámites con su plazo y autoridad, sanciones,
         evidencia que pide un auditor y preguntas para verificar. «Generales» aplica a toda empresa del país; al elegir un sector se suman sus leyes específicas.
         Revisado en octubre de 2026 con fuentes públicas; lo marcado «verificar» no se pudo confirmar en la fuente oficial. Confirma la versión vigente antes de emitir un informe.</p>
+      <p class="skill-claude">💡 <b>Con Claude:</b> la skill <code>legal:compliance-check</code> revisa el cumplimiento de un proceso o documento contra estas leyes
+        (por ejemplo, un contrato o un aviso de privacidad). Para juntar las evidencias de una auditoría usa <code>finance:audit-support</code>.</p>
       <div class="barra"><select id="nor-jur" aria-label="Jurisdicción"></select><select id="nor-sector" aria-label="Sector"></select>
         <input type="search" id="nor-q" placeholder="Buscar: CFDI, datos personales, REPSE, GDPR…" aria-label="Buscar en la normativa" style="min-width:240px"><button type="button" class="btn-limpiar" data-limpiar="nor-q" title="Borrar lo escrito y el resultado">✕ Limpiar</button></div>
       <details class="tarjeta plegable"><summary><h3>Resumen de cumplimiento</h3></summary>
@@ -226,6 +228,8 @@
       <h2>Nube y seguridad: autoevaluación</h2>
       <p class="meta">Responde cada control (Sí, Parcial, No, No aplica). El resultado se agrupa en las seis funciones del NIST Cybersecurity Framework 2.0.
         Las referencias apuntan a CIS Controls v8.1, CIS Benchmarks, CSA Cloud Controls Matrix (CCM) e ISO/IEC 27017. Se guarda en el servidor (por empresa).</p>
+      <p class="meta"><b>¿Dónde se refleja?</b> 1) Aquí, en «Resultados» (porcentaje por función). 2) En DOMINUS OPS → Informe → «Informe integral», sección 5 (Riesgos), con los controles en «No» como prioridad.
+        3) En «Descargar resultado» (Markdown) para entregarlo al cliente.</p>
       <details class="tarjeta plegable"><summary><h3>Resultados de la autoevaluación</h3></summary>
       <div id="nube-res"></div>
       <div class="barra"><button type="button" id="nube-md">Descargar resultado (Markdown)</button><button type="button" id="nube-vaciar">Vaciar</button></div>

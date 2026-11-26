@@ -50,6 +50,7 @@ async function asegurar(db) {
   for (const col of ["fases_datos TEXT NOT NULL DEFAULT '{}'", "vista_token TEXT NOT NULL DEFAULT ''"]) {
     try { await db.prepare(`ALTER TABLE dominus_proyectos ADD COLUMN ${col}`).run(); } catch { /* ya existe */ }
   }
+  try { await db.prepare("ALTER TABLE dominus_proyecto_checklist ADD COLUMN descripcion TEXT NOT NULL DEFAULT ''").run(); } catch { /* ya existe */ }
   listas.add(db);
 }
 
@@ -109,7 +110,7 @@ export function validarDatosFase(fase, datos) {
 export function validarCheck(d = {}) {
   const tipo = String(d.tipo || "");
   if (!ESTADOS_CHECK[tipo]) throw new ErrorDato("Tipo inválido.");
-  const c = { tipo, grupo: limpio(d.grupo, 200), texto: limpio(d.texto, 1500), detalle: limpio(d.detalle, 1500), pais: limpio(d.pais, 60), responsable: limpio(d.responsable, 120) };
+  const c = { tipo, grupo: limpio(d.grupo, 200), texto: limpio(d.texto, 1500), detalle: limpio(d.detalle, 1500), descripcion: limpio(d.descripcion, 1500), pais: limpio(d.pais, 60), responsable: limpio(d.responsable, 120) };
   if (c.texto.length < 2) throw new ErrorDato("Texto vacío.");
   return c;
 }
@@ -122,10 +123,20 @@ export async function vistaCompartida(db, token) {
   if (!p) return null;
   const org = await db.prepare("SELECT nombre FROM dominus_orgs WHERE id = ?").bind(p.org_id).first().catch(() => null);
   const items = (await db.prepare("SELECT tipo, texto, responsable, fecha, estado, severidad, actualizado FROM dominus_proyecto_items WHERE proyecto_id = ? ORDER BY tipo, fecha, creado").bind(p.id).all()).results || [];
-  const checklist = (await db.prepare("SELECT tipo, estado, severidad FROM dominus_proyecto_checklist WHERE proyecto_id = ?").bind(p.id).all().catch(() => ({ results: [] }))).results || [];
+  const checklist = (await db.prepare("SELECT tipo, grupo, texto, estado, pais FROM dominus_proyecto_checklist WHERE proyecto_id = ? ORDER BY tipo, orden").bind(p.id).all().catch(() => ({ results: [] }))).results || [];
   const limpia = (x) => ({ ...x, responsable: String(x.responsable || "").includes("@") ? "" : x.responsable });
   return { empresa: org?.nombre || "", proyecto: { nombre: p.nombre, objetivo: p.objetivo, sector: p.sector, pais: p.pais, sedes: p.sedes, inicio: p.inicio, fin: p.fin,
-    fase: p.fase, estado: p.estado, actualizado: p.actualizado, ...resumen(items, checklist) }, items: items.map(limpia), fases: cfg.fases };
+    fase: p.fase, estado: p.estado, actualizado: p.actualizado, ...resumen(items, checklist) }, items: items.map(limpia), fases: cfg.fases,
+    datos_fase: datosFasePublicos(p.fases_datos), checklist: checklist.map((c) => ({ tipo: c.tipo, grupo: c.grupo, texto: c.texto, estado: c.estado, pais: c.pais })) };
+}
+
+// Campos de fase que no salen en la vista compartida (datos de contacto y nombres de personas).
+const CAMPOS_PRIVADOS = new Set(["contacto_cliente", "participantes", "aprobado_por"]);
+/** Datos de cada fase para la vista de solo lectura: sin campos de contacto y sin correos ni teléfonos dentro del texto. */
+export function datosFasePublicos(json) {
+  let d = {}; try { d = JSON.parse(json || "{}") || {}; } catch { d = {}; }
+  const tapar = (v) => String(v ?? "").replace(/[\w.+-]+@[\w-]+\.[\w.-]+/g, "[correo]").replace(/\+?\d[\d\s().-]{7,}\d/g, "[teléfono]");
+  return Object.fromEntries(Object.entries(d).map(([f, campos]) => [f, Object.fromEntries(Object.entries(campos || {}).filter(([k]) => !CAMPOS_PRIVADOS.has(k)).map(([k, v]) => [k, tapar(v)]))]));
 }
 
 /** Atiende una ruta de proyectos de una organización. Devuelve [cuerpo, estado]. */
@@ -205,9 +216,9 @@ export async function rutaProyectos(db, orgId, partes, metodo, cuerpo, { quien =
       if (cuerpo.reemplazar) await db.prepare("DELETE FROM dominus_proyecto_checklist WHERE proyecto_id = ?").bind(p.id).run();
       const n = await db.prepare("SELECT count(*) AS n FROM dominus_proyecto_checklist WHERE proyecto_id = ?").bind(p.id).first();
       if ((n?.n || 0) + cs.length > MAX_ITEMS) return [{ error: "Se pasaría del límite de 2,000 elementos. Usa «reemplazar»." }, 409];
-      const ins = "INSERT INTO dominus_proyecto_checklist (id, proyecto_id, org_id, tipo, grupo, texto, detalle, pais, responsable, estado, orden, actualizado, actualizado_por) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      const ins = "INSERT INTO dominus_proyecto_checklist (id, proyecto_id, org_id, tipo, grupo, texto, detalle, descripcion, pais, responsable, estado, orden, actualizado, actualizado_por) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
       for (let k = 0; k < cs.length; k += 50) {
-        await db.batch(cs.slice(k, k + 50).map((c, j) => db.prepare(ins).bind(nuevoId(), p.id, orgId, c.tipo, c.grupo, c.texto, c.detalle, c.pais, c.responsable, ESTADOS_CHECK[c.tipo][0], k + j, t, quien)));
+        await db.batch(cs.slice(k, k + 50).map((c, j) => db.prepare(ins).bind(nuevoId(), p.id, orgId, c.tipo, c.grupo, c.texto, c.detalle, c.descripcion, c.pais, c.responsable, ESTADOS_CHECK[c.tipo][0], k + j, t, quien)));
       }
       return [{ ok: true, agregados: cs.length }, 200];
     }

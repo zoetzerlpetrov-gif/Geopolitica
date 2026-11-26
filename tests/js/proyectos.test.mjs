@@ -89,7 +89,7 @@ test("datos por fase, lista de auditoría guardada y vista compartida de solo le
   const a = await api(env, "dueno@acme.mx", "crear", { nombre: "Acme SA", pais: "MEX", sectores: [] });
   const org = a.body.id;
   const pid = (await api(env, "dueno@acme.mx", `${org}/proyectos/crear`, { nombre: "Diagnóstico" })).body.id;
-  assert.equal((await api(env, "dueno@acme.mx", `${org}/proyectos/${pid}/fase-datos`, { fase: "arranque", datos: { alcance: "Planta Monterrey", fecha_junta: "2026-12-01" } })).status, 200);
+  assert.equal((await api(env, "dueno@acme.mx", `${org}/proyectos/${pid}/fase-datos`, { fase: "arranque", datos: { alcance: "Planta Monterrey", fecha_junta: "2026-12-01", participantes: "Ana ana@acme.mx" } })).status, 200);
   assert.equal((await api(env, "dueno@acme.mx", `${org}/proyectos/${pid}/fase-datos`, { fase: "inventada", datos: {} })).status, 400);
   const lote = [{ tipo: "pregunta", grupo: "LFT", texto: "¿Hay contratos por escrito?" }, { tipo: "riesgo", grupo: "Laboral", texto: "Incumplir la LFT", detalle: "Multas" }];
   assert.equal((await api(env, "dueno@acme.mx", `${org}/proyectos/${pid}/checklist`, { items: lote, reemplazar: true })).status, 200);
@@ -110,6 +110,11 @@ test("datos por fase, lista de auditoría guardada y vista compartida de solo le
   assert.equal(v.body.empresa, "Acme SA");
   assert.equal(v.body.proyecto.nombre, "Diagnóstico");
   assert.ok(!("fases_datos" in v.body.proyecto) && !("vista_token" in v.body.proyecto));
+  // Las 7 fases en solo lectura: datos de cada fase (sin contactos) y la lista de auditoría sin notas internas.
+  assert.equal(v.body.datos_fase.arranque.alcance, "Planta Monterrey");
+  assert.ok(!("participantes" in v.body.datos_fase.arranque));
+  assert.deepEqual(v.body.checklist.map((c) => [c.tipo, c.estado]), [["pregunta", "no_cumple"], ["riesgo", "abierto"]]);
+  assert.ok(!("nota" in v.body.checklist[0]));
   await api(env, "dueno@acme.mx", `${org}/proyectos/${pid}/compartir`, { activar: false });
   assert.equal((await api(env, null, `vista/${tok}`)).status, 404);
 });

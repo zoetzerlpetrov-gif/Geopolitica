@@ -81,7 +81,7 @@ export async function actividadesDeArchivo(nombre, bytes) {
 /** Lista de auditoría y riesgos del plan generado → elementos que se guardan en el proyecto (fases 4 y 5). */
 export function checklistDeGenerado(g) {
   const preguntas = (g.plan.auditoria || []).map((q) => ({ tipo: "pregunta", grupo: q.ley || "", texto: q.pregunta, detalle: q.evidencia || "", pais: q.pais || "", responsable: q.rol || "" }));
-  const riesgos = (g.plan.riesgos || []).map((r) => ({ tipo: "riesgo", grupo: r.area || "", texto: r.riesgo, detalle: r.consecuencia || "", pais: r.pais || "", responsable: r.rol || "" }));
+  const riesgos = (g.plan.riesgos || []).map((r) => ({ tipo: "riesgo", grupo: r.area || "", texto: r.riesgo, detalle: r.consecuencia || "", descripcion: r.descripcion || "", pais: r.pais || "", responsable: r.rol || "" }));
   return [...preguntas, ...riesgos];
 }
 

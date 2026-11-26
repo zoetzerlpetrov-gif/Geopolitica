@@ -18,8 +18,12 @@
     h2 { border-left: 6px solid var(--accent); padding-left: 10px; text-transform: none; letter-spacing: 0; color: var(--text); font-size: 18px; }
     .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
     .kpis div { border: 1px solid var(--line); border-radius: var(--radius); padding: 10px; background: var(--surface); } .kpis b { display: block; font-size: 26px; }
-    .fases { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; padding: 0; } .fases li { padding: 6px 10px; border: 1px solid var(--line); border-radius: 999px; font-size: 13px; }
-    .fases li.hecha { background: color-mix(in srgb, #24733b 18%, var(--surface)); border-color: #24733b; } .fases li.actual { outline: 3px solid var(--accent); font-weight: 700; }
+    .fases { display: flex; flex-wrap: wrap; gap: 6px; padding: 0; } .fases button { font: inherit; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; font-size: 13px; background: var(--surface); color: var(--text); cursor: pointer; }
+    .fases button.hecha { background: color-mix(in srgb, #24733b 18%, var(--surface)); border-color: #24733b; } .fases button.actual { font-weight: 700; }
+    .fases button[aria-selected="true"] { outline: 3px solid var(--accent); }
+    .vp-datos { display: grid; grid-template-columns: minmax(140px, 240px) 1fr; gap: 4px 12px; margin: 8px 0; } .vp-datos dt { font-weight: 600; } .vp-datos dd { margin: 0; white-space: pre-wrap; }
+    .desliza { overflow-x: auto; } h3 { font-size: 15px; }
+    @media (max-width: 600px) { .vp-datos { grid-template-columns: 1fr; } }
     .barra { height: 12px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--line); overflow: hidden; } .barra i { display: block; height: 100%; background: #24733b; }
     table { width: 100%; border-collapse: collapse; font-size: 14px; } td, th { border-bottom: 1px solid var(--line); padding: 6px; text-align: left; vertical-align: top; }
     .solo { display: inline-block; padding: 2px 10px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--line); font-size: 12px; }

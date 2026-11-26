@@ -5,6 +5,13 @@ import { esc } from "./util.js";
 import * as C from "./ciencia.js";
 import * as L from "./escenarios-logica.js";
 
+// Títulos de los ejes para los modelos que dibujan una línea en el tiempo.
+const EJES = {
+  sir_ausentismo: { ejeX: "Días desde el primer caso", ejeY: "Personas enfermas" },
+  difusion_reputacional: { ejeX: "Días desde la publicación", ejeY: "Personas que ya vieron la noticia" },
+  runway_liquidez: { ejeX: "Meses", ejeY: "Caja disponible" },
+};
+
 const leer = (k, def) => { try { return JSON.parse(localStorage.getItem(k)) ?? def; } catch (e) { return def; } };
 const guardar = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* modo privado */ } };
 const num = (n, d = 0) => (n == null || !Number.isFinite(n) ? "—" : n.toLocaleString("es-MX", { maximumFractionDigits: d }));
@@ -148,7 +155,7 @@ export async function montarSimulador(raiz, op) {
       ${lin("VaR 95 % (pérdida que solo se supera 1 de cada 20 años)", num(r.var95))}${lin("VaR 99 %", num(r.var99))}${r.tvar95 != null ? lin("TVaR 95 % (promedio del peor 5 %)", num(r.tvar95)) : ""}
       ${lin("Nivel 5×5", r.nivel ? `<b style="color:${NIVEL_COLOR[r.nivel]}">${r.nivel}</b> (P ${r.nivel_prob} × I ${r.nivel_imp})` : r.nivel_prob ? `P ${r.nivel_prob} × I sin dato` : "—")}</table></div>
       ${faltan ? `<p class="meta">⚠️ Sin ingresos del cliente: se usaron 100 millones como referencia para las expresiones y el impacto. Captúralos en la pestaña Cliente (OPS) o en los parámetros.</p>` : ""}
-      ${L.svgResultado(r)}${extra}
+      ${L.svgResultado(r, { moneda: ctxSim().cliente.moneda || "MXN", ...(EJES[e.modelo] || { ejeX: "Tiempo (pasos del modelo)", ejeY: "Valor simulado" }) })}${extra}
       <h4>Cálculo paso a paso</h4><div class="desliza"><table class="t"><tr><th>Paso</th><th>Fórmula</th><th>Resultado</th></tr>${r.pasos.map(([a, b, c]) => `<tr><td>${esc(a)}</td><td><code>${esc(b)}</code></td><td>${esc(String(c))}</td></tr>`).join("")}</table></div>
       ${(e.mitigaciones || []).length ? `<h4>Controles que reducen este riesgo</h4><ul>${e.mitigaciones.map((m) => `<li>${esc(m)}</li>`).join("")}</ul>` : ""}`;
   }

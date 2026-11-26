@@ -22,24 +22,45 @@ export function col(n) {
 
 /** Fecha de JavaScript → número de serie de Excel (días desde 1899-12-30). */
 export const serialFecha = (d) => Math.round(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()) / 86400000 + 25569);
+/** Día de la semana de un número de serie de Excel: 0 = domingo … 6 = sábado. */
+export const diaSemanaSerial = (n) => new Date((n - 25569) * 86400000).getUTCDay();
+/** Igual que WORKDAY de Excel: avanza «dias» días hábiles (sin sábados, domingos ni feriados); con 0 devuelve la fecha. */
+export function diaHabil(inicio, dias, feriados = new Set()) {
+  let d = inicio, n = Math.max(0, Math.round(dias));
+  while (n > 0) { d += 1; const w = diaSemanaSerial(d); if (w !== 0 && w !== 6 && !feriados.has(d)) n -= 1; }
+  return d;
+}
 
 function celdaXML(ref, c) {
   if (c == null || c === "") return "";
   const o = typeof c === "object" ? c : { v: c };
   const s = o.s != null ? ` s="${typeof o.s === "number" ? o.s : ESTILOS[o.s] ?? 0}"` : "";
-  if (o.f != null) return `<c r="${ref}"${s}><f>${esc(String(o.f).replace(/^=/, ""))}</f></c>`;
+  if (o.f != null) {
+    // «v» junto a «f» es el valor ya calculado: Excel lo muestra al abrir (también en Vista protegida, donde no calcula).
+    const f = `<f>${esc(String(o.f).replace(/^=/, ""))}</f>`;
+    if (typeof o.v === "number" && Number.isFinite(o.v)) return `<c r="${ref}"${s}>${f}<v>${o.v}</v></c>`;
+    if (typeof o.v === "string") return `<c r="${ref}"${s} t="str">${f}<v>${esc(o.v.slice(0, 32000))}</v></c>`;
+    return `<c r="${ref}"${s}>${f}</c>`;
+  }
   if (o.v == null || o.v === "") return s ? `<c r="${ref}"${s}/>` : "";
   if (typeof o.v === "number" && Number.isFinite(o.v)) return `<c r="${ref}"${s}><v>${o.v}</v></c>`;
   if (typeof o.v === "boolean") return `<c r="${ref}"${s} t="b"><v>${o.v ? 1 : 0}</v></c>`;
   return `<c r="${ref}"${s} t="inlineStr"><is><t xml:space="preserve">${esc(String(o.v).slice(0, 32000))}</t></is></c>`;
 }
 
-function hojaXML(h) {
+function hojaXML(h, primera = false) {
   const filas = h.filas || [];
   const ancho = Math.max(1, ...filas.map((f) => f.length));
-  const vista = h.congelar
-    ? `<sheetViews><sheetView workbookViewId="0"${h.zoom ? ` zoomScale="${h.zoom}"` : ""}><pane${h.congelar.col ? ` xSplit="${h.congelar.col}"` : ""}${h.congelar.fila ? ` ySplit="${h.congelar.fila}"` : ""} topLeftCell="${col(h.congelar.col || 0)}${(h.congelar.fila || 0) + 1}" activePane="${h.congelar.col && h.congelar.fila ? "bottomRight" : h.congelar.fila ? "bottomLeft" : "topRight"}" state="frozen"/></sheetView></sheetViews>`
-    : `<sheetViews><sheetView workbookViewId="0"${h.zoom ? ` zoomScale="${h.zoom}"` : ""}/></sheetViews>`;
+  // La primera hoja va «seleccionada» (tabSelected) y cada vista lleva su celda activa: sin esto, algunas versiones de
+  // Excel abren con la barra de desplazamiento vertical mal dibujada hasta que se cambia de pestaña.
+  const atr = `workbookViewId="0"${primera ? ' tabSelected="1"' : ""}${h.zoom ? ` zoomScale="${h.zoom}" zoomScaleNormal="${h.zoom}"` : ""}`;
+  let vista = `<sheetViews><sheetView ${atr}><selection activeCell="A1" sqref="A1"/></sheetView></sheetViews>`;
+  if (h.congelar) {
+    const panel = h.congelar.col && h.congelar.fila ? "bottomRight" : h.congelar.fila ? "bottomLeft" : "topRight";
+    const celda = `${col(h.congelar.col || 0)}${(h.congelar.fila || 0) + 1}`;
+    vista = `<sheetViews><sheetView ${atr}><pane${h.congelar.col ? ` xSplit="${h.congelar.col}"` : ""}${h.congelar.fila ? ` ySplit="${h.congelar.fila}"` : ""} topLeftCell="${celda}" activePane="${panel}" state="frozen"/>`
+      + `<selection pane="${panel}" activeCell="${celda}" sqref="${celda}"/></sheetView></sheetViews>`;
+  }
   const cols = (h.cols || []).length ? `<cols>${h.cols.map((w, i) => `<col min="${i + 1}" max="${i + 1}" width="${w}" customWidth="1"/>`).join("")}</cols>` : "";
   const datos = filas.map((f, i) => {
     const alto = h.altos?.[i + 1];
@@ -175,12 +196,12 @@ ${nombres.map((_, i) => `<Override PartName="/xl/worksheets/sheet${i + 1}.xml" C
   const rels = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/></Relationships>`;
   const libro = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><bookViews><workbookView/></bookViews><sheets>${nombres.map((n, i) => `<sheet name="${esc(n)}" sheetId="${i + 1}" r:id="rId${i + 1}"/>`).join("")}</sheets>`
+<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><bookViews><workbookView xWindow="0" yWindow="0" windowWidth="28800" windowHeight="15600" tabRatio="850" activeTab="0" firstSheet="0"/></bookViews><sheets>${nombres.map((n, i) => `<sheet name="${esc(n)}" sheetId="${i + 1}" r:id="rId${i + 1}"/>`).join("")}</sheets>`
     + `${hojas.some((h) => h.filtro) ? `<definedNames>${hojas.map((h, i) => h.filtro ? `<definedName name="_xlnm._FilterDatabase" localSheetId="${i}" hidden="1">'${esc(nombres[i])}'!${h.filtro.replace(/([A-Z]+)(\d+)/g, "$$$1$$$2")}</definedName>` : "").join("")}</definedNames>` : ""}<calcPr calcId="191029" fullCalcOnLoad="1"/></workbook>`;
   const wrels = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">${nombres.map((_, i) => `<Relationship Id="rId${i + 1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet${i + 1}.xml"/>`).join("")}<Relationship Id="rId${nombres.length + 1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`;
   const core = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:title>${esc(titulo)}</dc:title><dc:creator>${esc(autor)}</dc:creator></cp:coreProperties>`;
   return ([["[Content_Types].xml", ct], ["_rels/.rels", rels], ["docProps/core.xml", core], ["xl/workbook.xml", libro], ["xl/_rels/workbook.xml.rels", wrels], ["xl/styles.xml", ESTILOS_XML],
-    ...hojas.map((h, i) => [`xl/worksheets/sheet${i + 1}.xml`, hojaXML(h)])]);
+    ...hojas.map((h, i) => [`xl/worksheets/sheet${i + 1}.xml`, hojaXML(h, i === 0)])]);
 }

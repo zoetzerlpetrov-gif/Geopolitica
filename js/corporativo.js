@@ -155,7 +155,7 @@ export function validar(f) {
   if (!(impacto >= 1 && impacto <= 5)) return [null, "El impacto va de 1 a 5."];
   return [{ id: `corp:${Date.now().toString(36)}`, nombre: String(f.nombre).trim().slice(0, 80), tipo: TIPOS_INST[f.tipo] ? f.tipo : "planta",
     lat: Math.round(lat * 1e4) / 1e4, lon: Math.round(lon * 1e4) / 1e4, iso3: String(f.iso3 || "").toUpperCase().slice(0, 3), impacto,
-    nota: String(f.nota || "").slice(0, 200) }, null];
+    ciudad: String(f.ciudad || "").trim().slice(0, 80), nota: String(f.nota || "").slice(0, 200) }, null];
 }
 
 // ------------------------------------------------------------------ página
@@ -183,6 +183,7 @@ async function iniciar() {
   const P = await import("./paises.js");
   document.head.insertAdjacentHTML("beforeend", `<style>${P.CSS_PAISES}</style>`);
   const { paises: listaPaises } = await P.paises();
+  const nombrePais = (iso) => (iso ? P.nombreDe(listaPaises, iso) : "");
   const ponerPais = (iso) => { $("cp-pais-ui").dataset.iso = iso; $("cp-pais-ui").value = P.nombreDe(listaPaises, iso); };
   P.campoPais($("cp-pais-ui"), { alElegir: (iso) => { $("cp-iso3").value = iso; } });
 
@@ -197,7 +198,7 @@ async function iniciar() {
       return { ...x, num: k + 1, cerca, exp, prob, pAct, pHist, h, nv: nivel(prob, x.impacto), esc: escenariosPara(cerca, exp.sanciones, cfg) };
     });
     $("cp-lista").innerHTML = filas.length ? filas.map((f) => `
-      <details class="cp-inst" ${f.nv.valor >= 10 ? "open" : ""}><summary><b>${f.num}. ${esc(f.nombre)}</b> · ${esc(TIPOS_INST[f.tipo])}${f.iso3 ? ` · ${esc(f.iso3)}` : ""}
+      <details class="cp-inst" ${f.nv.valor >= 10 ? "open" : ""}><summary><b>${f.num}. ${esc(f.nombre)}</b> · ${esc(TIPOS_INST[f.tipo])}${f.ciudad ? ` · ${esc(f.ciudad)}` : ""}${f.iso3 ? ` · ${esc(nombrePais(f.iso3))}` : ""}
         <span class="chip" style="background:${f.nv.color};color:#fff">Riesgo ${esc(f.nv.etiqueta)} (${f.prob}×${f.impacto}=${f.nv.valor})</span></summary>
         <p class="meta">Hoy: ${f.cerca.length} eventos a menos de ${radioKm} km en ${dias} días (probabilidad ${f.pAct}) · Último año: ${f.h.n} eventos en la zona${Object.keys(f.h.tipos).length ? ` (${Object.entries(f.h.tipos).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([t, n]) => `${esc(t)} ${n}`).join(", ")})` : ""} (probabilidad ${f.pHist})
           · Combinada: <b>${f.prob}</b> · índice de inestabilidad del país: ${f.exp.indice ?? "sin dato"}${f.nota ? ` · ${esc(f.nota)}` : ""}</p>
@@ -207,13 +208,17 @@ async function iniciar() {
         <p><button type="button" class="link-btn" data-seguir="${esc(f.id)}">${seg.sigue(f.id) ? "★ En el mapa (Seguimiento)" : "☆ Seguir en el mapa"}</button>
            <button type="button" class="link-btn" data-borrar="${esc(f.id)}">Quitar</button></p>
       </details>`).join("") : `<p class="meta">Agrega tu primera instalación con el formulario.</p>`;
-    $("cp-matriz").innerHTML = filas.length ? htmlMatriz(filas) : "";
+    // El número en cada cuadro es el número de la sede en esta tabla (y en la lista de abajo).
+    $("cp-matriz").innerHTML = filas.length ? `<div class="cp-matriz-par">${htmlMatriz(filas)}<div class="desliza"><table class="t"><caption class="meta">Cada número de la matriz es una sede.</caption>
+      <tr><th>#</th><th>Sede</th><th>Ciudad / país</th><th>Probabilidad (hoy · año · combinada)</th><th>Impacto</th><th>Nivel</th></tr>
+      ${filas.map((f) => `<tr><td><b>${esc(f.num)}</b></td><td>${esc(f.nombre)}</td><td>${esc([f.ciudad, nombrePais(f.iso3)].filter(Boolean).join(", ") || "—")}</td><td>${esc(f.pAct)} · ${esc(f.pHist)} · <b>${esc(f.prob)}</b></td><td>${esc(f.impacto)}</td>
+        <td><span class="chip" style="background:${esc(f.nv.color)};color:#fff">${esc(f.nv.etiqueta)} (${esc(f.nv.valor)})</span></td></tr>`).join("")}</table></div></div>` : "";
     // Matriz por país: países de las instalaciones; impacto = el mayor de sus instalaciones.
     const porPais = new Map();
     for (const f of filas) if (f.iso3) porPais.set(f.iso3, Math.max(porPais.get(f.iso3) || 0, f.impacto));
     const paisesF = [...porPais.entries()].map(([iso, imp], k) => { const r = riesgoPais(iso, hist, indice); return { ...r, num: k + 1, etiqueta: iso, impacto: imp, nv: nivel(r.prob, imp) }; });
-    $("cp-matriz-pais").innerHTML = paisesF.length ? `${htmlMatriz(paisesF)}<div class="desliza"><table class="t"><tr><th>País</th><th>Eventos en 12 meses</th><th>Índice hoy</th><th>Probabilidad</th><th>Impacto (mayor de sus sedes)</th><th>Nivel</th></tr>
-      ${paisesF.map((r) => `<tr><td>${esc(r.iso3)}</td><td>${r.n}</td><td>${r.indice ?? "—"}</td><td>${r.prob}</td><td>${r.impacto}</td><td><span class="chip" style="background:${r.nv.color};color:#fff">${esc(r.nv.etiqueta)} (${r.nv.valor})</span></td></tr>`).join("")}</table></div>` : '<p class="meta">Agrega instalaciones con su país para ver la matriz por país.</p>';
+    $("cp-matriz-pais").innerHTML = paisesF.length ? `${htmlMatriz(paisesF)}<div class="desliza"><table class="t"><caption class="meta">En la matriz, cada país aparece con su código de 3 letras (p. ej. MEX).</caption><tr><th>País</th><th>Eventos en 12 meses</th><th>Índice hoy</th><th>Probabilidad</th><th>Impacto (mayor de sus sedes)</th><th>Nivel</th></tr>
+      ${paisesF.map((r) => `<tr><td><b>${esc(r.iso3)}</b> ${esc(nombrePais(r.iso3))}</td><td>${r.n}</td><td>${r.indice ?? "—"}</td><td>${r.prob}</td><td>${r.impacto}</td><td><span class="chip" style="background:${r.nv.color};color:#fff">${esc(r.nv.etiqueta)} (${r.nv.valor})</span></td></tr>`).join("")}</table></div>` : '<p class="meta">Agrega instalaciones con su país para ver la matriz por país.</p>';
   }
 
   $("cp-form").addEventListener("submit", (e) => {
@@ -250,12 +255,13 @@ async function iniciar() {
   });
 
   // Exposición por país.
-  const paises = Object.keys({ ...indice, ...cfg.sanciones_pais, ...(pagos.paises || {}) }).filter((k) => k.length === 3).sort();
-  $("cp-pais").innerHTML = `<option value="">Elige un país…</option>` + paises.map((k) => `<option value="${k}">${esc(k)}</option>`).join("");
+  // Cualquier país del mundo, escribiendo su nombre (con o sin tildes); si no hay datos de ese país, se indica.
+  P.campoPais($("cp-pais"), { alElegir: () => {} });
   $("cp-pais").addEventListener("change", () => {
-    const e = exposicionPais($("cp-pais").value, { indice, cfg, pagos });
+    const e = exposicionPais($("cp-pais").dataset.iso || "", { indice, cfg, pagos });
     const p = Object.entries(e.pagos).map(([dim, v]) => `<li>${esc({ cbdc: "Moneda digital del banco central", cripto: "Criptomonedas", efectivo: "Efectivo" }[dim])}: ${esc(pagos.estados[dim][v.e][0])}. ${esc(v.nota)}</li>`).join("");
     $("cp-pais-res").innerHTML = !e.iso3 ? "" : `
+      <p><b>${esc(nombrePais(e.iso3))}</b> (${esc(e.iso3)})</p>
       <p>Índice de inestabilidad: <b>${e.indice ?? "sin dato"}</b> (0 a 100; ${e.eventos} eventos recientes)</p>
       <h4>Sanciones</h4><ul class="fuentes">${e.sanciones.map((s) => `<li>${esc(s.programa)} (${esc(s.emisor)}): ${esc(s.nota)} <a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.fuente)}</a></li>`).join("") || "<li>Sin programas de sanciones por país en la tabla. Revisa siempre a cada contraparte en las listas.</li>"}</ul>
       ${p ? `<h4>Pagos</h4><ul class="fuentes">${p}</ul>` : ""}

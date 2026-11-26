@@ -939,3 +939,12 @@ main:not(.layout) h2:not(.sin-franja) { border-left: 6px solid var(--accent); pa
 .info { display: inline-grid; place-items: center; width: 18px; height: 18px; margin-left: 4px; border-radius: 50%; border: 1px solid var(--line);
   font-size: 12px; font-weight: 700; font-style: normal; cursor: help; color: var(--text-2); vertical-align: middle; }
 .info:focus-visible { outline: 2px solid var(--accent); }
+
+/* Gráficas del simulador: ejes con título y explicación debajo */
+.graf-fig { margin: 8px 0; } svg.graf-esc { width: 100%; height: auto; background: var(--surface-2); border-radius: var(--radius, 8px); }
+svg.graf-esc .g-et { font-size: 11px; fill: var(--text-2, var(--text)); } svg.graf-esc .g-eje { font-size: 12px; font-weight: 600; fill: var(--text); }
+.graf-fig figcaption { margin-top: 4px; }
+
+/* Sugerencia de skill de Claude para seguir el trabajo fuera de la plataforma */
+.skill-claude { border: 1px dashed var(--accent); border-radius: var(--radius, 8px); padding: 6px 10px; margin: 8px 0; font-size: 13px; background: var(--surface); }
+.skill-claude code { font-weight: 700; }
