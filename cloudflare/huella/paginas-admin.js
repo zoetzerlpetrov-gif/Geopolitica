@@ -4,74 +4,76 @@ import p1 from "../../analista.html";
 import p2 from "../../analitica.html";
 import p3 from "../../apariencia.html";
 import p4 from "../../cisnes.html";
-import p5 from "../../clima-impactos.html";
-import p6 from "../../colaboracion.html";
-import p7 from "../../comentarios.html";
-import p8 from "../../conducta.html";
-import p9 from "../../continuidad-familiar.html";
-import p10 from "../../corporativo.html";
-import p11 from "../../cuotas.html";
-import p12 from "../../economia.html";
-import p13 from "../../entidades.html";
-import p14 from "../../estado.html";
-import p15 from "../../fase2.html";
-import p16 from "../../fase4.html";
-import p17 from "../../fase5.html";
-import p18 from "../../finanzas.html";
-import p19 from "../../herramientas.html";
-import p20 from "../../identidad.html";
-import p21 from "../../inmuebles.html";
-import p22 from "../../laboratorio.html";
-import p23 from "../../legal.html";
-import p24 from "../../marco.html";
-import p25 from "../../marketing.html";
-import p26 from "../../noticiero.html";
-import p27 from "../../operaciones.html";
-import p28 from "../../ops.html";
-import p29 from "../../patrocinios.html";
-import p30 from "../../plataforma.html";
-import p31 from "../../portafolio.html";
-import p32 from "../../pruebas.html";
-import p33 from "../../revision-tecnica.html";
-import p34 from "../../transporte.html";
-import p35 from "../../vulnerabilidades.html";
-import p36 from "../../vulns-mundo.html";
+import p5 from "../../clientes.html";
+import p6 from "../../clima-impactos.html";
+import p7 from "../../colaboracion.html";
+import p8 from "../../comentarios.html";
+import p9 from "../../conducta.html";
+import p10 from "../../continuidad-familiar.html";
+import p11 from "../../corporativo.html";
+import p12 from "../../cuotas.html";
+import p13 from "../../economia.html";
+import p14 from "../../entidades.html";
+import p15 from "../../estado.html";
+import p16 from "../../fase2.html";
+import p17 from "../../fase4.html";
+import p18 from "../../fase5.html";
+import p19 from "../../finanzas.html";
+import p20 from "../../herramientas.html";
+import p21 from "../../identidad.html";
+import p22 from "../../inmuebles.html";
+import p23 from "../../laboratorio.html";
+import p24 from "../../legal.html";
+import p25 from "../../marco.html";
+import p26 from "../../marketing.html";
+import p27 from "../../noticiero.html";
+import p28 from "../../operaciones.html";
+import p29 from "../../ops.html";
+import p30 from "../../patrocinios.html";
+import p31 from "../../plataforma.html";
+import p32 from "../../portafolio.html";
+import p33 from "../../pruebas.html";
+import p34 from "../../revision-tecnica.html";
+import p35 from "../../transporte.html";
+import p36 from "../../vulnerabilidades.html";
+import p37 from "../../vulns-mundo.html";
 export default {
   "agenda": p0,
   "analista": p1,
   "analitica": p2,
   "apariencia": p3,
   "cisnes": p4,
-  "clima-impactos": p5,
-  "colaboracion": p6,
-  "comentarios": p7,
-  "conducta": p8,
-  "continuidad-familiar": p9,
-  "corporativo": p10,
-  "cuotas": p11,
-  "economia": p12,
-  "entidades": p13,
-  "estado": p14,
-  "fase2": p15,
-  "fase4": p16,
-  "fase5": p17,
-  "finanzas": p18,
-  "herramientas": p19,
-  "identidad": p20,
-  "inmuebles": p21,
-  "laboratorio": p22,
-  "legal": p23,
-  "marco": p24,
-  "marketing": p25,
-  "noticiero": p26,
-  "operaciones": p27,
-  "ops": p28,
-  "patrocinios": p29,
-  "plataforma": p30,
-  "portafolio": p31,
-  "pruebas": p32,
-  "revision-tecnica": p33,
-  "transporte": p34,
-  "vulnerabilidades": p35,
-  "vulns-mundo": p36,
+  "clientes": p5,
+  "clima-impactos": p6,
+  "colaboracion": p7,
+  "comentarios": p8,
+  "conducta": p9,
+  "continuidad-familiar": p10,
+  "corporativo": p11,
+  "cuotas": p12,
+  "economia": p13,
+  "entidades": p14,
+  "estado": p15,
+  "fase2": p16,
+  "fase4": p17,
+  "fase5": p18,
+  "finanzas": p19,
+  "herramientas": p20,
+  "identidad": p21,
+  "inmuebles": p22,
+  "laboratorio": p23,
+  "legal": p24,
+  "marco": p25,
+  "marketing": p26,
+  "noticiero": p27,
+  "operaciones": p28,
+  "ops": p29,
+  "patrocinios": p30,
+  "plataforma": p31,
+  "portafolio": p32,
+  "pruebas": p33,
+  "revision-tecnica": p34,
+  "transporte": p35,
+  "vulnerabilidades": p36,
+  "vulns-mundo": p37,
 };

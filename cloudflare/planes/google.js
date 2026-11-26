@@ -105,10 +105,27 @@ export async function completarGoogle(request, url, env, planDe) {
   try {
     // Sin plan de pago, entrar con Google registra la cuenta en el plan Demo (gratuito).
     if (!await planDe(email) && !await registrar(env.OSINT_PLANS_DB, email)) return negar();
-    const mail = b64url(UTF8.encode(email)), vence = now() + TTL;
-    const firma = await crypto.subtle.sign("HMAC", await key(env), UTF8.encode(`google.${mail}.${vence}`));
-    return redirect("/cuenta/", [limpiar, cookie(SESSION_G, `${mail}.${vence}.${b64url(firma)}`, TTL)]);
+    return redirect("/cuenta/", [limpiar, await cookieCorreo(env, email)]);
   } catch { return negar(); }
 }
 
 export const salirGoogle = () => cookie(SESSION_G, "", 0);
+
+/** Cookie de sesión de cliente para un correo ya verificado (Google o cuenta propia de DOMINUS). Dura 1 h y se
+ *  renueva con el uso (renovarCorreo). Solo guarda el correo firmado. */
+export async function cookieCorreo(env, email) {
+  const mail = b64url(UTF8.encode(String(email).toLowerCase())), vence = now() + TTL;
+  const firma = await crypto.subtle.sign("HMAC", await key(env), UTF8.encode(`google.${mail}.${vence}`));
+  return cookie(SESSION_G, `${mail}.${vence}.${b64url(firma)}`, TTL);
+}
+
+/** Set-Cookie que extiende 1 h una sesión de cliente válida a la que le quedan menos de 55 min; si no, null. */
+export async function renovarCorreo(request, env) {
+  try {
+    const v = read(request, SESSION_G);
+    const exp = Number(String(v || "").split(".")[1]);
+    if (!exp || exp - now() > TTL - 300) return null;
+    const email = await correoSesion(request, env);
+    return email ? await cookieCorreo(env, email) : null;
+  } catch { return null; }
+}

@@ -7,6 +7,7 @@ import client from "./assets/huella.js.txt";
 import paginasAdmin from "./paginas-admin.js";  // páginas de administración empaquetadas (sin pasar por /ops/)
 import { serve } from "./service.js";
 import { conSesionRenovada } from "./auth.js";
+import { renovarCorreo } from "../planes/google.js";
 import lectura from '../../css/lectura.css';
 import { css as cssApariencia, DEFECTO } from '../../js/apariencia.js';
 import { leer as leerApariencia } from '../apariencia/service.js';
@@ -38,6 +39,6 @@ export default {
       const c = await leerApariencia(env.OSINT_PLANS_DB).catch(()=>null);
       respuesta = new Response('@import url("https://dominusosint.com/vendor/fonts/fuentes.css");\n'+await respuesta.text()+'\n'+lectura+'\n'+cssApariencia(c?.claro?c:DEFECTO), respuesta);
     }
-    return endurecer(await conSesionRenovada(request, env, respuesta));
+    return endurecer(await conSesionRenovada(request, env, respuesta, renovarCorreo));
   }
 };

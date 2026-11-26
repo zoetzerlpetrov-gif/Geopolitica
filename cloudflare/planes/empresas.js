@@ -4,6 +4,8 @@
 // Cada consulta filtra por organización y por el rol del correo en ella: una empresa nunca ve datos de otra.
 // DESTINOS_FIJOS: no se llama a otros servicios.
 
+import { asegurarAcceso, enlaceActivacion } from "./acceso.js";
+
 export const ROLES = ["lector", "editor", "admin", "dueno"];
 export const ESTADOS = ["pendiente", "en_proceso", "cumple", "no_cumple", "no_aplica"];
 export const PRUEBA_DIAS = 14;
@@ -16,6 +18,7 @@ export const TABLAS = [
   "CREATE TABLE IF NOT EXISTS dominus_org_invitaciones (token_hash TEXT PRIMARY KEY NOT NULL CHECK (length(token_hash) = 64), org_id TEXT NOT NULL, email TEXT NOT NULL, rol TEXT NOT NULL CHECK (rol IN ('lector', 'editor', 'admin')), vence INTEGER NOT NULL, creada_por TEXT NOT NULL) STRICT",
   "CREATE TABLE IF NOT EXISTS dominus_org_bitacora (id INTEGER PRIMARY KEY AUTOINCREMENT, org_id TEXT NOT NULL, email TEXT NOT NULL, accion TEXT NOT NULL CHECK (length(accion) <= 40), detalle TEXT NOT NULL DEFAULT '' CHECK (length(detalle) <= 500), fecha INTEGER NOT NULL DEFAULT (unixepoch())) STRICT",
   "CREATE TABLE IF NOT EXISTS dominus_cumplimiento (org_id TEXT NOT NULL, clave TEXT NOT NULL CHECK (length(clave) BETWEEN 3 AND 120), estado TEXT NOT NULL CHECK (estado IN ('pendiente', 'en_proceso', 'cumple', 'no_cumple', 'no_aplica')), responsable TEXT NOT NULL DEFAULT '' CHECK (length(responsable) <= 254), fecha_limite TEXT NOT NULL DEFAULT '' CHECK (fecha_limite = '' OR fecha_limite GLOB '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]'), evidencia TEXT NOT NULL DEFAULT '' CHECK (length(evidencia) <= 1000), actualizado INTEGER NOT NULL DEFAULT (unixepoch()), actualizado_por TEXT NOT NULL DEFAULT '', PRIMARY KEY (org_id, clave)) STRICT",
+  "CREATE TABLE IF NOT EXISTS dominus_org_rfc (org_id TEXT PRIMARY KEY NOT NULL, rfc TEXT NOT NULL UNIQUE CHECK (length(rfc) BETWEEN 12 AND 13)) STRICT",
 ];
 const listas = new WeakSet();  // bases donde ya se crearon las tablas en este proceso
 async function asegurar(db) {
@@ -43,6 +46,20 @@ export function validarOrg(d = {}) {
   return { nombre, pais, sectores };
 }
 
+/** Nombre comparable para detectar empresas repetidas: sin acentos, mayúsculas, signos ni forma societaria. */
+export function nombreNormal(nombre) {
+  return String(nombre || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
+    .replace(/\b(s\.?\s?a\.?|s\.?\s?de\s?r\.?\s?l\.?|s\.?\s?a\.?\s?p\.?\s?i\.?|s\.?\s?a\.?\s?s\.?|de\s+c\.?\s?v\.?|s\.?\s?c\.?|a\.?\s?c\.?|sapi|inc|llc|ltd|gmbh|corp)\b\.?/g, " ")
+    .replace(/[^a-z0-9]+/g, " ").trim();
+}
+/** RFC mexicano (persona moral 12, física 13 caracteres) o vacío. */
+export function rfcValido(rfc) {
+  const r = String(rfc || "").trim().toUpperCase();
+  if (!r) return "";
+  if (!/^[A-ZÑ&]{3,4}\d{6}[A-Z0-9]{3}$/.test(r)) throw new Error("RFC inválido (12 o 13 caracteres, p. ej. ABC010203XY1).");
+  return r;
+}
+
 /** Valida una respuesta de cumplimiento. */
 export function validarRespuesta(d = {}, miembros = []) {
   const clave = String(d.clave ?? "");
@@ -64,6 +81,32 @@ export function cors(request, origenes) {
 }
 
 const json = (data, status, h) => Response.json(data, { status, headers: h });
+
+/** Empresa ya registrada con el mismo nombre (normalizado) o el mismo RFC; null si no hay. */
+export async function empresaExistente(db, nombre, rfc = "") {
+  const n = nombreNormal(nombre);
+  if (rfc) {
+    const r = await db.prepare("SELECT o.id, o.nombre FROM dominus_org_rfc x JOIN dominus_orgs o ON o.id = x.org_id WHERE x.rfc = ?").bind(rfc).first();
+    if (r) return { ...r, por: "RFC" };
+  }
+  const todas = (await db.prepare("SELECT id, nombre FROM dominus_orgs").all()).results || [];
+  const igual = todas.find((o) => nombreNormal(o.nombre) === n);
+  return igual ? { ...igual, por: "nombre" } : null;
+}
+
+/** Acepta una invitación de empresa para `correo` (lo usan /aceptar y la activación de cuenta propia). */
+export async function aceptarInvitacionDirecta(db, token, correo) {
+  await asegurar(db);
+  const inv = await db.prepare("SELECT * FROM dominus_org_invitaciones WHERE token_hash = ?").bind(await sha256(token)).first();
+  if (!inv || inv.vence <= ahora()) return { error: "La invitación no existe o ya venció. Pide una nueva.", status: 404 };
+  if (inv.email !== correo) return { error: `Esta invitación es para ${inv.email}. Inicia sesión con ese correo.`, status: 403 };
+  await db.batch([
+    db.prepare("INSERT OR IGNORE INTO dominus_org_miembros (org_id, email, rol) VALUES (?, ?, ?)").bind(inv.org_id, correo, inv.rol),
+    db.prepare("DELETE FROM dominus_org_invitaciones WHERE token_hash = ?").bind(inv.token_hash),
+    db.prepare("INSERT INTO dominus_org_bitacora (org_id, email, accion, detalle) VALUES (?, ?, 'aceptar', ?)").bind(inv.org_id, correo, inv.rol),
+  ]);
+  return { ok: true, org: inv.org_id };
+}
 
 /**
  * API de empresas: /cuenta/empresa/<ruta>. `correo` = correo verificado de la sesión (o null); `esAdmin` = sesión de
@@ -104,6 +147,59 @@ export async function serveEmpresas(request, url, env, { correo, esAdmin = false
         const r = await db.prepare("UPDATE dominus_orgs SET plan = ?, asientos = ?, vence = ? WHERE id = ?").bind(plan, Math.floor(asientos), ahora() + Math.floor(dias) * DIA, String(cuerpo.org || "")).run();
         return json({ ok: (r.meta?.changes || 0) > 0 }, 200, h);
       }
+      if (partes[1] === "alta" && request.method === "POST") {
+        // Alta de una empresa cliente por Admin: datos, plan, días de prueba o de servicio y la persona dueña.
+        const d = validarOrg(cuerpo), rfc = rfcValido(cuerpo.rfc);
+        const dueno = String(cuerpo.dueno || "").trim().toLowerCase();
+        if (!CORREO.test(dueno)) return json({ error: "Correo de la persona responsable inválido." }, 400, h);
+        const plan = String(cuerpo.plan || "prueba"), asientos = Math.floor(Number(cuerpo.asientos || 3)), dias = Math.floor(Number(cuerpo.dias || 14));
+        if (!["prueba", "individual", "equipo", "medida"].includes(plan) || !(asientos >= 1 && asientos <= 500) || !(dias >= 1 && dias <= 400)) return json({ error: "Plan, usuarios (1-500) o días (1-400) inválidos." }, 400, h);
+        const ya = await empresaExistente(db, d.nombre, rfc);
+        if (ya) return json({ error: `Ya existe «${ya.nombre}» (coincide el ${ya.por}). Usa esa empresa o cambia el nombre.`, existente: ya.id }, 409, h);
+        const id = nuevoId();
+        await db.batch([
+          db.prepare("INSERT INTO dominus_orgs (id, nombre, pais, sectores, plan, asientos, vence) VALUES (?, ?, ?, ?, ?, ?, ?)").bind(id, d.nombre, d.pais, JSON.stringify(d.sectores), plan, asientos, ahora() + dias * DIA),
+          db.prepare("INSERT INTO dominus_org_miembros (org_id, email, rol) VALUES (?, ?, 'dueno')").bind(id, dueno),
+          ...(rfc ? [db.prepare("INSERT INTO dominus_org_rfc (org_id, rfc) VALUES (?, ?)").bind(id, rfc)] : []),
+          db.prepare("INSERT INTO dominus_org_bitacora (org_id, email, accion, detalle) VALUES (?, 'admin-dominus', 'alta', ?)").bind(id, `${plan} · ${asientos} usuarios · ${dias} días`),
+        ]);
+        await asegurarAcceso(db);
+        const cuenta = await db.prepare("SELECT activa FROM dominus_cuentas WHERE email = ?").bind(dueno).first();
+        const token = cuenta?.activa ? null : await enlaceActivacion(db, dueno, "admin-dominus");
+        return json({ id, token, ya_tenia_cuenta: Boolean(cuenta?.activa) }, 201, h);
+      }
+      if (partes[1] === "acceso" && request.method === "POST") {
+        // Enlace para que una persona cree o restablezca su contraseña DOMINUS (se copia y se le envía).
+        const email = String(cuerpo.email || "").trim().toLowerCase();
+        if (!CORREO.test(email)) return json({ error: "Correo inválido." }, 400, h);
+        await asegurarAcceso(db);
+        const c = await db.prepare("SELECT activa FROM dominus_cuentas WHERE email = ?").bind(email).first();
+        return json({ token: await enlaceActivacion(db, email, "admin-dominus", c?.activa ? "restablecer" : "activar") }, 201, h);
+      }
+      if (partes[1] === "cortesia" && request.method === "POST") {
+        const email = String(cuerpo.email || "").trim().toLowerCase(), producto = String(cuerpo.producto || ""), dias = Math.floor(Number(cuerpo.dias || 0));
+        const plan = String(cuerpo.plan || ""), nota = String(cuerpo.nota || "").slice(0, 300);
+        if (!CORREO.test(email)) return json({ error: "Correo inválido." }, 400, h);
+        if (!(dias >= 1 && dias <= 400)) return json({ error: "Días inválidos (1-400)." }, 400, h);
+        if (!["mapa", "creadores"].includes(producto)) return json({ error: "Producto inválido (para empresas usa «Alta de empresa»)." }, 400, h);
+        if (producto === "mapa" && !["recon", "analyst", "command"].includes(plan)) return json({ error: "Plan del mapa inválido." }, 400, h);
+        if (producto === "creadores" && !["inicial", "creador"].includes(plan)) return json({ error: "Plan de creadores inválido." }, 400, h);
+        await asegurarAcceso(db);
+        const vence = ahora() + dias * DIA;
+        if (producto === "mapa") {
+          await db.prepare("CREATE TABLE IF NOT EXISTS dominus_memberships_email (email TEXT PRIMARY KEY NOT NULL CHECK (length(email) BETWEEN 3 AND 254 AND email = lower(email) AND email LIKE '%_@_%._%'), plan TEXT NOT NULL CHECK (plan IN ('recon', 'analyst', 'command')), active INTEGER NOT NULL DEFAULT 1 CHECK (active IN (0, 1)), expires_at INTEGER CHECK (expires_at IS NULL OR expires_at > 0), updated_at INTEGER NOT NULL DEFAULT (unixepoch())) STRICT").run();
+          await db.prepare("INSERT INTO dominus_memberships_email (email, plan, active, expires_at) VALUES (?, ?, 1, ?) ON CONFLICT (email) DO UPDATE SET plan = excluded.plan, active = 1, expires_at = excluded.expires_at, updated_at = unixepoch()").bind(email, plan, vence).run();
+        }
+        await db.prepare("INSERT INTO dominus_cortesias (email, producto, plan, vence, nota, creada_por) VALUES (?, ?, ?, ?, ?, 'admin-dominus')").bind(email, producto, plan, vence, nota).run();
+        const c = await db.prepare("SELECT activa FROM dominus_cuentas WHERE email = ?").bind(email).first();
+        return json({ ok: true, vence, token: c?.activa ? null : await enlaceActivacion(db, email, "admin-dominus") }, 201, h);
+      }
+      if (partes[1] === "cuentas" && request.method === "GET") {
+        await asegurarAcceso(db);
+        const cuentas = (await db.prepare("SELECT email, nombre, activa, creada, ultimo_ingreso, bloqueo FROM dominus_cuentas ORDER BY creada DESC LIMIT 500").all()).results || [];
+        const cortesias = (await db.prepare("SELECT email, producto, plan, vence, nota, creada FROM dominus_cortesias ORDER BY id DESC LIMIT 500").all()).results || [];
+        return json({ cuentas, cortesias }, 200, h);
+      }
       return json({ error: "Ruta inexistente." }, 404, h);
     }
     if (!correo || !CORREO.test(correo)) return json({ error: "Inicia sesión con Google para usar los espacios de empresa.", ingresar: "/cuenta/google" }, 401, h);
@@ -115,6 +211,8 @@ export async function serveEmpresas(request, url, env, { correo, esAdmin = false
     }
     if (partes[0] === "crear" && request.method === "POST") {
       const d = validarOrg(cuerpo);
+      const ya = await empresaExistente(db, d.nombre);
+      if (ya) return json({ error: `«${ya.nombre}» ya tiene un espacio en DOMINUS. Pide a su administrador que te invite con tu correo.` }, 409, h);
       const propias = await db.prepare("SELECT count(*) AS n FROM dominus_org_miembros WHERE email = ? AND rol = 'dueno'").bind(correo).first();
       if ((propias?.n || 0) >= 3) return json({ error: "Cada cuenta puede crear hasta 3 empresas." }, 409, h);
       const id = nuevoId();
@@ -128,15 +226,8 @@ export async function serveEmpresas(request, url, env, { correo, esAdmin = false
     if (partes[0] === "aceptar" && request.method === "POST") {
       const token = String(cuerpo.token || "");
       if (!/^[0-9a-f]{64}$/.test(token)) return json({ error: "Invitación inválida." }, 400, h);
-      const inv = await db.prepare("SELECT * FROM dominus_org_invitaciones WHERE token_hash = ?").bind(await sha256(token)).first();
-      if (!inv || inv.vence <= ahora()) return json({ error: "La invitación no existe o ya venció. Pide una nueva." }, 404, h);
-      if (inv.email !== correo) return json({ error: `Esta invitación es para ${inv.email}. Inicia sesión con ese correo.` }, 403, h);
-      await db.batch([
-        db.prepare("INSERT OR IGNORE INTO dominus_org_miembros (org_id, email, rol) VALUES (?, ?, ?)").bind(inv.org_id, correo, inv.rol),
-        db.prepare("DELETE FROM dominus_org_invitaciones WHERE token_hash = ?").bind(inv.token_hash),
-      ]);
-      await bitacora(inv.org_id, "aceptar", inv.rol);
-      return json({ ok: true, org: inv.org_id }, 200, h);
+      const r = await aceptarInvitacionDirecta(db, token, correo);
+      return r.ok ? json(r, 200, h) : json({ error: r.error }, r.status, h);
     }
 
     // Rutas de una organización: /cuenta/empresa/<org>/<accion>

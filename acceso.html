@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Entrar a DOMINUS</title>
+  <meta name="description" content="Entra a DOMINUS con tu correo y tu contraseña, o activa tu cuenta con el enlace que recibiste.">
+  <meta name="color-scheme" content="light dark">
+  <script>try { const t = localStorage.getItem("gp_theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23C8102E' d='M44 44 30 4h40L56 44 96 30v40L56 56l14 40H30l14-40L4 70V30z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/app.css">
+  <style>
+    body { display: block; height: auto; overflow: auto; }
+    .caja { max-width: 440px; margin: 40px auto; padding: 22px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+    .caja h2 { margin: 0 0 6px; font-size: 20px; text-transform: none; letter-spacing: 0; color: var(--text); }
+    .caja label { display: block; margin: 10px 0; }
+    .caja input { font: inherit; width: 100%; box-sizing: border-box; padding: 8px 10px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); }
+    .caja button.si { width: 100%; font: inherit; font-weight: 700; min-height: 42px; border: 0; border-radius: var(--radius); background: var(--accent); color: var(--on-accent, #fff); cursor: pointer; margin-top: 8px; }
+    .meta { color: var(--text-2); font-size: 13px; }
+    .error { color: var(--danger, #b3261e); font-weight: 600; }
+    .ok { color: var(--success, #24733b); font-weight: 600; }
+    .alt { text-align: center; margin-top: 14px; }
+  </style>
+  <script type="module" src="js/apariencia.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="link-btn" href="./">← Regresar al Mapa</a>
+    <h1>🔑 Entrar a DOMINUS</h1>
+  </header>
+  <main>
+    <form class="caja" id="f-entrar" hidden>
+      <h2>Entra con tu cuenta DOMINUS</h2>
+      <p class="meta">Usa el correo y la contraseña que creaste con tu enlace de activación.</p>
+      <label>Correo <input type="email" id="en-email" autocomplete="username" required></label>
+      <label>Contraseña <input type="password" id="en-pw" autocomplete="current-password" required></label>
+      <button type="submit" class="si">Entrar</button>
+      <p id="en-msg" role="status"></p>
+      <p class="meta">¿Olvidaste tu contraseña o no tienes cuenta? Pide un enlace de acceso al administrador de tu empresa o escribe a DOMINUS.</p>
+      <p class="alt meta">También puedes <a href="https://admin.dominusosint.com/cuenta/google">entrar con Google</a>.</p>
+    </form>
+    <form class="caja" id="f-activar" hidden>
+      <h2>Crea tu contraseña</h2>
+      <p class="meta">Este enlace es personal y de un solo uso. Elige una contraseña de al menos 10 caracteres (una frase fácil de recordar funciona bien, p. ej. «café con pan de elote»).</p>
+      <label>Tu nombre (opcional) <input id="ac-nombre" maxlength="120" autocomplete="name"></label>
+      <label>Contraseña nueva <input type="password" id="ac-pw" minlength="10" autocomplete="new-password" required></label>
+      <label>Repite la contraseña <input type="password" id="ac-pw2" minlength="10" autocomplete="new-password" required></label>
+      <button type="submit" class="si">Guardar y entrar</button>
+      <p id="ac-msg" role="status"></p>
+    </form>
+  </main>
+  <script type="module" src="js/acceso.js"></script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clientes y proyectos</title>
+  <meta name="description" content="Solo administración: alta de empresas cliente, planes, periodos de prueba, cuentas de cortesía y accesos, en un solo lugar.">
+  <meta name="robots" content="noindex">
+  <meta name="color-scheme" content="light dark">
+  <script>try { const t = localStorage.getItem("gp_theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23C8102E' d='M44 44 30 4h40L56 44 96 30v40L56 56l14 40H30l14-40L4 70V30z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/app.css">
+  <style>
+    body { display: block; height: auto; overflow: auto; }
+    .ops { max-width: 1150px; margin: 0 auto; padding: 16px; }
+    .ops h2 { font-size: 18px; text-transform: none; letter-spacing: 0; color: var(--text); margin: 20px 0 6px; }
+    .tarjeta { border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; margin: 10px 0; background: var(--surface); }
+    .meta { color: var(--text-2); font-size: 13px; }
+    .pasos { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; border-bottom: 1px solid var(--line); }
+    .pasos button { font: inherit; padding: 8px 14px; border: 1px solid var(--line); border-bottom: 0; border-radius: var(--radius) var(--radius) 0 0; background: var(--surface-2); color: var(--text); cursor: pointer; }
+    .pasos button[aria-selected="true"] { background: var(--accent); color: var(--on-accent, #fff); font-weight: 700; }
+    .rejilla { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; }
+    .ops label { display: block; } .ops input, .ops select, .ops textarea { font: inherit; padding: 6px 8px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); width: 100%; box-sizing: border-box; }
+    .ops button.si { font: inherit; min-height: 38px; padding: 6px 16px; border: 0; border-radius: var(--radius); background: var(--accent); color: var(--on-accent, #fff); font-weight: 700; cursor: pointer; }
+    .ops button.b { font: inherit; min-height: 32px; padding: 3px 10px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); cursor: pointer; }
+    table.t { width: 100%; border-collapse: collapse; font-size: 14px; } table.t td, table.t th { border-bottom: 1px solid var(--line); padding: 6px; text-align: left; vertical-align: top; }
+    .enlace { margin-top: 8px; padding: 8px; border: 1px dashed var(--accent); border-radius: var(--radius); }
+    .enlace input { margin: 4px 0; }
+    .error { color: var(--danger, #b3261e); font-weight: 600; }
+    .sectores { columns: 3 220px; font-size: 14px; } .sectores label { break-inside: avoid; display: flex; gap: 6px; align-items: flex-start; margin: 3px 0; } .sectores input { width: auto; margin-top: 3px; }
+    .renovar { display: grid; grid-template-columns: minmax(110px, 1fr) 80px 80px auto; gap: 6px; align-items: center; }
+    ol.guia li { margin: 4px 0; }
+  </style>
+  <script type="module" src="js/apariencia.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="link-btn" href="./">← Regresar al Mapa</a>
+    <h1>🏢 Clientes y proyectos (solo admin)</h1>
+  </header>
+  <main class="ops">
+    <div class="tarjeta"><b>Cómo funciona, en orden:</b>
+      <ol class="guia">
+        <li><b>Alta del cliente:</b> datos de la empresa, plan, usuarios y días de prueba o de servicio, y el correo de la persona responsable.</li>
+        <li><b>Enviar el acceso:</b> al guardar aparece un enlace de activación (vence en 7 días). Cópialo y envíaselo; con él crea su contraseña DOMINUS (sin Google).</li>
+        <li><b>El cliente opera solo:</b> en «Mi empresa» configura sus sectores, invita a su equipo, contesta su cumplimiento y da seguimiento. Tú ves aquí su plan y vigencia.</li>
+        <li><b>Renovar o ampliar:</b> en «Clientes» cambia el plan, los usuarios o los días cuando paguen.</li>
+      </ol>
+      <p class="meta">Todo se guarda en la base del servidor (D1), no en este navegador. No hace falta entrar a Supabase, GitHub ni a la base de datos.</p></div>
+
+    <nav class="pasos" role="tablist">
+      <button type="button" role="tab" data-p="alta" aria-selected="true">1 · Alta de cliente</button>
+      <button type="button" role="tab" data-p="clientes" aria-selected="false">2 · Clientes</button>
+      <button type="button" role="tab" data-p="cortesias" aria-selected="false">3 · Cortesías</button>
+      <button type="button" role="tab" data-p="cuentas" aria-selected="false">4 · Cuentas y accesos</button>
+      <button type="button" role="tab" data-p="proyectos" aria-selected="false">5 · Proyectos y seguimiento</button>
+    </nav>
+
+    <section id="p-alta" role="tabpanel" class="tarjeta">
+      <div class="rejilla">
+        <label>Nombre de la empresa <input id="al-nombre" maxlength="120" placeholder="Minera Acme SA de CV"></label>
+        <label>RFC (opcional; evita duplicados) <input id="al-rfc" maxlength="13" placeholder="MAC010203XY1"></label>
+        <label>País <select id="al-pais"></select></label>
+        <label>Correo de la persona responsable (dueña) <input id="al-dueno" type="email" placeholder="direccion@empresa.com"></label>
+        <label>Plan <select id="al-plan"><option value="prueba">Prueba</option><option value="individual">Individual</option><option value="equipo">Equipo</option><option value="medida">A la medida</option></select></label>
+        <label>Usuarios incluidos <input id="al-asientos" type="number" min="1" max="500" value="3"></label>
+        <label>Días (prueba o servicio) <input id="al-dias" type="number" min="1" max="400" value="14"></label>
+      </div>
+      <p class="meta">Sectores (agregan sus leyes al cumplimiento; el cliente puede cambiarlos después):</p>
+      <div class="sectores" id="al-sectores"></div>
+      <p><button type="button" class="si" id="al-guardar">Dar de alta y crear enlace de acceso</button> <span id="al-msg" role="status"></span></p>
+      <div id="al-enlace"></div>
+    </section>
+
+    <section id="p-clientes" role="tabpanel" hidden class="tarjeta">
+      <p><button type="button" class="b" id="cl-recargar">↻ Actualizar</button> <span class="meta" id="cl-total"></span></p>
+      <div id="cl-tabla"></div>
+    </section>
+
+    <section id="p-cortesias" role="tabpanel" hidden class="tarjeta">
+      <p class="meta">Acceso sin costo por un tiempo: para el mapa (planes Recon, Analyst o Command) o para el plan de creadores. Para una empresa usa «Alta de cliente» con plan «Prueba».</p>
+      <div class="rejilla">
+        <label>Correo <input id="co-email" type="email"></label>
+        <label>Producto <select id="co-producto"><option value="mapa">Mapa DOMINUS OSINT</option><option value="creadores">Herramientas para creadores</option></select></label>
+        <label>Plan <select id="co-plan"></select></label>
+        <label>Días <input id="co-dias" type="number" min="1" max="400" value="30"></label>
+        <label>Nota interna <input id="co-nota" maxlength="300" placeholder="Ej.: periodista, socio, demo"></label>
+      </div>
+      <p><button type="button" class="si" id="co-guardar">Dar cortesía</button> <span id="co-msg" role="status"></span></p>
+      <div id="co-enlace"></div>
+      <div id="co-lista"></div>
+    </section>
+
+    <section id="p-cuentas" role="tabpanel" hidden class="tarjeta">
+      <p class="meta">Cuentas con contraseña DOMINUS. Si alguien olvidó su contraseña o quedó bloqueado, genera un enlace nuevo y envíaselo.</p>
+      <div class="rejilla"><label>Correo <input id="cu-email" type="email"></label></div>
+      <p><button type="button" class="si" id="cu-enlace">Crear enlace de acceso o restablecimiento</button> <span id="cu-msg" role="status"></span></p>
+      <div id="cu-salida"></div>
+      <div id="cu-lista"></div>
+    </section>
+
+    <section id="p-proyectos" role="tabpanel" hidden class="tarjeta">
+      <p>Los proyectos, auditorías y tableros de cada cliente se pasan al servidor por etapas, dentro de este mismo flujo. Mientras tanto siguen en sus páginas:</p>
+      <ul><li><a href="ops.html">🎖️ DOMINUS OPS</a>: fases, diagnóstico, gobernanza y plantillas.</li>
+        <li><a href="cartera.html">☁️ Cartera de proyectos</a>: planes por empresa y vista para directivos.</li>
+        <li><a href="herramientas.html">🧰 Caja del analista</a>: normativa por país, plantillas de auditoría y seguimiento de proyecto.</li></ul>
+      <p class="meta">Orden de la migración: 1) proyectos y seguimiento por cliente (sin Supabase), 2) autoauditoría y plantillas por sector, 3) instalaciones con riesgo en vivo, 4) tecnologías y vulnerabilidades, 5) matriz de riesgo, escenarios y War Room.</p>
+    </section>
+  </main>
+  <script type="module" src="js/clientes.js"></script>
+</body>
+</html>
