@@ -34,7 +34,7 @@ test("validaciones y cálculo de avance", () => {
   assert.equal(validarItem({ tipo: "actividad", texto: "Visita" }).estado, "pendiente");
   assert.deepEqual(resumen([{ tipo: "actividad", estado: "hecho" }, { tipo: "actividad", estado: "pendiente" },
     { tipo: "hallazgo", estado: "abierto", severidad: "critica" }, { tipo: "hallazgo", estado: "cerrado", severidad: "alta" }, { tipo: "seguimiento", estado: "registrada" }]),
-    { actividades: 2, hechas: 1, avance: 50, hallazgos_abiertos: 1, criticos: 1, notas: 1 });
+    { actividades: 2, hechas: 1, avance: 50, hallazgos_abiertos: 1, criticos: 1, notas: 1, preguntas: 0, respondidas: 0, no_cumple: 0, riesgos: 0, riesgos_abiertos: 0 });
 });
 
 test("pantalla: fases en orden con la actual marcada", () => {
@@ -82,4 +82,34 @@ test("flujo: admin crea proyecto, el cliente lo ve y edita según su rol, aislam
   assert.equal((await api(env, dueno, `${org}/proyectos/${pid}/item/${act.id}/borrar`, {})).status, 200);
   assert.equal((await api(env, dueno, `${org}/proyectos/${pid}/borrar`, {})).status, 200);
   assert.equal((await api(env, dueno, `${org}/proyectos`)).body.proyectos.length, 0);
+});
+
+test("datos por fase, lista de auditoría guardada y vista compartida de solo lectura", { skip: !DatabaseSync }, async () => {
+  const env = { OSINT_PLANS_DB: d1() };
+  const a = await api(env, "dueno@acme.mx", "crear", { nombre: "Acme SA", pais: "MEX", sectores: [] });
+  const org = a.body.id;
+  const pid = (await api(env, "dueno@acme.mx", `${org}/proyectos/crear`, { nombre: "Diagnóstico" })).body.id;
+  assert.equal((await api(env, "dueno@acme.mx", `${org}/proyectos/${pid}/fase-datos`, { fase: "arranque", datos: { alcance: "Planta Monterrey", fecha_junta: "2026-12-01" } })).status, 200);
+  assert.equal((await api(env, "dueno@acme.mx", `${org}/proyectos/${pid}/fase-datos`, { fase: "inventada", datos: {} })).status, 400);
+  const lote = [{ tipo: "pregunta", grupo: "LFT", texto: "¿Hay contratos por escrito?" }, { tipo: "riesgo", grupo: "Laboral", texto: "Incumplir la LFT", detalle: "Multas" }];
+  assert.equal((await api(env, "dueno@acme.mx", `${org}/proyectos/${pid}/checklist`, { items: lote, reemplazar: true })).status, 200);
+  let det = (await api(env, "dueno@acme.mx", `${org}/proyectos/${pid}`)).body;
+  assert.equal(det.proyecto.fases_datos.arranque.alcance, "Planta Monterrey");
+  assert.equal(det.checklist.length, 2);
+  assert.deepEqual([det.proyecto.preguntas, det.proyecto.respondidas, det.proyecto.riesgos_abiertos], [1, 0, 1]);
+  const preg = det.checklist.find((c) => c.tipo === "pregunta");
+  assert.equal((await api(env, "dueno@acme.mx", `${org}/proyectos/${pid}/checklist/${preg.id}`, { estado: "inventado" })).status, 400);
+  assert.equal((await api(env, "dueno@acme.mx", `${org}/proyectos/${pid}/checklist/${preg.id}`, { estado: "no_cumple", nota: "Faltan 3" })).status, 200);
+  det = (await api(env, "dueno@acme.mx", `${org}/proyectos/${pid}`)).body;
+  assert.deepEqual([det.proyecto.respondidas, det.proyecto.no_cumple], [1, 1]);
+  // Vista compartida
+  const tok = (await api(env, "dueno@acme.mx", `${org}/proyectos/${pid}/compartir`, { activar: true })).body.token;
+  assert.match(tok, /^[0-9a-f]{32}$/);
+  const v = await api(env, null, `vista/${tok}`);
+  assert.equal(v.status, 200);
+  assert.equal(v.body.empresa, "Acme SA");
+  assert.equal(v.body.proyecto.nombre, "Diagnóstico");
+  assert.ok(!("fases_datos" in v.body.proyecto) && !("vista_token" in v.body.proyecto));
+  await api(env, "dueno@acme.mx", `${org}/proyectos/${pid}/compartir`, { activar: false });
+  assert.equal((await api(env, null, `vista/${tok}`)).status, 404);
 });
