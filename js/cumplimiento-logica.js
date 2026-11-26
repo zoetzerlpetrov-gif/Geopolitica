@@ -17,9 +17,12 @@ export function huella(texto) {
 export const legible = (k) => { const t = String(k || "").replace(/_/g, " "); return t.charAt(0).toUpperCase() + t.slice(1); };
 
 /** Sectores disponibles para un país: los de su ficha más los adicionales (México). [{id, nombre}] ordenados A-Z. */
+/** Nombres con ortografía correcta de los sectores base (los mismos de config/auditorias.json). */
+export const NOMBRES_SECTOR = {"automotriz": "Automotriz y autopartes", "energia_electrica": "Energía eléctrica (generación, transmisión, distribución, renovables)", "hidrocarburos": "Hidrocarburos (exploración, refinación, ductos, estaciones de servicio)", "aeronautico": "Aeronáutico y aeroespacial", "farmaceutico": "Farmacéutico y dispositivos médicos", "construccion": "Construcción e infraestructura", "defensa": "Defensa, armamento y bienes de uso dual (cumplimiento)", "seguros": "Seguros y fianzas", "bancos": "Bancos y servicios financieros", "mineria": "Minería", "alimentos": "Alimentos y bebidas", "telecom": "Telecomunicaciones", "ti_digital": "Tecnología, nube y servicios digitales", "logistica": "Transporte y logística"};
+
 export function sectoresDe(norma, extra = {}) {
   const ids = new Set([...Object.keys(norma?.sectores || {}), ...Object.keys(extra || {})]);
-  return [...ids].map((id) => ({ id, nombre: norma?.sectores?.[id]?.nombre || extra?.[id]?.nombre || legible(id) }))
+  return [...ids].map((id) => ({ id, nombre: norma?.sectores?.[id]?.nombre || extra?.[id]?.nombre || NOMBRES_SECTOR[id] || legible(id) }))
     .sort((a, b) => a.nombre.localeCompare(b.nombre, "es"));
 }
 
@@ -29,7 +32,7 @@ export function leyesAplicables(norma, extra = {}, sectores = []) {
   const agregar = (ley, area) => { if (ley?.id && !vistas.has(ley.id)) vistas.set(ley.id, { ...ley, area }); };
   for (const g of norma?.generales || []) for (const l of g.leyes || []) agregar(l, g.area || "General");
   for (const s of sectores) {
-    const nombre = norma?.sectores?.[s]?.nombre || extra?.[s]?.nombre || legible(s);
+    const nombre = norma?.sectores?.[s]?.nombre || extra?.[s]?.nombre || NOMBRES_SECTOR[s] || legible(s);
     for (const l of norma?.sectores?.[s]?.leyes || []) agregar(l, `Sector: ${nombre}`);
     for (const l of extra?.[s]?.leyes || []) agregar(l, `Sector: ${nombre}`);
   }
