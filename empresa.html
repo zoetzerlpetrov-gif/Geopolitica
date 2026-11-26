@@ -35,7 +35,7 @@
     .progreso i { display: block; height: 100%; background: #24733b; }
     table.t { width: 100%; border-collapse: collapse; font-size: 14px; } table.t td, table.t th { border-bottom: 1px solid var(--line); padding: 6px; text-align: left; }
     .sectores { columns: 3 220px; } .sectores label { display: block; break-inside: avoid; }
-    .error { color: var(--danger, #b3261e); font-weight: 600; }
+    .error { color: var(--danger, #b3261e); font-weight: 600; } .ok { color: var(--success, #24733b); font-weight: 600; }
     @media (max-width: 860px) { .preg { grid-template-columns: 1fr 1fr; } .preg .texto { grid-column: 1 / -1; } }
   </style>
   <script type="module" src="js/apariencia.js"></script>
@@ -52,12 +52,20 @@
       <div class="barra"><label>Empresa <select id="em-org"></select></label> <span id="em-plan" class="meta"></span>
         <button type="button" id="em-nueva">➕ Crear otra empresa</button> <button type="button" id="em-salir">Salir</button></div>
       <nav class="pestanas" role="tablist">
+        <button type="button" role="tab" data-p="flujo" aria-selected="false">🧭 Flujo de trabajo</button>
         <button type="button" role="tab" data-p="cumplimiento" aria-selected="true">✅ Cumplimiento normativo</button>
         <button type="button" role="tab" data-p="proyectos" aria-selected="false">📋 Proyectos</button>
         <button type="button" role="tab" data-p="equipo" aria-selected="false">👥 Equipo</button>
         <button type="button" role="tab" data-p="config" aria-selected="false">⚙️ Configuración</button>
         <button type="button" role="tab" data-p="bitacora" aria-selected="false">📜 Bitácora</button>
       </nav>
+      <section id="p-flujo" role="tabpanel" hidden>
+        <p class="meta">El mismo flujo que usa DOMINUS, ordenado por las fases del marco DOMINUS OPS: proyecto, diagnóstico, plan y normativa, riesgos e instalaciones,
+          auditorías, seguimiento y War Room, informe y cierre. Todo se guarda en el servidor, en el espacio de tu empresa. Los lectores solo consultan.</p>
+        <div class="barra-org"><label>Empresa activa <select id="fl-org"></select></label>
+          <label>Proyecto activo <select id="fl-proy" disabled><option value="">—</option></select></label><span id="fl-msg" class="meta" role="status"></span></div>
+        <div class="flujo"><nav class="indice" aria-label="Pasos del proyecto"><ol id="fl-indice"></ol></nav><section class="paso" id="fl-paso" aria-live="polite"></section></div>
+      </section>
       <section id="p-cumplimiento" role="tabpanel">
         <div id="cu-resumen"></div>
         <div class="barra">
@@ -83,6 +91,14 @@
             <button type="button" class="si" id="eq-invitar">Crear enlace</button></div>
           <p id="eq-enlace" role="status"></p></div>
         <div id="eq-miembros"></div>
+        <details class="tarjeta" id="eq-cuenta"><summary><b>🔑 Mi contraseña</b></summary>
+          <p class="meta">Para cambiarla escribe la actual y la nueva (al menos 10 caracteres; una frase fácil de recordar funciona bien). Si entras solo con Google, deja vacía la actual: se crea tu contraseña DOMINUS.
+            ¿La olvidaste? Pide a un administrador de tu empresa o a DOMINUS un enlace para restablecerla.</p>
+          <div class="barra"><input type="password" id="cc-actual" autocomplete="current-password" placeholder="Contraseña actual" aria-label="Contraseña actual">
+            <input type="password" id="cc-nueva" autocomplete="new-password" minlength="10" placeholder="Contraseña nueva" aria-label="Contraseña nueva">
+            <input type="password" id="cc-nueva2" autocomplete="new-password" minlength="10" placeholder="Repite la nueva" aria-label="Repite la contraseña nueva">
+            <button type="button" class="si" id="cc-guardar">Cambiar contraseña</button></div>
+          <p id="cc-msg" role="status"></p></details>
       </section>
       <section id="p-config" role="tabpanel" hidden>
         <div class="tarjeta" id="cf-form"></div>

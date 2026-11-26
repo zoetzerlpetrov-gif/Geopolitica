@@ -134,6 +134,27 @@ export async function serveAcceso(request, url, env, { origenes = [], base = {},
       if (invitacion && aceptarInvitacion) await aceptarInvitacion(token, email);
       return entrar(email);
     }
+    if (ruta === "cambiar") {
+      // La persona, ya dentro, cambia su contraseña: pide la actual (o crea una si solo entraba con Google).
+      const email = await correoSesion(request, env).catch(() => null);
+      if (!email) return json({ error: "Inicia sesión para cambiar tu contraseña." }, 401, h);
+      const c = await db.prepare("SELECT * FROM dominus_cuentas WHERE email = ?").bind(email).first();
+      if (c?.bloqueo > ahora()) return json({ error: `Demasiados intentos. Espera ${Math.ceil((c.bloqueo - ahora()) / 60)} min.` }, 429, h);
+      if (c?.activa && c.hash && !iguales(await derivar(String(d.actual || ""), c.sal, c.iter), c.hash)) {
+        const n = (c.intentos || 0) + 1;
+        await db.prepare("UPDATE dominus_cuentas SET intentos = ?, bloqueo = ? WHERE email = ?").bind(n >= MAX_INTENTOS ? 0 : n, n >= MAX_INTENTOS ? ahora() + BLOQUEO : 0, email).run();
+        return json({ error: "La contraseña actual no es correcta." }, 401, h);
+      }
+      const problema = revisarContrasena(d.nueva, email);
+      if (problema) return json({ error: problema }, 400, h);
+      const sal = hex(crypto.getRandomValues(new Uint8Array(16)));
+      await db.prepare("INSERT OR IGNORE INTO dominus_cuentas (email) VALUES (?)").bind(email).run();
+      await db.batch([
+        db.prepare("UPDATE dominus_cuentas SET hash = ?, sal = ?, iter = ?, activa = 1, intentos = 0, bloqueo = 0 WHERE email = ?").bind(await derivar(String(d.nueva), sal), sal, ITERACIONES, email),
+        db.prepare("DELETE FROM dominus_cuentas_tokens WHERE email = ?").bind(email),
+      ]);
+      return json({ ok: true }, 200, h);
+    }
     return json({ error: "Ruta inexistente." }, 404, h);
   } catch {
     return json({ error: "No se pudo completar el acceso." }, 503, h);

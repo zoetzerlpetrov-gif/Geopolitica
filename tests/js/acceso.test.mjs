@@ -20,8 +20,8 @@ function d1() {
 }
 const ORIGEN = "https://dominusosint.com";
 const env = () => ({ OSINT_PLANS_DB: d1(), OSINT_SESSION_SECRET: "s".repeat(40) });
-async function acceso(e, ruta, cuerpo) {
-  const req = new Request(`https://admin.dominusosint.com/cuenta/acceso/${ruta}`, { method: "POST", headers: { Origin: ORIGEN, "Content-Type": "text/plain" }, body: JSON.stringify(cuerpo) });
+async function acceso(e, ruta, cuerpo, cookie = "") {
+  const req = new Request(`https://admin.dominusosint.com/cuenta/acceso/${ruta}`, { method: "POST", headers: { Origin: ORIGEN, "Content-Type": "text/plain", ...(cookie ? { Cookie: cookie } : {}) }, body: JSON.stringify(cuerpo) });
   const r = await serveAcceso(req, new URL(req.url), e, { origenes: [ORIGEN], aceptarInvitacion: (t, m) => aceptarInvitacionDirecta(e.OSINT_PLANS_DB, t, m) });
   return { status: r.status, body: await r.json(), cookie: r.headers.get("Set-Cookie") };
 }
@@ -109,4 +109,16 @@ test("Organización DOMINUS: solo Admin guarda y lee el avance interno de cada �
   assert.equal((await empresa(e, null, "admin/interno", { clave: "mal clave", estado: "cumple" }, true)).status, 400);
   const g = await empresa(e, null, "admin/interno", undefined, true);
   assert.equal(g.body.respuestas[0].responsable, "Contador");
+});
+
+test("la persona cambia su propia contraseña con la actual; sin sesión no se puede", { skip: !DatabaseSync }, async () => {
+  const e = env();
+  const alta = await empresa(e, null, "admin/alta", { nombre: "Cambio SA", pais: "MEX", dueno: "ana@cambio.mx", plan: "prueba", dias: 7 }, true);
+  const ses = (await acceso(e, "activar", { token: alta.body.token, contrasena: "Primera frase segura" })).cookie.split(";")[0];
+  assert.equal((await acceso(e, "cambiar", { actual: "Primera frase segura", nueva: "Segunda frase segura" })).status, 401);
+  assert.equal((await acceso(e, "cambiar", { actual: "equivocada-123", nueva: "Segunda frase segura" }, ses)).status, 401);
+  assert.equal((await acceso(e, "cambiar", { actual: "Primera frase segura", nueva: "corta" }, ses)).status, 400);
+  assert.equal((await acceso(e, "cambiar", { actual: "Primera frase segura", nueva: "Segunda frase segura" }, ses)).status, 200);
+  assert.equal((await acceso(e, "entrar", { email: "ana@cambio.mx", contrasena: "Primera frase segura" })).status, 401);
+  assert.equal((await acceso(e, "entrar", { email: "ana@cambio.mx", contrasena: "Segunda frase segura" })).status, 200);
 });

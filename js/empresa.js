@@ -5,6 +5,7 @@ import * as C from "./cumplimiento-logica.js";
 import { montarProyectos, CSS_PROYECTOS } from "./proyectos-ui.js";
 import { montarEvidencias, contarEvidencias, CSS_EVIDENCIAS } from "./evidencias-ui.js";
 import { PAISES_NORMATIVA, nombrePaisNormativa, catalogoDe } from "./herr-logica.js";
+import { montarFlujo, CSS_FLUJO } from "./proyectos-flujo.js";
 
 const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 const $ = (id) => document.getElementById(id);
@@ -192,6 +193,18 @@ if (typeof document !== "undefined" && $("em-app")) {
     const b = e.target.closest("button[data-p]"); if (!b) return;
     for (const x of document.querySelectorAll(".pestanas button")) x.setAttribute("aria-selected", String(x === b));
     for (const p of document.querySelectorAll("section[role=tabpanel]")) p.hidden = p.id !== `p-${b.dataset.p}`;
+    if (b.dataset.p === "flujo") {
+      if (!document.getElementById("css-proyectos")) document.head.insertAdjacentHTML("beforeend", `<style id="css-proyectos">${CSS_PROYECTOS}</style>`);
+      if (!document.getElementById("css-flujo")) document.head.insertAdjacentHTML("beforeend", `<style id="css-flujo">${CSS_FLUJO} .barra-org { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; }</style>`);
+      const org = estado.org, editar = ["editor", "admin", "dueno"].includes(estado.info?.rol) && estado.info?.org.vigente;
+      const viejo = $("p-flujo"), caja = viejo.cloneNode(true); viejo.replaceWith(caja); // sin oyentes de la empresa anterior
+      caja.hidden = false;
+      await montarFlujo(caja, { modo: "empresa", org, editar,
+        orgs: async () => [{ id: org, nombre: estado.info?.org.nombre || "Mi empresa" }],
+        proyectos: async (o) => (await api(`${o}/proyectos`)).proyectos,
+        apiProyecto: (o) => (ruta, cuerpo) => api(`${o}/proyectos${ruta ? "/" + ruta : ""}`, cuerpo),
+        evidencias: (o) => `${baseApi()}${o}/evidencias` });
+    }
     if (b.dataset.p === "proyectos") {
       if (!document.getElementById("css-proyectos")) document.head.insertAdjacentHTML("beforeend", `<style id="css-proyectos">${CSS_PROYECTOS}</style>`);
       const org = estado.org, editar = ["editor", "admin", "dueno"].includes(estado.info?.rol) && estado.info?.org.vigente;
@@ -202,6 +215,18 @@ if (typeof document !== "undefined" && $("em-app")) {
       try { const r = await api(`${estado.org}/bitacora`); $("bi-lista").innerHTML = `<table class="t"><tr><th>Fecha</th><th>Quién</th><th>Acción</th><th>Detalle</th></tr>${r.bitacora.map((x) => `<tr><td>${new Date(x.fecha * 1000).toLocaleString("es-MX")}</td><td>${esc(x.email)}</td><td>${esc(x.accion)}</td><td>${esc(x.detalle)}</td></tr>`).join("")}</table>`; }
       catch (err) { $("bi-lista").innerHTML = `<p class="meta">${esc(err.message)}</p>`; }
     }
+  });
+  $("cc-guardar").addEventListener("click", async () => {
+    const msg = $("cc-msg"), nueva = $("cc-nueva").value;
+    if (nueva.length < 10) { msg.innerHTML = '<span class="error">La contraseña nueva debe tener al menos 10 caracteres.</span>'; return; }
+    if (nueva !== $("cc-nueva2").value) { msg.innerHTML = '<span class="error">Las dos contraseñas nuevas no coinciden.</span>'; return; }
+    try {
+      const r = await fetch(`${ADMIN}/cuenta/acceso/cambiar`, { method: "POST", credentials: "include", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({ actual: $("cc-actual").value, nueva }) });
+      const d = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(d.error || `HTTP ${r.status}`);
+      for (const id of ["cc-actual", "cc-nueva", "cc-nueva2"]) $(id).value = "";
+      msg.innerHTML = '<span class="ok">✅ Listo: tu contraseña cambió. Úsala la próxima vez que entres.</span>';
+    } catch (err) { msg.innerHTML = `<span class="error">${esc(err.message)}</span>`; }
   });
   $("em-org").addEventListener("change", (e) => cargarOrg(e.target.value).catch((err) => { $("cu-guardado").textContent = err.message; }));
   $("em-nueva").addEventListener("click", async () => {

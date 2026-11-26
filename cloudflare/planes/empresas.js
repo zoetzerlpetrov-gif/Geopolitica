@@ -132,7 +132,7 @@ export async function serveEmpresas(request, url, env, { correo, esAdmin = false
   if (request.method === "POST") {
     const texto = await request.text();
     // Las actividades de una plantilla de proyecto llegan en lote (hasta 800): ese caso admite cuerpos más grandes.
-    if (texto.length > (/\/proyectos\/(?:[0-9a-f]{16}\/)?[0-9a-f]{16}\/(?:items|checklist)$|\/admin\/datos\/[0-9a-z-]+$/.test(url.pathname) ? 2000000 : 20000)) return json({ error: "Solicitud demasiado grande." }, 413, h);
+    if (texto.length > (/\/proyectos\/(?:[0-9a-f]{16}\/)?[0-9a-f]{16}\/(?:items|checklist)$|\/admin\/datos\/[0-9a-z-]+$|^\/cuenta\/empresa\/[0-9a-f]{16}\/datos$/.test(url.pathname) ? 2000000 : 20000)) return json({ error: "Solicitud demasiado grande." }, 413, h);
     try { cuerpo = texto ? JSON.parse(texto) : {}; } catch { return json({ error: "JSON inválido." }, 400, h); }
   }
   try {
@@ -354,6 +354,13 @@ export async function serveEmpresas(request, url, env, { correo, esAdmin = false
 
     if (accion === "proyectos") {
       const [b, s] = await rutaProyectos(db, orgId, partes.slice(2), request.method, cuerpo, { quien: correo, escribir: puede(yo.rol, "editor") });
+      return json(b, s, h);
+    }
+    // Lo que la empresa captura en sus herramientas (OPS, Caja del analista, Inteligencia corporativa): mismo almacén que usa
+    // Admin, separado por empresa. Todos los miembros leen; desde «editor» guardan (con el plan vigente, revisado arriba).
+    if (accion === "datos" && partes.length === 2) {
+      if (escritura && !puede(yo.rol, "editor")) return json({ error: "Tu rol solo permite consultar." }, 403, h);
+      const [b, s] = await rutaDatos(db, orgId, request.method, cuerpo);
       return json(b, s, h);
     }
     if (accion === "info" && request.method === "GET") {

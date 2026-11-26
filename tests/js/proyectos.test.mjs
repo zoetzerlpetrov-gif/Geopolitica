@@ -118,3 +118,18 @@ test("datos por fase, lista de auditoría guardada y vista compartida de solo le
   await api(env, "dueno@acme.mx", `${org}/proyectos/${pid}/compartir`, { activar: false });
   assert.equal((await api(env, null, `vista/${tok}`)).status, 404);
 });
+
+test("datos de las herramientas (OPS, Caja, Corporativo) para miembros: leen todos, guardan desde editor, sin mezclar empresas", { skip: !DatabaseSync }, async () => {
+  const env = { OSINT_PLANS_DB: d1() };
+  const dueno = "dueno@acme.mx", lector = "lector@acme.mx", otro = "otro@beta.mx";
+  const org = (await api(env, dueno, "crear", { nombre: "Acme SA", pais: "MEX", sectores: [] })).body.id;
+  const org2 = (await api(env, otro, "crear", { nombre: "Beta SA", pais: "MEX", sectores: [] })).body.id;
+  const inv = await api(env, dueno, `${org}/invitar`, { email: lector, rol: "lector" });
+  await api(env, lector, "aceptar", { token: inv.body.token });
+  assert.equal((await api(env, dueno, `${org}/datos`, { cambios: { gp_ops_dmi: '{"puntos":{"A":3}}' } })).status, 200);
+  assert.equal((await api(env, dueno, `${org}/datos`, { cambios: { gp_groq_llave: "x" } })).status, 400);  // solo claves permitidas
+  assert.equal((await api(env, lector, `${org}/datos`, { cambios: { gp_ops_dmi: "{}" } })).status, 403);
+  assert.equal((await api(env, lector, `${org}/datos`)).body.datos.gp_ops_dmi, '{"puntos":{"A":3}}');
+  assert.equal((await api(env, otro, `${org}/datos`)).status, 403);
+  assert.deepEqual((await api(env, otro, `${org2}/datos`)).body.datos, {});
+});
