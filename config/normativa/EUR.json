@@ -1890,7 +1890,7 @@
           "tipo": "reglamento UE",
           "autoridad": "ECHA; Autoridades nacionales competentes de cada Estado miembro",
           "url": "https://eur-lex.europa.eu/eli/reg/2006/1907/oj",
-          "ultima_reforma": "2026-11-16 (Reglamento (UE) 2026/2530, anexo XVII: plomo en la munición) · antes 2026-11-12 (Reglamento (UE) 2026/2501: plomo en aparejos de pesca, con corrección de errores publicada después)",
+          "ultima_reforma": "2026-11-25 (Reglamento (UE) 2026/2593, anexo XVII: creosota y sustancias relacionadas) · antes 2026-11-16 (Reglamento (UE) 2026/2530, anexo XVII: plomo en la munición)",
           "aplica": "Fabricantes e importadores de sustancias >= 1 t/año; usuarios intermedios; proveedores de artículos con SVHC > 0,1 %.",
           "obligaciones": [
             "Registrar sustancias >= 1 t/año ante la ECHA (art. 6).",
@@ -1935,7 +1935,7 @@
           "tipo": "reglamento UE",
           "autoridad": "Consejo de la UE; Comisión Europea (FAQ); autoridades nacionales competentes",
           "url": "https://eur-lex.europa.eu/eli/reg/2014/833/oj",
-          "ultima_reforma": "2026-04-23",
+          "ultima_reforma": "2026-11-25 (Reglamento (UE) 2026/2632 del Consejo) · antes 2026-04-23",
           "aplica": "Toda persona o empresa de la UE, en el territorio de la UE o a bordo de aeronaves o buques de Estados miembros, y toda empresa respecto a negocios realizados total o parcialmente en la UE (art. 13). Último paquete confirmado: 20.º (Reglamento (UE) 2026/506, abril de 2026).",
           "obligaciones": [
             "Prohibiciones de exportación de bienes y tecnología (anexos II, VII, XXIII) y de importación (hierro, acero, petróleo, GNL, etc.).",
@@ -3720,7 +3720,7 @@
           "tipo": "reglamento UE",
           "autoridad": "Consejo de la UE; autoridades nacionales",
           "url": "https://eur-lex.europa.eu/eli/reg/2014/833/oj",
-          "ultima_reforma": "2026-04-23",
+          "ultima_reforma": "2026-11-25 (833/2014 modificado por el Reglamento (UE) 2026/2632) · antes 2026-04-23",
           "aplica": "Industria de defensa y doble uso.",
           "obligaciones": [
             "Prohibición de exportar armas y material conexo a países con embargo.",
