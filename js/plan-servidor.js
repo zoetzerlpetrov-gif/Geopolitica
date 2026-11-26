@@ -25,11 +25,11 @@ async function norma(iso) {
 }
 
 /** Plan del proyecto por sector y países (las mismas reglas que la plantilla de la Caja del analista). */
-export async function generarPlan({ nombre = "Plan de proyecto", sector = "", paises = ["MEX"], extranjera = false, inicio = "" }) {
+export async function generarPlan({ nombre = "Plan de proyecto", sector = "", paises = ["MEX"], extranjera = false, inicio = "", nombresJur = {} }) {
   const [cfg, dur] = await Promise.all([traer("config/plan_proyecto.json"), traer("config/plan_duraciones.json")]);
   if (!cfg) throw new Error("No se pudo cargar la plantilla (config/plan_proyecto.json).");
   const catalogos = Object.fromEntries(await Promise.all(paises.map(async (p) => [p, await norma(p)])));
-  const nombres = Object.fromEntries(JURISDICCIONES.map(([i, n]) => [i, n.replace(/^[^\p{L}]+/u, "")]));
+  const nombres = { ...Object.fromEntries(JURISDICCIONES.map(([i, n]) => [i, n.replace(/^[^\p{L}]+/u, "")])), ...nombresJur };
   const P = await import("./plan-proyecto.js");
   const plan = P.construirPlan({ cfg, catalogos, jurisdicciones: paises, sector, extranjera: extranjera && paises.includes("MEX"), nombres, duraciones: dur?.reglas || [] });
   const sectorNombre = sector ? (await sectores()).find(([k]) => k === sector)?.[1] || sector : "";
@@ -76,4 +76,23 @@ export async function actividadesDeGenerado(g) {
 export async function actividadesDeArchivo(nombre, bytes) {
   const I = await import("./plan-importar.js");
   return actividadesDePlan(await I.importarArchivo(nombre, bytes));
+}
+
+/** Lista de auditoría y riesgos del plan generado → elementos que se guardan en el proyecto (fases 4 y 5). */
+export function checklistDeGenerado(g) {
+  const preguntas = (g.plan.auditoria || []).map((q) => ({ tipo: "pregunta", grupo: q.ley || "", texto: q.pregunta, detalle: q.evidencia || "", pais: q.pais || "", responsable: q.rol || "" }));
+  const riesgos = (g.plan.riesgos || []).map((r) => ({ tipo: "riesgo", grupo: r.area || "", texto: r.riesgo, detalle: r.consecuencia || "", pais: r.pais || "", responsable: r.rol || "" }));
+  return [...preguntas, ...riesgos];
+}
+
+/**
+ * País del proyecto (ISO-3 de cualquier país) → catálogo normativo que le aplica:
+ * el suyo si existe; «EUR» para los miembros de la UE y del EEE; "" si aún no hay catálogo.
+ */
+export async function jurisdiccionDe(iso) {
+  const { ue = [], eee = [] } = await traer("config/paises.json") || {};
+  const conCatalogo = new Set(JURISDICCIONES.map(([i]) => i).filter((i) => i !== "EUR"));
+  if (conCatalogo.has(iso)) return iso;
+  if (ue.includes(iso) || eee.includes(iso)) return "EUR";
+  return "";
 }
