@@ -8,6 +8,7 @@ import { aceptarInvitacionDirecta, serveEmpresas } from "./empresas.js";
 import { serveDocumentos } from "./documentos.js";
 import { serveEvidencias } from "./evidencias.js";
 import { serveAcceso } from "./acceso.js";
+import { serveCreadores } from "./creadores.js";
 import { completarGoogle, correoSesion, googleConfigurado, iniciarGoogle, planPorCorreo, registrado, salirGoogle, TABLA_EMAIL } from "./google.js";
 
 const ORDER = ["demo", "recon", "analyst", "command"];
@@ -69,6 +70,11 @@ export async function servePlans(request, url, env, authRoot) {
   if (route === "acceso" || route.startsWith("acceso/")) {
     return serveAcceso(request, url, env, { origenes: ORIGENES_MAPA, base: { "Cache-Control": "private, no-store", "X-Content-Type-Options": "nosniff", "Referrer-Policy": "no-referrer" },
       aceptarInvitacion: (token, email) => aceptarInvitacionDirecta(env.OSINT_PLANS_DB, token, email) });
+  }
+  // Estudio del creador: demo de 7 días, plan (cortesía o pago) y lo que guarda el creador (ideas, guiones, métricas).
+  if (route === "creador" || route.startsWith("creador/")) {
+    return serveCreadores(request, url, env, { correo: await correoSesion(request, env).catch(() => null), origenes: ORIGENES_MAPA,
+      base: { "Cache-Control": "private, no-store", "X-Content-Type-Options": "nosniff", "Referrer-Policy": "no-referrer" } });
   }
   // Espacios de empresa (organizaciones, miembros, invitaciones y cumplimiento): API JSON con la sesión de Google.
   // Documentos de Organización DOMINUS (solo administración): texto en D1 y archivos en R2.
