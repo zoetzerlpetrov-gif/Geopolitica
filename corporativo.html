@@ -50,7 +50,7 @@
       <datalist id="cp-ciudades"></datalist>
       <label>Latitud <input id="cp-lat" name="lat" inputmode="decimal" required placeholder="25.42"></label>
       <label>Longitud <input id="cp-lon" name="lon" inputmode="decimal" required placeholder="-101.00"></label>
-      <label>País (ISO de 3 letras) <input id="cp-iso3" name="iso3" maxlength="3" placeholder="MEX"></label>
+      <label style="position:relative">País <span class="info" tabindex="0" title="Escribe y elige el país de la lista (con o sin tildes). Se llena solo al elegir una ciudad.">ⓘ</span><input id="cp-pais-ui" placeholder="Escribe el país…"><input type="hidden" id="cp-iso3" name="iso3"></label>
       <label>Impacto si se detiene (1 a 5) <select name="impacto"><option value="1">1 · menor</option><option value="2">2</option><option value="3" selected>3 · moderado</option><option value="4">4</option><option value="5">5 · paro total del negocio</option></select></label>
       <label>Nota (opcional) <input name="nota" maxlength="200" placeholder="Único proveedor de arneses"></label>
       <button type="submit" class="link-btn">Agregar</button>
@@ -64,9 +64,14 @@
     </div>
     <p id="cp-fuentes" class="meta">Cargando eventos…</p>
 
-    <h2>2. Matriz de riesgo 5×5 (ISO 31000)</h2>
-    <p class="meta">Cada número es una instalación. Probabilidad: eventos cercanos (pesan más los graves y los que están a menos de 25 km) y el índice de inestabilidad del país. Impacto: lo que capturaste. Nivel = probabilidad × impacto: 1–4 bajo, 5–9 medio, 10–16 alto, 20–25 crítico.</p>
+    <h2>2. Matriz de riesgo 5×5 por sede (ISO 31000)</h2>
+    <p class="meta">Cada número es una instalación. <b>Probabilidad</b> = 60 % el <b>último año</b> (eventos en la misma zona, por celdas de unos 55 km, llevados a un año si aún hay menos días)
+      + 40 % lo de <b>hoy</b> (eventos dentro del radio y periodo elegidos, pesan más los graves y a menos de 25 km, más el índice de inestabilidad del país); si hoy es mayor, manda hoy. Así, dos sedes en ciudades distintas quedan en celdas distintas aunque hoy no haya noticias cerca.
+      <b>Impacto</b>: lo que capturaste (qué tanto afecta si esa sede se detiene). Nivel = probabilidad × impacto: 1–4 bajo, 5–9 medio, 10–16 alto, 20–25 crítico.</p>
     <div id="cp-matriz"></div>
+    <h2>2b. Matriz de riesgo por país</h2>
+    <p class="meta">Un renglón por país donde tienes instalaciones. Probabilidad: eventos del país en los últimos 12 meses y su índice de inestabilidad de hoy. Impacto: el mayor de sus sedes.</p>
+    <div id="cp-matriz-pais"></div>
     <div id="cp-lista" aria-live="polite"></div>
 
     <h2>3. Exposición por país</h2>

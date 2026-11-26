@@ -74,6 +74,11 @@ jobs:
           IA_LOCAL_URL: ${{ steps.ia.outputs.url }}
         run: python3 ingest/run.py --salida eventos
 
+      - name: Histórico de riesgo de 12 meses por zona y país (matriz por sede de Inteligencia corporativa)
+        continue-on-error: true
+        timeout-minutes: 3
+        run: python3 tools/corporativo/riesgo_historico.py --eventos eventos --salida eventos/riesgo_historico.json
+
       - name: Caché de los polígonos de estados y provincias (Natural Earth, se generan una vez)
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:

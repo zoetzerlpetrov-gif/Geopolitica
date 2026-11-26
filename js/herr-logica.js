@@ -456,7 +456,45 @@ export const JURISDICCIONES = mexicoPrimero([["MEX", "🇲🇽 México"], ["USA"
   ["CHN", "🇨🇳 China"], ["JPN", "🇯🇵 Japón"], ["BRA", "🇧🇷 Brasil"], ["ARG", "🇦🇷 Argentina"], ["CHL", "🇨🇱 Chile"],
   ["SAU", "🇸🇦 Arabia Saudita"], ["ARE", "🇦🇪 Emiratos Árabes Unidos"], ["QAT", "🇶🇦 Catar"], ["KWT", "🇰🇼 Kuwait"], ["BHR", "🇧🇭 Baréin"], ["OMN", "🇴🇲 Omán"],
   ["ISR", "🇮🇱 Israel"], ["TUR", "🇹🇷 Turquía"], ["EGY", "🇪🇬 Egipto"], ["JOR", "🇯🇴 Jordania"],
+  ["GBR", "🇬🇧 Reino Unido"], ["CHE", "🇨🇭 Suiza"],
   ["MDO", "🌍 Medio Oriente: Irak, Irán, Líbano, Siria, Yemen y Palestina"]]);
+
+// Europa por país: los 27 de la Unión Europea y los 3 del Espacio Económico Europeo (Islandia, Liechtenstein y Noruega
+// aplican casi todo el derecho del mercado interior de la UE) usan el catálogo «EUR». Reino Unido y Suiza no son de la UE
+// y tienen catálogo propio (GBR y CHE).
+export const EUROPA_UE = {
+  DEU: "🇩🇪 Alemania", AUT: "🇦🇹 Austria", BEL: "🇧🇪 Bélgica", BGR: "🇧🇬 Bulgaria", CYP: "🇨🇾 Chipre", HRV: "🇭🇷 Croacia", DNK: "🇩🇰 Dinamarca",
+  SVK: "🇸🇰 Eslovaquia", SVN: "🇸🇮 Eslovenia", ESP: "🇪🇸 España", EST: "🇪🇪 Estonia", FIN: "🇫🇮 Finlandia", FRA: "🇫🇷 Francia", GRC: "🇬🇷 Grecia",
+  HUN: "🇭🇺 Hungría", IRL: "🇮🇪 Irlanda", ITA: "🇮🇹 Italia", LVA: "🇱🇻 Letonia", LTU: "🇱🇹 Lituania", LUX: "🇱🇺 Luxemburgo", MLT: "🇲🇹 Malta",
+  NLD: "🇳🇱 Países Bajos", POL: "🇵🇱 Polonia", PRT: "🇵🇹 Portugal", CZE: "🇨🇿 República Checa", ROU: "🇷🇴 Rumania", SWE: "🇸🇪 Suecia",
+};
+export const EUROPA_EEE = { ISL: "🇮🇸 Islandia", LIE: "🇱🇮 Liechtenstein", NOR: "🇳🇴 Noruega" };
+/** País elegido (ISO-3) → archivo del catálogo normativo que le aplica (los de la UE y el EEE usan «EUR»). */
+export const catalogoDe = (iso) => (EUROPA_UE[iso] || EUROPA_EEE[iso] ? "EUR" : iso);
+/** Lista de países para elegir en normativa, auditorías y planes: cada país europeo por su nombre (México primero, A-Z). */
+export const PAISES_NORMATIVA = mexicoPrimero([
+  ...JURISDICCIONES.filter(([i]) => i !== "EUR"),
+  ...Object.entries(EUROPA_UE).map(([i, n]) => [i, `${n} (UE)`]),
+  ...Object.entries(EUROPA_EEE).map(([i, n]) => [i, `${n} (EEE: normativa UE)`]),
+  ["EUR", "🇪🇺 Unión Europea (en general)"],
+]);
+/** Nombre sin bandera de un país de PAISES_NORMATIVA, sin la nota «(UE)». */
+export const nombrePaisNormativa = (iso) => (PAISES_NORMATIVA.find(([i]) => i === iso)?.[1] || iso).replace(/^[^\p{L}]+/u, "").replace(/\s*\((UE|EEE[^)]*|en general)\)$/, "");
+/**
+ * Varios países elegidos → catálogos sin repetir y sus nombres para el plan. Si eligen España y Francia,
+ * se carga una sola vez «EUR» con el nombre «España, Francia (normativa UE)».
+ */
+export function catalogosDePaises(paises) {
+  const jur = [], nombres = {}, europeos = [];
+  for (const p of paises) {
+    const c = catalogoDe(p);
+    if (!jur.includes(c)) jur.push(c);
+    if (c === "EUR" && p !== "EUR") europeos.push(nombrePaisNormativa(p));
+    else nombres[c] = nombrePaisNormativa(p);
+  }
+  if (europeos.length) nombres.EUR = `${europeos.join(", ")} (normativa UE)`;
+  return { jurisdicciones: jur, nombres };
+}
 
 /** Sectores de la plantilla y los propios de la jurisdicción en una sola lista, de la A a la Z por nombre. */
 export function sectoresOrdenados(plantilla = {}, propios = {}) {

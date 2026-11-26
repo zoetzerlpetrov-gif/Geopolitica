@@ -4,13 +4,14 @@
 import * as C from "./cumplimiento-logica.js";
 import { montarProyectos, CSS_PROYECTOS } from "./proyectos-ui.js";
 import { montarEvidencias, contarEvidencias, CSS_EVIDENCIAS } from "./evidencias-ui.js";
+import { PAISES_NORMATIVA, nombrePaisNormativa, catalogoDe } from "./herr-logica.js";
 
 const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 const $ = (id) => document.getElementById(id);
 const ADMIN = "https://admin.dominusosint.com";
 export const baseApi = (host = location.hostname) => (host === "admin.dominusosint.com" ? "/cuenta/empresa/" : `${ADMIN}/cuenta/empresa/`);
-export const PAISES = { MEX: "México", USA: "Estados Unidos", CAN: "Canadá", EUR: "Unión Europea", BRA: "Brasil", ARG: "Argentina", CHL: "Chile", CHN: "China", JPN: "Japón",
-  RUS: "Rusia", SAU: "Arabia Saudita", ARE: "Emiratos Árabes Unidos", QAT: "Catar", KWT: "Kuwait", BHR: "Baréin", OMN: "Omán", ISR: "Israel", TUR: "Turquía", EGY: "Egipto", JOR: "Jordania" };
+// Países para elegir: los de catálogo propio y cada país europeo (los de la UE y el EEE usan la normativa de la UE).
+export const PAISES = Object.fromEntries(PAISES_NORMATIVA.map(([i]) => [i, nombrePaisNormativa(i)]));
 const ROLES = { dueno: "Dueño", admin: "Administrador", editor: "Editor", lector: "Lector" };
 const fecha = (s) => (s ? new Date(Number(s) * 1000).toISOString().slice(0, 10) : "");
 
@@ -27,7 +28,7 @@ async function api(ruta, cuerpo) {
 const normas = {};
 async function normaDe(pais) {
   if (!normas[pais]) {
-    const n = await fetch(`config/normativa/${encodeURIComponent(pais)}.json`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+    const n = await fetch(`config/normativa/${encodeURIComponent(catalogoDe(pais))}.json`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
     const extra = pais === "MEX" ? await fetch("config/normativa/MEX_sectores.json").then((r) => r.json()).then((x) => x.sectores || {}).catch(() => ({})) : {};
     normas[pais] = { norma: n, extra };
   }

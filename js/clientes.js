@@ -2,6 +2,7 @@
 // Worker (/cuenta/empresa/admin/...) con la sesión de administración; todo queda en la base del servidor.
 import * as C from "./cumplimiento-logica.js";
 import { PAISES } from "./empresa.js";
+import { catalogoDe } from "./herr-logica.js";
 import { montarProyectos, CSS_PROYECTOS } from "./proyectos-ui.js";
 
 const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
@@ -29,7 +30,7 @@ function cajaEnlace(cont, token, quien, texto) {
 }
 
 async function sectores(pais) {
-  const n = await fetch(`config/normativa/${pais}.json`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  const n = await fetch(`config/normativa/${encodeURIComponent(catalogoDe(pais))}.json`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
   const extra = pais === "MEX" ? await fetch("config/normativa/MEX_sectores.json").then((r) => r.json()).then((x) => x.sectores || {}).catch(() => ({})) : {};
   $("al-sectores").innerHTML = C.sectoresDe(n, extra).map((s) => `<label><input type="checkbox" value="${esc(s.id)}"> ${esc(s.nombre)}</label>`).join("") || '<span class="meta">Solo leyes generales para este país.</span>';
 }
