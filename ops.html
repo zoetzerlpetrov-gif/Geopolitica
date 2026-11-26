@@ -33,6 +33,14 @@
     .grande { font-size: 32px; font-weight: 700; }
     .radar text { font-size: 10px; fill: var(--text); } .radar .malla { fill: none; stroke: var(--line); } .radar .area { fill: rgba(200,16,46,.25); stroke: #C8102E; stroke-width: 2; }
     pre.sitrep { white-space: pre-wrap; background: var(--surface-2); padding: 10px; border-radius: var(--radius); font-size: 13px; }
+    .rejilla-form { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px 14px; align-items: start; }
+    .rejilla-form > label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; font-weight: 600; position: relative; }
+    .rejilla-form > label.ancho { grid-column: 1 / -1; }
+    .rejilla-form .et { display: flex; flex-wrap: wrap; align-items: center; gap: 2px; min-height: 22px; }
+    .rejilla-form input, .rejilla-form select, .rejilla-form textarea { width: 100%; font: inherit; font-weight: 400; box-sizing: border-box; padding: 6px 8px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); }
+    .req { color: var(--danger, #b3261e); }
+    .chips { display: flex; flex-wrap: wrap; gap: 4px; } .chips span { font-size: 12px; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface-2); font-weight: 400; }
+    .chips button { border: 0; background: none; cursor: pointer; font-weight: 700; color: inherit; }
   </style>
 <script type="module" src="js/sincronizar.js"></script>
 <script type="module" src="js/apariencia.js"></script>
@@ -66,19 +74,21 @@
     <section class="panel" id="p-cliente" hidden>
       <h2>Cliente o empresa en análisis</h2>
       <p class="meta">Estos datos alimentan la simulación de escenarios, el informe de las 6 fases y los tableros. Se guardan en el servidor (por empresa) y en este navegador; «Exportar todo lo capturado» (pestaña Doctrina) sigue disponible como respaldo.</p>
-      <div class="tarjeta"><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px">
-        <label>Nombre <input id="cl-nombre" maxlength="120"></label>
-        <label>Sector <select id="cl-sector"></select></label>
-        <label>País principal (ISO3) <input id="cl-pais" maxlength="3" placeholder="MEX"></label>
-        <label>Otros países donde opera <input id="cl-paises" maxlength="120" placeholder="USA, CAN"></label>
-        <label>Empleados <input id="cl-empleados" inputmode="numeric"></label>
-        <label>Ingresos anuales (moneda local) <input id="cl-ingresos" inputmode="decimal"></label>
-        <label>Moneda <input id="cl-moneda" maxlength="3" value="MXN"></label>
-        <label>Margen operativo (%) <input id="cl-margen" inputmode="decimal" placeholder="12"></label>
-        <label>Sitios o plantas <input id="cl-sitios" maxlength="200" placeholder="CDMX (oficina), Querétaro (planta)"></label>
-        <label>Proveedores críticos <input id="cl-proveedores" maxlength="200"></label>
-      </div>
-      <label style="display:block;margin-top:8px">Contexto (qué hace, objetivos, preocupaciones, proyectos en curso)<textarea id="cl-contexto" rows="5" style="width:100%"></textarea></label></div>
+      <div class="tarjeta"><p class="meta">Los campos con <b class="req">*</b> son obligatorios. Pasa el cursor (o toca) ⓘ para ver qué se pide en cada uno.</p>
+      <div class="rejilla-form">
+        <label><span class="et">Nombre de la empresa <b class="req">*</b> <span class="info" tabindex="0" title="Razón social o nombre comercial del cliente.">ⓘ</span></span><input id="cl-nombre" maxlength="120"></label>
+        <label><span class="et">Sector <b class="req">*</b> <span class="info" tabindex="0" title="Actividad principal del cliente; define los riesgos y las leyes que se consideran.">ⓘ</span></span><select id="cl-sector"></select></label>
+        <label><span class="et">País principal <b class="req">*</b> <span class="info" tabindex="0" title="Escribe y elige de la lista (cualquier país, con o sin tildes). Se guarda su código ISO de 3 letras.">ⓘ</span></span><input id="cl-pais-ui" placeholder="Escribe el país…"><input type="hidden" id="cl-pais"></label>
+        <label><span class="et">Otros países donde opera <span class="info" tabindex="0" title="Agrega cada país desde la lista; aparecen como etiquetas. Sirven para buscar eventos y leyes de esos países.">ⓘ</span></span><input id="cl-paises-ui" placeholder="Agregar país…"><input type="hidden" id="cl-paises"><span id="cl-paises-chips" class="chips"></span></label>
+        <label><span class="et">Número de empleados <span class="info" tabindex="0" title="Personas que trabajan en la empresa (nómina más subcontratadas de planta). Se usa para dimensionar riesgos y obligaciones (p. ej. NOM-035 cambia a partir de 16 y 51 personas).">ⓘ</span></span><input id="cl-empleados" inputmode="numeric" placeholder="250"></label>
+        <label><span class="et">Ingresos anuales <span class="info" tabindex="0" title="Ventas o ingresos del último año, en la moneda indicada al lado (sin comas). Se usa para estimar el impacto económico de los escenarios.">ⓘ</span></span><input id="cl-ingresos" inputmode="decimal" placeholder="50000000"></label>
+        <label><span class="et">Moneda <span class="info" tabindex="0" title="Moneda de los ingresos.">ⓘ</span></span><select id="cl-moneda"><option value="MXN">MXN · Peso mexicano</option><option value="USD">USD · Dólar estadounidense</option><option value="EUR">EUR · Euro</option><option value="CAD">CAD · Dólar canadiense</option><option value="GBP">GBP · Libra esterlina</option><option value="BRL">BRL · Real brasileño</option><option value="CLP">CLP · Peso chileno</option><option value="COP">COP · Peso colombiano</option><option value="ARS">ARS · Peso argentino</option><option value="PEN">PEN · Sol peruano</option><option value="CNY">CNY · Yuan</option><option value="JPY">JPY · Yen</option></select></label>
+        <label><span class="et">Margen operativo (%) <span class="info" tabindex="0" title="Utilidad de operación entre ingresos, en porcentaje (p. ej. 12). Ayuda a medir cuánto aguanta la empresa una pérdida.">ⓘ</span></span><input id="cl-margen" inputmode="decimal" placeholder="12"></label>
+        <label class="ancho"><span class="et">Sitios o plantas <span class="info" tabindex="0" title="Lugares físicos de la empresa, separados por coma, con su tipo entre paréntesis.">ⓘ</span></span><input id="cl-sitios" maxlength="200" placeholder="CDMX (oficina), Querétaro (planta)"></label>
+        <label class="ancho"><span class="et">Proveedores críticos <span class="info" tabindex="0" title="Proveedores sin los que la operación se detiene (energía, insumos clave, logística, nube).">ⓘ</span></span><input id="cl-proveedores" maxlength="200" placeholder="CFE, proveedor de acero, AWS"></label>
+        <label class="ancho"><span class="et">Contexto <span class="info" tabindex="0" title="Qué hace la empresa, sus objetivos, preocupaciones y proyectos en curso. Entre más claro, mejores escenarios e informe.">ⓘ</span></span><textarea id="cl-contexto" rows="5"></textarea></label>
+      </div></div>
+      <script type="module" src="js/ops-cliente-ui.js"></script>
     </section>
 
     <section class="panel" id="p-riesgos" hidden>
@@ -121,11 +131,13 @@
       <h2>Informe integral DOMINUS OPS</h2>
       <p class="meta">Reúne todo lo capturado (Cliente, Readiness Assessment y DMI, gobernanza y RACI, plantillas por fase, biblioteca, KPIs y escenarios de riesgo) en un informe de estilo consultoría:
         resumen ejecutivo, estado de las 6 fases, diagnóstico, riesgos, hallazgos positivos y negativos, propuestas de DOMINUS OPS, servicios que se ofrecen y los que no, plan de trabajo con tiempos y presupuesto de referencia.</p>
-      <div class="tarjeta"><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px">
-        <label>Consultor o firma <input id="inf-consultor" maxlength="120" placeholder="DOMINUS OPS"></label>
-        <label>Fecha del informe <input id="inf-fecha" type="date"></label>
-        <label>Contingencia (%) <input id="inf-cont" inputmode="decimal" value="10"></label>
-        <label>Impuestos (%) <input id="inf-imp" inputmode="decimal" value="16"></label></div>
+      <div class="tarjeta"><p class="meta"><b>Qué hace este botón:</b> «👁️ Vista previa» arma el informe con lo capturado en las demás pestañas (Cliente, DMI, gobernanza, plantillas, KPIs y escenarios);
+        «🤖 Redactar con IA» escribe el resumen ejecutivo y el detalle a partir de esos datos. Después lo descargas en Word, PDF o HTML para entregarlo y registrarlo en la fase «Entrega» del proyecto.</p>
+        <div class="rejilla-form">
+        <label><span class="et">Consultor o firma <span class="info" tabindex="0" title="Quién firma el informe (aparece en la portada).">ⓘ</span></span><input id="inf-consultor" maxlength="120" placeholder="DOMINUS OPS"></label>
+        <label><span class="et">Fecha del informe <span class="info" tabindex="0" title="Fecha que aparece en la portada.">ⓘ</span></span><input id="inf-fecha" type="date"></label>
+        <label><span class="et">Contingencia (%) <span class="info" tabindex="0" title="Porcentaje que se suma al presupuesto por imprevistos (lo usual es 10 %).">ⓘ</span></span><input id="inf-cont" inputmode="decimal" value="10"></label>
+        <label><span class="et">Impuestos (%) <span class="info" tabindex="0" title="IVA u otro impuesto que se suma al presupuesto (16 % en México).">ⓘ</span></span><input id="inf-imp" inputmode="decimal" value="16"></label></div>
         <details><summary><b>Tarifas de referencia (MXN por hora; estimación de mercado editable)</b></summary><div class="desliza"><table class="t" id="inf-tarifas"></table></div></details>
         <details><summary><b>Servicios que no ofrecemos (uno por renglón)</b></summary><textarea id="inf-no" rows="6" style="width:100%"></textarea></details>
         <div class="barra"><button type="button" id="inf-ver">👁️ Vista previa</button><button type="button" id="inf-ia">🤖 Redactar resumen e informe detallado con IA</button><span id="inf-doc"></span></div>

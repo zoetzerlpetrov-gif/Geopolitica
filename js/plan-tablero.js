@@ -71,7 +71,9 @@ export function widgetsPlan(plan, r, { cambios = [], reformas = null, hoy = new 
   ].join("");
 }
 
-export const CSS_PLAN = `.pl-gantt{width:100%;height:auto}.pl-barra{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0}`;
+export const CSS_PLAN = `.pl-gantt{width:100%;height:auto}.pl-barra{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0}
+.pl-barra label.boton{display:inline-flex;align-items:center;gap:6px;min-height:38px;padding:6px 16px;border-radius:8px;border:0;background:var(--accent,#C8102E);color:var(--on-accent,#fff);font-weight:700;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+.pl-barra label.boton:hover{filter:brightness(1.08)}.pl-barra label.boton:focus-within{outline:3px solid var(--text);outline-offset:2px}`;
 
 /**
  * Monta el importador y el tablero en `raiz`. `bitacora`: promesa con las entradas de la bitácora normativa (opcional).
