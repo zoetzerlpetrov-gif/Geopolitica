@@ -53,6 +53,7 @@
         <button type="button" id="em-nueva">➕ Crear otra empresa</button> <button type="button" id="em-salir">Salir</button></div>
       <nav class="pestanas" role="tablist">
         <button type="button" role="tab" data-p="cumplimiento" aria-selected="true">✅ Cumplimiento normativo</button>
+        <button type="button" role="tab" data-p="proyectos" aria-selected="false">📋 Proyectos</button>
         <button type="button" role="tab" data-p="equipo" aria-selected="false">👥 Equipo</button>
         <button type="button" role="tab" data-p="config" aria-selected="false">⚙️ Configuración</button>
         <button type="button" role="tab" data-p="bitacora" aria-selected="false">📜 Bitácora</button>
@@ -68,6 +69,11 @@
         </div>
         <p class="meta" id="cu-guardado" role="status"></p>
         <div id="cu-lista"></div>
+      </section>
+      <section id="p-proyectos" role="tabpanel" hidden>
+        <p class="meta">Cada proyecto avanza en 7 fases, en orden: alta, arranque, plan, auditorías, seguimiento, entrega y cierre. Aquí registras actividades, hallazgos y notas; se guarda en el servidor. Los lectores solo consultan.</p>
+        <p id="pr-msg" class="meta" role="status"></p>
+        <div id="pr-cont"></div>
       </section>
       <section id="p-equipo" role="tabpanel" hidden>
         <div class="tarjeta"><h3>Invitar a una persona</h3>

@@ -2,6 +2,7 @@
 // Worker (/cuenta/empresa/admin/...) con la sesión de administración; todo queda en la base del servidor.
 import * as C from "./cumplimiento-logica.js";
 import { PAISES } from "./empresa.js";
+import { montarProyectos, CSS_PROYECTOS } from "./proyectos-ui.js";
 
 const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 const $ = (id) => document.getElementById(id);
@@ -60,6 +61,15 @@ async function pintarCuentas() {
   } catch (e) { $("cu-lista").innerHTML = `<p class="error">${esc(e.message)}</p>`; }
 }
 
+async function pintarOrgsProyectos() {
+  if (!document.getElementById("css-proyectos")) document.head.insertAdjacentHTML("beforeend", `<style id="css-proyectos">${CSS_PROYECTOS}</style>`);
+  try {
+    const { orgs } = await api("orgs"), sel = $("pr-org"), previo = sel.value;
+    sel.innerHTML = `<option value="">Elige una empresa…</option>${orgs.map((o) => `<option value="${esc(o.id)}">${esc(o.nombre)}</option>`).join("")}`;
+    sel.value = previo;
+  } catch (e) { $("pr-msg").innerHTML = `<span class="error">${esc(e.message)}</span>`; }
+}
+
 const PLANES = { mapa: [["recon", "Recon"], ["analyst", "Analyst"], ["command", "Command"]], creadores: [["inicial", "Inicial"], ["creador", "Creador"]] };
 
 if (typeof document !== "undefined" && $("al-guardar")) {
@@ -93,6 +103,10 @@ if (typeof document !== "undefined" && $("al-guardar")) {
     catch (e) { $("cu-msg").innerHTML = `<span class="error">${esc(e.message)}</span>`; }
   });
   $("cl-recargar").addEventListener("click", pintarClientes);
+  $("pr-org").addEventListener("change", (e) => {
+    const org = e.target.value, cont = $("pr-cont").cloneNode(false); $("pr-cont").replaceWith(cont);
+    if (org) montarProyectos(cont, { editar: true, api: (ruta, cuerpo) => api(`proyectos/${org}${ruta ? "/" + ruta : ""}`, cuerpo), alMensaje: (h) => { $("pr-msg").innerHTML = h; } }).lista();
+  });
   $("cl-tabla").addEventListener("click", async (e) => {
     const fila = e.target.closest("[data-org]"); if (!fila || !e.target.matches("[data-guardar]")) return;
     const v = (c) => fila.querySelector(`[data-c="${c}"]`).value;
@@ -109,5 +123,6 @@ if (typeof document !== "undefined" && $("al-guardar")) {
     for (const p of document.querySelectorAll("section[role=tabpanel]")) p.hidden = p.id !== `p-${b.dataset.p}`;
     if (b.dataset.p === "clientes") pintarClientes();
     if (b.dataset.p === "cuentas" || b.dataset.p === "cortesias") pintarCuentas();
+    if (b.dataset.p === "proyectos") pintarOrgsProyectos();
   });
 }

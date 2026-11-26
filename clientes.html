@@ -45,6 +45,7 @@
         <li><b>Enviar el acceso:</b> al guardar aparece un enlace de activación (vence en 7 días). Cópialo y envíaselo; con él crea su contraseña DOMINUS (sin Google).</li>
         <li><b>El cliente opera solo:</b> en «Mi empresa» configura sus sectores, invita a su equipo, contesta su cumplimiento y da seguimiento. Tú ves aquí su plan y vigencia.</li>
         <li><b>Renovar o ampliar:</b> en «Clientes» cambia el plan, los usuarios o los días cuando paguen.</li>
+        <li><b>Proyectos:</b> en «Proyectos y seguimiento» eliges la empresa y llevas cada proyecto por 7 fases en orden (alta → arranque → plan → auditorías → seguimiento → entrega → cierre).</li>
       </ol>
       <p class="meta">Todo se guarda en la base del servidor (D1), no en este navegador. No hace falta entrar a Supabase, GitHub ni a la base de datos.</p></div>
 
@@ -100,11 +101,12 @@
     </section>
 
     <section id="p-proyectos" role="tabpanel" hidden class="tarjeta">
-      <p>Los proyectos, auditorías y tableros de cada cliente se pasan al servidor por etapas, dentro de este mismo flujo. Mientras tanto siguen en sus páginas:</p>
-      <ul><li><a href="ops.html">🎖️ DOMINUS OPS</a>: fases, diagnóstico, gobernanza y plantillas.</li>
-        <li><a href="cartera.html">☁️ Cartera de proyectos</a>: planes por empresa y vista para directivos.</li>
-        <li><a href="herramientas.html">🧰 Caja del analista</a>: normativa por país, plantillas de auditoría y seguimiento de proyecto.</li></ul>
-      <p class="meta">Orden de la migración: 1) proyectos y seguimiento por cliente (sin Supabase), 2) autoauditoría y plantillas por sector, 3) instalaciones con riesgo en vivo, 4) tecnologías y vulnerabilidades, 5) matriz de riesgo, escenarios y War Room.</p>
+      <p class="meta">Proyectos de cada cliente, en el servidor. El cliente ve y edita los mismos proyectos en «Mi empresa → 📋 Proyectos» (según su rol).</p>
+      <div class="barra"><label>Empresa <select id="pr-org"><option value="">Elige una empresa…</option></select></label> <span id="pr-msg" class="meta" role="status"></span></div>
+      <div id="pr-cont"></div>
+      <details><summary>Otras herramientas (siguen en sus páginas)</summary><ul><li><a href="ops.html">🎖️ DOMINUS OPS</a>: fases, diagnóstico, gobernanza y plantillas.</li>
+        <li><a href="cartera.html">☁️ Cartera de proyectos</a>: vista para directivos.</li><li><a href="herramientas.html">🧰 Caja del analista</a>: normativa por país y plantillas de auditoría.</li></ul>
+        <p class="meta">Siguiente en el servidor: autoauditoría y plantillas por sector dentro del proyecto; instalaciones con riesgo en vivo; tecnologías y vulnerabilidades; matriz de riesgo, escenarios y War Room.</p></details>
     </section>
   </main>
   <script type="module" src="js/clientes.js"></script>
