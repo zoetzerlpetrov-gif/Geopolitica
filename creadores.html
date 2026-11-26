@@ -3,86 +3,250 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Herramientas gratis para creadores · DOMINUS</title>
-  <meta name="description" content="Herramientas gratuitas para creadores de contenido: adapta tu texto a cada red con su límite, crea imágenes y miniaturas con tu marca, encuentra temas del día y consulta horarios para publicar.">
+  <title>Estudio para creadores · DOMINUS</title>
+  <meta name="description" content="Estudio paso a paso para creadores de contenido: objetivo y nicho, ideas, guiones, set de grabación, video con tus fotos y clips, textos por red, métricas, monetización, normativa para creadores y evaluación de 30 días.">
   <meta name="color-scheme" content="light dark">
   <script>try { const t = localStorage.getItem("gp_theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23C8102E' d='M44 44 30 4h40L56 44 96 30v40L56 56l14 40H30l14-40L4 70V30z'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="css/app.css">
   <style>
     body { display: block; height: auto; overflow: auto; }
-    .ops { max-width: 1150px; margin: 0 auto; padding: 16px; }
-    .ops h2 { font-size: 19px; text-transform: none; letter-spacing: 0; color: var(--text); margin: 26px 0 6px; }
+    .ops { max-width: 1300px; margin: 0 auto; padding: 16px; }
+    .ops h2 { font-size: 20px; text-transform: none; letter-spacing: 0; color: var(--text); margin: 4px 0 8px; }
+    .ops h3 { font-size: 16px; margin: 14px 0 6px; }
     .tarjeta { border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; margin: 10px 0; background: var(--surface); }
     .meta { color: var(--text-2); font-size: 13px; }
+    .error { color: var(--danger, #b3261e); font-weight: 600; } .ok { color: var(--success, #24733b); font-weight: 600; }
     .dos { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 14px; }
     .ops label { display: block; margin: 6px 0; }
     .ops input, .ops select, .ops textarea { font: inherit; padding: 6px 8px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); width: 100%; box-sizing: border-box; }
-    .ops input[type=color] { width: 56px; height: 36px; padding: 2px; }
+    .ops input[type=color] { width: 56px; height: 36px; padding: 2px; } .ops input[type=checkbox], .ops input[type=radio] { width: auto; }
     .ops textarea { min-height: 90px; }
-    .ops button, .ops a.boton { font: inherit; min-height: 36px; padding: 4px 12px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
-    .ops button.si { background: var(--accent); color: var(--on-accent, #fff); border-color: transparent; font-weight: 700; }
+    .ops button, .ops a.boton { font: inherit; min-height: 36px; padding: 4px 12px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
+    .ops button.si, .ops a.boton.si { background: var(--accent); color: var(--on-accent, #fff); border-color: transparent; font-weight: 700; }
     .salida { white-space: pre-wrap; font-size: 14px; background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--radius); padding: 8px; min-height: 40px; }
     .cuenta.pasa { color: var(--danger, #b3261e); font-weight: 700; }
-    .colores { display: flex; gap: 12px; flex-wrap: wrap; align-items: end; }
-    .colores label { width: auto; }
+    .colores { display: flex; gap: 12px; flex-wrap: wrap; align-items: end; } .colores label { width: auto; }
     canvas { width: 100%; height: auto; border: 1px solid var(--line); border-radius: var(--radius); background: #000; }
+    #vi-canvas { max-height: 70vh; object-fit: contain; }
     .temas li { margin: 4px 0; }
     .hero { border: 1px solid var(--line); border-left: 6px solid var(--accent); padding: 14px 16px; border-radius: var(--radius); background: var(--surface); }
-    table.t { width: 100%; border-collapse: collapse; } table.t td, table.t th { border-bottom: 1px solid var(--line); padding: 6px; text-align: left; }
+    table.t { width: 100%; border-collapse: collapse; } table.t td, table.t th { border-bottom: 1px solid var(--line); padding: 6px; text-align: left; vertical-align: top; }
+    .estudio { display: grid; grid-template-columns: 260px 1fr; gap: 16px; align-items: start; margin-top: 14px; }
+    .indice { position: sticky; top: 8px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); padding: 8px; }
+    .indice ol { list-style: none; margin: 0; padding: 0; }
+    .indice button { display: grid !important; grid-template-columns: 32px 1fr; gap: 6px; align-items: center; width: 100%; text-align: left; padding: 7px !important; margin: 2px 0; border: 1px solid transparent !important; background: transparent !important; }
+    .indice button[aria-current="step"] { border-color: var(--accent) !important; background: var(--surface-2) !important; font-weight: 700; }
+    .indice .num { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--line); font-weight: 800; font-size: 13px; }
+    .indice button[aria-current="step"] .num { background: var(--accent); color: var(--on-accent, #fff); border-color: var(--accent); }
+    .indice .grupo { margin: 10px 4px 2px; font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--accent); }
+    .paso h2 { border-left: 6px solid var(--accent); padding-left: 10px; }
+    .que { border-left: 5px solid var(--accent); padding: 8px 12px; background: var(--surface-2); border-radius: var(--radius); margin: 8px 0 12px; }
+    .opciones { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; }
+    .opcion { border: 2px solid var(--line); border-radius: var(--radius); padding: 10px; cursor: pointer; background: var(--surface); }
+    .opcion[aria-pressed="true"] { border-color: var(--accent); background: var(--surface-2); font-weight: 700; }
+    .chips { display: flex; flex-wrap: wrap; gap: 6px; } .chip { display: inline-block; padding: 2px 10px; border: 1px solid var(--line); border-radius: 999px; font-size: 13px; background: var(--surface-2); }
+    .nav-pasos { display: flex; justify-content: space-between; gap: 8px; margin-top: 14px; }
+    .planes { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+    .plan { border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 12px; background: var(--surface); } .plan b.precio { font-size: 24px; display: block; }
+    .escena { display: grid; grid-template-columns: 90px 1fr 120px 70px; gap: 8px; align-items: center; border-bottom: 1px solid var(--line); padding: 6px 0; }
+    .escena img, .escena video { width: 90px; height: 60px; object-fit: cover; border-radius: 6px; background: #000; }
+    .galeria { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
+    .galeria figure { margin: 0; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--surface); }
+    .galeria img { width: 100%; height: 100px; object-fit: cover; display: block; } .galeria figcaption { font-size: 11px; padding: 4px; }
+    .barra-prog { height: 10px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--line); overflow: hidden; } .barra-prog i { display: block; height: 100%; background: var(--accent); width: 0; }
+    .teleprompter { font-size: 28px; line-height: 1.5; max-height: 50vh; overflow: auto; background: #000; color: #fff; padding: 20px; border-radius: var(--radius); }
+    .semaforo { display: inline-block; width: 14px; height: 14px; border-radius: 50%; vertical-align: middle; }
+    @media (max-width: 900px) { .estudio { grid-template-columns: 1fr; } .indice { position: static; } .escena { grid-template-columns: 70px 1fr; } }
   </style>
   <script type="module" src="js/apariencia.js"></script>
 </head>
 <body>
   <header class="topbar">
     <a class="link-btn" href="./">← Regresar al Mapa</a>
-    <h1>🎬 Herramientas para creadores</h1>
+    <h1>🎬 Estudio para creadores</h1>
   </header>
   <main class="ops">
-    <div class="hero"><p><b>Gratis y sin cuenta.</b> Prepara una publicación para todas tus redes en minutos: el texto con el límite de cada una, la imagen o miniatura con tus colores y temas del día para inspirarte.
-      Todo se hace en tu navegador: no guardamos tus textos ni tus imágenes.</p>
-      <p class="meta">Próximamente, plan para creadores: video automático con voz, calendario, estadísticas de tus redes y respuestas a comentarios.</p></div>
-
-    <h2>1 · Un texto, todas tus redes</h2>
-    <div class="dos">
-      <div class="tarjeta">
-        <label>Título o gancho (la primera línea es la que se lee) <input id="tx-titulo" maxlength="200" placeholder="Ej.: 3 errores al ahorrar que casi nadie nota"></label>
-        <label>Cuerpo <textarea id="tx-cuerpo" maxlength="5000" placeholder="Lo que quieres contar, con un dato concreto si lo tienes."></textarea></label>
-        <label>Llamado a la acción <input id="tx-cta" maxlength="200" placeholder="Ej.: ¿Cuál cometes tú? Te leo en comentarios."></label>
-        <label>Enlace (opcional) <input id="tx-enlace" type="url" placeholder="https://"></label>
-        <label>Etiquetas (separadas por coma o espacio) <input id="tx-etiquetas" placeholder="finanzas, ahorro, méxico"></label>
-      </div>
-      <div class="tarjeta"><label>Red <select id="tx-red"></select></label>
-        <div id="tx-salida" class="salida" aria-live="polite"></div>
-        <p><span id="tx-cuenta" class="cuenta"></span></p>
-        <p><button type="button" class="si" id="tx-copiar">📋 Copiar</button> <button type="button" id="tx-todas">📋 Copiar para todas las redes</button></p>
-        <p class="meta">Si el texto no cabe, se recorta el cuerpo en una palabra completa. En X cada enlace cuenta como 23 caracteres.</p></div>
+    <div class="hero"><p><b>Prepara tu contenido de cero a publicado, paso a paso:</b> qué quieres lograr, tu nicho, ideas, guiones, cómo grabar (con o sin mostrar tu cara), un video con tus fotos o clips,
+      los textos para cada red, cómo leer tus métricas, cómo monetizar y qué dice la ley. Sirve para cualquier tema: recetas, viajes, belleza, finanzas, videojuegos y más.</p>
+      <p class="meta">Tus fotos y videos no se suben a ningún servidor: se trabajan en tu equipo. Tus ideas, guiones y métricas se guardan en tu cuenta.</p>
+      <div id="cr-cuenta" class="tarjeta" role="status"><p class="meta">Revisando tu cuenta…</p></div>
+      <details><summary><b>Planes</b> · 7 días de demo y después desde 5 USD al mes</summary><div class="planes" id="cr-planes"></div></details>
     </div>
 
-    <h2>2 · Imagen o miniatura con tu marca</h2>
-    <div class="dos">
-      <div class="tarjeta">
-        <label>Formato <select id="im-formato"></select></label>
-        <label>Texto grande <input id="im-titulo" maxlength="120" value="Tu idea en una frase"></label>
-        <label>Texto pequeño <input id="im-sub" maxlength="160" value="Un dato o una promesa concreta"></label>
-        <label>Tu nombre o @usuario <input id="im-marca" maxlength="40" value="@tucanal"></label>
-        <div class="colores"><label>Fondo <input type="color" id="im-fondo" value="#0a0f17"></label><label>Texto <input type="color" id="im-texto" value="#f2f4f8"></label>
-          <label>Acento <input type="color" id="im-acento" value="#f9a825"></label></div>
-        <label>Tu logo o foto (opcional; no se sube a ningún servidor) <input type="file" id="im-logo" accept="image/*"></label>
-        <p id="im-contraste" class="meta" role="status"></p>
-        <p><button type="button" class="si" id="im-descargar">⬇️ Descargar PNG</button></p>
+    <div class="estudio">
+      <nav class="indice" aria-label="Pasos del estudio"><ol id="cr-indice"></ol></nav>
+      <div>
+        <!-- 1. Perfil -->
+        <section class="paso" data-paso="perfil">
+          <h2>1. ¿Cómo quieres crear?</h2>
+          <div class="que">Hay creadores que salen frente a la cámara y otros que prefieren no mostrar su cara ni su voz (por seguridad, por timidez o por estilo). Las dos formas funcionan; el estudio se adapta.</div>
+          <div class="opciones" id="pe-modo">
+            <button type="button" class="opcion" data-modo="con_cara">🎥 <b>Con mi cara y mi voz</b><br><span class="meta">Grabo mis propios videos.</span></button>
+            <button type="button" class="opcion" data-modo="sin_cara">🙈 <b>Sin mostrar mi cara</b><br><span class="meta">Manos, pantalla, fotos, texto y voz o música.</span></button>
+            <button type="button" class="opcion" data-modo="mixto">🔀 <b>Mixto</b><br><span class="meta">A veces salgo, a veces no.</span></button>
+          </div>
+          <div class="dos"><label>Nombre del canal o @usuario <input id="pe-marca" maxlength="40" placeholder="@tucanal"></label>
+            <label>¿A quién le hablas? <input id="pe-publico" maxlength="120" placeholder="Ej.: mamás que trabajan y cocinan entre semana"></label></div>
+          <p><b>¿Dónde vas a publicar?</b></p><div class="chips" id="pe-redes"></div>
+        </section>
+
+        <!-- 2. Objetivo y nicho -->
+        <section class="paso" data-paso="nicho" hidden>
+          <h2>2. Objetivo y nicho</h2>
+          <div class="que">Un nicho es un tema y un público concretos (no «comida», sino «recetas veganas baratas para estudiantes»). Elegirlo bien hace que la plataforma sepa a quién mostrar tus videos.</div>
+          <label>¿Qué quieres lograr con tu contenido? <select id="ni-objetivo"></select></label>
+          <p><b>Elige tu nicho</b></p><div class="opciones" id="ni-lista"></div>
+          <div id="ni-detalle"></div>
+        </section>
+
+        <!-- 3. Ideas -->
+        <section class="paso" data-paso="ideas" hidden>
+          <h2>3. Acomoda tus ideas</h2>
+          <div class="que">Escribe todas tus ideas aquí o genera ideas de tu nicho. Califica qué tanto le interesaría a tu público y qué tan fácil es hacerla: el estudio ordena primero las que conviene hacer.</div>
+          <div class="barra"><button type="button" id="id-generar">💡 Generar ideas de mi nicho</button></div>
+          <div class="dos"><label>Nueva idea <input id="id-texto" maxlength="160" placeholder="Ej.: Receta de lentejas en 60 segundos"></label>
+            <div><label>Interés del público (1 a 5) <input id="id-interes" type="number" min="1" max="5" value="3"></label><label>Facilidad (1 a 5) <input id="id-facil" type="number" min="1" max="5" value="3"></label></div></div>
+          <p><button type="button" class="si" id="id-agregar">➕ Agregar idea</button></p>
+          <div id="id-lista"></div>
+        </section>
+
+        <!-- 4. Guion -->
+        <section class="paso" data-paso="guion" hidden>
+          <h2>4. Escribe el guion</h2>
+          <div class="que">Elige una idea y el formato. El estudio arma el guion con gancho, puntos y cierre, y calcula cuánto dura al leerlo en voz alta (unas 150 palabras por minuto). Edita lo que quieras.</div>
+          <div class="dos"><label>Idea <select id="gu-idea"></select></label><label>Formato <select id="gu-formato"></select></label></div>
+          <label>Puntos principales (uno por línea; si lo dejas vacío, se proponen) <textarea id="gu-puntos" placeholder="Remoja las lentejas 1 hora&#10;Sofríe cebolla y jitomate&#10;Cocina 25 minutos"></textarea></label>
+          <label>Llamado a la acción <input id="gu-cta" maxlength="200" placeholder="Ej.: Guarda la receta y sígueme para la versión con arroz."></label>
+          <p><button type="button" class="si" id="gu-armar">✍️ Armar guion</button></p>
+          <div id="gu-salida"></div>
+        </section>
+
+        <!-- 5. Set y grabación -->
+        <section class="paso" data-paso="set" hidden>
+          <h2>5. Arma tu set y graba</h2>
+          <div class="que">Según cómo elegiste crear (paso 1), aquí está lo que necesitas. Si vas a grabarte, usa el teleprompter con tu guion.</div>
+          <div id="se-lista"></div>
+          <h3>Teleprompter</h3>
+          <p class="meta">Pon el celular o la computadora cerca de la cámara y lee el guion mientras se desplaza solo.</p>
+          <div class="barra"><button type="button" id="se-tp">▶️ Iniciar</button><label style="display:inline-block;width:auto">Velocidad <input id="se-vel" type="range" min="1" max="10" value="4" style="width:140px"></label>
+            <button type="button" id="se-escuchar">🔊 Escuchar el guion</button></div>
+          <div id="se-texto" class="teleprompter" aria-live="off"></div>
+        </section>
+
+        <!-- 6. Video -->
+        <section class="paso" data-paso="video" hidden>
+          <h2>6. Arma tu video</h2>
+          <div class="que">Sube tus fotos o tus clips (o busca imágenes libres), elige el formato y el estudio arma el video con transiciones, el texto del guion en pantalla y tu marca.
+            Puedes agregar tu voz (grabarla aquí) o un audio (narración o música con licencia). Al final se descarga en tu equipo.</div>
+          <div class="dos">
+            <div class="tarjeta">
+              <label>Formato <select id="vi-formato"><option value="9:16">Vertical 9:16 (TikTok, Reels, Shorts)</option><option value="16:9">Horizontal 16:9 (YouTube)</option><option value="1:1">Cuadrado 1:1</option><option value="4:5">Vertical 4:5 (feed de Instagram y Facebook)</option></select></label>
+              <label>📷 Tus fotos o clips (puedes elegir varios) <input type="file" id="vi-archivos" accept="image/*,video/*" multiple></label>
+              <details><summary><b>🔎 Buscar imágenes o videos libres</b> (Wikimedia Commons, con crédito automático)</summary>
+                <div class="barra"><input id="vi-q" placeholder="Ej.: tacos, playa Tulum, lentejas" style="max-width:260px"><select id="vi-tipo" style="max-width:120px"><option value="imagen">Imágenes</option><option value="video">Videos</option></select><button type="button" id="vi-buscar">Buscar</button></div>
+                <div id="vi-galeria" class="galeria"></div></details>
+              <div class="colores"><label>Fondo <input type="color" id="vi-fondo" value="#0a0f17"></label><label>Texto <input type="color" id="vi-texto" value="#ffffff"></label><label>Acento <input type="color" id="vi-acento" value="#f9a825"></label></div>
+              <h3>🎙️ Audio</h3>
+              <div class="barra"><button type="button" id="vi-grabar">⏺️ Grabar mi voz</button><label style="display:inline-block;width:auto">o sube un audio <input type="file" id="vi-audio" accept="audio/*" style="max-width:220px"></label></div>
+              <p class="meta" id="vi-audio-estado">Sin audio: el video tendrá solo texto en pantalla. La música debe tener licencia (usa la biblioteca de audio de cada red o música libre).</p>
+            </div>
+            <div class="tarjeta"><canvas id="vi-canvas" width="1080" height="1920" aria-label="Vista previa del video"></canvas>
+              <div class="barra"><button type="button" id="vi-previa">▶️ Vista previa</button><button type="button" class="si" id="vi-generar">🎬 Generar video</button></div>
+              <div class="barra-prog"><i id="vi-prog"></i></div><p id="vi-msg" class="meta" role="status"></p></div>
+          </div>
+          <h3>Escenas</h3><p class="meta">Cada parte del guion es una escena. Cambia la imagen o clip, el texto y los segundos de cada una.</p>
+          <div id="vi-escenas"></div>
+        </section>
+
+        <!-- 7. Publicar -->
+        <section class="paso" data-paso="publicar" hidden>
+          <h2>7. Publica: dónde, cómo y con qué texto</h2>
+          <div class="que">Cada red decide a quién mostrar tu video de forma distinta. Lee cómo funciona la que vas a usar, copia el texto adaptado y revisa la lista antes de publicar.</div>
+          <div id="pu-plataformas"></div>
+          <h3>Lista antes de publicar</h3><div id="pu-checklist"></div>
+          <h3>Un texto, todas tus redes</h3>
+          <p><button type="button" id="pu-desde-guion">↙️ Traer título y texto desde mi guion</button></p>
+          <div class="dos">
+            <div class="tarjeta">
+              <label>Título o gancho (la primera línea es la que se lee) <input id="tx-titulo" maxlength="200" placeholder="Ej.: 3 errores al ahorrar que casi nadie nota"></label>
+              <label>Cuerpo <textarea id="tx-cuerpo" maxlength="5000" placeholder="Lo que quieres contar, con un dato concreto si lo tienes."></textarea></label>
+              <label>Llamado a la acción <input id="tx-cta" maxlength="200" placeholder="Ej.: ¿Cuál cometes tú? Te leo en comentarios."></label>
+              <label>Enlace (opcional) <input id="tx-enlace" type="url" placeholder="https://"></label>
+              <label>Etiquetas (separadas por coma o espacio) <input id="tx-etiquetas" placeholder="finanzas, ahorro, méxico"></label>
+            </div>
+            <div class="tarjeta"><label>Red <select id="tx-red"></select></label>
+              <div id="tx-salida" class="salida" aria-live="polite"></div>
+              <p><span id="tx-cuenta" class="cuenta"></span></p>
+              <p><button type="button" class="si" id="tx-copiar">📋 Copiar</button> <button type="button" id="tx-todas">📋 Copiar para todas las redes</button></p>
+              <p class="meta">Si el texto no cabe, se recorta el cuerpo en una palabra completa. En X cada enlace cuenta como 23 caracteres.</p></div>
+          </div>
+          <h3>Imagen o miniatura con tu marca</h3>
+          <div class="dos">
+            <div class="tarjeta">
+              <label>Formato <select id="im-formato"></select></label>
+              <label>Texto grande <input id="im-titulo" maxlength="120" value="Tu idea en una frase"></label>
+              <label>Texto pequeño <input id="im-sub" maxlength="160" value="Un dato o una promesa concreta"></label>
+              <label>Tu nombre o @usuario <input id="im-marca" maxlength="40" value="@tucanal"></label>
+              <div class="colores"><label>Fondo <input type="color" id="im-fondo" value="#0a0f17"></label><label>Texto <input type="color" id="im-texto" value="#f2f4f8"></label>
+                <label>Acento <input type="color" id="im-acento" value="#f9a825"></label></div>
+              <label>Tu logo o foto (opcional; no se sube a ningún servidor) <input type="file" id="im-logo" accept="image/*"></label>
+              <p id="im-contraste" class="meta" role="status"></p>
+              <p><button type="button" class="si" id="im-descargar">⬇️ Descargar PNG</button></p>
+            </div>
+            <div class="tarjeta"><canvas id="im-canvas" width="1080" height="1350" aria-label="Vista previa de la imagen"></canvas></div>
+          </div>
+          <h3>¿A qué hora publicar?</h3><div class="tarjeta" id="ho-tabla"></div>
+          <h3>Temas del día</h3>
+          <div class="tarjeta"><label>Tema <select id="te-seccion"></select></label>
+            <p class="meta">Titulares recientes del Noticiero de DOMINUS. Úsalos para saber de qué se está hablando; da crédito a la fuente y verifica antes de publicar.</p>
+            <ul id="te-lista" class="temas"><li class="meta">Cargando…</li></ul></div>
+        </section>
+
+        <!-- 8. Métricas -->
+        <section class="paso" data-paso="metricas" hidden>
+          <h2>8. Lee tus métricas</h2>
+          <div class="que">Copia los números de las estadísticas de cada red (a las 48 horas y a los 7 días). El estudio calcula la interacción y te dice qué repetir y qué ajustar.
+            Las referencias son orientativas: lo más útil es comparar tus piezas entre sí.</div>
+          <div class="tarjeta"><div class="dos">
+            <label>Pieza <input id="me-titulo" maxlength="120" placeholder="Título o tema"></label><label>Red <select id="me-red"></select></label>
+            <label>Fecha <input id="me-fecha" type="date"></label><label>Vistas <input id="me-vistas" type="number" min="0"></label>
+            <label>Me gusta <input id="me-me_gusta" type="number" min="0"></label><label>Comentarios <input id="me-comentarios" type="number" min="0"></label>
+            <label>Compartidos <input id="me-compartidos" type="number" min="0"></label><label>Guardados <input id="me-guardados" type="number" min="0"></label>
+            <label>Seguidores ganados <input id="me-seguidores" type="number" min="0"></label><label>Retención (% que vio hasta el final o promedio visto) <input id="me-retencion" type="number" min="0" max="100"></label></div>
+            <p><button type="button" class="si" id="me-agregar">➕ Guardar pieza</button></p></div>
+          <div id="me-res"></div>
+        </section>
+
+        <!-- 9. Monetización -->
+        <section class="paso" data-paso="monetizacion" hidden>
+          <h2>9. Cómo monetizar</h2>
+          <div class="que">Cada plataforma pide requisitos distintos y los cambia con frecuencia: lo marcado «verificar» confírmalo en la página oficial antes de planear tus ingresos.
+            Además de las plataformas, puedes ganar con marcas, afiliados y productos propios.</div>
+          <div id="mo-lista"></div>
+        </section>
+
+        <!-- 10. Legal -->
+        <section class="paso" data-paso="legal" hidden>
+          <h2>10. Lo que dice la ley (para creadores)</h2>
+          <div class="que">Qué puedes grabar, dónde, cómo usar imágenes, música y videos de otros, qué hacer si salen personas desconocidas o menores, publicidad y contenido íntimo.
+            Resumen práctico con base en leyes de México y reglas de las plataformas; no es asesoría legal.</div>
+          <div id="le-lista"></div>
+        </section>
+
+        <!-- 11. Evaluación -->
+        <section class="paso" data-paso="evaluacion" hidden>
+          <h2>11. Evaluación de 30 días</h2>
+          <div class="que">Elige la fecha de inicio y cuántas piezas publicarás por semana. Cada semana tienes una meta y preguntas para revisar; el semáforo compara lo publicado (paso 8) contra lo planeado.</div>
+          <div class="dos"><label>Fecha de inicio <input id="ev-inicio" type="date"></label><label>Piezas por semana <input id="ev-meta" type="number" min="1" max="21" value="3"></label></div>
+          <div id="ev-res"></div>
+        </section>
+
+        <div class="nav-pasos" id="cr-nav"></div>
       </div>
-      <div class="tarjeta"><canvas id="im-canvas" width="1080" height="1350" aria-label="Vista previa de la imagen"></canvas></div>
     </div>
-
-    <h2>3 · Temas del día</h2>
-    <div class="tarjeta"><label>Tema <select id="te-seccion"></select></label>
-      <p class="meta">Titulares recientes del Noticiero de DOMINUS (más de 30 secciones, cientos de medios). Úsalos para saber de qué se está hablando; da crédito a la fuente y verifica antes de publicar.</p>
-      <ul id="te-lista" class="temas"><li class="meta">Cargando…</li></ul></div>
-
-    <h2>4 · ¿A qué hora publicar?</h2>
-    <div class="tarjeta" id="ho-tabla"></div>
   </main>
   <script type="module" src="js/creadores.js"></script>
+  <script type="module" src="js/creadores-estudio.js"></script>
 </body>
 </html>
