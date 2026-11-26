@@ -3,6 +3,7 @@
 // Todo texto que viene de la API o de las fichas se escapa antes de dibujarse.
 import * as C from "./cumplimiento-logica.js";
 import { montarProyectos, CSS_PROYECTOS } from "./proyectos-ui.js";
+import { montarEvidencias, contarEvidencias, CSS_EVIDENCIAS } from "./evidencias-ui.js";
 
 const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 const $ = (id) => document.getElementById(id);
@@ -58,7 +59,8 @@ async function cargarOrg(id) {
   const { norma, extra } = await normaDe(info.org.pais);
   const items = C.preguntas(C.leyesAplicables(norma, extra, info.org.sectores));
   const resp = Object.fromEntries((await api(`${id}/cumplimiento`)).respuestas.map((r) => [r.clave, r]));
-  estado = { ...estado, org: id, info, items, resp };
+  const evN = await contarEvidencias(`${baseApi()}${id}/evidencias`, "cumpl:");
+  estado = { ...estado, org: id, info, items, resp, evN };
   const o = info.org;
   $("em-plan").innerHTML = `${o.plan === "prueba" ? "Prueba" : `Plan ${esc(o.plan)}`} · ${o.vigente ? `vigente hasta ${fecha(o.vence)}` : `<span class="error">venció el ${fecha(o.vence)} (solo lectura)</span>`} · ${info.miembros.length}/${o.asientos} usuarios · tu rol: ${esc(ROLES[info.rol])}`;
   const areas = [...new Set(items.map((i) => i.ley.area))].sort((a, b) => a.localeCompare(b, "es"));
@@ -99,7 +101,9 @@ function pintarCumplimiento() {
       <select data-c="estado" aria-label="Estado" ${dis}>${Object.entries(C.ESTADOS).map(([k, v]) => `<option value="${k}" ${k === (r?.estado || "pendiente") ? "selected" : ""}>${v}</option>`).join("")}</select>
       <select data-c="responsable" aria-label="Responsable" ${dis}><option value="">Sin responsable</option>${miembros.map((m) => `<option ${m === r?.responsable ? "selected" : ""}>${esc(m)}</option>`).join("")}</select>
       <input type="date" data-c="fecha_limite" aria-label="Fecha límite" value="${esc(r?.fecha_limite || "")}" ${dis}>
-      <input data-c="evidencia" maxlength="1000" placeholder="Evidencia (enlace o nota)" aria-label="Evidencia" value="${esc(r?.evidencia || "")}" ${dis}>
+      <input data-c="evidencia" maxlength="1000" placeholder="Evidencia breve (enlace o nota)" aria-label="Evidencia" value="${esc(r?.evidencia || "")}" ${dis}>
+      <button type="button" class="b ev-boton" data-ev-ref="cumpl:${esc(it.clave)}">📎 Evidencias (${estado.evN?.[`cumpl:${it.clave}`] || 0})</button>
+      <div class="ev-panel" hidden></div>
       ${av.map((a) => `<div class="aviso-c">⚠️ ${esc(a.texto)}</div>`).join("")}</div>`).join("")}</div>`; }).join("")
     || `<p class="meta">Nada con estos filtros.</p>`;
 }
@@ -163,7 +167,19 @@ if (typeof document !== "undefined" && $("em-app")) {
   try { const inv = sessionStorage.getItem("gp_inv"); if (inv && !location.hash) { location.hash = `inv=${inv}`; sessionStorage.removeItem("gp_inv"); } } catch { /* */ }
   for (const k of Object.keys(C.ESTADOS)) $("cu-estado").insertAdjacentHTML("beforeend", `<option value="${k}">${C.ESTADOS[k]}</option>`);
   for (const id of ["cu-estado", "cu-area", "cu-alertas", "cu-q"]) $(id).addEventListener("input", () => estado.info && pintarCumplimiento());
-  $("cu-lista").addEventListener("change", (e) => { const fila = e.target.closest(".preg"); if (fila) guardarFila(fila); });
+  $("cu-lista").addEventListener("change", (e) => { const fila = e.target.closest(".preg"); if (fila && e.target.dataset.c) guardarFila(fila); });
+  // Evidencias por pregunta: archivos, enlaces y notas guardados en el servidor.
+  document.head.insertAdjacentHTML("beforeend", `<style>${CSS_EVIDENCIAS} .preg .ev-panel { grid-column: 1 / -1; }</style>`);
+  $("cu-lista").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-ev-ref]"); if (!b) return;
+    const panel = b.nextElementSibling; panel.hidden = !panel.hidden;
+    if (!panel.hidden && !panel.dataset.listo) {
+      panel.dataset.listo = "1";
+      const puede = ["editor", "admin", "dueno"].includes(estado.info.rol) && estado.info.org.vigente;
+      montarEvidencias(panel, { base: `${baseApi()}${estado.org}/evidencias`, ref: b.dataset.evRef, editar: puede,
+        alCambiar: (n) => { estado.evN[b.dataset.evRef] = n; b.textContent = `📎 Evidencias (${n})`; } });
+    }
+  });
   $("cu-csv").addEventListener("click", () => {
     const a = document.createElement("a");
     a.href = URL.createObjectURL(new Blob([C.csv(estado.items, estado.resp)], { type: "text/csv;charset=utf-8" }));
@@ -177,7 +193,7 @@ if (typeof document !== "undefined" && $("em-app")) {
       if (!document.getElementById("css-proyectos")) document.head.insertAdjacentHTML("beforeend", `<style id="css-proyectos">${CSS_PROYECTOS}</style>`);
       const org = estado.org, editar = ["editor", "admin", "dueno"].includes(estado.info?.rol) && estado.info?.org.vigente;
       const cont = $("pr-cont").cloneNode(false); $("pr-cont").replaceWith(cont); // sin oyentes de la empresa anterior
-      montarProyectos(cont, { editar, api: (ruta, cuerpo) => api(`${org}/proyectos${ruta ? "/" + ruta : ""}`, cuerpo), alMensaje: (h) => { $("pr-msg").innerHTML = h; } }).lista();
+      montarProyectos(cont, { editar, evidencias: `${baseApi()}${org}/evidencias`, api: (ruta, cuerpo) => api(`${org}/proyectos${ruta ? "/" + ruta : ""}`, cuerpo), alMensaje: (h) => { $("pr-msg").innerHTML = h; } }).lista();
     }
     if (b.dataset.p === "bitacora") {
       try { const r = await api(`${estado.org}/bitacora`); $("bi-lista").innerHTML = `<table class="t"><tr><th>Fecha</th><th>Quién</th><th>Acción</th><th>Detalle</th></tr>${r.bitacora.map((x) => `<tr><td>${new Date(x.fecha * 1000).toLocaleString("es-MX")}</td><td>${esc(x.email)}</td><td>${esc(x.accion)}</td><td>${esc(x.detalle)}</td></tr>`).join("")}</table>`; }

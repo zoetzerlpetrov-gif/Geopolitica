@@ -115,7 +115,7 @@ if (typeof document !== "undefined" && $("fl-indice")) {
       <div class="nav-pasos">${i > 0 ? `<button type="button" class="b" data-paso="${PASOS[i - 1].id}">← ${esc(PASOS[i - 1].titulo)}</button>` : "<span></span>"}
         ${i < PASOS.length - 1 ? `<button type="button" class="si" data-paso="${PASOS[i + 1].id}">Siguiente paso: ${esc(PASOS[i + 1].titulo)} →</button>` : ""}</div>`;
     if (p.proyecto && o) {
-      const m = montarProyectos($("pr-cont"), { editar: true, api: (ruta, cuerpo) => api(`proyectos/${org}${ruta ? "/" + ruta : ""}`, cuerpo), alMensaje: (h) => { $("pr-msg").innerHTML = h; },
+      const m = montarProyectos($("pr-cont"), { editar: true, evidencias: `${API}evidencias/${org}`, api: (ruta, cuerpo) => api(`proyectos/${org}${ruta ? "/" + ruta : ""}`, cuerpo), alMensaje: (h) => { $("pr-msg").innerHTML = h; },
         alAbrir: (pid) => { if (pid !== proyActivo) { proyActivo = pid; guardar("dominus_flujo_proyecto", pid); cargarProyectos(); } } });
       if (proyActivo) m.abrir(proyActivo, p.fase); else m.lista();
     }
