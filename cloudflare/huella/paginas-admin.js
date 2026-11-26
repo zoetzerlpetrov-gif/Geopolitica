@@ -29,14 +29,15 @@ import p26 from "../../marketing.html";
 import p27 from "../../noticiero.html";
 import p28 from "../../operaciones.html";
 import p29 from "../../ops.html";
-import p30 from "../../patrocinios.html";
-import p31 from "../../plataforma.html";
-import p32 from "../../portafolio.html";
-import p33 from "../../pruebas.html";
-import p34 from "../../revision-tecnica.html";
-import p35 from "../../transporte.html";
-import p36 from "../../vulnerabilidades.html";
-import p37 from "../../vulns-mundo.html";
+import p30 from "../../organizacion.html";
+import p31 from "../../patrocinios.html";
+import p32 from "../../plataforma.html";
+import p33 from "../../portafolio.html";
+import p34 from "../../pruebas.html";
+import p35 from "../../revision-tecnica.html";
+import p36 from "../../transporte.html";
+import p37 from "../../vulnerabilidades.html";
+import p38 from "../../vulns-mundo.html";
 export default {
   "agenda": p0,
   "analista": p1,
@@ -68,12 +69,13 @@ export default {
   "noticiero": p27,
   "operaciones": p28,
   "ops": p29,
-  "patrocinios": p30,
-  "plataforma": p31,
-  "portafolio": p32,
-  "pruebas": p33,
-  "revision-tecnica": p34,
-  "transporte": p35,
-  "vulnerabilidades": p36,
-  "vulns-mundo": p37,
+  "organizacion": p30,
+  "patrocinios": p31,
+  "plataforma": p32,
+  "portafolio": p33,
+  "pruebas": p34,
+  "revision-tecnica": p35,
+  "transporte": p36,
+  "vulnerabilidades": p37,
+  "vulns-mundo": p38,
 };

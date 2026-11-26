@@ -1,0 +1,219 @@
+{
+ "_nota": "Admin → Organización DOMINUS (organizacion.html): las áreas de la empresa con sus tareas por etapa, normas de referencia y herramientas. El avance (estado, responsable, fecha y evidencia) se guarda en la base del Worker. Edita este archivo para agregar o cambiar tareas; el id de cada tarea no debe cambiar una vez usado.",
+ "etapas": {
+  "ahora": "Ahora (1 a 5 personas)",
+  "crecimiento": "Crecimiento (6 a 50 personas)",
+  "escala": "Escala (más de 50 personas y clientes fuera de México)"
+ },
+ "areas": [
+  {
+   "id": "gobierno",
+   "nombre": "Dirección y gobierno",
+   "icono": "🧭",
+   "objetivo": "Saber hacia dónde va la empresa, quién decide qué y cómo se rinden cuentas.",
+   "normas": ["ISO 37000:2021 (gobernanza de organizaciones)", "COSO 2013 (control interno)"],
+   "herramientas": ["Objetivos anuales y trimestrales (OKR)", "Calendario de juntas con acta"],
+   "tareas": [
+    {"id": "objetivos", "etapa": "ahora", "texto": "Escribir misión, visión y 3 a 5 objetivos del año con su indicador."},
+    {"id": "juntas", "etapa": "ahora", "texto": "Fijar una junta mensual de revisión de resultados con minuta y acuerdos."},
+    {"id": "delegacion", "etapa": "crecimiento", "texto": "Matriz de delegación de autoridad: quién aprueba gastos, contratos, contrataciones y descuentos, y hasta qué monto."},
+    {"id": "conflictos", "etapa": "crecimiento", "texto": "Política de conflictos de interés y código de conducta firmados por todo el personal."},
+    {"id": "consejo", "etapa": "escala", "texto": "Consejo o comité consultivo con al menos un integrante independiente y sesiones trimestrales."}
+   ]
+  },
+  {
+   "id": "legal",
+   "nombre": "Legal y societario",
+   "icono": "⚖️",
+   "objetivo": "Operar con la figura jurídica adecuada, contratos claros y la marca protegida.",
+   "normas": ["Ley General de Sociedades Mercantiles", "Ley Federal de Protección a la Propiedad Industrial", "Código de Comercio"],
+   "herramientas": ["Contratos modelo revisados por un abogado", "Libro de actas y registro de poderes"],
+   "tareas": [
+    {"id": "sociedad", "etapa": "ahora", "texto": "Evaluar con contador y notario constituir una sociedad (S.A.P.I. o S. de R.L. de C.V.) en lugar de seguir como persona física con actividad empresarial: costos, régimen fiscal, responsabilidad limitada y contratos con clientes extranjeros."},
+    {"id": "marca", "etapa": "ahora", "texto": "Registrar la marca DOMINUS ante el IMPI en las clases de los servicios que se venden."},
+    {"id": "contratos", "etapa": "ahora", "texto": "Contratos modelo: prestación de servicios, confidencialidad (NDA) y términos de la suscripción en línea."},
+    {"id": "poderes", "etapa": "crecimiento", "texto": "Poderes y firmas autorizadas para contratos, bancos y trámites."},
+    {"id": "extranjero", "etapa": "escala", "texto": "Revisar con despacho externo cómo facturar y contratar en cada país donde haya clientes (establecimiento permanente, retenciones, tratados para evitar doble tributación)."}
+   ]
+  },
+  {
+   "id": "fiscal",
+   "nombre": "Fiscal y contabilidad (SAT)",
+   "icono": "🧾",
+   "objetivo": "Cumplir con el SAT a tiempo y tener números confiables cada mes.",
+   "normas": ["Código Fiscal de la Federación", "Ley del ISR y Ley del IVA", "Anexo 20 (CFDI 4.0)", "NIF (Normas de Información Financiera)"],
+   "herramientas": ["PAC para facturar (CFDI 4.0)", "Contabilidad electrónica", "ERP cuando haya varias personas en finanzas"],
+   "tareas": [
+    {"id": "declaraciones", "etapa": "ahora", "texto": "Calendario de declaraciones mensuales (día 17) y anual, con quién las presenta."},
+    {"id": "cfdi", "etapa": "ahora", "texto": "Elegir proveedor de facturación (PAC), tramitar el CSD y probar factura y factura global de público en general."},
+    {"id": "opinion32d", "etapa": "ahora", "texto": "Revisar cada mes que la opinión de cumplimiento 32-D sea positiva (la piden clientes grandes)."},
+    {"id": "buzon", "etapa": "ahora", "texto": "Activar avisos del buzón tributario al correo y celular."},
+    {"id": "conciliacion", "etapa": "crecimiento", "texto": "Conciliación bancaria y cierre contable mensual antes del día 10."},
+    {"id": "erp", "etapa": "crecimiento", "texto": "Implantar un ERP con contabilidad, facturación, compras y nómina."},
+    {"id": "precios_transferencia", "etapa": "escala", "texto": "Si hay filiales en otros países: estudio de precios de transferencia."}
+   ]
+  },
+  {
+   "id": "finanzas",
+   "nombre": "Finanzas y tesorería",
+   "icono": "💰",
+   "objetivo": "Tener efectivo suficiente, cobrar a tiempo y saber cuánto deja cada servicio.",
+   "normas": ["NIF B-2 (flujo de efectivo)"],
+   "herramientas": ["Presupuesto anual", "Flujo de caja a 13 semanas", "Tablero de cobranza"],
+   "tareas": [
+    {"id": "cuentas", "etapa": "ahora", "texto": "Separar cuentas bancarias del negocio y personales."},
+    {"id": "presupuesto", "etapa": "ahora", "texto": "Presupuesto anual de ingresos y gastos por mes."},
+    {"id": "flujo", "etapa": "crecimiento", "texto": "Flujo de caja a 13 semanas actualizado cada semana."},
+    {"id": "cobranza", "etapa": "crecimiento", "texto": "Política de cobranza: plazos, recordatorios y suspensión del servicio por falta de pago."},
+    {"id": "seguros", "etapa": "crecimiento", "texto": "Seguro de responsabilidad civil profesional y de equipo."},
+    {"id": "divisas", "etapa": "escala", "texto": "Cuentas en USD o EUR y política de tipo de cambio para clientes del extranjero."}
+   ]
+  },
+  {
+   "id": "rrhh",
+   "nombre": "Recursos humanos",
+   "icono": "👥",
+   "objetivo": "Contratar bien, cumplir la ley laboral y que el equipo sepa qué se espera de él.",
+   "normas": ["Ley Federal del Trabajo", "NOM-035-STPS-2018 (riesgo psicosocial)", "NOM-037-STPS-2023 (teletrabajo)", "Ley del Seguro Social"],
+   "herramientas": ["Sistema de nómina y expedientes", "Evaluación de desempeño"],
+   "tareas": [
+    {"id": "contratos", "etapa": "crecimiento", "texto": "Contrato individual de trabajo por escrito, alta en IMSS e INFONAVIT desde el primer día."},
+    {"id": "descripciones", "etapa": "crecimiento", "texto": "Descripción de cada puesto con objetivos, responsabilidades e indicadores."},
+    {"id": "nom035", "etapa": "crecimiento", "texto": "Política y cuestionarios de la NOM-035 (obligatoria según el número de trabajadores)."},
+    {"id": "teletrabajo", "etapa": "crecimiento", "texto": "Política de teletrabajo conforme a la NOM-037 si hay trabajo en casa más del 40 % del tiempo."},
+    {"id": "capacitacion", "etapa": "crecimiento", "texto": "Plan anual de capacitación y constancias DC-3 cuando apliquen."},
+    {"id": "reglamento", "etapa": "escala", "texto": "Reglamento interior de trabajo depositado ante el Centro Federal de Conciliación y Registro Laboral."},
+    {"id": "extranjero", "etapa": "escala", "texto": "Contratación en otros países con un empleador de registro (EOR) o filial local."}
+   ]
+  },
+  {
+   "id": "operaciones",
+   "nombre": "Operaciones y proyectos (servicio a clientes)",
+   "icono": "🎯",
+   "objetivo": "Entregar cada proyecto a tiempo, con calidad y con aprendizaje para el siguiente.",
+   "normas": ["ISO 21502:2020 (gestión de proyectos)", "Guía PMBOK (PMI)"],
+   "herramientas": ["Admin → Clientes y proyectos", "DOMINUS OPS", "Registro de horas"],
+   "tareas": [
+    {"id": "metodo", "etapa": "ahora", "texto": "Usar un mismo flujo para todo proyecto: alta del cliente, plan, auditorías, seguimiento y cierre."},
+    {"id": "horas", "etapa": "crecimiento", "texto": "Registrar horas por proyecto para conocer el costo real de cada servicio."},
+    {"id": "sla", "etapa": "crecimiento", "texto": "Niveles de servicio (tiempos de respuesta y entrega) en cada contrato."},
+    {"id": "lecciones", "etapa": "crecimiento", "texto": "Lecciones aprendidas al cerrar cada proyecto."}
+   ]
+  },
+  {
+   "id": "viajes",
+   "nombre": "Viajes y trabajo en sitio",
+   "icono": "✈️",
+   "objetivo": "Que cada persona que visita a un cliente, en México o en otro país, viaje con el riesgo evaluado y un plan si algo sale mal.",
+   "normas": ["ISO 31030:2021 (gestión del riesgo de viajes)", "ISO 31000:2018 (gestión del riesgo)"],
+   "herramientas": ["Mapa DOMINUS: riesgo del destino, alertas oficiales y clima", "Inmuebles y riesgo: evaluación de la ubicación del cliente"],
+   "tareas": [
+    {"id": "politica", "etapa": "crecimiento", "texto": "Política de viajes: quién autoriza, gastos permitidos y proveedores."},
+    {"id": "evaluacion", "etapa": "crecimiento", "texto": "Evaluación de riesgo del destino antes de cada salida (con el mapa de DOMINUS) y aprobación si el riesgo es alto."},
+    {"id": "seguro", "etapa": "crecimiento", "texto": "Seguro de viaje y gastos médicos internacionales para cada viaje fuera de México."},
+    {"id": "contacto", "etapa": "crecimiento", "texto": "Protocolo de contacto: registro del itinerario, reporte diario y teléfono de emergencia 24 h."},
+    {"id": "evacuacion", "etapa": "escala", "texto": "Plan de evacuación y asistencia en destinos de riesgo alto (proveedor de asistencia internacional)."}
+   ]
+  },
+  {
+   "id": "ventas",
+   "nombre": "Ventas y relación con clientes",
+   "icono": "🤝",
+   "objetivo": "Saber de dónde vienen los clientes, cuánto cuesta conseguirlos y cuántos renuevan.",
+   "normas": [],
+   "herramientas": ["CRM", "Propuestas y contratos con firma electrónica", "Encuesta de satisfacción"],
+   "tareas": [
+    {"id": "crm", "etapa": "ahora", "texto": "Registrar cada prospecto y cliente en un CRM con su etapa."},
+    {"id": "propuesta", "etapa": "ahora", "texto": "Propuesta tipo y lista de precios aprobada."},
+    {"id": "satisfaccion", "etapa": "crecimiento", "texto": "Encuesta de satisfacción al cerrar cada proyecto y cada trimestre a suscriptores."},
+    {"id": "renovaciones", "etapa": "crecimiento", "texto": "Aviso de renovación 30 días antes del vencimiento de cada plan."}
+   ]
+  },
+  {
+   "id": "marketing",
+   "nombre": "Marketing y comunicación",
+   "icono": "📈",
+   "objetivo": "Que los clientes adecuados conozcan DOMINUS y confíen en él.",
+   "normas": ["Código de autorregulación de publicidad (CONAR)"],
+   "herramientas": ["Admin → Marketing de DOMINUS"],
+   "tareas": [
+    {"id": "plan", "etapa": "ahora", "texto": "Seguir el plan de lanzamiento de la página de Marketing."},
+    {"id": "marca", "etapa": "crecimiento", "texto": "Manual de marca (logotipo, colores, tono) para todo el equipo."},
+    {"id": "casos", "etapa": "crecimiento", "texto": "Casos de éxito con autorización escrita del cliente."}
+   ]
+  },
+  {
+   "id": "ti",
+   "nombre": "TI y seguridad de la información",
+   "icono": "🛡️",
+   "objetivo": "Proteger la información propia y de los clientes y poder seguir operando si algo falla.",
+   "normas": ["ISO/IEC 27001:2022", "NIST CSF 2.0", "CIS Controls v8"],
+   "herramientas": ["SGSI del proyecto (docs/SGSI.md)", "Autoauditoría y vigía en Admin", "Ambientes de pruebas, UAT y respaldo"],
+   "tareas": [
+    {"id": "inventario", "etapa": "ahora", "texto": "Inventario de equipos, cuentas y servicios en la nube con su responsable."},
+    {"id": "2fa", "etapa": "ahora", "texto": "Verificación en dos pasos en correo, GitHub, Cloudflare, Google y banco."},
+    {"id": "respaldos", "etapa": "ahora", "texto": "Respaldos con la regla 3-2-1 (3 copias, 2 medios, 1 fuera) y una prueba de restauración cada trimestre."},
+    {"id": "incidentes", "etapa": "crecimiento", "texto": "Plan de respuesta a incidentes con roles y contactos (incluye avisar a clientes afectados)."},
+    {"id": "accesos", "etapa": "crecimiento", "texto": "Alta, cambio y baja de accesos el mismo día en que alguien entra o sale."},
+    {"id": "phishing", "etapa": "crecimiento", "texto": "Capacitación anual en seguridad y simulacro de phishing."},
+    {"id": "certificacion", "etapa": "escala", "texto": "Certificación ISO/IEC 27001 o informe SOC 2 (lo piden clientes grandes y extranjeros)."}
+   ]
+  },
+  {
+   "id": "datos",
+   "nombre": "Protección de datos personales",
+   "icono": "🔐",
+   "objetivo": "Tratar los datos de clientes y personal conforme a la ley de cada país.",
+   "normas": ["Ley Federal de Protección de Datos Personales en Posesión de los Particulares (2025)", "RGPD (Unión Europea) si hay clientes o personas en la UE"],
+   "herramientas": ["Aviso de privacidad (Admin → Datos legales)"],
+   "tareas": [
+    {"id": "aviso", "etapa": "ahora", "texto": "Aviso de privacidad publicado y actualizado."},
+    {"id": "inventario", "etapa": "crecimiento", "texto": "Inventario de qué datos personales se tratan, para qué, dónde y cuánto tiempo."},
+    {"id": "derechos", "etapa": "crecimiento", "texto": "Procedimiento para atender solicitudes de acceso, rectificación, cancelación y oposición en el plazo de ley."},
+    {"id": "encargados", "etapa": "crecimiento", "texto": "Cláusulas de protección de datos con proveedores que traten datos (nube, nómina, correo)."},
+    {"id": "rgpd", "etapa": "escala", "texto": "Si hay clientes en la UE: registro de actividades de tratamiento y cláusulas contractuales tipo para transferencias."}
+   ]
+  },
+  {
+   "id": "auditoria",
+   "nombre": "Auditoría interna y cumplimiento",
+   "icono": "🔍",
+   "objetivo": "Revisar de forma independiente que los controles funcionen y corregir a tiempo.",
+   "normas": ["Normas Globales de Auditoría Interna (IIA, 2024)", "ISO 19011:2018 (auditorías de sistemas de gestión)"],
+   "herramientas": ["Autoauditoría de DOMINUS", "Matriz de riesgos"],
+   "tareas": [
+    {"id": "riesgos", "etapa": "crecimiento", "texto": "Matriz de riesgos de la empresa revisada cada semestre."},
+    {"id": "plan", "etapa": "crecimiento", "texto": "Plan anual de auditoría interna basado en esa matriz."},
+    {"id": "denuncias", "etapa": "crecimiento", "texto": "Canal de denuncias confidencial."},
+    {"id": "comite", "etapa": "escala", "texto": "Comité de auditoría con reporte directo al consejo."}
+   ]
+  },
+  {
+   "id": "calidad",
+   "nombre": "Calidad y mejora continua",
+   "icono": "✅",
+   "objetivo": "Hacer las cosas igual de bien cada vez y mejorar con datos.",
+   "normas": ["ISO 9001:2015"],
+   "herramientas": ["Procesos documentados", "Registro de acciones correctivas"],
+   "tareas": [
+    {"id": "procesos", "etapa": "crecimiento", "texto": "Documentar los 5 procesos principales (venta, alta de cliente, entrega, cobranza, soporte)."},
+    {"id": "indicadores", "etapa": "crecimiento", "texto": "Un indicador por proceso con meta y revisión mensual."},
+    {"id": "correctivas", "etapa": "crecimiento", "texto": "Registro de quejas y acciones correctivas con fecha de cierre."},
+    {"id": "certificacion", "etapa": "escala", "texto": "Certificación ISO 9001 si los clientes la piden."}
+   ]
+  },
+  {
+   "id": "soporte",
+   "nombre": "Atención y soporte a clientes",
+   "icono": "🎧",
+   "objetivo": "Responder rápido y dejar registro de cada solicitud.",
+   "normas": ["Ley Federal de Protección al Consumidor (venta en línea a personas)"],
+   "herramientas": ["Correo de soporte con folio", "Base de preguntas frecuentes"],
+   "tareas": [
+    {"id": "canal", "etapa": "ahora", "texto": "Un solo correo de soporte con respuesta en menos de 1 día hábil."},
+    {"id": "faq", "etapa": "crecimiento", "texto": "Preguntas frecuentes y tutoriales en el sitio."},
+    {"id": "folios", "etapa": "crecimiento", "texto": "Sistema de folios (mesa de ayuda) con tiempos de atención medidos."}
+   ]
+  }
+ ]
+}
