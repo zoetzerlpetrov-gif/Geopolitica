@@ -285,7 +285,7 @@ export const ETIQUETA_BOLSA = ["concat", ["to-string", ["get", "t500_c"]], " °C
 export function htmlVortice(r) {
   if (!r) return "";
   const f = (c) => `${c} °C / ${Math.round(c * 1.8 + 32)} °F`;
-  const fila = (nombre, h) => h ? `<li><b>${nombre}:</b> ${h.estado}. Viento del oeste a 60° y 10 hPa: ${h.u60_ms} m/s (${Math.round(h.u60_ms * 3.6)} km/h).
+  const fila = (nombre, h) => h?.activo === false ? `<li><b>${nombre}:</b> ${h.estado}.</li>` : h ? `<li><b>${nombre}:</b> ${h.estado}. Viento del oeste a 60° y 10 hPa: ${h.u60_ms} m/s (${Math.round(h.u60_ms * 3.6)} km/h).
     Temperatura media sobre el polo a ~31 km: ${f(h.t_polo_c)}. Centro cerca de ${Math.abs(h.centro[1])}° ${h.centro[1] >= 0 ? "N" : "S"}, ${Math.abs(h.centro[0])}° ${h.centro[0] >= 0 ? "E" : "O"}.</li>` : "";
   return `<ul class="lista-corta">${fila("Hemisferio norte", r.norte)}${fila("Hemisferio sur", r.sur)}</ul>`;
 }
