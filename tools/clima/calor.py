@@ -177,6 +177,32 @@ def evaluar(props, clima):
     }
 
 
+def zonas_calor_frio(feats, paso=1.0, radio_km=200.0):
+    """Áreas aproximadas de onda de calor, frío (helada u ola de frío) y niebla: celdas a menos de `radio_km` de ciudades
+    con ese fenómeno cuya ciudad más cercana también lo tiene. Cada área lleva solo su propia marca (onda_calor, frio_nivel
+    o niebla) para que cada capa del mapa tome la suya; «ciudades» lista las ciudades que abarca."""
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import zonas as Z  # noqa: E402  (mismo directorio)
+    puntos = [(f["geometry"]["coordinates"][0], f["geometry"]["coordinates"][1], f["properties"]) for f in feats]
+    reglas = [
+        ("calor", lambda p: p.get("onda_calor"), lambda ps: {"onda_calor": True, "calor_nivel": max(p.get("calor_nivel") or 1 for p in ps)}, "Zona con onda de calor"),
+        ("frio", lambda p: (p.get("frio_nivel") or 0) > 0, lambda ps: {"frio_nivel": max(p.get("frio_nivel") or 0 for p in ps), "ola_frio": any(p.get("ola_frio") for p in ps)}, "Zona con frío extremo o heladas"),
+        ("niebla", lambda p: p.get("niebla"), lambda ps: {"niebla": True, "niebla_pct": max(p.get("niebla_pct") or 0 for p in ps)}, "Zona con niebla probable"),
+    ]
+    out = []
+    for fen, cumple, resumen, titulo in reglas:
+        celdas = Z.mascara_de_puntos(puntos, lambda p, c=cumple: bool(c(p)), paso, radio_km)
+        for anillo, grupo in Z.poligonos(celdas, paso, min_celdas=2):
+            dentro = [p for lon, lat, p in puntos if cumple(p) and (int((90 - lat) // paso), int((lon + 180) // paso)) in grupo]
+            if not dentro:
+                continue
+            nombres = sorted({p.get("name") or "" for p in dentro} - {""})
+            out.append(Z.feature_area(anillo, {"name": f"{titulo} ({len(dentro)} ciudad{'es' if len(dentro) != 1 else ''})", "fenomeno": fen,
+                                               "ciudades": nombres[:25], **resumen(dentro),
+                                               "como": f"Área aproximada: hasta {int(radio_km)} km alrededor de las ciudades con el fenómeno, sin pasar a zonas cuya ciudad más cercana no lo tiene."}))
+    return out
+
+
 def main():
     try:
         pron = json.load(open(PRONOSTICO, encoding="utf-8"))
@@ -201,9 +227,10 @@ def main():
     if not feats:
         print("calor: pronóstico vacío; se conserva el anterior")
         return 0
+    zonas = zonas_calor_frio(feats)
     json.dump({"type": "FeatureCollection", "generado_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
                "fuente": "MET Norway (pronóstico, CC BY 4.0) y CPC de NOAA (climatología 1991-2020); reglas propias, no aviso oficial",
-               "con_climatologia": sum(1 for x in feats if x["properties"]["climatologia"]), "features": feats},
+               "con_climatologia": sum(1 for x in feats if x["properties"]["climatologia"]), "features": zonas + feats},
               open(OUT, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"), allow_nan=False)
     c = sum(1 for x in feats if x["properties"]["onda_calor"])
     fr = sum(1 for x in feats if x["properties"]["ola_frio"])

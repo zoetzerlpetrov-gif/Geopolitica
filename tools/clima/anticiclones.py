@@ -33,6 +33,7 @@ import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import gfs as G  # noqa: E402
+import zonas as Z  # noqa: E402
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 OUT = os.path.join(ROOT, "vivos", "anticiclones.geojson")
@@ -47,7 +48,8 @@ DOMO_ANOM_DAM, DOMO_T850 = 10.0, 20.0
 PERSISTE_GRADOS = 6.0
 BLOQUEO_ANCHO, BLOQUEO_DIAS = 12, 4
 CADA_H = 6
-VERSION = 2  # 2: altas subtropicales; un archivo de otra versión se rehace sin esperar las 6 h
+VERSION = 3  # 2: altas subtropicales; 3: área aproximada de cada alta y franja de bloqueo. Otra versión se rehace sin esperar las 6 h
+AREA_MAX_GRADOS = 22        # el área de un anticiclón no se extiende más de 22° desde su centro
 
 
 def anomalia(hgt):
@@ -139,8 +141,43 @@ def persistencia(actuales, por_horizonte):
     return actuales
 
 
-def geojson(actuales, bloqueos, n_horizontes, corrida):
-    feats = [{"type": "Feature", "geometry": {"type": "Point", "coordinates": [a["lon"], a["lat"]]},
+def areas(actuales, hgt500):
+    """Área aproximada de cada anticiclón (y domo): celdas conectadas al centro con altura por encima del promedio de su
+    latitud al menos la mitad que el centro (mínimo 3 dam). En la alta subtropical, el área dentro de la línea de 588 dam."""
+    anom = anomalia(hgt500)
+    out = []
+    for a in actuales:
+        i0, j0 = G.fila_de_lat(a["lat"]), int(round(a["lon"] + 180)) % hgt500.shape[1]
+        umbral = max(30.0, a["anomalia_dam"] * 10 * 0.5)
+        if a.get("subtropical"):
+            cumple = lambda i, j: hgt500[i, j] >= SUB_MIN_M  # noqa: E731
+        else:
+            cumple = lambda i, j, u=umbral: anom[i, j] >= u  # noqa: E731
+        celdas = Z.region_conectada(cumple, i0, j0, AREA_MAX_GRADOS)
+        for anillo, _ in Z.poligonos(celdas, origen=Z.ORIGEN_GFS)[:1]:
+            out.append(Z.feature_area(anillo, {"kind": "domo" if a["domo_calor"] else "alta", **{k: v for k, v in a.items() if k not in ("lon", "lat")},
+                                               "area_celdas": len(celdas), "como": "Área aproximada: zona alrededor del centro donde la altura a 5.5 km sigue claramente por encima de lo normal."}))
+    return out
+
+
+def areas_bloqueo(bloqueos, n_horizontes):
+    """Franja de bloqueo como área (50° a 70° de latitud), en tramos de hasta 80° de longitud para que el mapa la dibuje."""
+    out = []
+    for hemi, lista in bloqueos.items():
+        la, lb = (50, 70) if hemi == "norte" else (-70, -50)
+        for l0, l1, dias in lista:
+            x = l0
+            while x <= l1:
+                y = min(l1 + 1, x + 80)
+                anillo = [[x, la], [y, la], [y, lb], [x, lb], [x, la]]
+                out.append(Z.feature_area(anillo, {"kind": "bloqueo", "hemisferio": hemi, "lon_ini": l0, "lon_fin": l1, "dias": dias, "de_horizontes": n_horizontes,
+                                                   "como": "Franja aproximada donde el bloqueo frena la corriente en chorro (latitudes medias-altas)."}))
+                x = y
+    return out
+
+
+def geojson(actuales, bloqueos, n_horizontes, corrida, zonas=()):
+    feats = list(zonas) + [{"type": "Feature", "geometry": {"type": "Point", "coordinates": [a["lon"], a["lat"]]},
               "properties": {"kind": "domo" if a["domo_calor"] else "alta", **{k: v for k, v in a.items() if k not in ("lon", "lat")},
                              "de_horizontes": n_horizontes}} for a in actuales]
     for hemi, lista in bloqueos.items():
@@ -202,7 +239,8 @@ def main():
     bloqueos = {"norte": franjas_bloqueo([bloqueadas(h, 1) for h, _ in campos]),
                 "sur": franjas_bloqueo([bloqueadas(h, -1) for h, _ in campos])}
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
-    json.dump(geojson(actuales, bloqueos, len(campos), corrida), open(OUT, "w", encoding="utf-8"),
+    zonas = areas(actuales, campos[0][0]) + areas_bloqueo(bloqueos, len(campos))
+    json.dump(geojson(actuales, bloqueos, len(campos), corrida, zonas), open(OUT, "w", encoding="utf-8"),
               ensure_ascii=False, separators=(",", ":"), allow_nan=False)
     domos = sum(1 for a in actuales if a["domo_calor"])
     print(f"anticiclones: {len(actuales)} altas en altura ({domos} domos de calor), bloqueos: "

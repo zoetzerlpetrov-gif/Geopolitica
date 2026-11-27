@@ -218,23 +218,32 @@ export async function iniciarHumedad({ map, cont, abrirFicha, getJSON }) {
   getJSON("data/vivos/co2.json", { bust: true }).then((d) => { $("hum-co2").innerHTML = htmlCO2(d); }).catch(() => { $("hum-co2").innerHTML = htmlCO2(null); });
 
   let datos = null, ref = REF;
+  // Áreas aproximadas (polígonos «zona») de la condición que más importa en cada modo: aire muy húmedo, bochorno,
+  // condensación probable o mucha agua con generador. Se muestra solo la del modo elegido.
+  const AREA = `${CAPA}-area`, BORDE = `${CAPA}-borde`, COLOR_AREA = { hr: "#1D4E89", rocio: "#E65100", condensacion: "#1565C0", generador: "#3E9CC7" };
+  const filtroArea = (modo) => ["all", ["==", ["geometry-type"], "Polygon"], ["==", ["get", "zona_modo"], modo]];
   const pintar = () => {
     const modo = $("hum-modo").value;
-    $("hum-leyenda").innerHTML = htmlLeyenda(modo);
+    $("hum-leyenda").innerHTML = htmlLeyenda(modo) + (COLOR_AREA[modo] ? `<p class="meta"><span style="display:inline-block;width:14px;height:10px;background:${COLOR_AREA[modo]};opacity:.45;border:1px solid ${COLOR_AREA[modo]}"></span>
+      Área aproximada: ${{ hr: "humedad de 85 % o más", rocio: "punto de rocío de 21 °C o más", condensacion: "condensación de rocío media o alta", generador: "7 mL/m³ o más con generador" }[modo]} (hasta ~150 km de los aeropuertos que la cumplen).</p>` : "");
     if (map.getLayer(CAPA)) map.setPaintProperty(CAPA, "circle-color", expresionColor(modo));
+    for (const [id, prop] of [[AREA, "fill-color"], [BORDE, "line-color"]]) if (map.getLayer(id)) { map.setFilter(id, filtroArea(modo)); map.setPaintProperty(id, prop, COLOR_AREA[modo] || "#888"); }
   };
-  const quitar = () => { if (map.getLayer(CAPA)) map.removeLayer(CAPA); if (map.getSource(FUENTE)) map.removeSource(FUENTE); $("hum-leyenda").hidden = true; };
+  const quitar = () => { for (const id of [CAPA, BORDE, AREA]) if (map.getLayer(id)) map.removeLayer(id); if (map.getSource(FUENTE)) map.removeSource(FUENTE); $("hum-leyenda").hidden = true; };
   const poner = async () => {
     $("hum-estado").textContent = "Cargando estaciones…";
     datos ??= await getJSON("data/vivos/humedad_estaciones.geojson", { bust: true });
     ref = { ...REF, ...(datos.referencia || {}) };
     if (!map.getSource(FUENTE)) map.addSource(FUENTE, { type: "geojson", data: datos });
-    if (!map.getLayer(CAPA)) map.addLayer({ id: CAPA, type: "circle", source: FUENTE,
+    const modo0 = $("hum-modo").value;
+    if (!map.getLayer(AREA)) map.addLayer({ id: AREA, type: "fill", source: FUENTE, filter: filtroArea(modo0), paint: { "fill-color": COLOR_AREA[modo0] || "#888", "fill-opacity": 0.2 } });
+    if (!map.getLayer(BORDE)) map.addLayer({ id: BORDE, type: "line", source: FUENTE, filter: filtroArea(modo0), paint: { "line-color": COLOR_AREA[modo0] || "#888", "line-width": 1, "line-opacity": 0.7 } });
+    if (!map.getLayer(CAPA)) map.addLayer({ id: CAPA, type: "circle", source: FUENTE, filter: ["==", ["geometry-type"], "Point"],
       paint: { "circle-radius": ["interpolate", ["linear"], ["zoom"], 1, 2.5, 5, 4.5, 9, 7], "circle-color": expresionColor($("hum-modo").value),
         "circle-stroke-width": 0.5, "circle-stroke-color": "rgba(0,0,0,.35)", "circle-opacity": 0.9 } });
     $("hum-leyenda").hidden = false;
     pintar();
-    $("hum-estado").textContent = `${datos.features.length.toLocaleString("es-MX")} aeropuertos · reportes de ${String(datos.generado_utc || "").replace("T", " ").slice(0, 16)} UTC. Toca un punto para ver el detalle.`;
+    $("hum-estado").textContent = `${datos.features.filter((f) => f.geometry.type === "Point").length.toLocaleString("es-MX")} aeropuertos · reportes de ${String(datos.generado_utc || "").replace("T", " ").slice(0, 16)} UTC. Toca un punto para ver el detalle.`;
   };
   $("hum-capa").addEventListener("change", async (e) => {
     try { e.target.checked ? await poner() : quitar(); } catch { e.target.checked = false; quitar(); $("hum-estado").textContent = "Aún no hay datos (se generan con «Datos en movimiento» cada hora)."; }

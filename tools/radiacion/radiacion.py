@@ -88,6 +88,27 @@ def sitios(cfg):
             for s in cfg.get("sitios", [])]
 
 
+def areas(cfg, sens, paso=0.25, radio_km=25.0):
+    """Áreas aproximadas: (1) zona de exclusión documentada de un sitio (campo «radio_km» del catálogo, solo cuando la fuente
+    la da); (2) grupos de sensores con lectura por encima de lo normal, hasta `radio_km` alrededor de ellos y sin pasar a
+    zonas cuyo sensor más cercano marca normal. Son estimaciones visuales, no mapas oficiales de contaminación."""
+    sys.path.insert(0, os.path.join(ROOT, "tools", "clima"))
+    import zonas as Z  # noqa: E402
+    out = []
+    for s in cfg.get("sitios", []):
+        if s.get("radio_km"):
+            out.append(Z.feature_area(Z.circulo(s["lon"], s["lat"], s["radio_km"]), {"k": "sitio", **{c: s.get(c) for c in ("id", "nombre", "pais", "tipo", "anio", "ines", "texto", "url", "radio_km")}}))
+    puntos = [(f["geometry"]["coordinates"][0], f["geometry"]["coordinates"][1], f["properties"]) for f in sens]
+    alto = lambda p: p.get("nivel") not in (None, "normal")  # noqa: E731
+    for anillo, grupo in Z.poligonos(Z.mascara_de_puntos(puntos, alto, paso, radio_km), paso, min_celdas=1):
+        dentro = [p for lon, lat, p in puntos if alto(p) and (int((90 - lat) // paso), int((lon + 180) // paso)) in grupo]
+        if dentro:
+            peor = max(dentro, key=lambda p: p.get("usv_h") or 0)
+            out.append(Z.feature_area(anillo, {"k": "sensor", "nivel": peor.get("nivel"), "nivel_texto": peor.get("nivel_texto"), "usv_h": peor.get("usv_h"),
+                                               "lugar": peor.get("lugar"), "sensores": len(dentro), "cuando_utc": peor.get("cuando_utc"), "tubo": peor.get("tubo")}))
+    return out
+
+
 def bajar(url):
     with urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": UA}), timeout=90) as r:
         return json.loads(r.read())
@@ -102,13 +123,14 @@ def construir(ahora=None, leer=bajar):
         estado = f"error: {type(e).__name__}"
         previo = leer_json(OUT, {}) or {}
         sens = [f for f in previo.get("features", []) if f["properties"].get("k") == "sensor"]
-    feats = sitios(leer_json(SITIOS, {}) or {}) + sens
+    cfg = leer_json(SITIOS, {}) or {}
+    feats = areas(cfg, sens) + sitios(cfg) + sens
     datos = {"type": "FeatureCollection", "generado_utc": iso(ahora), "ventana_h": HORAS, "sensores": len(sens),
              "fuentes": {"safecast": estado}, "features": feats}
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w", encoding="utf-8") as f:
         json.dump(datos, f, ensure_ascii=False, separators=(",", ":"))
-    return f"{len(sens)} sensores, {len(feats) - len(sens)} sitios; safecast: {estado}"
+    return f"{len(sens)} sensores, {sum(1 for f in feats if f['geometry']['type'] == 'Point') - len(sens)} sitios, {sum(1 for f in feats if f['geometry']['type'] != 'Point')} áreas; safecast: {estado}"
 
 
 def main():

@@ -169,6 +169,26 @@ def features(obs):
     return out
 
 
+# Zonas que se dibujan como área (además del punto de cada aeropuerto), una por modo del mapa: lo que más importa ver.
+ZONAS = [("hr", lambda p: (p.get("hr") or 0) >= 85, "Aire muy húmedo (85 % o más)"),
+         ("rocio", lambda p: (p.get("rocio_c") if p.get("rocio_c") is not None else -99) >= 21, "Punto de rocío de 21 °C o más (bochorno)"),
+         ("condensacion", lambda p: (p.get("nivel") or 0) >= 2, "Condensación de rocío probable (media o alta)"),
+         ("generador", lambda p: (p.get("generador_ml_m3") or 0) >= 7, "Agua del aire con generador: 7 mL/m³ o más")]
+
+
+def zonas_humedad(fs, paso=1.0, radio_km=150.0):
+    """Área aproximada de cada condición: celdas a menos de `radio_km` de aeropuertos que la cumplen y cuyo aeropuerto más
+    cercano también la cumple. «zona_modo» dice en qué modo del mapa se muestra."""
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import zonas as Z  # noqa: E402
+    puntos = [(f["geometry"]["coordinates"][0], f["geometry"]["coordinates"][1], f["properties"]) for f in fs]
+    out = []
+    for modo, cumple, titulo in ZONAS:
+        for anillo, grupo in Z.poligonos(Z.mascara_de_puntos(puntos, cumple, paso, radio_km), paso, min_celdas=6, suavizar=1, decimales=1):
+            out.append(Z.feature_area(anillo, {"zona_modo": modo, "titulo": titulo, "celdas": len(grupo)}))
+    return out
+
+
 def acumular(hist, fs, ahora):
     """Suma cada observación nueva al mes de su estación: [observaciones, Σ mL/m³ generador, noches, Σ mL/m² rocío].
     Una estación solo suma una vez por hora de observación (el archivo METAR repite la última si no hay nueva)."""
@@ -226,7 +246,7 @@ def main(ahora=None, descargar=None):
                    "fuente": "Reportes METAR de aeropuertos (NOAA Aviation Weather Center, dominio público); cálculos propios",
                    "referencia": {"bobina_c": BOBINA_C, "caudal_m3h": CAUDAL_M3H, "eficiencia": EFICIENCIA, "noche_h": NOCHE_H,
                                   "enfriamiento_max_c": ENFRIAMIENTO_MAX_C, "potencia_max_w": POTENCIA_MAX_W},
-                   "features": fs}, f, ensure_ascii=False, separators=(",", ":"))
+                   "features": zonas_humedad(fs) + fs}, f, ensure_ascii=False, separators=(",", ":"))
     try:
         hist = json.load(open(HIST, encoding="utf-8"))
     except (OSError, ValueError):
