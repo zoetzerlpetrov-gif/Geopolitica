@@ -1,13 +1,13 @@
 {
- "generado_utc": "2026-11-27T11:21:31Z",
+ "generado_utc": "2026-11-27T22:55:22Z",
  "fuentes": {
   "MEX": {
    "fuente": "Diario Oficial de la Federación y Cámara de Diputados",
    "ok": true,
    "estado": "ok",
-   "nuevas": 6,
+   "nuevas": 10,
    "error": "",
-   "hasta": "2026-11-26"
+   "hasta": "2026-11-27"
   },
   "USA": {
    "fuente": "Federal Register (API oficial)",
@@ -45,23 +45,22 @@
    "fuente": "Portal oficial de publicación de actos jurídicos",
    "ok": true,
    "estado": "ok",
-   "nuevas": 2,
+   "nuevas": 3,
    "error": "",
    "hasta": "2026-11-27"
   },
   "ARG": {
    "fuente": "Boletín Oficial, primera sección",
-   "ok": false,
-   "estado": "error",
+   "ok": true,
+   "estado": "ok",
    "nuevas": 0,
-   "error": "URLError: <urlopen error timed out>",
-   "hasta": "2026-11-26"
+   "error": "",
+   "hasta": "2026-11-27"
   }
  },
  "sin_fuente": {
   "CHN": "El robots.txt de la base nacional de leyes (flk.npc.gov.cn) prohíbe el acceso automatizado: revisión semanal manual.",
   "CHL": "El Diario Oficial niega el acceso a su robots.txt: revisión semanal manual en Ley Chile (bcn.cl).",
-  "ARG": "Boletín Oficial: se intenta cada día; si no responde, revisión semanal manual.",
   "BRA": "El robots.txt del Diário Oficial da União (in.gov.br) responde 403 a bots: revisión semanal manual en Planalto y el DOU.",
   "SAU": "Sin fuente automática abierta: revisión semanal manual.",
   "ARE": "Sin fuente automática abierta: revisión semanal manual.",
@@ -83,8 +82,8 @@
   "EUR": "2026-11-27",
   "JPN": "2026-11-27",
   "RUS": "2026-11-27",
-  "MEX": "2026-11-26",
-  "ARG": "2026-11-26"
+  "MEX": "2026-11-27",
+  "ARG": "2026-11-27"
  },
  "desactualizadas": [],
  "por_pais": {
@@ -94,19 +93,19 @@
    "ultimos_30d": 32
   },
   "RUS": {
-   "total": 38,
+   "total": 39,
    "alto": 4,
-   "ultimos_30d": 38
+   "ultimos_30d": 39
+  },
+  "MEX": {
+   "total": 567,
+   "alto": 53,
+   "ultimos_30d": 45
   },
   "EUR": {
    "total": 65,
    "alto": 10,
    "ultimos_30d": 26
-  },
-  "MEX": {
-   "total": 563,
-   "alto": 53,
-   "ultimos_30d": 41
   },
   "JPN": {
    "total": 1,

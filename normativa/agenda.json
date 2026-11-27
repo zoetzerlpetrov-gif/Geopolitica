@@ -1,14 +1,14 @@
 {
- "generado_utc": "2026-11-27T11:26:55Z",
+ "generado_utc": "2026-11-27T22:58:26Z",
  "agregadas_hoy": 1,
  "resumen": {
-  "en_curso": 27,
-  "federal": 27,
+  "en_curso": 28,
+  "federal": 28,
   "estatal": 0,
   "publicadas": 1,
   "alta_probabilidad": 12,
   "por_sector": {
-   "sin sector": 20,
+   "sin sector": 21,
    "energia_electrica": 5,
    "manufactura_immex": 2,
    "logistica": 1,
@@ -28,6 +28,7 @@
    "impuestos_dinero": 2,
    "cultura_deporte": 2,
    "migracion": 2,
+   "politica_electoral": 1,
    "ninez": 1,
    "telecom_internet": 1,
    "seguridad_justicia": 1,
@@ -267,8 +268,8 @@
    "leyes_ids": [],
    "sectores": [],
    "temas": [
-    "familia_civil",
-    "cultura_deporte"
+    "cultura_deporte",
+    "familia_civil"
    ],
    "estado": "en curso",
    "notas": [
@@ -321,6 +322,40 @@
    "ventana": [
     "2026-12",
     "2027-08"
+   ]
+  },
+  {
+   "id": "AG:e01cf786cbb0",
+   "detectado": "2026-11-27",
+   "actualizado": "2026-11-27",
+   "fuente": "Monitor de noticias (titular)",
+   "ambito": "federal",
+   "etapa": "iniciativa",
+   "etapa_nombre": "Iniciativa presentada",
+   "probabilidad": 0.15,
+   "horizonte_meses": "3–18",
+   "titulo": "Si quieren cambiar la ley electoral, presenten iniciativa y a ver si procede, sugiere Sheinbaum a oposición",
+   "url": "https://www.razon.com.mx:443/mexico/2026/11/27/si-quieren-cambiar-la-ley-electoral-presenten-iniciativa-y-a-ver-si-procede-sugiere-sheinbaum-a-oposicion/",
+   "medio": "razon.com.mx",
+   "leyes": [],
+   "leyes_ids": [],
+   "sectores": [],
+   "temas": [
+    "politica_electoral"
+   ],
+   "estado": "en curso",
+   "notas": [
+    {
+     "t": "Si quieren cambiar la ley electoral, presenten iniciativa y a ver si procede, sugiere Sheinbaum a oposición",
+     "u": "https://www.razon.com.mx:443/mexico/2026/11/27/si-quieren-cambiar-la-ley-electoral-presenten-iniciativa-y-a-ver-si-procede-sugiere-sheinbaum-a-oposicion/",
+     "m": "razon.com.mx",
+     "f": "2026-11-27"
+    }
+   ],
+   "confirmacion": "un solo medio (sin confirmar)",
+   "ventana": [
+    "2027-02",
+    "2028-05"
    ]
   },
   {
