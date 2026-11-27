@@ -89,6 +89,15 @@ test("Excel: hojas, fórmulas de fechas y Gantt, y ZIP válido (con y sin compre
   assert.equal(typeof f7[17].v, "number"); assert.equal(typeof f7[18].v, "number"); assert.ok(f7[18].v >= f7[17].v);
   assert.equal(gantt.filas[6][4].v, plan.filas[6][17].v);
   assert.ok(gantt.cols.length - 9 >= 26 && gantt.cols.length - 9 <= 104);
+  // Colores: amarillo = se captura (duración, estado…); gris = fórmula (inicio y fin); encabezados verde o gris; leyenda arriba.
+  const enc = plan.filas[4];
+  assert.equal(f7[15].s, "entradaNumero"); assert.equal(f7[17].s, "formulaFecha"); assert.equal(f7[20].s, "entradaNumero"); assert.equal(f7[3].s, "entrada");
+  assert.equal(enc[15].s, "encabezadoEditable"); assert.equal(enc[17].s, "encabezadoFormula"); assert.equal(enc[0].s, "encabezado");
+  assert.equal(plan.filas[1][2].s, "entradaFecha");
+  assert.match(plan.filas[3][0].v, /Amarillo.*Gris/);
+  assert.ok(hojas[0].filas.some((f) => /escribas encima/i.test(f[0]?.v || "")));
+  const ri = hojas.find((h) => h.nombre === "Riesgos");
+  assert.deepEqual([ri.filas[3][6].s, ri.filas[3][8].s], ["encabezadoEditable", "encabezadoFormula"]);
   assert.ok(["gantt", "ganttHecho", "ganttVencido", "ganttCurso", "ganttHito", "hoy"].every((e) => gantt.condicionales.some((c) => c.estilo === e)));
   assert.match(ven.filas[15][7].f, /Vencido/); assert.match(ven.filas[15][4].f, /ROW\(\)-10/);
   assert.match(hojas[5].filas.slice(4).map((f) => f[8].f || "").join(" "), /DATE\(YEAR\(TODAY\(\)\)/);  // próxima fecha calculada

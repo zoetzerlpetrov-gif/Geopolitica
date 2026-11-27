@@ -13,6 +13,42 @@ const EXTRA = 300;                                                         // fi
 
 const t = (v, s = "texto") => ({ v, s });
 
+// Variantes de estilo: la misma celda en amarillo (se captura) o en gris (fórmula).
+const A_ENTRADA = { fecha: "entradaFecha", numero: "entradaNumero", critica: "entradaNumero", porcentaje: "entradaPorcentaje" };
+const A_FORMULA = { fecha: "formulaFecha", numero: "formulaNumero", critica: "formulaNumero", porcentaje: "formulaPorcentaje" };
+const NO_TOCAR = new Set(["fase", "hito", "fechaHito", "numeroHito", "titulo", "subtitulo", "nota", "seccion", "encabezado", "enlace", "mes", "dia"]);
+const LEYENDA = "🟨 Amarillo = escribe aquí · ⬜ Gris = se calcula solo (fórmula): no escribas encima · Encabezado verde = columna para capturar; gris = calculada";
+
+/**
+ * Colorea una hoja: en las filas de datos (debajo del encabezado `filaEnc`, 1 = primera fila), las columnas `editables`
+ * van en amarillo y toda celda con fórmula en gris. Los encabezados se pintan verde (captura) o gris (calculada).
+ * Pone la leyenda en la fila `filaLeyenda` si está vacía.
+ */
+export function marcarHoja(hoja, filaEnc, editables, filaLeyenda = 0) {
+  const filas = hoja.filas, enc = filas[filaEnc - 1] || [], conFormula = new Set();
+  for (let i = filaEnc; i < filas.length; i++) {
+    const f = filas[i];
+    if (!f?.length || f.some((c) => c && typeof c === "object" && c.s === "encabezado")) break;  // otra tabla en la misma hoja
+    f.forEach((c, j) => {
+      if (!c || typeof c !== "object" || NO_TOCAR.has(c.s)) return;
+      if (c.f != null) { f[j] = { ...c, s: A_FORMULA[c.s] || "formula" }; conFormula.add(j); }
+      else if (editables.has(j)) f[j] = { ...c, s: A_ENTRADA[c.s] || "entrada" };
+    });
+  }
+  enc.forEach((c, j) => {
+    if (!c || typeof c !== "object" || c.s !== "encabezado") return;
+    if (editables.has(j)) enc[j] = { ...c, s: "encabezadoEditable" };
+    else if (conFormula.has(j)) enc[j] = { ...c, s: "encabezadoFormula" };
+  });
+  if (filaLeyenda && Array.isArray(filas[filaLeyenda - 1]) && !filas[filaLeyenda - 1].length) {
+    filas[filaLeyenda - 1] = [{ v: LEYENDA, s: "leyenda" }];
+    // La leyenda ocupa el ancho de la tabla (celdas combinadas) en una sola línea.
+    hoja.combinar = [...(hoja.combinar || []), `A${filaLeyenda}:${col(Math.max(7, Math.min(enc.length, 12)) - 1)}${filaLeyenda}`];
+    hoja.altos = { ...(hoja.altos || {}), [filaLeyenda]: 20 };
+  }
+  return hoja;
+}
+
 export function hojasPlan(plan, { cfg, titulo, inicio, sectorNombre = "", paises = [], extranjera = false, revisado = "" }) {
   const ini = serialFecha(inicio);
   const roles = cfg.roles.map(([, n]) => n), rolN = Object.fromEntries(cfg.roles);
@@ -309,6 +345,23 @@ export function hojasPlan(plan, { cfg, titulo, inicio, sectorNombre = "", paises
     filas: [[{ v: titulo, s: "titulo" }], [t(`Sector: ${sectorNombre || "Solo generales"} · Países: ${paises.join(", ")}${extranjera ? " · Incluye la ruta de empresa extranjera que opera en México" : ""} · Catálogo revisado ${revisado}`, "nota")], [],
       [{ v: "Cómo usar esta plantilla (paso a paso)", s: "subtitulo" }], ...pasos.map((p) => [t(p)]), [],
       [{ v: `Contenido: ${plan.tareas.length} tareas, ${plan.base.length} leyes y normas, ${plan.auditoria.length} preguntas de auditoría, ${plan.riesgos.length} riesgos y ${plan.recurrentes.length} obligaciones recurrentes.`, s: "seccion" }]] };
+  // Qué se escribe y qué se calcula: amarillo = captura; gris = fórmula (no se escribe encima); encabezado verde o gris.
+  const editPlan = new Set(["tarea", "entregable", "rol", "prioridad", "pred", "dias", "aplica", "estado", "avance", "evidencia", "riesgo", "notas", "escalar", "presupuesto", "costo"]
+    .map((k) => COLUMNAS_PLAN.findIndex(([c]) => c === k)));
+  marcarHoja(hojaPlan, FILA_ENC, editPlan, 4);
+  hojaPlan.filas[1][2] = { ...hojaPlan.filas[1][2], s: "entradaFecha" };   // fecha de inicio del proyecto: se captura
+  hojaPlan.filas[1][5] = { ...hojaPlan.filas[1][5], s: "formulaFecha" };   // hoy: fórmula
+  marcarHoja(hojaGantt, 5, new Set(), 3);
+  marcarHoja(hojaVen, V0 - 1, new Set(), 3);
+  marcarHoja(hojaTab, 4, new Set(), 3);
+  marcarHoja(hojaCal, 4, new Set([7, 9]), 3);
+  marcarHoja(hojaAud, 4, new Set([6, 7, 8, 9]), 3);
+  marcarHoja(hojaRi, 4, new Set([6, 7, 10, 11, 12]), 3);
+  ins.filas.push([], [{ v: "Colores de las celdas", s: "subtitulo" }],
+    [{ v: "🟨 Amarillo: escribe aquí (fechas de inicio, duraciones, predecesoras, estado, avance, notas, resultados de auditoría, probabilidad e impacto…). Encabezado verde = columna para capturar.", s: "leyenda" }],
+    [{ v: "⬜ Gris: se calcula solo con una fórmula (fechas de inicio y fin, Gantt, vencimientos, tablero, nivel de riesgo). No escribas encima: si lo haces, ese dato deja de actualizarse. Encabezado gris = columna calculada.", s: "formula" }],
+    [{ v: "Blanco: datos del catálogo (ley, autoridad, plazo legal, referencia). Puedes corregirlos si hace falta; no cambies la columna ID porque la usan las fórmulas.", s: "texto" }],
+    [{ v: "Al cambiar algo en amarillo, todo lo gris se recalcula al momento (Excel en cálculo automático). Si abriste el archivo en «Vista protegida», pulsa «Habilitar edición».", s: "nota" }]);
   return [ins, hojaPlan, hojaGantt, hojaVen, hojaTab, hojaCal, hojaBase, hojaAud, hojaRi, hojaRaci, hojaFer, dic];
 }
 
