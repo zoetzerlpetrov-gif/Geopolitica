@@ -90,3 +90,17 @@ def test_violencia_fuera_en_todos_los_temas_y_emoji_por_titular():
     assert g["escenas"][-2]["voz"].startswith("Y para cerrar")
     assert g["escenas"][1]["voz"].startswith("Número uno")
     assert all(e["total"] == 2 for e in g["escenas"])
+
+
+def test_voz_del_short_con_las_reglas_del_video_diario():
+    """Las cifras, fechas y palabras en inglés se leen igual que en Brújula Diaria (en pantalla queda el texto original)."""
+    tema = S.config()["temas"][0]
+    items = [{"titulo": "Invierten 12,000 millones y el dólar cierra en 18.00", "medio": "milenio.com", "url": "https://www.milenio.com/1", "fecha": "2026-11-26"},
+             {"titulo": "España reparte 12.000 euros a 15.123 familias", "medio": "El País", "url": "https://elpais.es/2", "fecha": "2026-11-26"},
+             {"titulo": "Chile fija la tasa en 13,00 y Wall Street sube", "medio": "Medio C", "url": "https://c.cl/3", "fecha": "2026-11-26"}]
+    g = S.guion(tema, items, "2026-11-26")
+    v = [e["voz"] for e in g["escenas"][1:4]]
+    assert "12000 millones" in v[0] and "18 punto cero cero" in v[0] and "milenio punto com" in v[0]
+    assert "12000 euros a 15123 familias" in v[1]
+    assert "13 punto cero cero" in v[2] and "Uol Strit" in v[2]
+    assert g["escenas"][1]["titulo"] == items[0]["titulo"]

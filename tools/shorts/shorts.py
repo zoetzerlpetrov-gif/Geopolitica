@@ -22,7 +22,11 @@ from datetime import date, datetime, timedelta, timezone
 AQUI = os.path.dirname(os.path.abspath(__file__))
 RAIZ = os.path.abspath(os.path.join(AQUI, "..", ".."))
 sys.path.insert(0, AQUI)
+sys.path.insert(0, os.path.join(RAIZ, "tools", "noticiero_video"))
 from paletas import paleta_del_dia  # noqa: E402
+# Mismas reglas de pronunciación que Brújula Diaria: cifras a la mexicana (12,000 = doce mil; 12.00 = doce punto cero cero;
+# 12,01 = doce punto cero uno; 12.000 de España = doce mil), fechas, palabras en inglés como en inglés y nombres de medios.
+from guion import para_voz, voz_titular, medio_para_voz  # noqa: E402
 
 NOTICIERO = "https://dominusosint.com/data/vivos/noticiero.json"
 PALABRAS_ES = {"el", "la", "de", "que", "en", "los", "las", "y", "del", "un", "una", "por", "con", "para", "se", "su", "al", "es", "más"}
@@ -110,14 +114,14 @@ def guion(tema, items, dia):
     ic, n = tema.get("icono", ""), len(items)
     d = date.fromisoformat(str(dia)[:10])
     escenas = [{"tipo": "portada", "titulo": tema["gancho"], "tema": tema["nombre"], "icono": ic, "total": n,
-                "sub": f"{n} cosas que pasaron hoy 👇", "voz": f"{tema['gancho']}. Aquí van {n} cosas que pasaron hoy. ¡Quédate hasta el final!"}]
+                "sub": f"{n} cosas que pasaron hoy 👇", "voz": para_voz(f"{tema['gancho']}. Aquí van {n} cosas que pasaron hoy. ¡Quédate hasta el final!")}]
     for i, it in enumerate(items):
         ultima = i == n - 1
         entrada = "Y para cerrar" if ultima and n > 1 else f"Número {ORDINALES[i].lower()}"
         escenas.append({"tipo": "nota", "numero": i + 1, "total": n, "titulo": it["titulo"], "medio": it["medio"], "tema": tema["nombre"],
-                        "icono": ic, "emoji": emoji_de(it["titulo"], ic), "voz": f"{entrada}: {it['titulo'].rstrip('.')}. Lo cuenta {it['medio']}."})
+                        "icono": ic, "emoji": emoji_de(it["titulo"], ic), "voz": f"{entrada}: {voz_titular(it['titulo'].rstrip('.'), it.get('url') or it['medio'], it.get('seccion') or tema.get('seccion'))}. Lo cuenta {medio_para_voz(it['medio'])}."})
     cierre = CIERRES[d.toordinal() % len(CIERRES)]
-    escenas.append({"tipo": "cierre", "titulo": "¿Cuál te gustó más?", "tema": tema["nombre"], "icono": ic, "total": n, "voz": cierre})
+    escenas.append({"tipo": "cierre", "titulo": "¿Cuál te gustó más?", "tema": tema["nombre"], "icono": ic, "total": n, "voz": para_voz(cierre)})
     titulo = f"{ic} {tema['gancho']} | {tema['nombre']} hoy #Shorts".strip()
     fuentes = "\n".join(f"• {it['titulo']} — {it['medio']} ({it['url']})" for it in items)
     tags = " ".join(f"#{h}" for h in tema.get("hashtags", []))
