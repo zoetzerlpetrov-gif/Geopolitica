@@ -539,7 +539,7 @@ def bloque_clima(calor, ciclones, fecha):
     props, en_mx = {}, set()
     for f in (calor or {}).get("features", []):
         p = f.get("properties") or {}
-        if not p.get("name") or p.get("zona"):  # las áreas aproximadas del mapa no son ciudades
+        if not p.get("name") or p.get("es_area"):  # las áreas aproximadas del mapa no son ciudades
             continue
         props[p["name"]] = p
         lon, lat = ((f.get("geometry") or {}).get("coordinates") or [None, None])[:2]

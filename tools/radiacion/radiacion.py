@@ -93,7 +93,7 @@ def areas(cfg, sens, paso=0.25, radio_km=25.0):
     la da); (2) grupos de sensores con lectura por encima de lo normal, hasta `radio_km` alrededor de ellos y sin pasar a
     zonas cuyo sensor más cercano marca normal. Son estimaciones visuales, no mapas oficiales de contaminación."""
     sys.path.insert(0, os.path.join(ROOT, "tools", "clima"))
-    import zonas as Z  # noqa: E402
+    import areas_mapa as Z  # noqa: E402
     out = []
     for s in cfg.get("sitios", []):
         if s.get("radio_km"):
@@ -122,7 +122,7 @@ def construir(ahora=None, leer=bajar):
     except Exception as e:  # noqa: BLE001  sin Safecast se publican al menos los sitios, y se conservan los sensores previos
         estado = f"error: {type(e).__name__}"
         previo = leer_json(OUT, {}) or {}
-        sens = [f for f in previo.get("features", []) if f["properties"].get("k") == "sensor"]
+        sens = [f for f in previo.get("features", []) if f["properties"].get("k") == "sensor" and not f["properties"].get("es_area")]
     cfg = leer_json(SITIOS, {}) or {}
     feats = areas(cfg, sens) + sitios(cfg) + sens
     datos = {"type": "FeatureCollection", "generado_utc": iso(ahora), "ventana_h": HORAS, "sensores": len(sens),

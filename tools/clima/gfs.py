@@ -277,7 +277,7 @@ def areas_bolsas(bolsas, t500):
     """Área aproximada de cada bolsa de aire frío: celdas conectadas al núcleo con la temperatura a 500 hPa por debajo del
     promedio de su latitud al menos la mitad que el núcleo (mínimo 2 °C), hasta 15° del centro."""
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-    import zonas as Z  # noqa: E402  (mismo directorio)
+    import areas_mapa as Z  # noqa: E402  (mismo directorio)
     anom = t500 - np.nanmean(t500, axis=1, keepdims=True)
     out = []
     for b in bolsas:
@@ -290,7 +290,7 @@ def areas_bolsas(bolsas, t500):
 
 
 def geojson_bolsas(bolsas, t500=None):
-    """Núcleo (punto) y, con la rejilla, el área aproximada que abarca cada bolsa (polígono con «zona»: true)."""
+    """Núcleo (punto) y, con la rejilla, el área aproximada que abarca cada bolsa (polígono con «es_area»: true)."""
     zonas = areas_bolsas(bolsas, t500) if t500 is not None else []
     return {"type": "FeatureCollection", "features": zonas + [
         {"type": "Feature", "geometry": {"type": "Point", "coordinates": [b["lon"], b["lat"]]}, "properties": {k: v for k, v in b.items() if k not in ("lon", "lat")}}

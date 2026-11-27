@@ -1,4 +1,4 @@
-"""Áreas aproximadas de fenómenos para el mapa (tools/clima/zonas.py y sus usos)."""
+"""Áreas aproximadas de fenómenos para el mapa (tools/clima/areas_mapa.py y sus usos)."""
 import os
 import sys
 
@@ -11,7 +11,7 @@ import anticiclones as A  # noqa: E402
 import calor as CA  # noqa: E402
 import gfs as G  # noqa: E402
 import humedad as H  # noqa: E402
-import zonas as Z  # noqa: E402
+import areas_mapa as Z  # noqa: E402
 
 
 def test_region_contorno_y_circulo():
@@ -42,7 +42,7 @@ def test_calor_humedad_y_anticiclones_traen_areas():
         return {"type": "Feature", "geometry": {"type": "Point", "coordinates": [lon, lat]}, "properties": {"name": f"c{lon}", **p}}
     feats = [f(-100, 20, onda_calor=True, calor_nivel=3), f(-99, 20.5, onda_calor=True, calor_nivel=2), f(-90, 20, onda_calor=False, frio_nivel=0)]
     z = CA.zonas_calor_frio(feats)
-    assert len(z) == 1 and z[0]["properties"]["zona"] and z[0]["properties"]["calor_nivel"] == 3
+    assert len(z) == 1 and z[0]["properties"]["es_area"] and z[0]["properties"]["calor_nivel"] == 3
     assert z[0]["properties"]["ciudades"] == ["c-100", "c-99"] and z[0]["geometry"]["type"] == "Polygon"
     hs = [f(10 + k * 0.5, 45, hr=90, rocio_c=10, nivel=3, generador_ml_m3=1) for k in range(4)]
     zh = H.zonas_humedad(hs)
@@ -54,7 +54,7 @@ def test_calor_humedad_y_anticiclones_traen_areas():
     a = {"lon": 15.0, "lat": 35.0, "anomalia_dam": 25.0, "domo_calor": False, "subtropical": False}
     [area] = A.areas([a], hgt)
     xs = [p[0] for p in area["geometry"]["coordinates"][0]]
-    assert area["properties"]["zona"] and 9 < min(xs) < 15 < max(xs) < 21
+    assert area["properties"]["es_area"] and 9 < min(xs) < 15 < max(xs) < 21
     [b] = A.areas_bloqueo({"norte": [(-10, 100, 5)], "sur": []}, 6)[:1]
     assert b["properties"]["kind"] == "bloqueo" and b["geometry"]["coordinates"][0][1][0] - b["geometry"]["coordinates"][0][0][0] <= 80
 
@@ -65,7 +65,7 @@ def test_bolsa_fria_con_area():
     b = {"lon": -76.0, "lat": 47.0, "anomalia_c": -11.0, "t500_c": -32.0, "altura500_dam": 540.0}
     fc = G.geojson_bolsas([b], t500)
     tipos = [x["geometry"]["type"] for x in fc["features"]]
-    assert tipos == ["Polygon", "Point"] and fc["features"][0]["properties"]["zona"]
+    assert tipos == ["Polygon", "Point"] and fc["features"][0]["properties"]["es_area"]
 
 
 def test_radiacion_zona_de_exclusion_y_sensores_altos():

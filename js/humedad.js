@@ -218,7 +218,7 @@ export async function iniciarHumedad({ map, cont, abrirFicha, getJSON }) {
   getJSON("data/vivos/co2.json", { bust: true }).then((d) => { $("hum-co2").innerHTML = htmlCO2(d); }).catch(() => { $("hum-co2").innerHTML = htmlCO2(null); });
 
   let datos = null, ref = REF;
-  // Áreas aproximadas (polígonos «zona») de la condición que más importa en cada modo: aire muy húmedo, bochorno,
+  // Áreas aproximadas (polígonos «es_area») de la condición que más importa en cada modo: aire muy húmedo, bochorno,
   // condensación probable o mucha agua con generador. Se muestra solo la del modo elegido.
   const AREA = `${CAPA}-area`, BORDE = `${CAPA}-borde`, COLOR_AREA = { hr: "#1D4E89", rocio: "#E65100", condensacion: "#1565C0", generador: "#3E9CC7" };
   const filtroArea = (modo) => ["all", ["==", ["geometry-type"], "Polygon"], ["==", ["get", "zona_modo"], modo]];

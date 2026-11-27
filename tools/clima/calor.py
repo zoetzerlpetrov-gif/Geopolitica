@@ -182,7 +182,7 @@ def zonas_calor_frio(feats, paso=1.0, radio_km=200.0):
     con ese fenómeno cuya ciudad más cercana también lo tiene. Cada área lleva solo su propia marca (onda_calor, frio_nivel
     o niebla) para que cada capa del mapa tome la suya; «ciudades» lista las ciudades que abarca."""
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-    import zonas as Z  # noqa: E402  (mismo directorio)
+    import areas_mapa as Z  # noqa: E402  (mismo directorio)
     puntos = [(f["geometry"]["coordinates"][0], f["geometry"]["coordinates"][1], f["properties"]) for f in feats]
     reglas = [
         ("calor", lambda p: p.get("onda_calor"), lambda ps: {"onda_calor": True, "calor_nivel": max(p.get("calor_nivel") or 1 for p in ps)}, "Zona con onda de calor"),

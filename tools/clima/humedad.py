@@ -180,7 +180,7 @@ def zonas_humedad(fs, paso=1.0, radio_km=150.0):
     """Área aproximada de cada condición: celdas a menos de `radio_km` de aeropuertos que la cumplen y cuyo aeropuerto más
     cercano también la cumple. «zona_modo» dice en qué modo del mapa se muestra."""
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-    import zonas as Z  # noqa: E402
+    import areas_mapa as Z  # noqa: E402
     puntos = [(f["geometry"]["coordinates"][0], f["geometry"]["coordinates"][1], f["properties"]) for f in fs]
     out = []
     for modo, cumple, titulo in ZONAS:

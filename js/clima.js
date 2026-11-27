@@ -241,7 +241,7 @@ export class Clima {
       if (!b) throw new Error("la corrida actual del modelo todavía no trae bolsas de aire frío; aparecerán en la siguiente (cada 6 h)");
       this.map.addSource(id, { type: "geojson", data: BASE + b });
       const antes = ["choke-anillo", "clusters"].find((l) => this.map.getLayer(l));
-      // Área aproximada de cada bolsa (polígono «zona»: aire a 5.5 km más frío de lo normal alrededor del núcleo).
+      // Área aproximada de cada bolsa (polígono «es_area»: aire a 5.5 km más frío de lo normal alrededor del núcleo).
       const colorBolsa = ["interpolate", ["linear"], ["get", "anomalia_c"], -14, "#4A148C", -8, "#283593", -4, "#42A5F5"];
       this.map.addLayer({ id: `${id}-area`, type: "fill", source: id, filter: ["==", ["geometry-type"], "Polygon"], paint: { "fill-color": colorBolsa, "fill-opacity": 0.22 } }, antes);
       this.map.addLayer({ id: `${id}-borde`, type: "line", source: id, filter: ["==", ["geometry-type"], "Polygon"], paint: { "line-color": colorBolsa, "line-width": 1.4, "line-dasharray": ["literal", [2, 1.5]] } }, antes);

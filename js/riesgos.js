@@ -1353,7 +1353,7 @@ export const CAPAS = [
   },
 ];
 
-// Áreas aproximadas (polígonos con «zona»: true) que acompañan a los puntos de estas capas: cuánto abarca el fenómeno.
+// Áreas aproximadas (polígonos con «es_area»: true) que acompañan a los puntos de estas capas: cuánto abarca el fenómeno.
 const CAPAS_CON_AREA = new Set(["calor", "frio", "niebla", "anticiclones", "radiacion"]);
 /** Ficha de un área aproximada: qué abarca y cómo se dibujó. */
 export function fichaArea(p, fuente = "") {
@@ -1367,9 +1367,9 @@ export function fichaArea(p, fuente = "") {
 for (const c of CAPAS) {
   if (!CAPAS_CON_AREA.has(c.id)) continue;
   const { ficha, extra, etiqueta } = c;
-  c.ficha = (p, ...r) => (p.zona ? fichaArea(p, c.fuente) : ficha(p, ...r));
-  if (extra) c.extra = (p, ...r) => (p.zona ? "" : extra(p, ...r));
-  if (etiqueta) c.etiqueta = (p, ...r) => (p.zona ? "" : etiqueta(p, ...r));
+  c.ficha = (p, ...r) => (p.es_area ? fichaArea(p, c.fuente) : ficha(p, ...r));
+  if (extra) c.extra = (p, ...r) => (p.es_area ? "" : extra(p, ...r));
+  if (etiqueta) c.etiqueta = (p, ...r) => (p.es_area ? "" : etiqueta(p, ...r));
 }
 
 /**

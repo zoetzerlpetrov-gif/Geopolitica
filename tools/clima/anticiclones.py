@@ -33,7 +33,7 @@ import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import gfs as G  # noqa: E402
-import zonas as Z  # noqa: E402
+import areas_mapa as Z  # noqa: E402
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 OUT = os.path.join(ROOT, "vivos", "anticiclones.geojson")

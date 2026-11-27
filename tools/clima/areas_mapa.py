@@ -169,7 +169,7 @@ def circulo(lon, lat, radio_km, n=48):
 
 
 def feature_area(anillo, props):
-    return {"type": "Feature", "geometry": {"type": "Polygon", "coordinates": [anillo]}, "properties": {**props, "zona": True}}
+    return {"type": "Feature", "geometry": {"type": "Polygon", "coordinates": [anillo]}, "properties": {**props, "es_area": True}}
 
 
 ORIGEN_GFS = (-180.5, 90.5)   # rejilla de 1° con puntos en los centros de las celdas
