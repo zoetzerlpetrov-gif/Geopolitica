@@ -187,14 +187,29 @@ def romanos_legales(texto, legal=False):
     return _ROMANO.sub(cambiar, texto)
 
 
+_DIGITOS = ["cero", "uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve"]
+
+
 def para_voz(texto, legal=False):
-    """Ajusta números para que el sintetizador en español los lea bien: 18.67 → «18 punto 67»; 11 000 y 3,830 → 11000 y 3830."""
+    """Ajusta números para que el sintetizador en español los lea como se dice en México:
+    - 18.67 → «18 punto 67»; 12.00 → «12 punto cero cero» (decimales que empiezan en cero, cifra por cifra);
+    - 12,01 o 13,00 (coma con 1 o 2 decimales, estilo de otros países) → «12 punto cero uno», «13 punto cero cero»;
+    - 11 000, 3,830 y 12,000 → 11000, 3830 y 12000 (miles: «doce mil», nunca «doce coma cero cero cero»)."""
     t = re.sub(r"(\d)[ \u00a0\u202f](\d{3})\b", r"\1\2", romanos_legales(expandir_fechas(texto), legal=legal))
+    t = re.sub(r"(?<![\d,.])(\d+),(\d{1,2})(?![\d])", r"\1.\2", t)  # coma decimal (12,01) → punto decimal
     t = re.sub(r"\b(\d{1,3})((?:,\d{3})+)\b(?!\.\d)", lambda m: m.group(1) + m.group(2).replace(",", ""), t)
     t = re.sub(r"\b(\d{1,3})((?:,\d{3})+)(\.\d+)", lambda m: m.group(1) + m.group(2).replace(",", "") + m.group(3), t)
     t = re.sub(r"(\d)\.(\d)", r"\1 punto \2", t)
+    t = re.sub(r"punto (0\d*)\b", lambda m: "punto " + " ".join(_DIGITOS[int(d)] for d in m.group(1)), t)
     t = t.replace("%", " por ciento").replace("‑", "-").replace(" · ", ", ").replace("·", ", ")  # el «·» no se pronuncia
     return ampersands_voz(pronunciar(re.sub(r"\s+", " ", t).strip()))
+
+
+def voz_titular(texto, fuente="", seccion=None, legal=False):
+    """Titular o texto de un medio listo para la voz, con las mismas reglas del video diario: convención numérica del
+    medio (12.000 de España = doce mil), miles con punto de la redacción, decimales a la mexicana, fechas, romanos,
+    pronunciación de palabras en otro idioma y «&»."""
+    return para_voz(miles_redaccion(normalizar_numeros(texto, convencion(fuente)), seccion), legal=legal)
 
 
 def cierre_frase(t):
