@@ -184,6 +184,26 @@ export function htmlFichaGei(p, d) {
     <p class="meta">Es un modelo (observaciones de satélite y estaciones más física de la atmósfera), no una medición en la ciudad: indica el ambiente general, no el de una calle. Al aire libre el CO₂ varía pocas ppm; arriba de 1,000 ppm solo ocurre en interiores mal ventilados. El metano sube cerca de fugas de gas y petróleo, rellenos sanitarios, ganadería y arrozales. El CO al aire libre suele estar entre 80 y 300 ppb; sube con incendios y tráfico. ${esc(d?.atribucion || "")} (CC BY 4.0).</p>`;
 }
 
+const AREA_HUMEDAD = {
+  hr: ["Humedad relativa de 85 % o más", "El aire está casi saturado de vapor de agua.",
+    "Sensación de bochorno con calor; niebla y rocío probables de noche; la ropa y las superficies tardan en secar; más moho y corrosión en equipos e instalaciones."],
+  rocio: ["Punto de rocío de 21 °C (70 °F) o más", "El punto de rocío es la temperatura a la que el aire se satura; de 21 °C en adelante el ambiente se siente opresivo.",
+    "El sudor casi no evapora: más riesgo de golpe de calor con esfuerzo físico; las tormentas tienen mucha agua disponible."],
+  condensacion: ["Condensación de rocío media o alta", "Esta noche la temperatura del suelo y de las superficies puede bajar hasta el punto de rocío.",
+    "Rocío o escarcha en parabrisas, techos y cultivos; posibles bancos de niebla al amanecer; un colector pasivo (malla o lámina) puede juntar agua."],
+  generador: ["7 mL de agua por m³ de aire o más con generador", "Zona donde un generador eléctrico de agua atmosférica rendiría bien por la humedad y la temperatura.",
+    "Con el equipo de referencia (200 m³/h) se obtendrían varios litros al día; útil como respaldo de agua potable, con mantenimiento y filtros."],
+};
+
+/** Ficha (HTML) del área aproximada de humedad del modo `p.zona_modo`. */
+export function htmlFichaAreaHumedad(p = {}) {
+  const [titulo, que, implica] = AREA_HUMEDAD[p.zona_modo] || [p.titulo || "Área aproximada", "", ""];
+  return `<h2>💧 ${esc(titulo)}</h2><p class="meta">Área aproximada · reportes METAR de aeropuertos</p>
+    <table class="tabla-ficha">${que ? `<tr><th>Qué es</th><td>${esc(que)}</td></tr>` : ""}${implica ? `<tr><th>Qué implica</th><td>${esc(implica)}</td></tr>` : ""}
+      <tr><th>Cómo se dibuja</th><td>Hasta ~150 km alrededor de los aeropuertos que cumplen la condición, sin pasar a zonas cuyo aeropuerto más cercano no la cumple. El borde es aproximado.</td></tr></table>
+    <p class="meta">Toca un punto dentro del área para ver la humedad, el punto de rocío y el agua posible de ese aeropuerto.</p>`;
+}
+
 /** Calculadora: temperatura y humedad relativa → punto de rocío y agua posible. */
 export function htmlCalculo(t, hr, viento = 1, nubes = 0) {
   if (!Number.isFinite(t) || !Number.isFinite(hr) || hr <= 0 || hr > 100) return `<p class="meta">Escribe una temperatura y una humedad entre 1 y 100 %.</p>`;
@@ -250,6 +270,10 @@ export async function iniciarHumedad({ map, cont, abrirFicha, getJSON }) {
   });
   $("hum-modo").addEventListener("change", pintar);
   let historial = null;
+  map.on("click", AREA, (e) => {
+    if (map.getLayer(CAPA) && map.queryRenderedFeatures(e.point, { layers: [CAPA] }).length) return;  // el punto manda
+    const f = e.features?.[0]; if (f) abrirFicha(htmlFichaAreaHumedad(f.properties));
+  });
   map.on("click", CAPA, async (e) => {
     const f = e.features?.[0];
     if (!f) return;

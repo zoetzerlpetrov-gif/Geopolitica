@@ -177,6 +177,8 @@ def areas_bloqueo(bloqueos, n_horizontes):
 
 
 def geojson(actuales, bloqueos, n_horizontes, corrida, zonas=()):
+    for z in zonas:  # las áreas llevan el total de días del pronóstico, como sus centros
+        z["properties"].setdefault("de_horizontes", n_horizontes)
     feats = list(zonas) + [{"type": "Feature", "geometry": {"type": "Point", "coordinates": [a["lon"], a["lat"]]},
               "properties": {"kind": "domo" if a["domo_calor"] else "alta", **{k: v for k, v in a.items() if k not in ("lon", "lat")},
                              "de_horizontes": n_horizontes}} for a in actuales]

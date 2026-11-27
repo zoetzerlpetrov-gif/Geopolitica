@@ -671,7 +671,7 @@ export const CAPAS = [
       { t: "Los centros A del mapa de frentes son altas en superficie; estas son altas a 500 hPa, las que causan las ondas de calor. Persistencia = en cuántos de los próximos 5 días sigue ahí." },
       { t: "Relleno: área aproximada que abarca cada alta (altura a 5.5 km claramente arriba de lo normal; en la subtropical, dentro de la línea de 588 dam) y franja del bloqueo." }],
     ficha: (p) => ({ titulo: p.kind === "bloqueo" ? `Bloqueo en el hemisferio ${p.hemisferio}` : p.domo_calor ? "Domo de calor" : "Anticiclón en altura",
-      chip: p.kind === "bloqueo" ? `${p.dias} días` : `${p.horizontes} de ${p.de_horizontes} días`, filas: CX.filasAnticiclon(p), url: "https://www.wpc.ncep.noaa.gov/", fuente: "Modelo GFS de NOAA, 1° (cada 6 h)" }),
+      chip: p.kind === "bloqueo" ? `${p.dias} días` : CX.persistencia(p), filas: CX.filasAnticiclon(p), url: "https://www.wpc.ncep.noaa.gov/", fuente: "Modelo GFS de NOAA, 1° (cada 6 h)" }),
   },
   {
     id: "enso", grupo: "Clima y ambiente", nombre: "El Niño / La Niña: estado oficial y temperatura del mar en las regiones Niño", noAmenaza: true,
@@ -1356,18 +1356,54 @@ export const CAPAS = [
 // Áreas aproximadas (polígonos con «es_area»: true) que acompañan a los puntos de estas capas: cuánto abarca el fenómeno.
 const CAPAS_CON_AREA = new Set(["calor", "frio", "niebla", "anticiclones", "radiacion"]);
 /** Ficha de un área aproximada: qué abarca y cómo se dibujó. */
-export function fichaArea(p, fuente = "") {
-  const lista = (v) => (Array.isArray(v) ? v : typeof v === "string" && v.startsWith("[") ? JSON.parse(v) : v ? [v] : []);
-  const ciudades = lista(p.ciudades);
-  return { titulo: p.name || p.titulo || p.nombre || "Área aproximada", chip: "área aproximada",
-    filas: [...(ciudades.length ? [["Abarca", ciudades.join(", ")]] : []), ...(p.sensores ? [["Sensores con lectura alta", String(p.sensores)]] : []),
-      ...(p.radio_km ? [["Radio", `${p.radio_km} km`]] : []),
-      ["Cómo se dibuja", p.como || "Área estimada alrededor de los puntos con el fenómeno; el borde es aproximado, no un límite oficial."]], fuente };
+// Qué es y qué implica cada área, para que la ficha explique el fenómeno y no solo diga «área aproximada».
+export const DESCRIPCION_AREA = {
+  calor: ["Zona donde varias ciudades cercanas tienen onda de calor: 3 días seguidos o más con la máxima al menos 5 °C (9 °F) arriba de su promedio 1991-2020 para ese mes.",
+    "Riesgo de golpe de calor y deshidratación (sobre todo niñas, niños, personas mayores y trabajo al aire libre), más consumo de electricidad y estrés en cultivos y ganado."],
+  frio: ["Zona donde las ciudades cercanas tienen heladas (mínima de 0 °C / 32 °F o menos) u ola de frío (3 días o más muy por debajo de su mínima normal).",
+    "Riesgo de hipotermia, tuberías congeladas, hielo en carreteras, daño a cultivos y más demanda de gas y electricidad para calefacción."],
+  niebla: ["Zona donde el pronóstico da niebla en la mitad del área o más durante alguna hora de los próximos ~2 días.",
+    "Visibilidad baja: retrasos o desvíos en aeropuertos, cierres de carreteras y puertos. Al manejar: luces bajas, más distancia y menos velocidad."],
+  alta: ["Anticiclón en altura: a ~5.5 km la presión es más alta de lo normal; el aire baja, se comprime y se calienta.",
+    "Cielo despejado, poca o ninguna lluvia y tardes más calientes. Si dura varios días, empeora la sequía y el humo o la contaminación se acumulan cerca del suelo."],
+  domo: ["Domo de calor: un anticiclón en altura muy marcado que atrapa aire de 20 °C (68 °F) o más a ~1.5 km, como una tapa sobre la región.",
+    "Temperaturas muy altas o récord varios días seguidos y noches sin alivio; riesgo alto de golpe de calor, incendios forestales y apagones por demanda eléctrica."],
+  bloqueo: ["Bloqueo: una alta (o baja) estacionada desvía la corriente en chorro y frena el avance normal de los sistemas de oeste a este.",
+    "El tiempo se estanca varios días: donde llueve sigue lloviendo (inundaciones) y donde hace calor o seco sigue igual (ondas de calor, sequía)."],
+  sitio: ["Zona alrededor de un sitio con un accidente nuclear, pruebas de armas o contaminación radiactiva histórica; el radio es aproximado.",
+    "Dentro puede haber restricciones de acceso o de consumo de alimentos locales. Fuera de la zona marcada la radiación de fondo suele ser normal."],
+  sensor: ["Zona donde sensores ciudadanos de Safecast marcan lecturas más altas de lo normal.",
+    "Puede ser radiación natural (rocas como el granito, altitud), un sensor mal calibrado o una fuente real; confirmar con la autoridad nuclear del país antes de concluir."],
+};
+
+/** Clave de DESCRIPCION_AREA para un área de la capa `capaId`. */
+export const claseArea = (capaId, p) => (capaId === "anticiclones" ? (p.kind || "alta") : capaId === "radiacion" ? (p.k || "sensor") : capaId);
+
+const listaDe = (v) => { try { return Array.isArray(v) ? v : typeof v === "string" && v.startsWith("[") ? JSON.parse(v) : v ? [v] : []; } catch { return [v]; } };
+
+/**
+ * Ficha de un área aproximada: qué es, qué implica y sus datos. En anticiclones y radiación el área trae los mismos datos
+ * que su centro, así que se reusan las filas de `fichaPunto`; en calor, frío y niebla se resumen las ciudades que abarca.
+ */
+export function fichaArea(p, fuente = "", capaId = "", fichaPunto = null) {
+  const [que, implica] = DESCRIPCION_AREA[claseArea(capaId, p)] || [];
+  const ciudades = listaDe(p.ciudades);
+  const base = ["anticiclones", "radiacion"].includes(capaId) && fichaPunto ? (() => { try { return fichaPunto(p); } catch { return null; } })() : null;
+  const nivel = capaId === "calor" ? CX.nivelCalor(p.calor_nivel) : capaId === "frio" ? `${CX.nivelFrio(p.frio_nivel)}${p.ola_frio ? " · ola de frío" : ""}` : capaId === "niebla" ? `hasta ${p.niebla_pct} % del área con niebla` : "";
+  const filas = [...(que ? [["Qué es", que]] : []), ...(implica ? [["Qué implica", implica]] : []),
+    ...(base?.filas || []),
+    ...(nivel ? [["Nivel más alto dentro del área", nivel]] : []),
+    ...(ciudades.length ? [[`Ciudades dentro (${ciudades.length}${ciudades.length >= 25 ? "+" : ""})`, ciudades.join(", ")]] : []),
+    ...(p.sensores ? [["Sensores con lectura alta", String(p.sensores)]] : []),
+    ...(p.radio_km ? [["Radio aproximado", `${p.radio_km} km`]] : []),
+    ["Cómo se dibuja", p.como || "Área estimada alrededor de los puntos con el fenómeno; el borde es aproximado, no un límite oficial."]];
+  return { titulo: base?.titulo || p.name || p.titulo || p.nombre || "Área aproximada", chip: base?.chip || "",
+    filas, url: base?.url, fuente: base?.fuente || fuente };
 }
 for (const c of CAPAS) {
   if (!CAPAS_CON_AREA.has(c.id)) continue;
   const { ficha, extra, etiqueta } = c;
-  c.ficha = (p, ...r) => (p.es_area ? fichaArea(p, c.fuente) : ficha(p, ...r));
+  c.ficha = (p, ...r) => (p.es_area ? fichaArea(p, c.fuente, c.id, ficha) : ficha(p, ...r));
   if (extra) c.extra = (p, ...r) => (p.es_area ? "" : extra(p, ...r));
   if (etiqueta) c.etiqueta = (p, ...r) => (p.es_area ? "" : etiqueta(p, ...r));
 }

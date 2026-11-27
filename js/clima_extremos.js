@@ -38,16 +38,19 @@ export function filasUV(p) {
     ["Qué hacer", (p.uv_max ?? 0) >= 8 ? "Evitar el sol de 11 a 16 h; sombrero, lentes y bloqueador FPS 30+ cada 2 h" : (p.uv_max ?? 0) >= 3 ? "Bloqueador y sombra al mediodía" : "Sin medidas especiales"]];
 }
 
+/** «3 de 5 días» (o «3 días» si el dato no trae el total). */
+export const persistencia = (p) => (p.de_horizontes ? `${p.horizontes} de ${p.de_horizontes} días` : `${p.horizontes} día${p.horizontes === 1 ? "" : "s"}`);
+
 export function filasAnticiclon(p) {
   if (p.kind === "bloqueo") {
     return [["Tipo", "Bloqueo (la corriente en chorro se desvía y el tiempo se queda igual)"], ["Hemisferio", p.hemisferio],
-      ["Longitudes", `${p.lon_ini}° a ${p.lon_fin}°`], ["Días seguidos bloqueado (pronóstico)", `${p.dias} de ${p.de_horizontes}`]];
+      ["Longitudes", `${p.lon_ini}° a ${p.lon_fin}°`], ["Días seguidos bloqueado (pronóstico)", p.de_horizontes ? `${p.dias} de ${p.de_horizontes}` : `${p.dias}`]];
   }
   const tipo = p.domo_calor ? "Domo de calor (alta en altura con aire caliente debajo)"
     : p.subtropical ? "Alta subtropical (el SMN la llama «anticiclón en niveles medios»): inhibe la lluvia y calienta la tarde" : "Anticiclón en altura";
   return [["Tipo", tipo],
     ["Altura a 500 hPa (~5.5 km)", `${p.altura500_dam} dam`], ["Anomalía frente a su latitud", `${p.anomalia_dam > 0 ? "+" : ""}${p.anomalia_dam} dam`],
-    ["Temperatura a ~1.5 km (850 hPa)", p.t850_c != null ? tempCF(p.t850_c) : "—"], ["Persistencia en el pronóstico", `${p.horizontes} de ${p.de_horizontes} días`]];
+    ["Temperatura a ~1.5 km (850 hPa)", p.t850_c != null ? tempCF(p.t850_c) : "—"], ["Persistencia en el pronóstico", persistencia(p)]];
 }
 
 /** Serie diaria para la gráfica: [fecha, valor] de la máxima, la mínima o el índice de calor. */
