@@ -2214,7 +2214,7 @@ async function iniciarRiesgos() {
     const conteo = A.BANDAS_AQI.map(([, n, c], i) => [n, c, filas.filter((x) => x.b.i === i).length]).filter(([, , n]) => n);
     cont2.innerHTML = `<div class="aire-barra">${conteo.map(([n, c, k]) => `<span style="flex:${k};background:${c}" title="${esc(n)}: ${k}"></span>`).join("")}</div>
       <div class="aire-cuentas">${conteo.map(([n, c, k]) => `<span><i style="background:${c}"></i>${esc(n)}: ${k}</span>`).join("")}</div>
-      <label class="fila"><span><input type="checkbox" id="aire-mapa"> Ver en el mapa</span></label>
+      <label class="fila"><span><input type="checkbox" id="aire-mapa" data-nombre="🌫️ Calidad del aire"> Ver en el mapa</span></label>
       <div class="aire-herr"><input id="aire-q" type="search" placeholder="Buscar ciudad o país…" aria-label="Buscar ciudad">
         <select id="aire-ambito" aria-label="Ámbito"><option value="">Todas</option><option value="MEX">Solo México</option><option value="otros">Resto del mundo</option></select></div>
       <div class="mini-acc"><button type="button" class="txt-btn" data-aire-acc="todas">Marcar todas</button><button type="button" class="txt-btn" data-aire-acc="ninguna">Desmarcar todas</button>

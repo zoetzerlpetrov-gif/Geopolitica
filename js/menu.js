@@ -4,7 +4,8 @@ import { esc, storage } from "./util.js";
 
 const LS_ABIERTOS = "geo_menu_abiertos";
 // Casillas que encienden una capa del mapa (las de subtipos, áreas o ciudades no cuentan como capa).
-const SELECTOR_CAPAS = "[data-riesgo], [data-mov], [data-img], [data-tl], [data-clima], [data-fam], #capa-indice, #capa-chokepoints";
+// Incluye las casillas que se crean después (bloque «Clima: humedad, agua del aire, CO₂…» y calidad del aire en el mapa).
+const SELECTOR_CAPAS = "[data-riesgo], [data-mov], [data-img], [data-tl], [data-clima], [data-fam], #capa-indice, #capa-chokepoints, #hum-capa, #gei-capa, #flujo-capa, #aire-mapa";
 
 const normalizar = (t) => String(t || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
 

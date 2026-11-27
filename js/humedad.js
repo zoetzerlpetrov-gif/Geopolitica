@@ -195,15 +195,15 @@ export function htmlCalculo(t, hr, viento = 1, nubes = 0) {
 
 export async function iniciarHumedad({ map, cont, abrirFicha, getJSON }) {
   if (!cont || !map) return;
-  cont.innerHTML = `<label class="fila"><span><input type="checkbox" id="hum-capa"> 💧 Humedad, punto de rocío y agua del aire (~5,000 aeropuertos)</span></label>
+  cont.innerHTML = `<label class="fila"><span><input type="checkbox" id="hum-capa" data-nombre="💧 Humedad y agua del aire"> 💧 Humedad, punto de rocío y agua del aire (~5,000 aeropuertos)</span></label>
     <label class="fila"><span>Colorear por</span><select id="hum-modo">${Object.entries(MODOS).map(([k, m]) => `<option value="${k}">${esc(m.nombre)}</option>`).join("")}</select></label>
     <div id="hum-leyenda" hidden></div>
     <p class="meta" id="hum-estado">Toca un punto del mapa para ver su humedad, punto de rocío y cuánta agua se podría obtener.</p>
     <h4>🌫️ Gases y carbono: CO₂, metano, monóxido de carbono y vegetación</h4><div id="hum-co2"><p class="meta">Cargando…</p></div>
-    <label class="fila"><span><input type="checkbox" id="gei-capa"> 🗺️ CO₂, metano y CO estimados por ciudad (CAMS de Copernicus)</span></label>
+    <label class="fila"><span><input type="checkbox" id="gei-capa" data-nombre="🗺️ CO₂, metano y CO"> 🗺️ CO₂, metano y CO estimados por ciudad (CAMS de Copernicus)</span></label>
     <label class="fila"><span>Gas</span><select id="gei-var">${Object.entries(GEI).filter(([, g]) => !g.soloFicha).map(([k, g]) => `<option value="${k}">${esc(g.nombre)}</option>`).join("")}</select></label>
     <div id="gei-leyenda" hidden></div><p class="meta" id="gei-estado"></p>
-    <label class="fila"><span><input type="checkbox" id="flujo-capa"> 🌳 Vegetación: dónde absorbe o emite CO₂ (CAMS, malla de 2°)</span></label>
+    <label class="fila"><span><input type="checkbox" id="flujo-capa" data-nombre="🌳 Vegetación y CO₂"> 🌳 Vegetación: dónde absorbe o emite CO₂ (CAMS, malla de 2°)</span></label>
     <div id="flujo-leyenda" hidden></div><p class="meta" id="flujo-estado"></p>
     <details class="hum-calc"><summary>🧮 Calculadora de agua del aire</summary>
       <label class="fila"><span>Temperatura (°C)</span><input type="number" id="hum-t" value="25" step="0.5"></label>
