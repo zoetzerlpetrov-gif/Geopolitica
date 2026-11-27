@@ -4951,7 +4951,8 @@
             "Conducción máxima de 9 h diarias (10 h dos veces por semana) y 56 h semanales; descanso semanal fuera de cabina.",
             "Tacógrafo inteligente versión 2 en vehículos internacionales (plazos 2024-2025).",
             "Retorno del vehículo al centro operativo cada 8 semanas y del conductor cada 4 semanas.",
-            "Declaraciones de desplazamiento por IMI para conductores."
+            "Declaraciones de desplazamiento por IMI para conductores.",
+            "Peajes y tasas por uso de carreteras de vehículos pesados diferenciados según sus emisiones de CO2 (Directiva 1999/62/CE «Euroviñeta», modificada por la Directiva (UE) 2026/2610; verificar transposición y fechas en cada Estado miembro)."
           ],
           "tramites": [
             {
@@ -4968,7 +4969,8 @@
           ],
           "preguntas": [
             "¿Se descargan y analizan los datos de tacógrafo en plazo?",
-            "¿Se cumplen las reglas de retorno del vehículo y del conductor?"
+            "¿Se cumplen las reglas de retorno del vehículo y del conductor?",
+            "¿La clase de emisiones de CO2 de cada vehículo pesado está registrada para pagar el peaje correcto en cada país?"
           ]
         },
         {
