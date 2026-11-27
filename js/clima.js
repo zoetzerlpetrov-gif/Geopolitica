@@ -222,7 +222,7 @@ export class Clima {
     this.activas.delete(tipo);
     if (this.extras.has(tipo)) { this.extras.get(tipo).destruir(); this.extras.delete(tipo); return; }
     if (tipo === "viento") { this.particulas?.destruir(); this.particulas = null; return; }
-    for (const id of [`clima-${tipo}-etiquetas`, `clima-${tipo}-lineas`, `clima-${tipo}`]) if (this.map.getLayer(id)) this.map.removeLayer(id);
+    for (const id of [`clima-${tipo}-etiquetas`, `clima-${tipo}-lineas`, `clima-${tipo}-borde`, `clima-${tipo}-area`, `clima-${tipo}`]) if (this.map.getLayer(id)) this.map.removeLayer(id);
     for (const id of [`clima-${tipo}-lineas`, `clima-${tipo}`]) if (this.map.getSource(id)) this.map.removeSource(id);
   }
 
@@ -241,9 +241,13 @@ export class Clima {
       if (!b) throw new Error("la corrida actual del modelo todavía no trae bolsas de aire frío; aparecerán en la siguiente (cada 6 h)");
       this.map.addSource(id, { type: "geojson", data: BASE + b });
       const antes = ["choke-anillo", "clusters"].find((l) => this.map.getLayer(l));
-      this.map.addLayer({ id, type: "circle", source: id, paint: { "circle-color": ["interpolate", ["linear"], ["get", "anomalia_c"], -14, "#4A148C", -8, "#283593", -4, "#42A5F5"],
+      // Área aproximada de cada bolsa (polígono «es_area»: aire a 5.5 km más frío de lo normal alrededor del núcleo).
+      const colorBolsa = ["interpolate", ["linear"], ["get", "anomalia_c"], -14, "#4A148C", -8, "#283593", -4, "#42A5F5"];
+      this.map.addLayer({ id: `${id}-area`, type: "fill", source: id, filter: ["==", ["geometry-type"], "Polygon"], paint: { "fill-color": colorBolsa, "fill-opacity": 0.22 } }, antes);
+      this.map.addLayer({ id: `${id}-borde`, type: "line", source: id, filter: ["==", ["geometry-type"], "Polygon"], paint: { "line-color": colorBolsa, "line-width": 1.4, "line-dasharray": ["literal", [2, 1.5]] } }, antes);
+      this.map.addLayer({ id, type: "circle", source: id, filter: ["==", ["geometry-type"], "Point"], paint: { "circle-color": ["interpolate", ["linear"], ["get", "anomalia_c"], -14, "#4A148C", -8, "#283593", -4, "#42A5F5"],
         "circle-radius": ["interpolate", ["linear"], ["get", "anomalia_c"], -14, 16, -4, 8], "circle-opacity": 0.75, "circle-stroke-color": "#ffffff", "circle-stroke-width": 1.5 } }, antes);
-      this.map.addLayer({ id: `${id}-etiquetas`, type: "symbol", source: id, layout: { ...layoutEtiqueta(this.map), "text-field": ETIQUETA_BOLSA, "text-size": 11,
+      this.map.addLayer({ id: `${id}-etiquetas`, type: "symbol", source: id, filter: ["==", ["geometry-type"], "Point"], layout: { ...layoutEtiqueta(this.map), "text-field": ETIQUETA_BOLSA, "text-size": 11,
         "text-font": ["Noto Sans Regular"], "text-offset": [0, 1.4], "text-anchor": "top" }, paint: pinturaEtiqueta() }, antes);
       return;
     }

@@ -21,6 +21,7 @@ export function iconoAnomalia(capaId, p = {}) {
 
 /** Severidad, tipo e ícono de un objeto según su capa. */
 export function clasificar(capa, p = {}, geom = null) {
+  if (p.es_area) return { sev: 0, tipo: "Área aproximada", ic: "" };  // el área acompaña a sus puntos: no es otra alerta
   if (capa.startsWith("corp_")) { const n = Number(p.n_7d || 0); return { sev: n >= 6 ? 3 : n >= 2 ? 2 : 1, tipo: `Corporativo: ${p.cat_nombre || "nota"}`, ic: p.icono || "🏢" }; }
   if (capa.startsWith("anom_")) return { sev: 1, tipo: "Fenómeno anómalo (reporte)", ic: iconoAnomalia(capa, p) };
   if (capa === "cortes") return { sev: p.programado ? 1 : p.severe ? 3 : 2, tipo: /AGUA/.test(p.kind || "") && !/LUZ/.test(p.kind || "") ? "Corte de agua" : "Apagón", ic: /LUZ/.test(p.kind || "") ? "⚡" : "💧" };

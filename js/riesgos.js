@@ -624,7 +624,8 @@ export const CAPAS = [
     leyenda: [{ c: CX.COLOR_CALOR[1], r: 6, t: "Onda de calor: precaución" }, { c: CX.COLOR_CALOR[2], r: 8, t: "Onda de calor: precaución extrema (índice de calor 32 a 39 °C)" },
       { c: CX.COLOR_CALOR[3], r: 10, t: "Onda de calor: peligro (39 a 51 °C)" }, { c: CX.COLOR_CALOR[4], r: 12, t: "Onda de calor: peligro extremo (51 °C o más)" },
       { c: CX.COLOR_CALOR[1], r: 4, t: "Sin onda, pero con índice de calor de 32 °C o más algún día" },
-      { t: "Onda de calor = 3 días seguidos o más con la máxima arriba de lo normal para ese lugar y mes (promedio 1991-2020 + 5 °C). Índice de calor = lo que siente el cuerpo con la humedad. Estimación propia; aviso oficial: SMN." }],
+      { t: "Onda de calor = 3 días seguidos o más con la máxima arriba de lo normal para ese lugar y mes (promedio 1991-2020 + 5 °C). Índice de calor = lo que siente el cuerpo con la humedad. Estimación propia; aviso oficial: SMN." },
+      { t: "Relleno: área aproximada que abarca la onda (hasta ~200 km alrededor de las ciudades con onda, sin pasar a zonas cuya ciudad más cercana no la tiene)." }],
     ficha: (p) => ({ titulo: p.name, chip: CX.nivelCalor(p.onda_calor ? p.calor_nivel : 0), filas: CX.filasCalor(p), url: "https://smn.conagua.gob.mx/es/pronosticos/avisos/aviso-de-onda-de-calor",
       fuente: "Pronóstico MET Norway (CC BY 4.0) + climatología CPC de NOAA; aviso oficial: SMN" }),
     extra: (p) => K.barras(CX.serie(p, "tmax"), { titulo: "Temperatura máxima por día (°C)", unidad: "°C", umbrales: [[30, "#E0A100", "30"], [35, "#E2711D", "35"], [40, "#C62828", "40"]] }),
@@ -636,7 +637,8 @@ export const CAPAS = [
     estilo: (p) => ({ c: CX.COLOR_FRIO[p.frio_nivel || 0], r: 4 + 2 * (p.frio_nivel || 0) }),
     etiqueta: (p) => (p.ola_frio ? p.name : ""),
     leyenda: [{ c: CX.COLOR_FRIO[1], r: 6, t: "Helada (mínima de 0 °C o menos algún día)" }, { c: CX.COLOR_FRIO[2], r: 8, t: "Ola de frío (3 días o más muy por debajo de lo normal)" },
-      { c: CX.COLOR_FRIO[3], r: 10, t: "Ola de frío con heladas" }, { t: "Lo normal = promedio de la mínima de ese mes 1991-2020 (CPC de NOAA). Estimación propia; aviso oficial: SMN." }],
+      { c: CX.COLOR_FRIO[3], r: 10, t: "Ola de frío con heladas" }, { t: "Lo normal = promedio de la mínima de ese mes 1991-2020 (CPC de NOAA). Estimación propia; aviso oficial: SMN." },
+      { t: "Relleno: área aproximada que abarca el frío o las heladas alrededor de las ciudades afectadas." }],
     ficha: (p) => ({ titulo: p.name, chip: CX.nivelFrio(p.frio_nivel), filas: CX.filasFrio(p), url: "https://smn.conagua.gob.mx/es/", fuente: "Pronóstico MET Norway (CC BY 4.0) + climatología CPC de NOAA" }),
     extra: (p) => K.barras(CX.serie(p, "tmin").map(([t, v]) => [t, Math.max(0, 10 - v)]), { titulo: "Qué tan fría la mínima (10 °C menos la mínima)", unidad: "°C bajo 10" }),
   },
@@ -655,7 +657,7 @@ export const CAPAS = [
     derivar: (fc) => ({ ...fc, features: fc.features.filter((f) => f.properties.niebla) }),
     estilo: (p) => ({ c: "#7F8C8D", r: 4 + Math.round((p.niebla_pct || 50) / 25) }),
     etiqueta: (p) => `${p.niebla_pct} %`,
-    leyenda: [{ c: "#7F8C8D", r: 7, t: "Alguna hora con 50 % o más del área cubierta de niebla" }, { t: "Afecta carreteras y aeropuertos. MET Norway lo da solo en los primeros ~2.5 días." }],
+    leyenda: [{ c: "#7F8C8D", r: 7, t: "Alguna hora con 50 % o más del área cubierta de niebla" }, { t: "Afecta carreteras y aeropuertos. MET Norway lo da solo en los primeros ~2.5 días." }, { t: "Relleno: área aproximada con niebla probable." }],
     ficha: (p) => ({ titulo: p.name, chip: "niebla probable", filas: [["Área máxima con niebla", `${p.niebla_pct} %`]], url: "https://api.met.no", fuente: "MET Norway (CC BY 4.0)" }),
   },
   {
@@ -666,7 +668,8 @@ export const CAPAS = [
     leyenda: [{ c: CX.COLOR_ANTICICLON.domo, r: 8, t: "Domo de calor: alta en altura muy marcada con aire de 20 °C o más a ~1.5 km" },
       { c: CX.COLOR_ANTICICLON.alta, r: 5, t: "Anticiclón en altura (~5.5 km): cielo despejado, poca lluvia" },
       { c: CX.COLOR_ANTICICLON.bloqueo, r: 4, t: "Línea: bloqueo (la corriente en chorro se desvía 4 días o más; el tiempo se estanca)" },
-      { t: "Los centros A del mapa de frentes son altas en superficie; estas son altas a 500 hPa, las que causan las ondas de calor. Persistencia = en cuántos de los próximos 5 días sigue ahí." }],
+      { t: "Los centros A del mapa de frentes son altas en superficie; estas son altas a 500 hPa, las que causan las ondas de calor. Persistencia = en cuántos de los próximos 5 días sigue ahí." },
+      { t: "Relleno: área aproximada que abarca cada alta (altura a 5.5 km claramente arriba de lo normal; en la subtropical, dentro de la línea de 588 dam) y franja del bloqueo." }],
     ficha: (p) => ({ titulo: p.kind === "bloqueo" ? `Bloqueo en el hemisferio ${p.hemisferio}` : p.domo_calor ? "Domo de calor" : "Anticiclón en altura",
       chip: p.kind === "bloqueo" ? `${p.dias} días` : `${p.horizontes} de ${p.de_horizontes} días`, filas: CX.filasAnticiclon(p), url: "https://www.wpc.ncep.noaa.gov/", fuente: "Modelo GFS de NOAA, 1° (cada 6 h)" }),
   },
@@ -1175,7 +1178,8 @@ export const CAPAS = [
     leyenda: [{ c: COLOR_RAD.normal, r: 5, t: "Sensor: menos de 0.3 µSv/h (fondo natural habitual: 0.05 a 0.3)" }, { c: COLOR_RAD.elevado, r: 6, t: "Sensor: 0.3 a 1 µSv/h" },
       { c: COLOR_RAD.alto, r: 7, t: "Sensor: 1 a 10 µSv/h" }, { c: COLOR_RAD.muy_alto, r: 7, t: "Sensor: 10 µSv/h o más" },
       { c: COLOR_SITIO_RAD.accidente, r: 7, t: "☢️ Accidente nuclear o fuente perdida" }, { c: COLOR_SITIO_RAD.pruebas, r: 7, t: "💥 Zona de pruebas nucleares" }, { c: COLOR_SITIO_RAD.bombardeo, r: 7, t: "Bombardeo atómico" },
-      { t: "Sensores ciudadanos con lectura de las últimas 48 h; posición redondeada a ~1 km y sin datos de quien lo opera. Una lectura alta aislada puede ser falla." }],
+      { t: "Sensores ciudadanos con lectura de las últimas 48 h; posición redondeada a ~1 km y sin datos de quien lo opera. Una lectura alta aislada puede ser falla." },
+      { t: "Relleno: zona de exclusión documentada (Chernóbil, ~30 km) y área aproximada alrededor de sensores con lectura alta (hasta ~25 km)." }],
     ficha: (p) => (p.k === "sitio"
       ? { titulo: `${p.nombre} (${p.anio})`, chip: `${TIPO_SITIO_RAD[p.tipo] || p.tipo}${p.ines ? ` · INES ${p.ines}` : ""}`,
         filas: [["Qué pasó", p.texto], ["País", p.pais]], url: p.url, fuente: "Descripción propia; detalle en Wikipedia" }
@@ -1348,6 +1352,25 @@ export const CAPAS = [
       url: "https://www.imo.org/en/OurWork/Safety/Pages/polar-code.aspx", fuente: "OMI: Código Polar (reglas para barcos en aguas polares)" }),
   },
 ];
+
+// Áreas aproximadas (polígonos con «es_area»: true) que acompañan a los puntos de estas capas: cuánto abarca el fenómeno.
+const CAPAS_CON_AREA = new Set(["calor", "frio", "niebla", "anticiclones", "radiacion"]);
+/** Ficha de un área aproximada: qué abarca y cómo se dibujó. */
+export function fichaArea(p, fuente = "") {
+  const lista = (v) => (Array.isArray(v) ? v : typeof v === "string" && v.startsWith("[") ? JSON.parse(v) : v ? [v] : []);
+  const ciudades = lista(p.ciudades);
+  return { titulo: p.name || p.titulo || p.nombre || "Área aproximada", chip: "área aproximada",
+    filas: [...(ciudades.length ? [["Abarca", ciudades.join(", ")]] : []), ...(p.sensores ? [["Sensores con lectura alta", String(p.sensores)]] : []),
+      ...(p.radio_km ? [["Radio", `${p.radio_km} km`]] : []),
+      ["Cómo se dibuja", p.como || "Área estimada alrededor de los puntos con el fenómeno; el borde es aproximado, no un límite oficial."]], fuente };
+}
+for (const c of CAPAS) {
+  if (!CAPAS_CON_AREA.has(c.id)) continue;
+  const { ficha, extra, etiqueta } = c;
+  c.ficha = (p, ...r) => (p.es_area ? fichaArea(p, c.fuente) : ficha(p, ...r));
+  if (extra) c.extra = (p, ...r) => (p.es_area ? "" : extra(p, ...r));
+  if (etiqueta) c.etiqueta = (p, ...r) => (p.es_area ? "" : etiqueta(p, ...r));
+}
 
 /**
  * Agrega a cada feature: color (_c), radio (_r), severidad (_sev 1–5), tipo (_tipo), ícono (_ic, nombre de

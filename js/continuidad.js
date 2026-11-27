@@ -133,7 +133,7 @@ const REFS = {
   tipo_cambio: ["data/vivos/monitor_mx.json", (d) => { const i = (d.indicadores || []).find((x) => x.id === "SF43718"); return i ? `Tipo de cambio FIX ${i.valor} (${i.periodo})` : null; }],
   crimen: ["data/vivos/crimen.geojson", (d) => `${(d.features || []).length} puntos de crimen y seguridad en el mapa`],
   ciclones: ["data/vivos/nhc_conos.geojson", (d) => `${(d.features || []).length} conos de pronóstico de ciclones (NHC)`],
-  calor: ["data/vivos/calor_frio.geojson", (d) => `${(d.features || []).length} zonas con calor o frío extremo`],
+  calor: ["data/vivos/calor_frio.geojson", (d) => `${(d.features || []).filter((f) => !f.properties?.es_area).length} zonas con calor o frío extremo`],
   salud: ["data/vivos/salud_oficial.geojson", (d) => `${(d.features || []).length} alertas sanitarias oficiales`],
   avisos_viaje: ["data/vivos/protocolos.geojson", (d) => `${(d.features || []).length} protocolos y avisos oficiales`],
   dof: ["data/vivos/dof.json", (d) => `DOF descargado (${Object.keys(d.dias || d.meses || {}).length || "—"} periodos)`],

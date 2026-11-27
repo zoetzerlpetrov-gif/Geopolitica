@@ -23,13 +23,15 @@ def test_sensores_y_privacidad(tmp_path, monkeypatch):
     R.construir(AHORA, leer=lambda u: DISP)
     texto = open(R.OUT, encoding="utf-8").read()
     d = json.loads(texto)
-    s = [f for f in d["features"] if f["properties"]["k"] == "sensor"]
+    s = [f for f in d["features"] if f["properties"]["k"] == "sensor" and not f["properties"].get("es_area")]
     assert len(s) == 2
+    areas = [f for f in d["features"] if f["properties"].get("es_area")]
+    assert {(a["properties"]["k"], a["geometry"]["type"]) for a in areas} == {("sitio", "Polygon"), ("sensor", "Polygon")}  # Chernóbil 30 km y sensor alto
     assert s[0]["properties"]["usv_h"] == 3.0 and s[0]["properties"]["nivel"] == "alto"
     assert s[0]["geometry"]["coordinates"] == [30.12, 51.39]  # redondeado a ~1 km
     assert s[1]["properties"]["usv_h"] == 0.1 and s[1]["properties"]["nivel"] == "normal"
     assert "Persona" not in texto and "x@y.z" not in texto and "serie" not in texto
-    sitios = [f["properties"] for f in d["features"] if f["properties"]["k"] == "sitio"]
+    sitios = [f["properties"] for f in d["features"] if f["properties"]["k"] == "sitio" and not f["properties"].get("es_area")]
     assert {"chernobil", "fukushima", "juarez", "semipalatinsk"} <= {x["id"] for x in sitios}
 
 

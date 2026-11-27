@@ -273,8 +273,26 @@ def bolsas_frias(t500, hgt500, t850=None):
     return elegidas
 
 
-def geojson_bolsas(bolsas):
-    return {"type": "FeatureCollection", "features": [
+def areas_bolsas(bolsas, t500):
+    """Área aproximada de cada bolsa de aire frío: celdas conectadas al núcleo con la temperatura a 500 hPa por debajo del
+    promedio de su latitud al menos la mitad que el núcleo (mínimo 2 °C), hasta 15° del centro."""
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import areas_mapa as Z  # noqa: E402  (mismo directorio)
+    anom = t500 - np.nanmean(t500, axis=1, keepdims=True)
+    out = []
+    for b in bolsas:
+        i0, j0 = fila_de_lat(b["lat"]), int(round(b["lon"] + 180)) % t500.shape[1]
+        umbral = min(-2.0, b["anomalia_c"] * 0.5)
+        celdas = Z.region_conectada(lambda i, j, u=umbral: anom[i, j] <= u, i0, j0, 15)
+        for anillo, _ in Z.poligonos(celdas, origen=Z.ORIGEN_GFS)[:1]:
+            out.append(Z.feature_area(anillo, {k: v for k, v in b.items() if k not in ("lon", "lat")}))
+    return out
+
+
+def geojson_bolsas(bolsas, t500=None):
+    """Núcleo (punto) y, con la rejilla, el área aproximada que abarca cada bolsa (polígono con «es_area»: true)."""
+    zonas = areas_bolsas(bolsas, t500) if t500 is not None else []
+    return {"type": "FeatureCollection", "features": zonas + [
         {"type": "Feature", "geometry": {"type": "Point", "coordinates": [b["lon"], b["lat"]]}, "properties": {k: v for k, v in b.items() if k not in ("lon", "lat")}}
         for b in bolsas]}
 
@@ -406,7 +424,7 @@ def main():
                         if t500 is not None:
                             bolsas = bolsas_frias(t500, hgt500, c.get("t850"))
                             with open(os.path.join(OUT, f"bolsas_{nombre}.geojson"), "w", encoding="utf-8") as fh:
-                                json.dump(geojson_bolsas(bolsas), fh, separators=(",", ":"))
+                                json.dump(geojson_bolsas(bolsas, t500), fh, separators=(",", ":"))
                             pasos[-1]["bolsas"] = f"bolsas_{nombre}.geojson"
                         pasos[-1]["alturas"] = {}
                         for lev, (u, v) in sorted(alt.items(), reverse=True):
