@@ -6,7 +6,10 @@ import { crc32 } from "./fase5-gtfs-zip.js";
 
 /** Estilos de celda disponibles (nombre → índice en styles.xml). */
 export const ESTILOS = { normal: 0, titulo: 1, encabezado: 2, fase: 3, seccion: 4, texto: 5, fecha: 6, numero: 7, porcentaje: 8, nota: 9, hito: 10,
-  enlace: 11, critica: 12, fechaHito: 13, subtitulo: 14, numeroHito: 15, mes: 16, dia: 17, numeroGrande: 18 };
+  enlace: 11, critica: 12, fechaHito: 13, subtitulo: 14, numeroHito: 15, mes: 16, dia: 17, numeroGrande: 18,
+  // Celdas para capturar (amarillo claro) y celdas con fórmula (gris): así se ve qué se puede escribir y qué se calcula solo.
+  entrada: 19, entradaFecha: 20, entradaNumero: 21, entradaPorcentaje: 22, formula: 23, formulaFecha: 24, formulaNumero: 25, formulaPorcentaje: 26,
+  encabezadoEditable: 27, encabezadoFormula: 28, leyenda: 29 };
 /** Formatos para el formato condicional (nombre → índice dxf). */
 export const DXF = { gantt: 0, ganttHito: 1, hecho: 2, vencido: 3, hoy: 4, noAplica: 5, alerta: 6, ganttHecho: 7, ganttVencido: 8, ganttCurso: 9, ganttBloqueado: 10,
   faseFila: 11, proximo: 12, enProceso: 13 };
@@ -93,18 +96,22 @@ const ESTILOS_XML = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <font><b/><sz val="8"/><color rgb="FF1F2A44"/><name val="Calibri"/></font>
 <font><b/><sz val="18"/><color rgb="FF1F2A44"/><name val="Calibri"/></font>
 </fonts>
-<fills count="7">
+<fills count="11">
 <fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill>
 <fill><patternFill patternType="solid"><fgColor rgb="FF1F2A44"/><bgColor indexed="64"/></patternFill></fill>
 <fill><patternFill patternType="solid"><fgColor rgb="FFF6E7B8"/><bgColor indexed="64"/></patternFill></fill>
 <fill><patternFill patternType="solid"><fgColor rgb="FFEDF0F4"/><bgColor indexed="64"/></patternFill></fill>
 <fill><patternFill patternType="solid"><fgColor rgb="FFD6E6F5"/><bgColor indexed="64"/></patternFill></fill>
 <fill><patternFill patternType="solid"><fgColor rgb="FFFFFFFF"/><bgColor indexed="64"/></patternFill></fill>
+<fill><patternFill patternType="solid"><fgColor rgb="FFFFF7D1"/><bgColor indexed="64"/></patternFill></fill>
+<fill><patternFill patternType="solid"><fgColor rgb="FFE6E8EB"/><bgColor indexed="64"/></patternFill></fill>
+<fill><patternFill patternType="solid"><fgColor rgb="FF2E7D32"/><bgColor indexed="64"/></patternFill></fill>
+<fill><patternFill patternType="solid"><fgColor rgb="FF6B7280"/><bgColor indexed="64"/></patternFill></fill>
 </fills>
 <borders count="2"><border><left/><right/><top/><bottom/><diagonal/></border>
 <border><left style="thin"><color rgb="FFC9D1DB"/></left><right style="thin"><color rgb="FFC9D1DB"/></right><top style="thin"><color rgb="FFC9D1DB"/></top><bottom style="thin"><color rgb="FFC9D1DB"/></bottom><diagonal/></border></borders>
 <cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>
-<cellXfs count="19">
+<cellXfs count="30">
 <xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/>
 <xf numFmtId="0" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1"/>
 <xf numFmtId="0" fontId="2" fillId="2" borderId="1" xfId="0" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment wrapText="1" vertical="center" horizontal="center"/></xf>
@@ -124,6 +131,17 @@ const ESTILOS_XML = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <xf numFmtId="165" fontId="8" fillId="3" borderId="0" xfId="0" applyNumberFormat="1" applyFont="1" applyFill="1" applyAlignment="1"><alignment horizontal="left"/></xf>
 <xf numFmtId="166" fontId="8" fillId="4" borderId="1" xfId="0" applyNumberFormat="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center"/></xf>
 <xf numFmtId="0" fontId="9" fillId="0" borderId="1" xfId="0" applyFont="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf>
+<xf numFmtId="0" fontId="0" fillId="7" borderId="1" xfId="0" applyFill="1" applyBorder="1" applyAlignment="1" applyProtection="1"><alignment wrapText="1" vertical="top"/><protection locked="0"/></xf>
+<xf numFmtId="164" fontId="0" fillId="7" borderId="1" xfId="0" applyNumberFormat="1" applyFill="1" applyBorder="1" applyAlignment="1" applyProtection="1"><alignment vertical="top" horizontal="center"/><protection locked="0"/></xf>
+<xf numFmtId="0" fontId="0" fillId="7" borderId="1" xfId="0" applyFill="1" applyBorder="1" applyAlignment="1" applyProtection="1"><alignment vertical="top" horizontal="center"/><protection locked="0"/></xf>
+<xf numFmtId="9" fontId="0" fillId="7" borderId="1" xfId="0" applyNumberFormat="1" applyFill="1" applyBorder="1" applyAlignment="1" applyProtection="1"><alignment vertical="top" horizontal="center"/><protection locked="0"/></xf>
+<xf numFmtId="0" fontId="0" fillId="8" borderId="1" xfId="0" applyFill="1" applyBorder="1" applyAlignment="1"><alignment wrapText="1" vertical="top"/></xf>
+<xf numFmtId="164" fontId="0" fillId="8" borderId="1" xfId="0" applyNumberFormat="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment vertical="top" horizontal="center"/></xf>
+<xf numFmtId="0" fontId="0" fillId="8" borderId="1" xfId="0" applyFill="1" applyBorder="1" applyAlignment="1"><alignment vertical="top" horizontal="center"/></xf>
+<xf numFmtId="9" fontId="0" fillId="8" borderId="1" xfId="0" applyNumberFormat="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment vertical="top" horizontal="center"/></xf>
+<xf numFmtId="0" fontId="2" fillId="9" borderId="1" xfId="0" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment wrapText="1" vertical="center" horizontal="center"/></xf>
+<xf numFmtId="0" fontId="2" fillId="10" borderId="1" xfId="0" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment wrapText="1" vertical="center" horizontal="center"/></xf>
+<xf numFmtId="0" fontId="7" fillId="7" borderId="1" xfId="0" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment wrapText="1" vertical="center"/></xf>
 </cellXfs>
 <cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles>
 <dxfs count="14">
