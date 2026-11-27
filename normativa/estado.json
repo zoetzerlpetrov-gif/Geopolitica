@@ -1,5 +1,5 @@
 {
- "generado_utc": "2026-11-26T23:16:55Z",
+ "generado_utc": "2026-11-27T11:21:31Z",
  "fuentes": {
   "MEX": {
    "fuente": "Diario Oficial de la Federación y Cámara de Diputados",
@@ -13,9 +13,9 @@
    "fuente": "Federal Register (API oficial)",
    "ok": true,
    "estado": "ok",
-   "nuevas": 1,
+   "nuevas": 2,
    "error": "",
-   "hasta": "2026-11-26"
+   "hasta": "2026-11-27"
   },
   "CAN": {
    "fuente": "Canada Gazette, Parte II",
@@ -23,15 +23,15 @@
    "estado": "ok",
    "nuevas": 0,
    "error": "",
-   "hasta": "2026-11-26"
+   "hasta": "2026-11-27"
   },
   "EUR": {
    "fuente": "Oficina de Publicaciones de la UE (Cellar)",
    "ok": true,
    "estado": "ok",
-   "nuevas": 4,
+   "nuevas": 6,
    "error": "",
-   "hasta": "2026-11-26"
+   "hasta": "2026-11-27"
   },
   "JPN": {
    "fuente": "e-Gov, API de leyes v2",
@@ -39,28 +39,29 @@
    "estado": "ok",
    "nuevas": 0,
    "error": "",
-   "hasta": "2026-11-26"
+   "hasta": "2026-11-27"
   },
   "RUS": {
    "fuente": "Portal oficial de publicación de actos jurídicos",
    "ok": true,
    "estado": "ok",
-   "nuevas": 3,
+   "nuevas": 2,
    "error": "",
-   "hasta": "2026-11-26"
+   "hasta": "2026-11-27"
   },
   "ARG": {
    "fuente": "Boletín Oficial, primera sección",
-   "ok": true,
-   "estado": "ok",
+   "ok": false,
+   "estado": "error",
    "nuevas": 0,
-   "error": "",
+   "error": "URLError: <urlopen error timed out>",
    "hasta": "2026-11-26"
   }
  },
  "sin_fuente": {
   "CHN": "El robots.txt de la base nacional de leyes (flk.npc.gov.cn) prohíbe el acceso automatizado: revisión semanal manual.",
   "CHL": "El Diario Oficial niega el acceso a su robots.txt: revisión semanal manual en Ley Chile (bcn.cl).",
+  "ARG": "Boletín Oficial: se intenta cada día; si no responde, revisión semanal manual.",
   "BRA": "El robots.txt del Diário Oficial da União (in.gov.br) responde 403 a bots: revisión semanal manual en Planalto y el DOU.",
   "SAU": "Sin fuente automática abierta: revisión semanal manual.",
   "ARE": "Sin fuente automática abierta: revisión semanal manual.",
@@ -77,35 +78,35 @@
   "MDO": "Sanciones: revisión semanal manual en OFAC, el mapa de sanciones de la UE y la ONU."
  },
  "ultima_fecha": {
-  "USA": "2026-11-26",
-  "CAN": "2026-11-26",
-  "EUR": "2026-11-26",
-  "JPN": "2026-11-26",
-  "RUS": "2026-11-26",
+  "USA": "2026-11-27",
+  "CAN": "2026-11-27",
+  "EUR": "2026-11-27",
+  "JPN": "2026-11-27",
+  "RUS": "2026-11-27",
   "MEX": "2026-11-26",
   "ARG": "2026-11-26"
  },
  "desactualizadas": [],
  "por_pais": {
+  "USA": {
+   "total": 39,
+   "alto": 0,
+   "ultimos_30d": 32
+  },
   "RUS": {
-   "total": 36,
+   "total": 38,
    "alto": 4,
-   "ultimos_30d": 36
+   "ultimos_30d": 38
+  },
+  "EUR": {
+   "total": 65,
+   "alto": 10,
+   "ultimos_30d": 26
   },
   "MEX": {
    "total": 563,
    "alto": 53,
-   "ultimos_30d": 43
-  },
-  "EUR": {
-   "total": 63,
-   "alto": 10,
-   "ultimos_30d": 24
-  },
-  "USA": {
-   "total": 38,
-   "alto": 0,
-   "ultimos_30d": 31
+   "ultimos_30d": 41
   },
   "JPN": {
    "total": 1,

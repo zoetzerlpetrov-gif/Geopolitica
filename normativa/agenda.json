@@ -1,14 +1,14 @@
 {
- "generado_utc": "2026-11-26T23:18:16Z",
- "agregadas_hoy": 2,
+ "generado_utc": "2026-11-27T11:26:55Z",
+ "agregadas_hoy": 1,
  "resumen": {
-  "en_curso": 26,
-  "federal": 26,
+  "en_curso": 27,
+  "federal": 27,
   "estatal": 0,
   "publicadas": 1,
-  "alta_probabilidad": 11,
+  "alta_probabilidad": 12,
   "por_sector": {
-   "sin sector": 19,
+   "sin sector": 20,
    "energia_electrica": 5,
    "manufactura_immex": 2,
    "logistica": 1,
@@ -21,15 +21,15 @@
    "salud": 4,
    "mujeres_igualdad": 4,
    "animales": 3,
+   "familia_civil": 3,
    "trabajo": 3,
    "transporte": 3,
    "otros": 3,
    "impuestos_dinero": 2,
+   "cultura_deporte": 2,
    "migracion": 2,
    "ninez": 1,
-   "familia_civil": 1,
    "telecom_internet": 1,
-   "cultura_deporte": 1,
    "seguridad_justicia": 1,
    "bancos_pagos": 1,
    "educacion": 1,
@@ -172,7 +172,7 @@
   {
    "id": "AG:576602014692",
    "detectado": "2026-11-19",
-   "actualizado": "2026-11-26",
+   "actualizado": "2026-11-27",
    "fuente": "Monitor de noticias (titular)",
    "ambito": "federal",
    "etapa": "aprobada_camara",
@@ -186,12 +186,6 @@
    "sectores": [],
    "estado": "en curso",
    "notas": [
-    {
-     "t": "Carlos Canturosas destaca nueva ley que sanciona el maltrato y abandono animal",
-     "u": "https://horacero.com.mx/tamaulipas/carlos-canturosas-proteccion-animal",
-     "m": "horacero.com.mx",
-     "f": "2026-11-19"
-    },
     {
      "t": "Nueva ley contra el maltrato animal obligará a estados y municipios a modificar sus reglamentos: regidora Adriana Muñoz",
      "u": "https://plumaslibres.com.mx/2026/11/19/nueva-ley-contra-el-maltrato-animal-obligara-a-estados-y-municipios-a-modificar-sus-reglamentos-regidora-adriana-munoz/",
@@ -233,10 +227,17 @@
      "u": "https://www.infobae.com/mexico/2026/11/26/imss-bienestar-tendria-una-nueva-ley-que-busca-modificar-sheinbaum-en-los-servicios-de-salud/",
      "m": "Infobae México",
      "f": "2026-11-26"
+    },
+    {
+     "t": "Sheinbaum envía a Diputados iniciativa para reformar leyes en materia de divorcio y protección de menores",
+     "u": "https://latinus.us/mexico/2026/11/26/sheinbaum-envia-a-diputados-iniciativa-para-reformar-leyes-en-materia-de-divorcio-y-proteccion-de-menores-183587.html",
+     "m": "Latinus",
+     "f": "2026-11-27"
     }
    ],
    "temas": [
     "animales",
+    "familia_civil",
     "impuestos_dinero",
     "salud",
     "trabajo",
@@ -248,6 +249,79 @@
     "2027-02"
    ],
    "leyes_ids": []
+  },
+  {
+   "id": "AG:fdac94ef9b04",
+   "detectado": "2026-11-27",
+   "actualizado": "2026-11-27",
+   "fuente": "Monitor de noticias (titular)",
+   "ambito": "federal",
+   "etapa": "iniciativa_ejecutivo",
+   "etapa_nombre": "Iniciativa del Ejecutivo federal",
+   "probabilidad": 0.7,
+   "horizonte_meses": "1–6",
+   "titulo": "¿Será más fácil divorciarte? Sheinbaum envía al Congreso reforma en materia de Justicia familiar",
+   "url": "https://www.elfinanciero.com.mx/nacional/2026/11/26/sera-mas-facil-divorciarte-sheinbaum-envia-al-congreso-reforma-en-materia-de-justicia-familiar/",
+   "medio": "El Financiero",
+   "leyes": [],
+   "leyes_ids": [],
+   "sectores": [],
+   "temas": [
+    "familia_civil",
+    "cultura_deporte"
+   ],
+   "estado": "en curso",
+   "notas": [
+    {
+     "t": "¿Será más fácil divorciarte? Sheinbaum envía al Congreso reforma en materia de Justicia familiar",
+     "u": "https://www.elfinanciero.com.mx/nacional/2026/11/26/sera-mas-facil-divorciarte-sheinbaum-envia-al-congreso-reforma-en-materia-de-justicia-familiar/",
+     "m": "El Financiero",
+     "f": "2026-11-27"
+    }
+   ],
+   "confirmacion": "un solo medio (sin confirmar)",
+   "ventana": [
+    "2026-12",
+    "2027-05"
+   ]
+  },
+  {
+   "id": "AG:976eb72682b9",
+   "detectado": "2026-11-26",
+   "actualizado": "2026-11-27",
+   "fuente": "Monitor de noticias (titular)",
+   "ambito": "federal",
+   "etapa": "anunciada",
+   "etapa_nombre": "Ley o reforma nueva en discusión pública",
+   "probabilidad": 0.45,
+   "horizonte_meses": "1–9",
+   "titulo": "SNTE reporta avance de 95% en nueva ley para sustituir a Usicamm",
+   "url": "https://www.eluniversal.com.mx/nacion/snte-reporta-avance-de-95-en-nueva-ley-para-sustituir-a-usicamm-destaca-participacion-de-700-mil-docentes/",
+   "medio": "eluniversal.com.mx",
+   "leyes": [],
+   "leyes_ids": [],
+   "sectores": [],
+   "temas": [],
+   "estado": "en curso",
+   "notas": [
+    {
+     "t": "SNTE reporta avance de 95% en nueva ley para sustituir a Usicamm",
+     "u": "https://www.eluniversal.com.mx/nacion/snte-reporta-avance-de-95-en-nueva-ley-para-sustituir-a-usicamm-destaca-participacion-de-700-mil-docentes/",
+     "m": "eluniversal.com.mx",
+     "f": "2026-11-26"
+    },
+    {
+     "t": "Nueva ley para sustituir a la Usicamm tiene 95% de avance, afirma el SNTE",
+     "u": "https://www.yucatan.com.mx/mexico/2026/11/26/nueva-ley-para-sustituir-a-la-usicamm-tiene-95-de-avance-afirma-el-snte.html",
+     "m": "yucatan.com.mx",
+     "f": "2026-11-27"
+    }
+   ],
+   "confirmacion": "varios medios",
+   "ventana": [
+    "2026-12",
+    "2027-08"
+   ]
   },
   {
    "id": "AG:ee5d6e7e6989",
@@ -352,38 +426,6 @@
      "t": "Propone Sheinbaum nueva ley para el IMSS-Bienestar",
      "u": "https://www.tiempo.com.mx/local/propone-sheinbaum-nueva-ley-para-el-imss-bienestar/",
      "m": "tiempo.com.mx",
-     "f": "2026-11-26"
-    }
-   ],
-   "confirmacion": "un solo medio (sin confirmar)",
-   "ventana": [
-    "2026-12",
-    "2027-08"
-   ]
-  },
-  {
-   "id": "AG:976eb72682b9",
-   "detectado": "2026-11-26",
-   "actualizado": "2026-11-26",
-   "fuente": "Monitor de noticias (titular)",
-   "ambito": "federal",
-   "etapa": "anunciada",
-   "etapa_nombre": "Ley o reforma nueva en discusión pública",
-   "probabilidad": 0.45,
-   "horizonte_meses": "1–9",
-   "titulo": "SNTE reporta avance de 95% en nueva ley para sustituir a Usicamm",
-   "url": "https://www.eluniversal.com.mx/nacion/snte-reporta-avance-de-95-en-nueva-ley-para-sustituir-a-usicamm-destaca-participacion-de-700-mil-docentes/",
-   "medio": "eluniversal.com.mx",
-   "leyes": [],
-   "leyes_ids": [],
-   "sectores": [],
-   "temas": [],
-   "estado": "en curso",
-   "notas": [
-    {
-     "t": "SNTE reporta avance de 95% en nueva ley para sustituir a Usicamm",
-     "u": "https://www.eluniversal.com.mx/nacion/snte-reporta-avance-de-95-en-nueva-ley-para-sustituir-a-usicamm-destaca-participacion-de-700-mil-docentes/",
-     "m": "eluniversal.com.mx",
      "f": "2026-11-26"
     }
    ],
