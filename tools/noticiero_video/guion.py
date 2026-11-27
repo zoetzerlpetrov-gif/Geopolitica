@@ -187,6 +187,24 @@ def romanos_legales(texto, legal=False):
     return _ROMANO.sub(cambiar, texto)
 
 
+_UNIDADES = [  # (patrón, singular, plural): la voz dice la palabra completa
+    (r"km/h", "kilómetro por hora", "kilómetros por hora"), (r"km²|km2", "kilómetro cuadrado", "kilómetros cuadrados"),
+    (r"kms?", "kilómetro", "kilómetros")]
+
+
+def unidades_voz(texto):
+    """«120 km» → «120 kilómetros»; «1 km» → «un kilómetro»; «80 km/h» → «80 kilómetros por hora»; «km²» → «kilómetros cuadrados».
+    Solo la abreviatura suelta (no dentro de otra palabra)."""
+    for patron, uno, varios in _UNIDADES:
+        def cambiar(m, uno=uno, varios=varios):
+            num = m.group(1)
+            if num is None:
+                return varios
+            return f"un {uno}" if num.strip() in ("1", "1.0") else f"{num}{varios}"
+        texto = re.sub(r"(\d[\d.,]*\s?)?(?<![\w/])(?:" + patron + r")(?![\w²/])", cambiar, texto, flags=re.I)
+    return texto
+
+
 _DIGITOS = ["cero", "uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve"]
 
 
@@ -201,6 +219,7 @@ def para_voz(texto, legal=False):
     t = re.sub(r"\b(\d{1,3})((?:,\d{3})+)(\.\d+)", lambda m: m.group(1) + m.group(2).replace(",", "") + m.group(3), t)
     t = re.sub(r"(\d)\.(\d)", r"\1 punto \2", t)
     t = re.sub(r"punto (0\d*)\b", lambda m: "punto " + " ".join(_DIGITOS[int(d)] for d in m.group(1)), t)
+    t = unidades_voz(t)
     t = t.replace("%", " por ciento").replace("‑", "-").replace(" · ", ", ").replace("·", ", ")  # el «·» no se pronuncia
     return ampersands_voz(pronunciar(re.sub(r"\s+", " ", t).strip()))
 
