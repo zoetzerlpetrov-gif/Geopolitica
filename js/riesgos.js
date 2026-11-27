@@ -1895,7 +1895,8 @@ export class Riesgos {
   #filtroBase(capaId = "") {
     // Los grupos (círculo con el número) tienen sus propias capas «-grupo»: las demás nunca los dibujan.
     if (CAPAS.find((c) => c.id === capaId.replace(/^rg-/, "").replace(/-[a-z]+$/, ""))?.noAmenaza) return ["all", ["!", ["has", "point_count"]]];
-    const f = ["all", ["!", ["has", "point_count"]], [">=", ["coalesce", ["get", "_sev"], 1], this.filtro.sevMin]];
+    // Las áreas aproximadas («es_area», severidad 0) son contexto de su capa: el filtro de severidad no las oculta.
+    const f = ["all", ["!", ["has", "point_count"]], ["any", ["==", ["get", "es_area"], true], [">=", ["coalesce", ["get", "_sev"], 1], this.filtro.sevMin]]];
     if (this.filtro.pais) f.push(["==", ["get", "_pais"], this.filtro.pais]);
     if (this.filtro.tipo) f.push(["==", ["get", "_tipo"], this.filtro.tipo]);
     return f;

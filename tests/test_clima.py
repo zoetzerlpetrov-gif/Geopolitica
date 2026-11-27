@@ -88,6 +88,13 @@ def test_vortice_polar_y_bolsas_frias():
     assert "calentamiento" in G.estado_vortice(-3) and G.estado_vortice(40).startswith("fuerte")
     rel = G.campo_vortice(h10)
     assert rel[0, 0] == 0 and np.isnan(rel[90, 0])
+    # Verano austral: viento del este a 60° S → el hemisferio sur no se pinta; el norte sí.
+    u_verano = np.where(lat < 0, -8.0, 25.0)
+    rel = G.campo_vortice(h10, u_verano)
+    assert rel[0, 0] == 0 and np.isnan(rel[170, 0])
+    r = G.resumen_vortice(h10, t10, u_verano, mes=11)
+    assert r["sur"]["estado"].startswith("sin vórtice") and r["sur"]["activo"] is False and r["norte"]["activo"] is True
+    assert "calentamiento" in G.estado_vortice(-3, "norte", 1)
     # Bolsa de aire frío sobre España (40° N, 4° O): baja cerrada y 8 °C más fría que su latitud.
     t500 = -20 + 0 * lat
     hgt = 5600 + 0 * lat

@@ -208,8 +208,15 @@ def fila_de_lat(lat, lat0=90.0, paso=1.0):
     return int(round((lat0 - lat) / paso))
 
 
-def estado_vortice(u60):
-    """Clasificación del vórtice por el viento zonal medio a 60° y 10 hPa (indicador habitual en la literatura)."""
+VORTICE_U60_MIN = 5.0  # m/s: con menos viento del oeste a 60° no hay vórtice que dibujar
+MESES_VERANO = {"norte": {5, 6, 7, 8, 9}, "sur": {11, 12, 1, 2, 3}}
+
+
+def estado_vortice(u60, hemisferio="norte", mes=1):
+    """Clasificación del vórtice por el viento zonal medio a 60° y 10 hPa (indicador habitual en la literatura).
+    En el verano de cada hemisferio el vórtice no existe (vientos del este): eso es normal, no un calentamiento súbito."""
+    if u60 < VORTICE_U60_MIN and mes in MESES_VERANO.get(hemisferio, set()):
+        return "sin vórtice (verano en este hemisferio: en la estratosfera soplan vientos del este; es lo normal)"
     if u60 < 0:
         return "invertido: calentamiento estratosférico súbito (el vórtice se rompió o se desplazó)"
     if u60 < 10:
@@ -219,7 +226,7 @@ def estado_vortice(u60):
     return "fuerte (el aire ártico tiende a quedar encerrado en el polo)"
 
 
-def resumen_vortice(hgt10, t10, u10):
+def resumen_vortice(hgt10, t10, u10, mes=1):
     """Por hemisferio: centro (mínimo de altura a 10 hPa al norte/sur de 45°), viento zonal medio a 60°, temperatura
     media al norte/sur de 80° y estado. Alturas en dam, temperaturas en °C."""
     out = {}
@@ -231,14 +238,19 @@ def resumen_vortice(hgt10, t10, u10):
         u60 = float(np.nanmean(u10[fila_de_lat(60 * signo)]))
         polo = t10[: fila_de_lat(80) + 1] if signo > 0 else t10[fila_de_lat(-80):]
         out[nombre] = {"centro": [float(-180 + j), float(lat)], "altura_min_dam": round(float(sub[i, j]) / 10, 1),
-                       "u60_ms": round(u60, 1), "t_polo_c": round(float(np.nanmean(polo)), 1), "estado": estado_vortice(u60)}
+                       "u60_ms": round(u60, 1), "t_polo_c": round(float(np.nanmean(polo)), 1), "estado": estado_vortice(u60, nombre, mes),
+                       "activo": u60 >= VORTICE_U60_MIN}
     return out
 
 
-def campo_vortice(hgt10):
-    """Altura a 10 hPa menos el mínimo de su hemisferio (dam); el ecuador y los trópicos quedan fuera (NaN)."""
+def campo_vortice(hgt10, u10=None):
+    """Altura a 10 hPa menos el mínimo de su hemisferio (dam); el ecuador y los trópicos quedan fuera (NaN).
+    Con `u10`, un hemisferio sin vórtice (viento medio del oeste a 60° menor que VORTICE_U60_MIN, p. ej. en su verano)
+    queda vacío: si no, el campo casi plano del verano pintaría todo el hemisferio."""
     rel = np.full(hgt10.shape, np.nan)
-    for a, b in ((0, fila_de_lat(20)), (fila_de_lat(-20), hgt10.shape[0] - 1)):
+    for a, b, lat60 in ((0, fila_de_lat(20), 60), (fila_de_lat(-20), hgt10.shape[0] - 1, -60)):
+        if u10 is not None and float(np.nanmean(u10[fila_de_lat(lat60)])) < VORTICE_U60_MIN:
+            continue
         bloque = hgt10[a:b + 1] / 10
         rel[a:b + 1] = bloque - np.nanmin(bloque)
     return rel
@@ -365,6 +377,7 @@ def guardar_png(arr, ruta):
 
 
 CAMPOS_META = ("nieve", "vortice")  # leyendas que debe traer meta.json de la versión actual
+VERSION_DATOS = 2  # 2: bolsas de aire frío con área aproximada y vórtice solo donde existe
 
 
 def main():
@@ -373,7 +386,7 @@ def main():
     previo = json.load(open(ruta_meta, encoding="utf-8")) if os.path.exists(ruta_meta) else {}
     ahora = datetime.now(timezone.utc)
     # Un meta.json de una versión anterior (sin vórtice ni nieve) se recalcula aunque sea reciente o de la misma corrida.
-    if not all(k in previo.get("leyendas", {}) for k in CAMPOS_META):
+    if not all(k in previo.get("leyendas", {}) for k in CAMPOS_META) or previo.get("version_datos") != VERSION_DATOS:
         previo = {}
     if previo.get("generado_utc"):
         edad = ahora - datetime.strptime(previo["generado_utc"], "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
@@ -406,8 +419,8 @@ def main():
                 try:  # vórtice polar a 10 hPa (opcional)
                     time.sleep(2)
                     h10, t10, u10 = leer_grib_vortice(get(FILTRO_VORTICE.format(fecha=corrida.strftime("%Y%m%d"), hh=corrida.strftime("%H"), f=f)))
-                    guardar_png(colorear(a_mercator(np.nan_to_num(campo_vortice(h10), nan=999.0)), PALETA_VORTICE), os.path.join(OUT, f"vortice_{nombre}.png"))
-                    pasos[-1].update(vortice=f"vortice_{nombre}.png", vortice_resumen=resumen_vortice(h10, t10, u10))
+                    guardar_png(colorear(a_mercator(np.nan_to_num(campo_vortice(h10, u10), nan=999.0)), PALETA_VORTICE), os.path.join(OUT, f"vortice_{nombre}.png"))
+                    pasos[-1].update(vortice=f"vortice_{nombre}.png", vortice_resumen=resumen_vortice(h10, t10, u10, corrida.month))
                 except Exception as e:  # noqa: BLE001  sin vórtice la capa de clima sigue igual
                     print(f"clima: vórtice polar f{f:03d} no disponible ({e})")
                 if "t850" in c:
@@ -443,7 +456,7 @@ def main():
         for a in os.listdir(OUT):
             if a.endswith((".png", ".geojson")) and a not in vigentes:
                 os.remove(os.path.join(OUT, a))
-        json.dump({"generado_utc": ahora.strftime("%Y-%m-%dT%H:%M:%SZ"), "corrida": etiqueta, "fuente": "NOAA GFS 1° vía NOMADS",
+        json.dump({"version_datos": VERSION_DATOS, "generado_utc": ahora.strftime("%Y-%m-%dT%H:%M:%SZ"), "corrida": etiqueta, "fuente": "NOAA GFS 1° vía NOMADS",
                    "viento_escala_ms": VIENTO_MAX, "viento_altura_escala_ms": VIENTO_ALTURA_MAX, "rejilla_viento": {"lon0": -180, "lat0": 90, "paso": 1, "ancho": 360, "alto": 181},
                    "mercator_lat_max": LAT_MAX, "pasos": pasos,
                    "leyendas": {"temp": [[v, "#%02x%02x%02x" % c[:3]] for v, c in PALETA_TEMP],
