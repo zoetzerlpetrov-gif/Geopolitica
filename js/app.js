@@ -1844,6 +1844,7 @@ async function iniciarClima() {
   // En LITE también: la animación solo corre si la activas (gasta batería; el aviso queda en el menú).
   const K = await import("./clima.js");
   clima = new K.Clima(api.map);
+  clima.onFicha = abrirFichaHtml;  // ficha de las bolsas de aire frío (DANA)
   let meta;
   try { meta = await clima.cargar(); } catch (e) { cont.innerHTML = `<p class="meta">Aún no hay datos del modelo (los prepara el workflow «Datos en movimiento» cada 6 h).</p>`; return; }
   if (!meta.pasos?.length) { cont.innerHTML = `<p class="meta">Sin horizontes de pronóstico en la última corrida.</p>`; return; }

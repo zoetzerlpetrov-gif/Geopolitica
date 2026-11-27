@@ -64,3 +64,11 @@ test("cuadrosPublicados: cada capa usa su imagen publicada más reciente y no re
   assert.equal(cuadrosPublicados([["a1", "a2"], ["a1", "a2"]], 8).length, 2);
   assert.equal(cuadrosPublicados([oeste, []], 8), null);
 });
+
+test("ficha de la bolsa de aire frío (DANA): núcleo y área con datos y explicación", async () => {
+  const { htmlBolsa } = await import("../../js/clima.js");
+  const h = htmlBolsa({ t500_c: -24.9, anomalia_c: -12.3, altura500_dam: 556.9, t850_c: 5.3 });
+  assert.match(h, /DANA/); assert.match(h, /muy intensa/); assert.match(h, /−?-24\.9 °C \/ -13 °F/); assert.match(h, /Qué implica/); assert.match(h, /Núcleo/);
+  const a = htmlBolsa({ t500_c: -20, anomalia_c: -6, es_area: true });
+  assert.match(a, /Área aproximada/); assert.match(a, /moderada/); assert.doesNotMatch(a, /850 hPa\)<\/th><td>null/);
+});

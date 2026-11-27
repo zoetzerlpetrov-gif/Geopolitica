@@ -66,3 +66,10 @@ test("flujo de CO₂ de la vegetación: colores y ficha", async () => {
   assert.match(htmlLeyendaFlujo(), /casi neutro/);
   assert.ok(GEI.co_sup && GEI.nee.soloFicha);
 });
+
+test("ficha del área de humedad explica la condición de cada modo", async () => {
+  const { htmlFichaAreaHumedad } = await import("../../js/humedad.js");
+  assert.match(htmlFichaAreaHumedad({ zona_modo: "rocio" }), /21 °C/);
+  assert.match(htmlFichaAreaHumedad({ zona_modo: "condensacion" }), /Qué implica/);
+  assert.match(htmlFichaAreaHumedad({ zona_modo: "x", titulo: "<b>" }), /&lt;b&gt;/);
+});

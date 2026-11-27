@@ -176,7 +176,7 @@ class Particulas {
 }
 
 export class Clima {
-  constructor(map) { this.map = map; this.meta = null; this.turnos = new Map(); this.paso = 0; this.activas = new Set(); this.particulas = null; this.extras = new Map(); this.onMomento = null; this.onProgreso = null; }
+  constructor(map) { this.map = map; this.meta = null; this.turnos = new Map(); this.paso = 0; this.activas = new Set(); this.particulas = null; this.extras = new Map(); this.onMomento = null; this.onProgreso = null; this.onFicha = null; this.clicBolsas = false; }
 
   async cargar() { this.meta = await getJSON(`${BASE}meta.json`, { bust: true }); return this.meta; }
 
@@ -249,6 +249,19 @@ export class Clima {
         "circle-radius": ["interpolate", ["linear"], ["get", "anomalia_c"], -14, 16, -4, 8], "circle-opacity": 0.75, "circle-stroke-color": "#ffffff", "circle-stroke-width": 1.5 } }, antes);
       this.map.addLayer({ id: `${id}-etiquetas`, type: "symbol", source: id, filter: ["==", ["geometry-type"], "Point"], layout: { ...layoutEtiqueta(this.map), "text-field": ETIQUETA_BOLSA, "text-size": 11,
         "text-font": ["Noto Sans Regular"], "text-offset": [0, 1.4], "text-anchor": "top" }, paint: pinturaEtiqueta() }, antes);
+      // Ficha al tocar el núcleo o el área (los manejadores se registran una vez; sobreviven a quitar y poner la capa).
+      if (!this.clicBolsas) {
+        this.clicBolsas = true;
+        this.map.on("click", id, (e) => { const f = e.features?.[0]; if (f) this.onFicha?.(htmlBolsa(f.properties)); });
+        this.map.on("click", `${id}-area`, (e) => {
+          if (this.map.getLayer(id) && this.map.queryRenderedFeatures(e.point, { layers: [id] }).length) return;  // el núcleo manda
+          const f = e.features?.[0]; if (f) this.onFicha?.(htmlBolsa({ ...f.properties, es_area: true }));
+        });
+        for (const l of [id, `${id}-area`]) {
+          this.map.on("mouseenter", l, () => { this.map.getCanvas().style.cursor = "pointer"; });
+          this.map.on("mouseleave", l, () => { this.map.getCanvas().style.cursor = ""; });
+        }
+      }
       return;
     }
     if (!this.pasoActual[tipo]) throw new Error("la corrida actual del modelo todavía no trae esta capa; aparecerá en la siguiente (cada 6 h)");
@@ -280,6 +293,27 @@ export function bolsasDe(meta, i) {
 // «−24 °C / −11 °F (−9 °C de lo normal)» a 500 hPa, con la temperatura a 850 hPa si viene.
 export const ETIQUETA_BOLSA = ["concat", ["to-string", ["get", "t500_c"]], " °C / ", ["to-string", ["round", ["+", 32, ["*", 1.8, ["get", "t500_c"]]]]], " °F",
   "\n", ["to-string", ["get", "anomalia_c"]], " °C vs. lo normal"];
+
+/** Ficha (HTML) de una bolsa de aire frío (DANA o gota fría): su núcleo o su área aproximada. */
+export function htmlBolsa(p = {}) {
+  const n = (v) => (Number.isFinite(Number(v)) ? Number(v) : null);
+  const t500 = n(p.t500_c), an = n(p.anomalia_c), t850 = n(p.t850_c), alt = n(p.altura500_dam);
+  const cf = (c) => `${c} °C / ${Math.round(c * 1.8 + 32)} °F`;
+  const fuerza = an == null ? "" : an <= -12 ? "muy intensa" : an <= -8 ? "intensa" : "moderada";
+  const fila = (k, v) => (v == null || v === "" ? "" : `<tr><th>${k}</th><td>${v}</td></tr>`);
+  return `<h2>🌀 Bolsa de aire frío (DANA o gota fría)${fuerza ? ` · ${fuerza}` : ""}</h2>
+    <p class="meta">${p.es_area ? "Área aproximada" : "Núcleo"} · modelo GFS de NOAA (pronóstico, 1°)</p>
+    <table class="tabla-ficha">
+      ${fila("Qué es", "Una masa de aire frío a ~5.5 km de altura que se separó de la corriente en chorro y quedó aislada; se mueve despacio y a veces sin rumbo fijo.")}
+      ${fila("Qué implica", "Con aire más cálido y húmedo abajo, la atmósfera se vuelve inestable: tormentas fuertes, granizo, lluvias torrenciales e inundaciones repentinas; en invierno, nevadas a cotas bajas. Puede quedarse varios días sobre la misma zona.")}
+      ${fila("Temperatura a ~5.5 km (500 hPa)", t500 == null ? null : cf(t500))}
+      ${fila("Diferencia contra lo normal en esa latitud", an == null ? null : `${an} °C (${Math.round(an * 1.8 * 10) / 10} °F)`)}
+      ${fila("Temperatura a ~1.5 km (850 hPa)", t850 == null ? null : cf(t850))}
+      ${fila("Altura de la superficie de 500 hPa", alt == null ? null : `${alt} dam`)}
+      ${fila("Cómo se dibuja", p.es_area ? "Celdas unidas al núcleo donde el aire a ~5.5 km sigue al menos la mitad de frío que en el núcleo (2 °C o más bajo lo normal), hasta ~15° del centro. El borde es aproximado." : "Mínimo de altura a 500 hPa con el aire al menos 4 °C más frío que el promedio de su latitud.")}
+    </table>
+    <p class="meta">Es un pronóstico numérico, no un aviso. Para avisos oficiales: el servicio meteorológico de cada país (en México, el SMN; en España, AEMET).</p>`;
+}
 
 /** Resumen del vórtice polar por hemisferio (HTML). */
 export function htmlVortice(r) {
