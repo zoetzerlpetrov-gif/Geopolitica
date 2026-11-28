@@ -105,3 +105,33 @@ test("Organigrama: cambios verificados y 8-K 5.02 se aplican sobre Wikidata (NVI
   assert.doesNotMatch(html, /Jen-Hsun Huang/);
   assert.equal(conCambios({ id: "Q1", n: "Otra" }, cambios, null).avisos, undefined);  // sin cambios: igual
 });
+
+test("nieve observada por satélite: VIIRS NOAA-20, nivel 8, relleno de 3 días y escala de 5 tramos", async () => {
+  const { IMAGENES, fechasRelleno } = await import("../../js/imagenes.js");
+  const d = IMAGENES.nieve_sat;
+  assert.equal(d.capa, "VIIRS_NOAA20_NDSI_Snow_Cover");
+  assert.equal(d.matriz, "GoogleMapsCompatible_Level8");
+  assert.equal(d.maxzoom, 8);
+  assert.deepEqual(fechasRelleno(d, "2026-11-27"), ["2026-11-26", "2026-11-25", "2026-11-24"]);
+  assert.equal(d.escala.colores.length, d.escala.marcas.length);
+});
+
+test("filtro de nieve: quita 1-40 % (falsas manchas en ciudades) y deja 41-100 %", async () => {
+  const { filtrarNieve, conRespaldo, sinRespaldo } = await import("../../js/gibs.js");
+  const px = new Uint8ClampedArray([240, 240, 137, 255, 240, 210, 137, 255, 240, 180, 137, 255, 240, 132, 132, 255, 200, 200, 200, 255, 0, 0, 0, 0]);
+  filtrarNieve(px);
+  assert.deepEqual([3, 7, 11, 15, 19, 23].map((i) => px[i]), [0, 0, 255, 255, 0, 0]);
+  assert.deepEqual([...px.slice(8, 11)], [120, 200, 255]); assert.deepEqual([...px.slice(12, 15)], [20, 60, 200]);  // recoloreado en azules
+  const u = conRespaldo("https://gibs.earthdata.nasa.gov/x.png", { filtro: "nieve" });
+  assert.ok(u.startsWith("gibsn://")); assert.equal(sinRespaldo(u), "https://gibs.earthdata.nasa.gov/x.png");
+});
+
+test("nieve: altura mínima por latitud y máscara con relieve terrarium", async () => {
+  const { alturaMinimaNieve, latMosaico, filtrarPorAltura } = await import("../../js/gibs.js");
+  assert.equal(alturaMinimaNieve(19), 3500); assert.equal(alturaMinimaNieve(-28), 1500); assert.equal(alturaMinimaNieve(45), 0);
+  assert.ok(Math.abs(latMosaico(8, 114) - 19.2) < 0.7);  // mosaico de los volcanes del centro de México
+  const alto = [128 + 20, 11, 0, 255], bajo = [128 + 8, 200, 0, 255];  // 5131 m y 2248 m
+  const px = new Uint8ClampedArray([240, 150, 137, 255, 240, 150, 137, 255]);
+  filtrarPorAltura(px, new Uint8ClampedArray([...alto, ...bajo]), 3500);
+  assert.deepEqual([px[3], px[7]], [255, 0]);
+});
