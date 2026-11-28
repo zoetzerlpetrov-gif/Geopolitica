@@ -1,0 +1,1416 @@
+{
+ "generado_utc": "2026-11-28T04:54:43Z",
+ "fuente": "SESNSP, incidencia delictiva estatal del fuero común (RNID)",
+ "archivo": "RNID-Delitos_Estatal-2026-oct2026.csv",
+ "descripcion": "Enero - octubre 2026 (Fuero comun - Delitos). Incidencia delictiva estatal",
+ "pagina": "https://www.gob.mx/sesnsp/acciones-y-programas/datos-abiertos-de-incidencia-delictiva",
+ "grupos": {
+  "transportista": "Robo a transportista (transporte de carga)",
+  "transporte_publico": "Robo en transporte público (colectivo e individual)",
+  "vehiculo": "Robo de vehículo automotor"
+ },
+ "anio": "2026",
+ "meses": [
+  "Enero",
+  "Febrero",
+  "Marzo",
+  "Abril",
+  "Mayo",
+  "Junio",
+  "Julio",
+  "Agosto",
+  "Septiembre",
+  "Octubre"
+ ],
+ "por_estado": {
+  "Aguascalientes": {
+   "vehiculo": [
+    101,
+    111,
+    107,
+    86,
+    89,
+    98,
+    102,
+    103,
+    62,
+    77
+   ],
+   "transportista": [
+    0,
+    0,
+    0,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "transporte_publico": [
+    11,
+    8,
+    17,
+    9,
+    12,
+    18,
+    16,
+    15,
+    7,
+    15
+   ]
+  },
+  "Baja California": {
+   "vehiculo": [
+    638,
+    616,
+    631,
+    610,
+    577,
+    510,
+    559,
+    498,
+    512,
+    607
+   ],
+   "transportista": [
+    3,
+    0,
+    2,
+    3,
+    2,
+    2,
+    3,
+    1,
+    0,
+    2
+   ],
+   "transporte_publico": [
+    4,
+    4,
+    3,
+    4,
+    3,
+    4,
+    4,
+    3,
+    3,
+    4
+   ]
+  },
+  "Baja California Sur": {
+   "vehiculo": [
+    39,
+    45,
+    41,
+    53,
+    55,
+    66,
+    49,
+    46,
+    36,
+    52
+   ],
+   "transportista": [
+    0,
+    0,
+    0,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "transporte_publico": [
+    0,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    0
+   ]
+  },
+  "Campeche": {
+   "vehiculo": [
+    4,
+    3,
+    0,
+    4,
+    0,
+    0,
+    1,
+    1,
+    1,
+    2
+   ],
+   "transportista": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "transporte_publico": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "Coahuila de Zaragoza": {
+   "vehiculo": [
+    19,
+    14,
+    20,
+    17,
+    17,
+    13,
+    14,
+    13,
+    24,
+    17
+   ],
+   "transportista": [
+    0,
+    0,
+    0,
+    0,
+    2,
+    1,
+    1,
+    0,
+    2,
+    0
+   ],
+   "transporte_publico": [
+    1,
+    0,
+    4,
+    3,
+    0,
+    0,
+    1,
+    0,
+    2,
+    1
+   ]
+  },
+  "Colima": {
+   "vehiculo": [
+    64,
+    42,
+    49,
+    29,
+    40,
+    41,
+    37,
+    40,
+    41,
+    49
+   ],
+   "transportista": [
+    2,
+    1,
+    0,
+    0,
+    4,
+    0,
+    1,
+    0,
+    1,
+    2
+   ],
+   "transporte_publico": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "Chiapas": {
+   "vehiculo": [
+    33,
+    51,
+    40,
+    49,
+    37,
+    44,
+    47,
+    39,
+    34,
+    35
+   ],
+   "transportista": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "transporte_publico": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "Chihuahua": {
+   "vehiculo": [
+    198,
+    177,
+    216,
+    184,
+    227,
+    189,
+    194,
+    231,
+    212,
+    195
+   ],
+   "transportista": [
+    3,
+    1,
+    0,
+    2,
+    2,
+    2,
+    4,
+    1,
+    3,
+    1
+   ],
+   "transporte_publico": [
+    3,
+    2,
+    0,
+    1,
+    0,
+    0,
+    3,
+    0,
+    1,
+    2
+   ]
+  },
+  "Ciudad de México": {
+   "vehiculo": [
+    401,
+    381,
+    430,
+    435,
+    419,
+    423,
+    478,
+    419,
+    444,
+    504
+   ],
+   "transportista": [
+    5,
+    2,
+    2,
+    5,
+    0,
+    2,
+    2,
+    0,
+    1,
+    3
+   ],
+   "transporte_publico": [
+    355,
+    395,
+    317,
+    300,
+    349,
+    360,
+    338,
+    386,
+    403,
+    402
+   ]
+  },
+  "Durango": {
+   "vehiculo": [
+    57,
+    46,
+    36,
+    30,
+    43,
+    31,
+    57,
+    63,
+    58,
+    76
+   ],
+   "transportista": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "transporte_publico": [
+    0,
+    0,
+    1,
+    1,
+    1,
+    0,
+    0,
+    2,
+    1,
+    1
+   ]
+  },
+  "Guanajuato": {
+   "vehiculo": [
+    599,
+    401,
+    497,
+    403,
+    476,
+    418,
+    459,
+    407,
+    423,
+    489
+   ],
+   "transportista": [
+    2,
+    0,
+    1,
+    0,
+    2,
+    2,
+    0,
+    0,
+    3,
+    1
+   ],
+   "transporte_publico": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "Guerrero": {
+   "vehiculo": [
+    169,
+    165,
+    172,
+    191,
+    175,
+    180,
+    186,
+    208,
+    180,
+    196
+   ],
+   "transportista": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "transporte_publico": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "Hidalgo": {
+   "vehiculo": [
+    262,
+    242,
+    261,
+    239,
+    242,
+    226,
+    233,
+    201,
+    192,
+    214
+   ],
+   "transportista": [
+    1,
+    2,
+    3,
+    1,
+    6,
+    3,
+    2,
+    1,
+    2,
+    1
+   ],
+   "transporte_publico": [
+    60,
+    11,
+    13,
+    12,
+    10,
+    6,
+    9,
+    6,
+    5,
+    2
+   ]
+  },
+  "Jalisco": {
+   "vehiculo": [
+    782,
+    727,
+    881,
+    832,
+    832,
+    862,
+    932,
+    869,
+    820,
+    791
+   ],
+   "transportista": [
+    10,
+    9,
+    10,
+    8,
+    8,
+    5,
+    5,
+    6,
+    5,
+    4
+   ],
+   "transporte_publico": [
+    5,
+    0,
+    15,
+    6,
+    13,
+    6,
+    21,
+    7,
+    9,
+    6
+   ]
+  },
+  "México": {
+   "vehiculo": [
+    1337,
+    1234,
+    1331,
+    1279,
+    1194,
+    1172,
+    1149,
+    1116,
+    1089,
+    1056
+   ],
+   "transportista": [
+    239,
+    188,
+    243,
+    198,
+    206,
+    192,
+    130,
+    196,
+    180,
+    165
+   ],
+   "transporte_publico": [
+    406,
+    337,
+    316,
+    314,
+    299,
+    281,
+    308,
+    363,
+    339,
+    358
+   ]
+  },
+  "Michoacán de Ocampo": {
+   "vehiculo": [
+    454,
+    469,
+    462,
+    434,
+    457,
+    421,
+    448,
+    429,
+    406,
+    420
+   ],
+   "transportista": [
+    21,
+    20,
+    32,
+    24,
+    31,
+    47,
+    45,
+    52,
+    52,
+    57
+   ],
+   "transporte_publico": [
+    11,
+    1,
+    1,
+    6,
+    3,
+    10,
+    7,
+    14,
+    1,
+    2
+   ]
+  },
+  "Morelos": {
+   "vehiculo": [
+    349,
+    300,
+    328,
+    330,
+    338,
+    288,
+    261,
+    249,
+    297,
+    298
+   ],
+   "transportista": [
+    1,
+    1,
+    0,
+    2,
+    4,
+    8,
+    3,
+    2,
+    2,
+    5
+   ],
+   "transporte_publico": [
+    0,
+    5,
+    4,
+    2,
+    6,
+    0,
+    9,
+    1,
+    2,
+    5
+   ]
+  },
+  "Nayarit": {
+   "vehiculo": [
+    36,
+    24,
+    49,
+    34,
+    41,
+    44,
+    40,
+    45,
+    43,
+    33
+   ],
+   "transportista": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "transporte_publico": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "Nuevo León": {
+   "vehiculo": [
+    14,
+    36,
+    50,
+    29,
+    58,
+    72,
+    39,
+    59,
+    31,
+    22
+   ],
+   "transportista": [
+    1,
+    4,
+    10,
+    8,
+    8,
+    11,
+    3,
+    3,
+    2,
+    0
+   ],
+   "transporte_publico": [
+    27,
+    25,
+    9,
+    5,
+    14,
+    15,
+    11,
+    11,
+    19,
+    11
+   ]
+  },
+  "Oaxaca": {
+   "vehiculo": [
+    173,
+    180,
+    162,
+    157,
+    176,
+    167,
+    153,
+    152,
+    189,
+    167
+   ],
+   "transportista": [
+    8,
+    9,
+    2,
+    6,
+    7,
+    6,
+    9,
+    9,
+    3,
+    8
+   ],
+   "transporte_publico": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "Puebla": {
+   "vehiculo": [
+    779,
+    687,
+    828,
+    787,
+    803,
+    778,
+    756,
+    796,
+    766,
+    776
+   ],
+   "transportista": [
+    116,
+    90,
+    105,
+    77,
+    98,
+    98,
+    84,
+    94,
+    120,
+    111
+   ],
+   "transporte_publico": [
+    160,
+    131,
+    175,
+    148,
+    161,
+    163,
+    173,
+    185,
+    163,
+    173
+   ]
+  },
+  "Querétaro": {
+   "vehiculo": [
+    276,
+    208,
+    282,
+    237,
+    233,
+    214,
+    183,
+    155,
+    176,
+    174
+   ],
+   "transportista": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "transporte_publico": [
+    4,
+    9,
+    16,
+    7,
+    8,
+    7,
+    9,
+    10,
+    1,
+    8
+   ]
+  },
+  "Quintana Roo": {
+   "vehiculo": [
+    231,
+    168,
+    195,
+    168,
+    164,
+    184,
+    150,
+    158,
+    185,
+    211
+   ],
+   "transportista": [
+    0,
+    0,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "transporte_publico": [
+    3,
+    3,
+    3,
+    6,
+    1,
+    2,
+    7,
+    14,
+    17,
+    10
+   ]
+  },
+  "San Luis Potosí": {
+   "vehiculo": [
+    128,
+    133,
+    178,
+    137,
+    121,
+    123,
+    111,
+    106,
+    127,
+    136
+   ],
+   "transportista": [
+    34,
+    26,
+    30,
+    31,
+    22,
+    28,
+    12,
+    11,
+    24,
+    13
+   ],
+   "transporte_publico": [
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "Sinaloa": {
+   "vehiculo": [
+    474,
+    381,
+    401,
+    375,
+    374,
+    342,
+    240,
+    242,
+    215,
+    198
+   ],
+   "transportista": [
+    0,
+    0,
+    0,
+    0,
+    2,
+    0,
+    1,
+    0,
+    0,
+    0
+   ],
+   "transporte_publico": [
+    0,
+    0,
+    1,
+    0,
+    0,
+    1,
+    0,
+    0,
+    0,
+    2
+   ]
+  },
+  "Sonora": {
+   "vehiculo": [
+    157,
+    186,
+    195,
+    212,
+    183,
+    165,
+    180,
+    161,
+    151,
+    192
+   ],
+   "transportista": [
+    2,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    0,
+    0
+   ],
+   "transporte_publico": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "Tabasco": {
+   "vehiculo": [
+    165,
+    145,
+    157,
+    167,
+    146,
+    137,
+    153,
+    126,
+    137,
+    137
+   ],
+   "transportista": [
+    0,
+    8,
+    5,
+    8,
+    7,
+    2,
+    3,
+    1,
+    11,
+    5
+   ],
+   "transporte_publico": [
+    0,
+    4,
+    6,
+    1,
+    1,
+    2,
+    8,
+    7,
+    5,
+    4
+   ]
+  },
+  "Tamaulipas": {
+   "vehiculo": [
+    140,
+    146,
+    152,
+    129,
+    127,
+    132,
+    133,
+    115,
+    116,
+    160
+   ],
+   "transportista": [
+    0,
+    1,
+    0,
+    0,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "transporte_publico": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "Tlaxcala": {
+   "vehiculo": [
+    29,
+    20,
+    24,
+    20,
+    29,
+    15,
+    15,
+    28,
+    32,
+    43
+   ],
+   "transportista": [
+    4,
+    5,
+    1,
+    2,
+    2,
+    3,
+    5,
+    1,
+    1,
+    2
+   ],
+   "transporte_publico": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "Veracruz de Ignacio de la Llave": {
+   "vehiculo": [
+    475,
+    429,
+    456,
+    400,
+    383,
+    375,
+    398,
+    373,
+    374,
+    365
+   ],
+   "transportista": [
+    9,
+    2,
+    8,
+    8,
+    7,
+    5,
+    8,
+    12,
+    2,
+    15
+   ],
+   "transporte_publico": [
+    7,
+    5,
+    5,
+    7,
+    7,
+    5,
+    4,
+    11,
+    5,
+    6
+   ]
+  },
+  "Yucatán": {
+   "vehiculo": [
+    5,
+    6,
+    11,
+    6,
+    9,
+    25,
+    18,
+    7,
+    3,
+    2
+   ],
+   "transportista": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "transporte_publico": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "Zacatecas": {
+   "vehiculo": [
+    70,
+    100,
+    83,
+    105,
+    104,
+    76,
+    75,
+    73,
+    105,
+    86
+   ],
+   "transportista": [
+    2,
+    0,
+    0,
+    0,
+    0,
+    2,
+    1,
+    1,
+    0,
+    0
+   ],
+   "transporte_publico": [
+    0,
+    2,
+    1,
+    0,
+    0,
+    0,
+    1,
+    0,
+    0,
+    0
+   ]
+  }
+ },
+ "nacional": {
+  "vehiculo": [
+   8658,
+   7873,
+   8725,
+   8168,
+   8169,
+   7831,
+   7850,
+   7528,
+   7481,
+   7780
+  ],
+  "transportista": [
+   463,
+   369,
+   455,
+   385,
+   423,
+   419,
+   322,
+   392,
+   414,
+   395
+  ],
+  "transporte_publico": [
+   1058,
+   943,
+   907,
+   832,
+   888,
+   880,
+   929,
+   1035,
+   984,
+   1012
+  ]
+ },
+ "homicidio_doloso": {
+  "Aguascalientes": {
+   "carpetas": 45,
+   "tasa_anual_100k": 3.8
+  },
+  "Baja California": {
+   "carpetas": 1381,
+   "tasa_anual_100k": 44.0
+  },
+  "Baja California Sur": {
+   "carpetas": 61,
+   "tasa_anual_100k": 9.2
+  },
+  "Campeche": {
+   "carpetas": 95,
+   "tasa_anual_100k": 12.3
+  },
+  "Coahuila de Zaragoza": {
+   "carpetas": 75,
+   "tasa_anual_100k": 2.9
+  },
+  "Colima": {
+   "carpetas": 471,
+   "tasa_anual_100k": 77.3
+  },
+  "Chiapas": {
+   "carpetas": 314,
+   "tasa_anual_100k": 6.8
+  },
+  "Chihuahua": {
+   "carpetas": 1130,
+   "tasa_anual_100k": 36.2
+  },
+  "Ciudad de México": {
+   "carpetas": 622,
+   "tasa_anual_100k": 8.1
+  },
+  "Durango": {
+   "carpetas": 46,
+   "tasa_anual_100k": 3.0
+  },
+  "Guanajuato": {
+   "carpetas": 1177,
+   "tasa_anual_100k": 22.9
+  },
+  "Guerrero": {
+   "carpetas": 702,
+   "tasa_anual_100k": 23.8
+  },
+  "Hidalgo": {
+   "carpetas": 157,
+   "tasa_anual_100k": 6.1
+  },
+  "Jalisco": {
+   "carpetas": 637,
+   "tasa_anual_100k": 9.2
+  },
+  "México": {
+   "carpetas": 849,
+   "tasa_anual_100k": 6.0
+  },
+  "Michoacán de Ocampo": {
+   "carpetas": 583,
+   "tasa_anual_100k": 14.7
+  },
+  "Morelos": {
+   "carpetas": 1010,
+   "tasa_anual_100k": 61.5
+  },
+  "Nayarit": {
+   "carpetas": 37,
+   "tasa_anual_100k": 3.6
+  },
+  "Nuevo León": {
+   "carpetas": 316,
+   "tasa_anual_100k": 6.6
+  },
+  "Oaxaca": {
+   "carpetas": 649,
+   "tasa_anual_100k": 18.8
+  },
+  "Puebla": {
+   "carpetas": 478,
+   "tasa_anual_100k": 8.7
+  },
+  "Querétaro": {
+   "carpetas": 169,
+   "tasa_anual_100k": 8.6
+  },
+  "Quintana Roo": {
+   "carpetas": 230,
+   "tasa_anual_100k": 14.9
+  },
+  "San Luis Potosí": {
+   "carpetas": 67,
+   "tasa_anual_100k": 2.8
+  },
+  "Sinaloa": {
+   "carpetas": 997,
+   "tasa_anual_100k": 39.5
+  },
+  "Sonora": {
+   "carpetas": 685,
+   "tasa_anual_100k": 27.9
+  },
+  "Tabasco": {
+   "carpetas": 499,
+   "tasa_anual_100k": 24.9
+  },
+  "Tamaulipas": {
+   "carpetas": 153,
+   "tasa_anual_100k": 5.2
+  },
+  "Tlaxcala": {
+   "carpetas": 82,
+   "tasa_anual_100k": 7.3
+  },
+  "Veracruz de Ignacio de la Llave": {
+   "carpetas": 648,
+   "tasa_anual_100k": 9.6
+  },
+  "Yucatán": {
+   "carpetas": 22,
+   "tasa_anual_100k": 1.1
+  },
+  "Zacatecas": {
+   "carpetas": 83,
+   "tasa_anual_100k": 6.1
+  },
+  "_nacional": {
+   "carpetas": 14470,
+   "tasa_anual_100k": 13.8
+  }
+ },
+ "poblacion": "Censo de Población y Vivienda 2020 (INEGI)"
+}
