@@ -1,11 +1,11 @@
 {
- "generado_utc": "2026-11-27T22:55:22Z",
+ "generado_utc": "2026-11-28T10:49:23Z",
  "fuentes": {
   "MEX": {
    "fuente": "Diario Oficial de la Federación y Cámara de Diputados",
    "ok": true,
    "estado": "ok",
-   "nuevas": 10,
+   "nuevas": 6,
    "error": "",
    "hasta": "2026-11-27"
   },
@@ -15,7 +15,7 @@
    "estado": "ok",
    "nuevas": 2,
    "error": "",
-   "hasta": "2026-11-27"
+   "hasta": "2026-11-28"
   },
   "CAN": {
    "fuente": "Canada Gazette, Parte II",
@@ -23,7 +23,7 @@
    "estado": "ok",
    "nuevas": 0,
    "error": "",
-   "hasta": "2026-11-27"
+   "hasta": "2026-11-28"
   },
   "EUR": {
    "fuente": "Oficina de Publicaciones de la UE (Cellar)",
@@ -31,7 +31,7 @@
    "estado": "ok",
    "nuevas": 6,
    "error": "",
-   "hasta": "2026-11-27"
+   "hasta": "2026-11-28"
   },
   "JPN": {
    "fuente": "e-Gov, API de leyes v2",
@@ -39,7 +39,7 @@
    "estado": "ok",
    "nuevas": 0,
    "error": "",
-   "hasta": "2026-11-27"
+   "hasta": "2026-11-28"
   },
   "RUS": {
    "fuente": "Portal oficial de publicación de actos jurídicos",
@@ -47,7 +47,7 @@
    "estado": "ok",
    "nuevas": 3,
    "error": "",
-   "hasta": "2026-11-27"
+   "hasta": "2026-11-28"
   },
   "ARG": {
    "fuente": "Boletín Oficial, primera sección",
@@ -55,7 +55,7 @@
    "estado": "ok",
    "nuevas": 0,
    "error": "",
-   "hasta": "2026-11-27"
+   "hasta": "2026-11-28"
   }
  },
  "sin_fuente": {
@@ -77,20 +77,20 @@
   "MDO": "Sanciones: revisión semanal manual en OFAC, el mapa de sanciones de la UE y la ONU."
  },
  "ultima_fecha": {
-  "USA": "2026-11-27",
-  "CAN": "2026-11-27",
-  "EUR": "2026-11-27",
-  "JPN": "2026-11-27",
-  "RUS": "2026-11-27",
+  "USA": "2026-11-28",
+  "CAN": "2026-11-28",
+  "EUR": "2026-11-28",
+  "JPN": "2026-11-28",
+  "RUS": "2026-11-28",
   "MEX": "2026-11-27",
-  "ARG": "2026-11-27"
+  "ARG": "2026-11-28"
  },
  "desactualizadas": [],
  "por_pais": {
   "USA": {
    "total": 39,
    "alto": 0,
-   "ultimos_30d": 32
+   "ultimos_30d": 30
   },
   "RUS": {
    "total": 39,
@@ -98,14 +98,14 @@
    "ultimos_30d": 39
   },
   "MEX": {
-   "total": 567,
+   "total": 570,
    "alto": 53,
-   "ultimos_30d": 45
+   "ultimos_30d": 47
   },
   "EUR": {
    "total": 65,
    "alto": 10,
-   "ultimos_30d": 26
+   "ultimos_30d": 23
   },
   "JPN": {
    "total": 1,
@@ -113,5 +113,5 @@
    "ultimos_30d": 1
   }
  },
- "agregadas_hoy": 5
+ "agregadas_hoy": 3
 }
