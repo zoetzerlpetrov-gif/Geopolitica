@@ -1,0 +1,437 @@
+{
+ "generado_utc": "2026-11-28T20:04:34Z",
+ "modo": "produccion",
+ "cron": "17 * * * *",
+ "intervalo_minutos": 60,
+ "proxima_ejecucion_utc": "2026-11-28T20:17:00Z",
+ "eventos_total": 3500,
+ "eventos_nuevos": 40,
+ "candidatos": 995,
+ "descartados": {
+  "fuera_de_ventana": 176,
+  "fuera_de_tema": 23,
+  "sin_clasificar": 316,
+  "red_social_sin_pais": 3,
+  "imagenes_portada": 35
+ },
+ "historial_borrados": 0,
+ "calidad": {
+  "eventos": 3500,
+  "sin_pais": 117,
+  "confianza_baja": 321,
+  "verificados": 27,
+  "con_varias_fuentes": 633,
+  "impacto_mexico": 1098,
+  "confianza_media": 0.62,
+  "por_area": {
+   "seguridad": 1670,
+   "instituciones": 507,
+   "geoeconomia": 356,
+   "energia": 180,
+   "tecnologia": 171,
+   "identidad": 166,
+   "geografia": 119,
+   "clima": 97,
+   "regional": 65,
+   "riesgo": 57,
+   "demografia": 56,
+   "salud_nrbq": 29,
+   "infraestructura": 27
+  },
+  "por_tipo_fuente": {
+   "noticia": 1638,
+   "base_datos": 1801,
+   "analisis": 2,
+   "red_social": 59
+  }
+ },
+ "ejemplos_sin_clasificar": [
+  {
+   "titulo": "Afghanistan explosion kills 10 students and injures more than 100, official says",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/ckp80jyz6dl8o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Australian wrestler Bronson Reed dies aged 38, WWE says",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cvwy08g70ldko?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "'Poison seller' Kenneth Law apologises in court to the families of his victims",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cmx2898wq2qjo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Turkish officials 'destroyed' pro-opposition TV channel, owner tells BBC",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cq36gk151xkdo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "'We couldn't give up that easily': Marching bands scramble to cover costs after Thanksgiving parade rearranged",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/ckd71ypy9e8eo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Kenyan doomsday cult leader convicted over further 123 deaths",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cmy49de4xx1zo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Zelensky questions 'strange' Trump-Putin friendship in BBC interview",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/videos/cm9309nwk7x9o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Watch: BBC confronts German man suspected of supplying migrant gangs with small boats",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/videos/cvglrz5yr79go?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "A clinic is offering to reassess ADHD and autism diagnoses - and hundreds of people are interested",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cr9309nyg2vno?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "The Indian 'Tamasha queen' whose fans paid for a show that never happened",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cj20q9pw0116o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Nigeria's acting legend who was loved across Africa and beyond",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cm3vg3lkrk03o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "BUNDESLIGA: escuche el partido VfB Stuttgart vs. Eintracht Frankfurt",
+   "fuente": "DW Español",
+   "url": "https://www.dw.com/es/bundesliga-escuche-el-partido-vfb-stuttgart-vs-eintracht-frankfurt/a-80086944?maca=spa-rss-sp-all-1122-rdf"
+  },
+  {
+   "titulo": "Siete muertos y casi un centenar de heridos en una explosión accidental junto a una escuela en Afganistán",
+   "fuente": "DW Español",
+   "url": "https://www.dw.com/es/siete-muertos-y-casi-un-centenar-de-heridos-en-una-explosión-accidental-junto-a-una-escuela-en-afganistán/a-80084073?maca=spa-rss-sp-all-1122-rdf"
+  },
+  {
+   "titulo": "Florian Wirtz: el talento que brilla sin que Alemania se conmueva",
+   "fuente": "DW Español",
+   "url": "https://www.dw.com/es/florian-wirtz-el-talento-que-brilla-sin-que-alemania-se-conmueva/a-80073948?maca=spa-rss-sp-all-1122-rdf"
+  },
+  {
+   "titulo": "Volkswagen y Mercedes: más horas, mismo sueldo y empleos en riesgo",
+   "fuente": "DW Español",
+   "url": "https://www.dw.com/es/volkswagen-y-mercedes-más-horas-mismo-sueldo-y-empleos-en-riesgo/a-80060431?maca=spa-rss-sp-all-1122-rdf"
+  }
+ ],
+ "resumen_ia": {
+  "proveedor": "local",
+  "modelo": "Qwen3-4B-Instruct-2507-Q4_K_M",
+  "resumidos": 1,
+  "rechazados": 5,
+  "motivos": {
+   "copia": 5
+  },
+  "errores": [],
+  "pendientes": 0
+ },
+ "fuentes": [
+  {
+   "id": "gdelt",
+   "nombre": "GDELT 2.0",
+   "estado": "ok",
+   "eventos": 116,
+   "segundos": 0.5,
+   "error": null
+  },
+  {
+   "id": "bbc",
+   "nombre": "BBC World",
+   "estado": "ok",
+   "eventos": 26,
+   "segundos": 0.4,
+   "error": null
+  },
+  {
+   "id": "dw",
+   "nombre": "DW Español",
+   "estado": "ok",
+   "eventos": 21,
+   "segundos": 1.1,
+   "error": null
+  },
+  {
+   "id": "france24",
+   "nombre": "France 24 Español",
+   "estado": "ok",
+   "eventos": 24,
+   "segundos": 0.2,
+   "error": null
+  },
+  {
+   "id": "elpais",
+   "nombre": "El País Internacional",
+   "estado": "error",
+   "eventos": 0,
+   "segundos": 0.1,
+   "error": "PermissionError: el robots.txt del sitio no permite leer este feed: se omite"
+  },
+  {
+   "id": "aljazeera",
+   "nombre": "Al Jazeera",
+   "estado": "ok",
+   "eventos": 25,
+   "segundos": 0.3,
+   "error": null
+  },
+  {
+   "id": "crisisgroup",
+   "nombre": "International Crisis Group",
+   "estado": "error",
+   "eventos": 0,
+   "segundos": 0.2,
+   "error": "PermissionError: el robots.txt del sitio no permite leer este feed: se omite"
+  },
+  {
+   "id": "cidob_bluesky",
+   "nombre": "CIDOB (Bluesky)",
+   "estado": "ok",
+   "eventos": 20,
+   "segundos": 1.0,
+   "error": null
+  },
+  {
+   "id": "mastodon_geopolitics",
+   "nombre": "Mastodon #geopolitics",
+   "estado": "ok",
+   "eventos": 20,
+   "segundos": 0.6,
+   "error": null
+  },
+  {
+   "id": "onu_noticias",
+   "nombre": "Noticias ONU",
+   "estado": "ok",
+   "eventos": 30,
+   "segundos": 0.3,
+   "error": null
+  },
+  {
+   "id": "jornada_politica",
+   "nombre": "La Jornada · Política",
+   "estado": "ok",
+   "eventos": 23,
+   "segundos": 0.5,
+   "error": null
+  },
+  {
+   "id": "jornada_economia",
+   "nombre": "La Jornada · Economía",
+   "estado": "ok",
+   "eventos": 7,
+   "segundos": 0.0,
+   "error": null
+  },
+  {
+   "id": "jornada_estados",
+   "nombre": "La Jornada · Estados",
+   "estado": "ok",
+   "eventos": 8,
+   "segundos": 0.1,
+   "error": null
+  },
+  {
+   "id": "infobae_mx",
+   "nombre": "Infobae México",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.5,
+   "error": null
+  },
+  {
+   "id": "eleconomista",
+   "nombre": "El Economista",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.3,
+   "error": null
+  },
+  {
+   "id": "elfinanciero",
+   "nombre": "El Financiero",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.8,
+   "error": null
+  },
+  {
+   "id": "expansion",
+   "nombre": "Expansión",
+   "estado": "ok",
+   "eventos": 36,
+   "segundos": 0.2,
+   "error": null
+  },
+  {
+   "id": "expansion_politica",
+   "nombre": "Expansión Política",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.4,
+   "error": null
+  },
+  {
+   "id": "elsoldemexico",
+   "nombre": "El Sol de México",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 1.0,
+   "error": null
+  },
+  {
+   "id": "zeta",
+   "nombre": "Zeta Tijuana",
+   "estado": "ok",
+   "eventos": 10,
+   "segundos": 0.3,
+   "error": null
+  },
+  {
+   "id": "piedepagina",
+   "nombre": "Pie de Página",
+   "estado": "ok",
+   "eventos": 10,
+   "segundos": 0.9,
+   "error": null
+  },
+  {
+   "id": "mvs",
+   "nombre": "MVS Noticias",
+   "estado": "ok",
+   "eventos": 80,
+   "segundos": 0.1,
+   "error": null
+  },
+  {
+   "id": "latinus",
+   "nombre": "Latinus",
+   "estado": "ok",
+   "eventos": 80,
+   "segundos": 0.1,
+   "error": null
+  },
+  {
+   "id": "informador",
+   "nombre": "El Informador",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.2,
+   "error": null
+  },
+  {
+   "id": "bbc_mundo",
+   "nombre": "BBC Mundo",
+   "estado": "ok",
+   "eventos": 34,
+   "segundos": 0.4,
+   "error": null
+  },
+  {
+   "id": "eltiempo_mundo",
+   "nombre": "El Tiempo · Mundo (Colombia)",
+   "estado": "ok",
+   "eventos": 10,
+   "segundos": 0.2,
+   "error": null
+  },
+  {
+   "id": "oms",
+   "nombre": "OMS · Noticias",
+   "estado": "ok",
+   "eventos": 25,
+   "segundos": 0.6,
+   "error": null
+  },
+  {
+   "id": "nasa",
+   "nombre": "NASA · Noticias",
+   "estado": "ok",
+   "eventos": 10,
+   "segundos": 0.3,
+   "error": null
+  },
+  {
+   "id": "climatehome",
+   "nombre": "Climate Home News",
+   "estado": "error",
+   "eventos": 0,
+   "segundos": 0.1,
+   "error": "PermissionError: el robots.txt del sitio no permite leer este feed: se omite"
+  },
+  {
+   "id": "bleepingcomputer",
+   "nombre": "BleepingComputer",
+   "estado": "ok",
+   "eventos": 15,
+   "segundos": 0.1,
+   "error": null
+  },
+  {
+   "id": "techcrunch",
+   "nombre": "TechCrunch",
+   "estado": "ok",
+   "eventos": 20,
+   "segundos": 0.1,
+   "error": null
+  },
+  {
+   "id": "oilprice",
+   "nombre": "OilPrice",
+   "estado": "ok",
+   "eventos": 15,
+   "segundos": 1.0,
+   "error": null
+  },
+  {
+   "id": "defensenews",
+   "nombre": "Defense News",
+   "estado": "ok",
+   "eventos": 10,
+   "segundos": 0.4,
+   "error": null
+  },
+  {
+   "id": "oms",
+   "nombre": "OMS · brotes de enfermedades",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 1.0,
+   "error": null
+  },
+  {
+   "id": "ifrc",
+   "nombre": "Cruz Roja · emergencias (IFRC GO)",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 2.2,
+   "error": null
+  }
+ ],
+ "errores": [
+  "elpais: PermissionError: el robots.txt del sitio no permite leer este feed: se omite",
+  "crisisgroup: PermissionError: el robots.txt del sitio no permite leer este feed: se omite",
+  "climatehome: PermissionError: el robots.txt del sitio no permite leer este feed: se omite"
+ ],
+ "reportes": {
+  "mexico": {
+   "fecha": "2026-11-28",
+   "total": 259,
+   "pdf": true,
+   "ia": false
+  },
+  "global": {
+   "fecha": "2026-11-28",
+   "total": 1189,
+   "pdf": true,
+   "ia": false
+  }
+ }
+}
