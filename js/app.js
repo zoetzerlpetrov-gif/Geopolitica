@@ -1409,6 +1409,16 @@ async function iniciarCapas() {
   }
 }
 
+// Botón dentro de una leyenda que enciende una imagen satelital (p. ej. «Nieve observada» desde la leyenda de la nieve).
+document.addEventListener("click", (e) => {
+  const b = e.target.closest?.("[data-activar-img]");
+  if (!b) return;
+  const cb = document.querySelector(`[data-img="${CSS.escape(b.dataset.activarImg)}"]`);
+  if (!cb) { avisoMapa("Las imágenes satelitales no están disponibles en esta vista."); return; }
+  if (!cb.checked) { cb.checked = true; cb.dispatchEvent(new Event("change", { bubbles: true })); }
+  avisoMapa("Nieve observada por satélite encendida (menú «Imágenes satelitales»). Acércate a una montaña para ver las cumbres.");
+});
+
 // ---------- Imágenes satelitales ----------
 function iniciarImagenes() {
   const cont = $("img-capas");
@@ -1863,7 +1873,7 @@ async function iniciarClima() {
       clima.activas.has("polar") && meta.leyendas.polar ? `${K.leyenda(meta.leyendas.polar, "°C a 850 hPa", { fahrenheit: true })}<p class="meta">Azul y morado: aire de origen polar o ártico a ~1,500 m de altura (850 hPa), donde no influye el calor del suelo. Las líneas marcan 0, −10 y −20 °C. Usa «Momento» o ▶ para ver hacia dónde avanza en los próximos 3 días. Pronóstico numérico GFS: para avisos, el SMN.</p>` : "", clima.activas.has("lluvia") ? K.leyenda(meta.leyendas.lluvia, "mm/h") : "",
       clima.activas.has("bolsas") ? `<p class="meta">Círculos: núcleos de aire frío en altura (~5.5 km, 500 hPa) aislados del flujo general, llamados DANA o «gota fría». Más grande y más morado = más frío que lo normal en esa latitud. Pueden dar tormentas fuertes, granizo o nevadas donde se instalan. Se calculan para ahora y +12 h.</p>` : "",
       clima.activas.has("vortice") && meta.leyendas?.vortice ? `${K.leyenda(meta.leyendas.vortice, "dam sobre el mínimo")}<p class="meta">Morado: núcleo del vórtice polar a ~31 km (10 hPa). Si se debilita o se parte, el aire ártico puede bajar a latitudes medias semanas después.</p>${K.htmlVortice(clima.pasoActual?.vortice_resumen)}` : "",
-      clima.activas.has("nieve") && meta.leyendas?.nieve ? `${K.leyenda(meta.leyendas.nieve, "cm")}<p class="meta">Profundidad de nieve que estima el modelo GFS (pronóstico, no medición; 1°, ~110 km).</p>` : "",
+      clima.activas.has("nieve") && meta.leyendas?.nieve ? `${K.leyenda(meta.leyendas.nieve, "cm")}<p class="meta">Profundidad de nieve que estima el modelo GFS (pronóstico, no medición). Cada celda mide 1° (~110 km) y da el promedio de toda la celda: la nieve de una cumbre (Popocatépetl, Iztaccíhuatl, Pico de Orizaba) se pierde al promediar con el valle. Para verla: <button type="button" class="boton-mini" data-activar-img="nieve_sat">❄️ Nieve observada por satélite</button></p>` : "",
       // Capas nuevas del modelo que la última corrida todavía no trae: se avisa en vez de dejar el mapa en blanco.
       ...["vortice", "nieve", "bolsas"].filter((t) => clima.activas.has(t) && !meta.pasos.some((p) => p[t])).map(() => `<p class="meta aviso-pendiente">Esta capa aún no tiene datos: se calcula con la siguiente corrida del modelo GFS (cada 6 h). Vuelve a intentarlo más tarde.</p>`),
       clima.activas.has("rayos") ? `${K.leyenda(K.LEYENDA_RAYOS, "min desde el último rayo")}<p class="meta">GLM de NOAA en GOES-19 y GOES-18: América, Atlántico y Pacífico oriental. El destello animado ocurre donde de verdad cayeron rayos, a su ritmo acelerado ×20.</p>` : "",

@@ -948,3 +948,8 @@ svg.graf-esc .g-et { font-size: 11px; fill: var(--text-2, var(--text)); } svg.gr
 /* Sugerencia de skill de Claude para seguir el trabajo fuera de la plataforma */
 .skill-claude { border: 1px dashed var(--accent); border-radius: var(--radius, 8px); padding: 6px 10px; margin: 8px 0; font-size: 13px; background: var(--surface); }
 .skill-claude code { font-weight: 700; }
+
+/* Botón pequeño dentro de una leyenda (p. ej. «Nieve observada por satélite» en la leyenda de la nieve). */
+.boton-mini { font: inherit; font-size: .85em; padding: 2px 8px; margin: 4px 0 0; border-radius: 6px; cursor: pointer;
+  border: 1px solid var(--borde, #8892a0); background: var(--panel, transparent); color: inherit; }
+.boton-mini:hover { border-color: var(--acento, #c9a227); }

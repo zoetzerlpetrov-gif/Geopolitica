@@ -13,6 +13,16 @@ import { conRespaldo, registrarProtocolo, leerDominio, urlDominios } from "./gib
 export const IMAGENES = {
   viirs_color: { nombre: "Color verdadero VIIRS (NOAA-20, sin huecos)", capa: "VIIRS_NOAA20_CorrectedReflectance_TrueColor", matriz: "GoogleMapsCompatible_Level9", ext: "jpg", maxzoom: 9 },
   modis_color: { nombre: "Color verdadero MODIS Terra (mañana, con huecos)", capa: "MODIS_Terra_CorrectedReflectance_TrueColor", matriz: "GoogleMapsCompatible_Level9", ext: "jpg", maxzoom: 9 },
+  // Nieve observada (no pronóstico): fracción del píxel cubierta de nieve, ~375 m (VIIRS de NOAA-20, una pasada diaria).
+  // Sí distingue cumbres como el Iztaccíhuatl, el Popocatépetl o el Pico de Orizaba los días despejados. Nubes y noche
+  // polar quedan transparentes (paleta oficial de GIBS); los 3 días anteriores se dibujan debajo para tapar las nubes.
+  nieve_sat: { nombre: "❄️ Nieve observada por satélite (VIIRS, ~375 m: cumbres y sierras)", capa: "VIIRS_NOAA20_NDSI_Snow_Cover",
+    matriz: "GoogleMapsCompatible_Level8", ext: "png", maxzoom: 8, opacidad: 0.9, relleno: 3, filtro: "nieve",
+    leyenda: "Porcentaje de cada píxel (~375 × 375 m) cubierto de nieve según el satélite NOAA-20 (producto de NASA GIBS, en azules propios para que se distinga). En latitudes tropicales solo se acepta nieve arriba de 3,500 m y entre 23° y 33° arriba de 1,500 m (relieve de AWS Terrain Tiles): abajo son falsas detecciones. Es observación, no profundidad: dice dónde hay nieve, no cuántos centímetros. Donde había nubes ese día se ve el día anterior (hasta 3 días antes). Se ocultan los píxeles con menos de 41 % de nieve: en ciudades, suelo claro y bordes de nubes el satélite da falsas manchas de 1 a 40 %. Acércate a una montaña (zoom 8) para ver las cumbres.",
+    escala: { colores: ["rgb(120,200,255)", "rgb(40,140,240)", "rgb(20,60,200)"],
+      marcas: ["41–60", "61–80", "81–100 %"],
+      tramos: [["rgb(120,200,255)", "41 a 60 %: nieve en parte del píxel (laderas, manchas)"], ["rgb(40,140,240)", "61 a 80 %: mayormente cubierto"],
+        ["rgb(20,60,200)", "81 a 100 %: cubierta casi total (cumbres nevadas, sierras)"]] } },
   modis_aqua: { nombre: "Color verdadero MODIS Aqua (tarde, con huecos)", capa: "MODIS_Aqua_CorrectedReflectance_TrueColor", matriz: "GoogleMapsCompatible_Level9", ext: "jpg", maxzoom: 9 },
   // Contaminación atmosférica (OMPS, NOAA-20 / Suomi NPP): una pasada por día, ~50 km por píxel (zoom máximo 6).
   // SO₂ (dióxido de azufre) cerca del suelo: chimeneas de centrales de carbón, refinerías, fundidoras y volcanes. Es el
@@ -281,7 +291,7 @@ export class Imagenes {
     const { fecha, eleccion, rellenos } = this.activas.get(id);
     const capa = eleccion || def;
     registrarProtocolo();  // mosaicos con error o con ruido → transparentes (sin «estática»)
-    const fuente = (f) => ({ type: "raster", tiles: [conRespaldo(urlGIBS(capa, f), { paleta: !!def.paleta })], tileSize: 256, maxzoom: def.maxzoom,
+    const fuente = (f) => ({ type: "raster", tiles: [conRespaldo(urlGIBS(capa, f), { paleta: !!def.paleta, filtro: def.filtro })], tileSize: 256, maxzoom: def.maxzoom,
       ...(def.limites ? { bounds: def.limites } : {}), attribution: "Imágenes: NASA GIBS / EOSDIS" });
     this.map.addSource(`img-${id}`, fuente(eleccion?.fecha || fecha));
     // Debajo de chokepoints, capas y eventos: primera capa propia del mapa.
