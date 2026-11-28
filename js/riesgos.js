@@ -782,8 +782,8 @@ export const CAPAS = [
         ["Qué hacer", "Consulta el aviso oficial y a la Secretaría de Salud o la autoridad sanitaria local antes de viajar"]], url: p.url, fuente: p.fuente }),
   },
   {
-    id: "salud_noticias", grupo: SALUD, nombre: "Brotes y aumentos de casos en noticias: gripe, dengue, estomacales y más (14 días, verificar)", senal: true,
-    url: "data/vivos/salud_noticias.geojson", refresco_s: 1800, fuente: "GDELT GKG (noticias de todo el mundo)",
+    id: "salud_noticias", grupo: SALUD, nombre: "Brotes y aumentos de casos en noticias: virus, bacterias y enfermedades, aunque apenas empiecen (14 días, verificar)", senal: true,
+    url: "data/vivos/salud_noticias.geojson", refresco_s: 1200, fuente: "GDELT GKG (noticias de todo el mundo)",
     estilo: (p) => ({ c: COLOR_SALUD[p.grupo] || COLOR_SALUD.otra, r: Math.min(10, (p.severe ? 6 : 4) + Math.log2(p.notas || 1)) }),
     etiqueta: (p) => (p.severe || p.notas >= 3 ? `${p.enfermedad}${p.notas > 1 ? ` · ${p.notas}` : ""}` : ""),
     leyenda: [...LEYENDA_SALUD, { t: "Titulares de noticias que hablan de un brote, aumento de casos o muertes, ubicados por el lugar que nombran y agrupados por enfermedad. El número es la cantidad de notas. Son señales: confirma con la autoridad sanitaria (en México, Secretaría de Salud y su boletín epidemiológico)." }],
@@ -847,7 +847,8 @@ export const CAPAS = [
   },
   {
     id: "zonas_horarias", grupo: "Horas: zonas horarias del mundo", nombre: "Zonas horarias con la hora local actual (se actualiza cada minuto)", noAmenaza: true,
-    url: "data/base/zonas-horarias.geojson", refresco_s: 60, fuente: "Natural Earth (zonas horarias, dominio público)",
+    // El archivo casi no cambia: se descarga cada 8 h; la hora de las etiquetas se recalcula cada minuto sin descargar nada.
+    url: "data/base/zonas-horarias.geojson", refresco_s: 28800, recalculo_s: 60, fuente: "Natural Earth (zonas horarias, dominio público)",
     derivar: (fc) => ({ ...fc, features: fc.features.flatMap((f) => {
       const props = { ...f.properties, hora: horaFija(f.properties.zona) };
       return [{ ...f, properties: { ...props, opacidad: 0.3 } }, ...puntosEtiquetaZona(f).map((c) => ({ type: "Feature", geometry: { type: "Point", coordinates: c }, properties: { ...props, kind: "etiqueta" } }))];
@@ -1759,7 +1760,7 @@ export class Riesgos {
   constructor(map, { onObjeto, onCambio = () => {}, onNuevas = () => {}, ctx = {} }) {
     this.map = map; this.onObjeto = onObjeto; this.onCambio = onCambio; this.onNuevas = onNuevas; this.ctx = ctx;
     this.turnos = new Map();
-    this.activas = new Map(); this.relojes = new Map();
+    this.activas = new Map(); this.relojes = new Map(); this.recalculos = new Map();
     this.filtro = { pais: "", tipo: "", sevMin: 1 };
     this.ocultos = new Map();  // capa → claves que no se dibujan
     this.agrupadas = new Set(); // capas con grupos por zona (círculo con el número al alejar)
@@ -1816,14 +1817,19 @@ export class Riesgos {
     const turno = Symbol(id);
     this.turnos.set(id, turno);
     try {
-      const datos = await this.#datos(capa);
+      let ultimos = await this.#datos(capa);
       if (this.turnos.get(id) !== turno) return 0;
-      const gj = this.#cargarEn(capa, datos);
+      const gj = this.#cargarEn(capa, ultimos);
       this.#instalar(capa);
+      const pintar = (datos) => { const n = this.#cargarEn(capa, datos); this.map.getSource(`rg-${id}`)?.setData(this.agrupadas.has(id) ? this.#filtrarDatos(id, n) : n); this.onCambio(); };
       if (capa.refresco_s) {
         this.relojes.set(id, setInterval(async () => {
-          try { const datos = await this.#datos(capa); if (this.turnos.get(id) !== turno) return; const n = this.#cargarEn(capa, datos); this.map.getSource(`rg-${id}`)?.setData(this.agrupadas.has(id) ? this.#filtrarDatos(id, n) : n); this.onCambio(); } catch (e) { /* siguiente ciclo */ }
+          try { const datos = await this.#datos(capa); if (this.turnos.get(id) !== turno) return; ultimos = datos; pintar(datos); } catch (e) { /* siguiente ciclo */ }
         }, capa.refresco_s * 1000));
+      }
+      // Recalcula con los datos ya descargados (p. ej. la hora local de las zonas horarias) sin volver a pedir el archivo.
+      if (capa.recalculo_s) {
+        this.recalculos.set(id, setInterval(() => { try { if (this.turnos.get(id) === turno) pintar(ultimos); } catch (e) { /* siguiente ciclo */ } }, capa.recalculo_s * 1000));
       }
       this.onCambio();
       return gj.features.length;
@@ -1835,6 +1841,7 @@ export class Riesgos {
   desactivar(id) {
     this.turnos.delete(id);
     clearInterval(this.relojes.get(id)); this.relojes.delete(id);
+    clearInterval(this.recalculos.get(id)); this.recalculos.delete(id);
     this.activas.delete(id);
     for (const l of this.#capasDe(id)) if (this.map.getLayer(l)) this.map.removeLayer(l);
     if (this.map.getSource(`rg-${id}`)) this.map.removeSource(`rg-${id}`);

@@ -77,3 +77,39 @@ def test_noticia_corta_el_nombre_del_medio_y_prefiere_el_pais():
     ft = S.fila_a_feature(_fila("Kenya records third Ebola case, linked to first patient who died - Grenada Chronicle – Daily news"), "ingles")
     assert ft and ft["properties"]["pais_iso3"] == "KEN" and ft["properties"]["enfermedad"] == "Ébola" and ft["properties"]["severe"]
     assert S.fila_a_feature(_fila("Flu season tips for families"), "ingles") is None
+
+
+def test_mas_enfermedades_y_comodin_para_brotes_que_empiezan():
+    assert S.tipo_de_titulo("Mysterious new virus detected in village in Peru, 3 hospitalized")[0] == "indeterminada"
+    assert S.tipo_de_titulo("Brote de bacteria carnívora en Japón deja 5 muertos")[0] == "estreptococo"
+    assert S.tipo_de_titulo("Superbug Candida auris outbreak at hospital")[0] == "superbacteria"
+    assert S.tipo_de_titulo("Swine flu H1N2v case detected in Ohio")[0] == "porcina"
+    assert S.tipo_de_titulo("Brote de paperas en escuela de Monterrey")[0] == "paperas"
+    assert S.tipo_de_titulo("Virus spreads among cattle in Brazil")[0] == "otra_infeccion"
+    assert S.tipo_de_titulo("Antivirus software update") is None
+    assert S.HORAS_OFICIAL == 6
+
+
+def test_dr_congo_no_es_republica_del_congo():
+    ft = S.fila_a_feature(_fila("WHO Reports 5900 Ebola Deaths In DR Congo, 94 Attacks On Health Facilities"), "ingles")
+    assert ft["properties"]["pais_iso3"] == "COD"
+
+
+def test_vigilancia_en_curso_nuevos_y_eco():
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "tools", "salud"))
+    import vigilancia as V
+    from datetime import datetime, timezone
+    ahora = datetime(2026, 11, 28, 18, tzinfo=timezone.utc)
+    pt = lambda **p: {"type": "Feature", "geometry": {"type": "Point", "coordinates": [0, 0]}, "properties": p}  # noqa: E731
+    noticias = {"features": [
+        pt(enfermedad="Ébola", kind="ebola", grupo="grave", severe=True, state="Kinshasa", pais_iso3="COD", notas=120, date="2026-11-28T10:00:00Z", desde="2026-11-10T00:00:00Z", url="u1", source="m1"),
+        pt(enfermedad="Ébola", kind="ebola", grupo="grave", severe=True, state="Canada", pais_iso3="CAN", notas=4, date="2026-11-28T09:00:00Z", desde="2026-11-27T00:00:00Z", url="u2", source="m2"),
+        pt(enfermedad="Enfermedad de causa no determinada", kind="indeterminada", grupo="grave", severe=True, state="Loreto", notas=2, date="2026-11-28T08:00:00Z", desde="2026-11-28T01:00:00Z", url="u3", source="m3"),
+        pt(enfermedad="Dengue", kind="dengue", grupo="vectores", state="Mérida", notas=30, date="2026-11-20T08:00:00Z", desde="2026-11-01T00:00:00Z", url="u4", source="m4"),  # fuera de 72 h
+    ]}
+    lista = V.focos(None, noticias, ahora=ahora)
+    assert [x["kind"] for x in lista] == ["ebola", "indeterminada", "ebola"]  # en curso primero, luego lo nuevo
+    assert [x["kind"] for x in V.alerta(lista)] == ["indeterminada"]  # Ébola en Canadá es eco del brote del Congo
+    assert "apenas empieza" in V.frase(lista[1]) and "120 notas" in V.frase(lista[0])
+    assert V.voz(lista).startswith("Vigilancia de brotes") and V.voz([]) == ""
+    assert V.lugar_corto("Kano, Kano, Nigeria", "NGA").startswith("Kano, ")

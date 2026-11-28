@@ -114,6 +114,14 @@ jobs:
           nohup ./llama-b12292/llama-server -m modelo.gguf --host 127.0.0.1 --port 8080 -c 8192 -t "$(nproc)" --jinja > ~/llama.log 2>&1 &
           for i in $(seq 1 90); do curl -sf http://127.0.0.1:8080/health >/dev/null && break; sleep 2; done
           curl -sf http://127.0.0.1:8080/health && echo "url=http://127.0.0.1:8080/v1/chat/completions" >> "$GITHUB_OUTPUT"
+      - name: Traer la vigilancia de brotes (rama datos-vivos; datos del plan Recon que no están en el sitio público)
+        continue-on-error: true
+        run: |
+          mkdir -p /tmp/salud
+          if git fetch -q --depth 1 origin datos-vivos; then
+            for f in salud_oficial salud_noticias; do git show "FETCH_HEAD:vivos/$f.geojson" > "/tmp/salud/$f.geojson" || rm -f "/tmp/salud/$f.geojson"; done
+          fi
+          ls -l /tmp/salud
       - name: Traer los guiones de los videos anteriores (para no repetir noticias ni Mercados)
         env:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -121,6 +129,7 @@ jobs:
       - name: Armar el video
         id: render
         env:
+          SALUD_DIR: /tmp/salud
           IA_LOCAL_URL: ${{ steps.ia.outputs.url }}
           PIPER_MODELO: voz/es_MX-claude-high.onnx
           VOZ_MOTOR: "kokoro:ef_dora"

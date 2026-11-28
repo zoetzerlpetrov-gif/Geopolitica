@@ -51,6 +51,20 @@ def leer(origen, ruta):
         return json.load(f)
 
 
+def leer_salud(carpeta=None):
+    """Brotes y avisos de salud (datos del plan Recon: no están en el sitio público). El workflow los copia de la rama
+    datos-vivos a SALUD_DIR; sin ellos el video sale igual, sin la escena «Vigilancia de brotes»."""
+    carpeta = carpeta or os.environ.get("SALUD_DIR", "")
+    out = {}
+    for k, archivo in (("oficial", "salud_oficial.geojson"), ("noticias", "salud_noticias.geojson")):
+        try:
+            with open(os.path.join(carpeta, archivo), encoding="utf-8") as f:
+                out[k] = json.load(f)
+        except (OSError, ValueError):
+            pass
+    return out or None
+
+
 def leer_seguro(origen, ruta):
     try:
         return leer(origen, ruta)
@@ -120,7 +134,9 @@ def pantalla(e, n, total, fecha):
         d.rectangle([96, 160, 96 + 14, 240], fill=ROJO if e.get("seccion") == "politica_mx" else ORO)
         d.text((130, 166), e["encabezado"].upper(), font=fuente(56, True), fill=TINTA)
         y = 330
-        for parte in textwrap.wrap(e.get("texto", ""), 46)[:9]:
+        # Cada renglón del texto («• …» en Vigilancia de brotes) empieza en línea nueva; el resto se ajusta a 46 caracteres.
+        lineas = [parte for renglon in (e.get("texto", "") or "").split("\n") for parte in (textwrap.wrap(renglon, 46) or [""])]
+        for parte in lineas[:9]:
             d.text((96, y), parte, font=fuente(60), fill=TINTA)
             y += 82
         if e.get("medio"):
@@ -383,6 +399,7 @@ def main():
     # «Lo que viene»: próximas reformas de la agenda regulatoria (proyectos, iniciativas, dictámenes), después del DOF.
     elegidas = con_agenda(elegidas, notas_agenda(leer_seguro(a.sitio, "data/normativa/agenda.json"), fecha, usadas=usadas | {n["url"] for n in elegidas if n.get("url")}))
     clima = {"calor": leer_seguro(a.sitio, "data/vivos/calor_frio.geojson"), "ciclones": leer_seguro(a.sitio, "data/vivos/ciclones_mundo.geojson")}
+    salud = leer_salud()
     portafolio = leer_seguro(a.sitio, "data/portafolio/portfolio_data.json") if a.sitio.startswith("http") else None
     cifras = leer_seguro(a.sitio, "data/vivos/indicadores.json")
     indicadores = leer_seguro(a.sitio, "data/economia/indicadores.json")
@@ -397,7 +414,7 @@ def main():
             print(f"aviso de actualización del video: {aviso}", file=sys.stderr)
     frases = frases_titulares(mercados(portafolio, usadas=usadas, titulares_usados=titulares) if isinstance(portafolio, list) else [], os.environ.get("IA_LOCAL_URL", "").strip() or None)
     g = guion(fecha, elegidas, indicadores, portafolio, clima,
-              cifras=cifras, frases_mercado=frases, usadas=usadas, titulares_usados=titulares)
+              cifras=cifras, frases_mercado=frases, usadas=usadas, titulares_usados=titulares, salud=salud)
     if corte:
         g["actualizacion"] = {"corte_utc": corte, "fecha_publicacion": fecha, "zona_publicacion": "America/Mexico_City",
                               "clima": clima["calor"], "cifras": cifras}
