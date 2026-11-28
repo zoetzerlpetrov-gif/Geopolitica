@@ -57,9 +57,19 @@ jobs:
         with:
           path: ~/.cache/huggingface
           key: kokoro-82m-v1_0
+      - name: Traer la vigilancia de brotes (rama datos-vivos; datos del plan Recon que no están en el sitio público)
+        if: steps.hoy.outputs.ya != '1'
+        continue-on-error: true
+        run: |
+          mkdir -p /tmp/salud
+          if git fetch -q --depth 1 origin datos-vivos; then
+            for f in salud_oficial salud_noticias; do git show "FETCH_HEAD:vivos/$f.geojson" > "/tmp/salud/$f.geojson" || rm -f "/tmp/salud/$f.geojson"; done
+          fi
+          ls -l /tmp/salud
       - name: Armar el short
         if: steps.hoy.outputs.ya != '1'
         env:
+          SALUD_DIR: /tmp/salud
           VOZ_MOTOR: "kokoro:ef_dora"
           PLAYWRIGHT_MODULE: /tmp/pw/node_modules/playwright
           TEMA: ${{ inputs.tema }}

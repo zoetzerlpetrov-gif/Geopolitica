@@ -27,6 +27,31 @@ from paletas import paleta_del_dia  # noqa: E402
 # Mismas reglas de pronunciación que Brújula Diaria: cifras a la mexicana (12,000 = doce mil; 12.00 = doce punto cero cero;
 # 12,01 = doce punto cero uno; 12.000 de España = doce mil), fechas, palabras en inglés como en inglés y nombres de medios.
 from guion import para_voz, voz_titular, medio_para_voz  # noqa: E402
+sys.path.insert(0, os.path.join(RAIZ, "tools", "salud"))
+import vigilancia as V  # noqa: E402
+
+# Short de alerta: virus, bacterias o enfermedades nuevas en el mundo (datos de tools/salud/salud.py vía SALUD_DIR).
+TEMA_BROTES = {"seccion": "salud", "nombre": "Vigilancia de brotes", "gancho": "Brotes que hay que tener en la mira", "icono": "🦠",
+               "hashtags": ["Salud", "Brotes", "Epidemiología"]}
+
+
+def leer_salud(carpeta=None):
+    carpeta = carpeta or os.environ.get("SALUD_DIR", "")
+    out = {}
+    for k, archivo in (("oficial", "salud_oficial.geojson"), ("noticias", "salud_noticias.geojson")):
+        try:
+            with open(os.path.join(carpeta, archivo), encoding="utf-8") as f:
+                out[k] = json.load(f)
+        except (OSError, ValueError):
+            pass
+    return out
+
+
+def items_brotes(salud, n=3, ahora=None):
+    """Titulares propios («Ébola en Uganda: aviso de OMS») de los focos a vigilar; la alerta va primero."""
+    lista = V.focos(salud.get("oficial"), salud.get("noticias"), ahora=ahora, horas=72, n=8)
+    orden = V.alerta(lista) + [x for x in lista if x not in V.alerta(lista)]
+    return [{"titulo": V.frase(x), "medio": x["fuente"] or "OMS", "url": x["url"], "seccion": "salud", "alerta": x in V.alerta(lista)} for x in orden[:n]]
 
 NOTICIERO = "https://dominusosint.com/data/vivos/noticiero.json"
 PALABRAS_ES = {"el", "la", "de", "que", "en", "los", "las", "y", "del", "un", "una", "por", "con", "para", "se", "su", "al", "es", "más"}
@@ -212,7 +237,13 @@ def main():
     cfg = config()
     tema = tema_del_dia(cfg["temas"], args.fecha, args.tema)
     noticiero = leer_noticiero(args.noticiero)
-    items = elegir_titulares(noticiero, tema["seccion"], cfg.get("titulares", 3), ligero=tema.get("ligero", False))
+    salud = leer_salud()
+    brotes = items_brotes(salud, cfg.get("titulares", 3)) if salud else []
+    if not args.tema and any(b["alerta"] for b in brotes):
+        tema = TEMA_BROTES  # algo nuevo y grave: el short del día es la vigilancia de brotes
+    items = brotes if tema is TEMA_BROTES else elegir_titulares(noticiero, tema["seccion"], cfg.get("titulares", 3), ligero=tema.get("ligero", False))
+    if tema["seccion"] == "salud" and tema is not TEMA_BROTES and len(items) < cfg.get("titulares", 3):
+        items += brotes[:cfg.get("titulares", 3) - len(items)]  # día de Salud con pocas notas: se completa con la vigilancia
     if len(items) < 2:  # tema sin notas en español: el siguiente de la lista
         for t in cfg["temas"]:
             items = elegir_titulares(noticiero, t["seccion"], cfg.get("titulares", 3), ligero=t.get("ligero", False))

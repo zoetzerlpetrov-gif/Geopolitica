@@ -434,3 +434,14 @@ def test_tramos_de_voz_en_ingles():
     import render as R
     assert R.tramos_voz("⟪Apple⟫: 230 dólares.") == [("Apple", True), (": 230 dólares.", False)]
     assert R.tramos_voz("Fibra Uno: 25 pesos.") == [("Fibra Uno: 25 pesos.", False)]
+
+
+def test_jeans_y_escena_de_vigilancia_de_brotes():
+    assert G.pronunciar("Unos jeans y un jean azul") == "Unos yiins y un yiin azul"
+    pt = {"type": "Feature", "geometry": {"type": "Point", "coordinates": [0, 0]},
+          "properties": {"enfermedad": "Marburgo", "kind": "marburgo", "grupo": "grave", "severe": True, "state": "Kigali", "pais_iso3": "RWA", "notas": 3,
+                         "date": "2099-01-01T00:00:00Z", "desde": "2099-01-01T00:00:00Z", "url": "https://medio.example/m", "source": "medio.example"}}
+    from datetime import datetime, timezone
+    e = G.escena_brotes({"noticias": {"features": [pt]}}, ahora=datetime(2099, 1, 1, 6, tzinfo=timezone.utc))
+    assert e["encabezado"] == "Vigilancia de brotes" and e["texto"].startswith("• Marburgo en Kigali") and "autoridad sanitaria" in e["voz"]
+    assert G.escena_brotes({}) is None

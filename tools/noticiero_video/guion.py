@@ -876,18 +876,40 @@ def bloque_economia(indicadores):
 _YA_DICHO = {"Tipo de cambio FIX": "FIX", "Tasa objetivo de Banxico": "Tasa objetivo", "Inflación anual en México": "INPC"}
 
 
-def guion(fecha, elegidas, indicadores=None, portafolio=None, clima=None, cifras=None, frases_mercado=None, usadas=frozenset(), titulares_usados=frozenset()):
+def escena_brotes(salud, ahora=None):
+    """Escena «Vigilancia de brotes» (virus, bacterias y enfermedades en el mundo) o None si no hay focos recientes.
+    salud: {"oficial": salud_oficial.geojson, "noticias": salud_noticias.geojson}."""
+    import os
+    import sys
+    sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "salud"))
+    import vigilancia as V  # noqa: E402
+    lista = V.focos((salud or {}).get("oficial"), (salud or {}).get("noticias"), ahora=ahora)
+    if not lista:
+        return None
+    return {"tipo": "nota", "encabezado": "Vigilancia de brotes", "seccion": "salud",
+            "texto": "\n".join("• " + V.frase(x) for x in lista),
+            "medio": "Señales de noticias (GDELT) y avisos de OMS, CDC y ECDC · por verificar con la autoridad sanitaria",
+            "url": "https://www.who.int/emergencies/disease-outbreak-news", "voz": para_voz(V.voz(lista)), "brotes": [
+                {"enfermedad": x["enfermedad"], "lugar": x["lugar"], "url": x["url"], "fuente": x["fuente"]} for x in lista]}
+
+
+def guion(fecha, elegidas, indicadores=None, portafolio=None, clima=None, cifras=None, frases_mercado=None, usadas=frozenset(), titulares_usados=frozenset(), salud=None):
     """Devuelve {fecha, titulo, escenas: [{tipo, encabezado, texto, medio, voz}], descripcion, notas}.
     elegidas: notas del Noticiero ya elegidas (redactar.py con IA, o elegir_sin_ia), con «resumen» propio si lo hay.
-    clima: {"calor": calor_frio.geojson, "ciclones": ciclones_mundo.geojson}."""
+    clima: {"calor": calor_frio.geojson, "ciclones": ciclones_mundo.geojson}.
+    salud: {"oficial": salud_oficial.geojson, "noticias": salud_noticias.geojson} → escena «Vigilancia de brotes»."""
     larga = fecha_larga(fecha)
     notas = con_resumen(elegidas, {n["url"]: n["resumen"] for n in elegidas if n.get("resumen")}, datos_por_seccion(cifras))
     esc = [{"tipo": "portada", "encabezado": "Brújula Diaria", "texto": larga[0].upper() + larga[1:],
             "voz": f"Buenos días. Esto es Brújula Diaria, {larga}. Las noticias de México y del mundo, la economía, el clima y más, en unos minutos."}]
     anterior = None
     bloque_c = bloque_clima((clima or {}).get("calor"), (clima or {}).get("ciclones"), fecha)
+    brotes = escena_brotes(salud) if salud else None
     for n in notas:
         if n["seccion"] != anterior:
+            if anterior == "salud" and brotes:  # después de las notas de Salud
+                esc.append(brotes)
+                brotes = None
             if anterior in ("clima", "eventos_impacto") and bloque_c:
                 esc.append({"tipo": "clima", "encabezado": "El clima", **{k: bloque_c[k] for k in ("mx", "mundo", "alertas", "ciclones", "nota_clima")}, "texto": "", "voz": para_voz(bloque_c["voz"])})
                 bloque_c = None
@@ -902,6 +924,9 @@ def guion(fecha, elegidas, indicadores=None, portafolio=None, clima=None, cifras
                 esc.append({"tipo": "nota", "encabezado": encabezado, "seccion": "ciberseguridad",
                             "texto": texto, "medio": "Orientación preventiva · CONDUSEF / INCIBE",
                             "url": perfil["guia_url"], "voz": para_voz(encabezado + ". " + texto)})
+    if brotes:  # sin notas de Salud hoy: la vigilancia de brotes va antes del clima
+        esc.append(brotes)
+        brotes = None
     if bloque_c:
         esc.append({"tipo": "clima", "encabezado": "El clima", **{k: bloque_c[k] for k in ("mx", "mundo", "alertas", "ciclones", "nota_clima")}, "texto": "", "voz": para_voz(bloque_c["voz"])})
     eco = bloque_economia(indicadores)
@@ -945,6 +970,8 @@ def guion(fecha, elegidas, indicadores=None, portafolio=None, clima=None, cifras
         "",
         *([""] + ["Mercados (precio y titular de cada instrumento):"] + [f"• {f['nombre']} ({f['ticker']}) — {f['medio']}: {f['url']}" for f in filas_m] if filas_m else []),
         "",
+        *(["Vigilancia de brotes (señales por verificar con la autoridad sanitaria):"] + [f"• {b['enfermedad']}{(' en ' + b['lugar']) if b['lugar'] else ''} — {b['fuente'] or 'fuente'}: {b['url']}" for e in esc if e.get("brotes") for b in e["brotes"] if b.get("url")] + [""]
+          if any(e.get("brotes") for e in esc) else []),
         "Clima: pronóstico de MET Norway (CC BY 4.0) con reglas propias, no es aviso oficial; ciclones: GDACS.",
         "Últimas cifras disponibles: Banco de México, Banco Central Europeo, Tesoro de EUA y Kraken (cripto). Divisas indicativas: Coinbase Data API, consultadas para esta edición; no son el FIX oficial ni precios garantizados de banco. Cada dato conserva su fecha de referencia.",
         "Datos económicos: Banco de México, INEGI y Reserva Federal (FRED). Los mercados se mencionan solo como información; no es asesoría de inversión.",

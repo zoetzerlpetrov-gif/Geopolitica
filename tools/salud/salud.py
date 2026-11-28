@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Salud: brotes y enfermedades en el mundo, en dos niveles.
 
-1. Oficial (vivos/salud_oficial.geojson), una vez al día:
+1. Oficial (vivos/salud_oficial.geojson), cada 6 horas:
    - OMS, Disease Outbreak News (API pública `who.int/api/news/diseaseoutbreaknews`): brotes notificados en 90 días.
    - CDC de EUA, avisos de salud para viajeros (RSS `wwwnc.cdc.gov/travel/rss/notices.xml`, nivel 1 a 4, con lista de
-     países). Su robots.txt pide 20 s entre consultas; aquí se hace una sola al día.
+     países). Su robots.txt pide 20 s entre consultas; aquí se hace una consulta cada 6 horas.
    - ECDC, actualizaciones epidemiológicas (RSS de la Unión Europea), 60 días.
    Cada aviso se ubica en el país que nombra (centro del país; no es la zona exacta del brote).
 2. Señales en noticias (vivos/salud_noticias.geojson), cada corrida: titulares de GDELT GKG 2.1 que hablan de un brote,
@@ -35,6 +35,7 @@ URL_OMS = "https://www.who.int/api/news/diseaseoutbreaknews?sf_culture=en&$order
 URL_CDC = "https://wwwnc.cdc.gov/travel/rss/notices.xml"
 URL_ECDC = "https://www.ecdc.europa.eu/en/taxonomy/term/1310/feed"
 DIAS_OMS, DIAS_ECDC, DIAS_NOTICIAS = 90, 60, 14
+HORAS_OFICIAL = 6  # OMS, CDC y ECDC: una consulta cada 6 h (vigilancia más cercana sin exceder la cortesía con cada sitio)
 
 # Enfermedad → (nombre, grupo, expresión). El orden importa: gana la primera que coincide.
 ENFERMEDADES = [
@@ -46,18 +47,30 @@ ENFERMEDADES = [
     ("peste", "Peste", "grave", r"\bpeste (bub[oó]nica|neum[oó]nica)|\bplague\b|bubonic"),
     ("antrax", "Ántrax", "grave", r"[aá]ntrax|anthrax"),
     ("mpox", "Mpox", "grave", r"\bmpox|monkeypox|viruela (del mono|s[ií]mica)"),
+    ("viruela", "Viruela", "grave", r"\bsmallpox\b|\bviruela\b(?! (del mono|s[ií]mica|del simio))"),
+    ("hemorragica", "Fiebre hemorrágica (otra)", "grave", r"fiebre hemorr[aá]gica|hemorrhagic fever|\bmachupo|\bchapare|\bhanta"),
+    ("rift", "Fiebre del Valle del Rift", "grave", r"valle del rift|rift valley fever"),
+    ("superbacteria", "Superbacteria / resistencia a antibióticos", "grave", r"superbacteria|superbug|resistente a (los )?antibi[oó]ticos|drug[- ]resistant|"
+     r"antimicrobial resistance|resistencia antimicrobiana|candida auris|\bc\. ?auris|\bkpc\b|carbapenem"),
+    ("estreptococo", "Estreptococo A / bacteria «carnívora»", "grave", r"strep(tococ\w*)? a\b|streptococ|estreptococ|flesh[- ]eating|carn[ií]vora|fascitis necrot|necrotizing fasciitis|"
+     r"escarlatina|scarlet fever"),
     ("polio", "Poliomielitis", "grave", r"\bpolio"),
     ("mers", "MERS", "respiratoria", r"\bmers\b|middle east respiratory"),
     ("aviar", "Gripe aviar (H5N1 y otras)", "respiratoria", r"gripe aviar|influenza aviar|bird flu|avian (flu|influenza)|\bh5n1|\bh5n\d|\bh7n9|\bh9n2"),
+    ("porcina", "Gripe porcina (H1N2v, H3N2v)", "respiratoria", r"gripe porcina|influenza porcina|swine flu|swine influenza|\bh1n2v?\b|\bh3n2v\b"),
     ("covid", "COVID-19", "respiratoria", r"covid|coronavirus|sars-cov"),
     ("gripe", "Gripe / influenza", "respiratoria", r"\bgripe\b|influenza|\bflu\b"),
     ("neumonia", "Neumonía", "respiratoria", r"neumon[ií]a|pneumonia"),
     ("vsr", "Virus sincitial respiratorio", "respiratoria", r"\brsv\b|sincitial|syncytial"),
+    ("metapneumovirus", "Metapneumovirus humano", "respiratoria", r"metapneumovirus|\bhmpv\b"),
+    ("micoplasma", "Neumonía por micoplasma", "respiratoria", r"mycoplasma|micoplasma"),
     ("tosferina", "Tos ferina", "respiratoria", r"tos ferina|whooping cough|pertussis"),
     ("tuberculosis", "Tuberculosis", "respiratoria", r"tuberculos"),
     ("sarampion", "Sarampión", "prevenible", r"sarampi[oó]n|measles"),
     ("difteria", "Difteria", "prevenible", r"difteria|diphtheria"),
     ("meningitis", "Meningitis", "prevenible", r"meningit|meningococ"),
+    ("paperas", "Paperas", "prevenible", r"\bpaperas\b|\bmumps\b"),
+    ("varicela", "Varicela", "prevenible", r"varicela|chickenpox"),
     ("colera", "Cólera", "gastro", r"c[oó]lera\b|cholera"),
     ("gastro", "Infección estomacal / intoxicación", "gastro", r"gastroenterit|diarrea|diarrh|norovirus|rotavirus|intoxicaci[oó]n alimentaria|food poisoning|"
      r"salmonel|e\. ?coli|shigel|listeri|botulism|hepatitis a\b|fiebre tifoidea|typhoid"),
@@ -68,11 +81,21 @@ ENFERMEDADES = [
     ("malaria", "Malaria / paludismo", "vectores", r"malaria|paludismo"),
     ("fiebre_amarilla", "Fiebre amarilla", "vectores", r"fiebre amarilla|yellow fever"),
     ("nilo", "Virus del Nilo Occidental", "vectores", r"nilo occidental|west nile"),
+    ("encefalitis", "Encefalitis por mosquitos o garrapatas", "vectores", r"encefalitis (japonesa|equina|transmitida)|japanese encephalitis|equine encephalitis|tick[- ]borne encephalitis|\beee\b virus"),
+    ("chagas", "Chagas", "vectores", r"\bchagas"),
+    ("leishmaniasis", "Leishmaniasis", "vectores", r"leishmania"),
     ("rabia", "Rabia", "otra", r"\brabia\b|\brabies\b"),
     ("legionella", "Legionela", "otra", r"legionel"),
     ("rickettsia", "Fiebre manchada (rickettsiosis)", "otra", r"fiebre manchada|spotted fever|rickettsi"),
     ("hepatitis", "Hepatitis", "otra", r"hepatitis"),
-    ("indeterminada", "Enfermedad de causa no determinada", "grave", r"undetermined etiology|unknown (disease|illness)|enfermedad (desconocida|misteriosa)|mystery (illness|disease)"),
+    ("leptospirosis", "Leptospirosis", "otra", r"leptospir"),
+    ("fiebre_q", "Fiebre Q", "otra", r"fiebre q\b|q fever"),
+    ("sifilis", "Sífilis", "otra", r"s[ií]filis|syphilis"),
+    ("indeterminada", "Enfermedad de causa no determinada", "grave", r"undetermined etiology|unknown (disease|illness|virus|pathogen)|enfermedad (desconocida|misteriosa)|"
+     r"mystery (illness|disease|virus)|virus (desconocido|misterioso)|nuevo virus|new virus|novel (virus|pathogen|strain)|"
+     r"nueva (cepa|variante) de|new (strain|variant) of"),
+    # Comodín: un virus, bacteria u hongo que no está arriba (p. ej. un brote local que apenas empieza). Siempre con contexto de brote.
+    ("otra_infeccion", "Otra infección (virus, bacteria u hongo)", "otra", r"\bvirus\b|\bvirales?\b|\bviral\b|bacteri|\bhongos?\b|\bfung(al|us|i)\b|pat[oó]geno|pathogen"),
 ]
 _ENF = [(i, n, g, re.compile(x, re.I)) for i, n, g, x in ENFERMEDADES]
 LABORATORIO = re.compile(r"(fuga|filtraci[oó]n|escape|leak|accident|incident|accidente|incidente)\w* (de |en |at |in )?(un |a |the |el )?(laboratorio|lab\b|laboratory)|"
@@ -271,7 +294,7 @@ def fila_a_feature(f, flujo, nom=None):
         tipo = {"ciudad": "4", "estado": "2", "país": "1"}[prec]
     # Si el titular nombra un país y el lugar elegido queda lejos de él («Costa Rica» → «Coast»), gana el país.
     pais = PAISES().ubicar(cuerpo)
-    if pais and T.km([lon, lat], [pais[2], pais[1]]) > (4000 if pais[4] in PAISES_GRANDES else 1800):
+    if pais and ((tipo == "1" and pais[4] != iso3) or T.km([lon, lat], [pais[2], pais[1]]) > (4000 if pais[4] in PAISES_GRANDES else 1800)):
         nombre, lat, lon, _, iso3 = pais
         tipo = "1"
     if not (-90 <= lat <= 90 and -180 <= lon <= 180):
@@ -339,7 +362,7 @@ def viejo(ruta, horas, ahora):
 
 
 def oficial(ahora):
-    if not viejo(OUT_OFICIAL, 24, ahora):
+    if not viejo(OUT_OFICIAL, HORAS_OFICIAL, ahora):
         return "salud oficial: datos recientes"
     nom, feats, notas = Paises(), [], []
     for nombre, fn in (("OMS", lambda: oms(json.loads(get(URL_OMS)), nom, ahora)), ("CDC", lambda: cdc(get(URL_CDC), nom, ahora)),

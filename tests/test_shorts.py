@@ -104,3 +104,15 @@ def test_voz_del_short_con_las_reglas_del_video_diario():
     assert "12000 euros a 15123 familias" in v[1]
     assert "13 punto cero cero" in v[2] and "Uol Strit" in v[2]
     assert g["escenas"][1]["titulo"] == items[0]["titulo"]
+
+
+def test_short_de_vigilancia_de_brotes(tmp_path):
+    (tmp_path / "salud_oficial.geojson").write_text(json.dumps({"features": [{"type": "Feature", "geometry": {"type": "Point", "coordinates": [0, 0]},
+        "properties": {"enfermedad": "Nipah", "enf_id": "nipah", "grupo": "grave", "lugar": "Kerala", "pais_iso3": "IND", "nivel": 3, "fuente": "OMS · Brotes",
+                       "date": AHORA.isoformat(), "url": "https://www.who.int/x"}}]}), encoding="utf-8")
+    salud = S.leer_salud(str(tmp_path))
+    items = S.items_brotes(salud, ahora=AHORA)
+    assert items[0]["titulo"].startswith("Nipah en Kerala") and items[0]["alerta"] and items[0]["medio"] == "OMS"
+    g = S.guion(S.TEMA_BROTES, items, "2026-11-26")
+    assert g["escenas"][1]["voz"].startswith("Número uno: Nipah")
+    assert S.leer_salud(str(tmp_path / "no-existe")) == {}
