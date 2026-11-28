@@ -325,15 +325,27 @@ def leer_grib(datos):
                 continue
             clave = claves.get(m.shortName) if m.typeOfLevel != "isobaricInhPa" else None
             if clave and clave not in campos:
-                campos[clave] = a_180(np.array(m.values, dtype=float))
+                campos[clave] = a_180(sin_mascara(m.values))
     faltan = {"u", "v", "temp", "lluvia"} - set(campos)
     if faltan:
         raise RuntimeError(f"faltan variables en el GRIB: {sorted(faltan)}")
     campos["temp"] = campos["temp"] - 273.15
     campos["lluvia"] = campos["lluvia"] * 3600
     if "nieve" in campos:
-        campos["nieve"] = campos["nieve"] * 100  # m → cm (opcional: sin él no hay capa de nieve)
+        campos["nieve"] = limpiar_nieve(campos["nieve"])
     return campos
+
+
+def sin_mascara(valores):
+    """Valores de pygrib → arreglo float con NaN donde el GRIB no trae dato (máscara de bits). Sin esto, numpy
+    convierte la máscara en su valor de relleno (9999) y la profundidad de nieve sobre el mar salía como ~10,000 m."""
+    return np.ma.filled(np.ma.masked_invalid(np.ma.asarray(valores, dtype=float)), np.nan)
+
+
+def limpiar_nieve(metros):
+    """Profundidad de nieve en m → cm. Sin dato (mar, máscara) o valores imposibles (más de 20 m) → 0: sin nieve."""
+    cm = np.where(np.isfinite(metros), metros, 0.0) * 100
+    return np.where((cm < 0) | (cm > 2000), 0.0, cm)
 
 
 def leer_grib_altura(datos):
@@ -377,7 +389,7 @@ def guardar_png(arr, ruta):
 
 
 CAMPOS_META = ("nieve", "vortice")  # leyendas que debe traer meta.json de la versión actual
-VERSION_DATOS = 2  # 2: bolsas de aire frío con área aproximada y vórtice solo donde existe
+VERSION_DATOS = 3  # 2: bolsas de aire frío con área y vórtice solo donde existe; 3: nieve sin el relleno del mar
 
 
 def main():

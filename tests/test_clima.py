@@ -106,3 +106,15 @@ def test_vortice_polar_y_bolsas_frias():
     t500[60, 10] = -26  # frío pero sin baja cerrada: no cuenta
     assert len(G.bolsas_frias(t500, hgt)) == 1
     assert G.geojson_bolsas(b)["features"][0]["properties"]["t500_c"] == -28
+
+
+def test_nieve_sin_relleno_del_mar():
+    import numpy as np
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "tools", "clima"))
+    import gfs as G
+    # pygrib entrega un arreglo enmascarado: el mar no tiene dato. Antes salía como 9999 m (morado en el mapa).
+    v = np.ma.array([[0.0, 0.5, 9999.0], [0.02, 1.2, 9999.0]], mask=[[False, False, True], [False, False, True]])
+    cm = G.limpiar_nieve(G.sin_mascara(v))
+    assert cm.tolist() == [[0.0, 50.0, 0.0], [2.0, 120.0, 0.0]]
+    assert G.limpiar_nieve(np.array([np.nan, 30.0])).tolist() == [0.0, 0.0]  # 30 m: imposible → sin nieve
+    assert G.sin_mascara(np.array([1.0, 2.0])).tolist() == [1.0, 2.0]
